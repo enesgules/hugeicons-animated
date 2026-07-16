@@ -1,26 +1,44 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #faf8f3;
+  color: #1a1c16;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: #c9ef7a;
+  color: #2a3413;
+}
+
+/* staggered tile entrance — page load only */
+@keyframes tile-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tile-enter {
+  opacity: 0;
+  animation: tile-in 500ms var(--ease-out-strong) forwards;
+  animation-delay: var(--tile-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile-enter {
+    animation: tile-in 200ms ease forwards;
+    animation-delay: 0ms;
+    transform: none;
+  }
 }
