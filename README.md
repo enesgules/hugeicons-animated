@@ -5,7 +5,7 @@ Animated [Hugeicons](https://hugeicons.com) built with [motion](https://motion.d
 ## Usage
 
 ```bash
-npx shadcn@latest add "https://<your-domain>/r/notification-03.json"
+npx shadcn@latest add "https://hugeicons-animated.com/r/notification-03.json"
 ```
 
 ```tsx

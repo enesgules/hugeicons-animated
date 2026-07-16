@@ -1,0 +1,34 @@
+# Hugeicons Animated
+
+> Free, open-source animated Hugeicons for React. Each icon is hand-animated
+> with Motion (Framer Motion) and installs as plain component source via the
+> shadcn CLI — no npm package, no lock-in. MIT licensed.
+
+Site: https://hugeicons-animated.com
+Source: https://github.com/enesgules/hugeicons-animated
+
+## Install an icon
+
+```bash
+npx shadcn@latest add "https://hugeicons-animated.com/r/notification-03.json"
+```
+
+The registry endpoint pattern is `/r/{icon-name}.json`. Browse all icons on
+the homepage; hovering an icon previews its animation.
+
+## Usage
+
+```tsx
+import { Notification03Icon } from '@/components/ui/notification-03';
+
+// hover animates automatically
+<Notification03Icon size={28} />
+
+// or control it imperatively via ref
+ref.current?.startAnimation();
+```
+
+## Credits
+
+Icon shapes from the free Hugeicons set (@hugeicons/core-free-icons, MIT).
+Animations built with motion.dev. Inspired by pqoqubbw/icons.

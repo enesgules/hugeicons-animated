@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { MotionConfig, useReducedMotion } from 'motion/react';
 import { ICON_LIST } from '@/app/icons-manifest';
+import { GITHUB_URL } from '@/lib/site';
 import { FavouriteIcon } from '@/icons/favourite';
 import { Notification03Icon } from '@/icons/notification-03';
 import { Search01Icon } from '@/icons/search-01';
@@ -36,8 +37,6 @@ const matches = (query: string) => {
   const q = query.trim().toLowerCase();
   return q ? ICONS.filter(({ name }) => name.includes(q)) : ICONS;
 };
-
-const GITHUB_URL = 'https://github.com/enesgules/hugeicons-animated';
 
 const installCommand = (name: string) =>
   `npx shadcn@latest add "${typeof window === 'undefined' ? '' : window.location.origin}/r/${name}.json"`;
