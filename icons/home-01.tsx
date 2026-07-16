@@ -15,7 +15,7 @@ interface Home01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the house gives a welcoming hop; the door "smile" redraws as it lands
+// a welcoming hop; the door "smile" redraws as it lands
 const svgVariants: Variants = {
   normal: { translateY: 0 },
   animate: {

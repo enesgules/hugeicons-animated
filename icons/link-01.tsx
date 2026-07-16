@@ -15,22 +15,22 @@ interface Link01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the chain halves pull apart, then click back together
+// the chain halves pull apart and snap back past zero — a real click
 const lowerVariants: Variants = {
   normal: { translateX: 0, translateY: 0 },
   animate: {
-    translateX: [0, -1.4, 0],
-    translateY: [0, 1.4, 0],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.4, 1] },
+    translateX: [0, -1.6, 0.4, 0],
+    translateY: [0, 1.6, -0.4, 0],
+    transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.4, 0.75, 1] },
   },
 };
 
 const upperVariants: Variants = {
   normal: { translateX: 0, translateY: 0 },
   animate: {
-    translateX: [0, 1.4, 0],
-    translateY: [0, -1.4, 0],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.4, 1] },
+    translateX: [0, 1.6, -0.4, 0],
+    translateY: [0, -1.6, 0.4, 0],
+    transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.4, 0.75, 1] },
   },
 };
 

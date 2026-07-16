@@ -15,7 +15,7 @@ interface Share08IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the network lights up — nodes pulse outward from the source
+// the network lights up — the wires carry the signal, nodes pulse as it arrives
 const nodeVariants: Variants = {
   normal: { scale: 1 },
   animate: (i: number) => ({

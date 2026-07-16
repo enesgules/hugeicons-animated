@@ -15,10 +15,13 @@ interface RefreshIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// one full revolution with momentum; 360 ≡ 0 so the reset is invisible
+// rewinds slightly, then whips a full revolution; 360 ≡ 0 so the reset is invisible
 const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0 } },
-  animate: { rotate: 360, transition: { type: 'spring', duration: 0.9, bounce: 0.1 } },
+  animate: {
+    rotate: [0, -25, 360],
+    transition: { duration: 0.9, times: [0, 0.2, 1], ease: ['easeIn', 'easeOut'] },
+  },
 };
 
 const RefreshIcon = forwardRef<RefreshIconHandle, RefreshIconProps>(

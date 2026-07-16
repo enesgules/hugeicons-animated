@@ -15,12 +15,24 @@ interface EyeIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the pupil glances left, then right, then back to you
+// the pupil glances left, then right — then the eye blinks
 const pupilVariants: Variants = {
-  normal: { translateX: 0 },
+  normal: { translateX: 0, opacity: 1 },
   animate: {
-    translateX: [0, -1.8, 1.8, 0],
-    transition: { duration: 0.7, ease: 'easeInOut', times: [0, 0.3, 0.65, 1] },
+    translateX: [0, -1.8, 1.8, 0, 0],
+    opacity: [1, 1, 1, 0, 1],
+    transition: {
+      translateX: { duration: 0.6, ease: 'easeInOut', times: [0, 0.3, 0.65, 0.9, 1] },
+      opacity: { duration: 0.95, times: [0, 0.68, 0.72, 0.82, 1], ease: 'linear' },
+    },
+  },
+};
+
+const lidVariants: Variants = {
+  normal: { scaleY: 1 },
+  animate: {
+    scaleY: [1, 1, 0.12, 1],
+    transition: { duration: 0.95, ease: 'easeInOut', times: [0, 0.68, 0.8, 1] },
   },
 };
 
@@ -74,10 +86,13 @@ const EyeIcon = forwardRef<EyeIconHandle, EyeIconProps>(
             strokeLinecap="round"
             strokeWidth="1.5"
           />
-          <path
+          <motion.path
             d="M21.544 13.045C21.848 13.4713 22 13.6845 22 14C22 14.3155 21.848 14.5287 21.544 14.955C20.1779 16.8706 16.6892 21 12 21C7.31078 21 3.8221 16.8706 2.45604 14.955C2.15201 14.5287 2 14.3155 2 14C2 13.6845 2.15201 13.4713 2.45604 13.045C3.8221 11.1294 7.31078 7 12 7C16.6892 7 20.1779 11.1294 21.544 13.045Z"
             stroke="currentColor"
             strokeWidth="1.5"
+            variants={lidVariants}
+            animate={controls}
+            initial="normal"
           />
           <motion.path
             d="M15 14C15 12.3431 13.6569 11 12 11C10.3431 11 9 12.3431 9 14C9 15.6569 10.3431 17 12 17C13.6569 17 15 15.6569 15 14Z"

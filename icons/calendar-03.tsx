@@ -15,7 +15,7 @@ interface Calendar03IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the binder rings lift like pages being flipped; the body sways with them
+// the binder rings flip like turning pages while the marked days flicker past
 const ringsVariants: Variants = {
   normal: { translateY: 0 },
   animate: {
@@ -29,6 +29,14 @@ const svgVariants: Variants = {
   animate: {
     rotate: [0, -2, 2, 0],
     transition: { duration: 0.6, ease: 'easeInOut' },
+  },
+};
+
+const daysVariants: Variants = {
+  normal: { opacity: 1 },
+  animate: {
+    opacity: [1, 0.25, 1, 0.25, 1],
+    transition: { duration: 0.55, ease: 'easeInOut', delay: 0.15 },
   },
 };
 
@@ -103,12 +111,15 @@ const Calendar03Icon = forwardRef<Calendar03IconHandle, Calendar03IconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
-          <path
+          <motion.path
             d="M12.1258 14H12.0008M12.1258 18H12.0008M7.625 14H7.5M7.625 18H7.5M16.625 14H16.5M12.2508 14C12.2508 14.1381 12.1389 14.25 12.0008 14.25C11.8628 14.25 11.7508 14.1381 11.7508 14C11.7508 13.8619 11.8628 13.75 12.0008 13.75C12.1389 13.75 12.2508 13.8619 12.2508 14ZM12.2508 18C12.2508 18.1381 12.1389 18.25 12.0008 18.25C11.8628 18.25 11.7508 18.1381 11.7508 18C11.7508 17.8619 11.8628 17.75 12.0008 17.75C12.1389 17.75 12.2508 17.8619 12.2508 18ZM7.75 14C7.75 14.1381 7.63807 14.25 7.5 14.25C7.36193 14.25 7.25 14.1381 7.25 14C7.25 13.8619 7.36193 13.75 7.5 13.75C7.63807 13.75 7.75 13.8619 7.75 14ZM7.75 18C7.75 18.1381 7.63807 18.25 7.5 18.25C7.36193 18.25 7.25 18.1381 7.25 18C7.25 17.8619 7.36193 17.75 7.5 17.75C7.63807 17.75 7.75 17.8619 7.75 18ZM16.75 14C16.75 14.1381 16.6381 14.25 16.5 14.25C16.3619 14.25 16.25 14.1381 16.25 14C16.25 13.8619 16.3619 13.75 16.5 13.75C16.6381 13.75 16.75 13.8619 16.75 14Z"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={daysVariants}
+            animate={controls}
+            initial="normal"
           />
         </motion.svg>
       </div>

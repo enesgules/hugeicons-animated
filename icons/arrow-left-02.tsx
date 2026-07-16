@@ -18,16 +18,22 @@ interface ArrowLeft02IconProps extends HTMLAttributes<HTMLDivElement> {
 const shaftVariants: Variants = {
   normal: { d: 'M5.5 12.002H19' },
   animate: {
-    d: ['M5.5 12.002H19', 'M5.5 12.002H14.5', 'M5.5 12.002H19'],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.4, 1], delay: 0.04 },
+    d: [
+      'M5.5 12.002H19',
+      'M5.5 12.002H14.5',
+      'M5.5 12.002H19',
+      'M5.5 12.002H16.5',
+      'M5.5 12.002H19',
+    ],
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
   },
 };
 
 const headVariants: Variants = {
   normal: { translateX: 0 },
   animate: {
-    translateX: [0, -3.5, 0],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.35, 1] },
+    translateX: [0, -4, 0, -1.8, 0],
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
   },
 };
 

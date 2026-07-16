@@ -15,20 +15,25 @@ interface Upload01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the arrow lifts off; the tray recoils slightly from the launch
+// the arrow launches off the top, and its replacement rises from the tray
 const arrowVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { translateY: 0, opacity: 1 },
   animate: {
-    translateY: [0, -2.5, 0],
-    transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.4, 1] },
+    translateY: [0, -5, 5, 0],
+    opacity: [1, 0, 0, 1],
+    transition: {
+      duration: 0.7,
+      times: [0, 0.42, 0.5, 1],
+      ease: ['easeIn', 'linear', 'easeOut'],
+    },
   },
 };
 
 const trayVariants: Variants = {
   normal: { translateY: 0 },
   animate: {
-    translateY: [0, 0.8, 0],
-    transition: { duration: 0.45, ease: 'easeInOut', delay: 0.1 },
+    translateY: [0, 0.9, 0],
+    transition: { duration: 0.3, ease: 'easeOut', delay: 0.08 },
   },
 };
 

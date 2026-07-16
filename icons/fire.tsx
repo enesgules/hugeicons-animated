@@ -15,13 +15,27 @@ interface FireIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the flame flickers from its base — never quite still
+// while you hover, it burns: the flame licks — stretch and squash run at
+// different frequencies from the base so no two moments look alike
 const svgVariants: Variants = {
-  normal: { scale: 1, translateY: 0 },
+  normal: {
+    scaleX: 1,
+    scaleY: 1,
+    rotate: 0,
+    translateY: 0,
+    transition: { duration: 0.35, ease: 'easeOut' },
+  },
   animate: {
-    scale: [1, 1.06, 0.97, 1.04, 1],
-    translateY: [0, -0.8, 0.4, -0.4, 0],
-    transition: { duration: 0.7, ease: 'easeInOut' },
+    scaleY: [1, 1.09, 0.96, 1.12, 0.95, 1.06, 1],
+    scaleX: [1, 0.95, 1.05, 0.93, 1.06, 0.96, 1],
+    rotate: [0, -2.5, 2, -3, 1.5, -1, 0],
+    translateY: [0, -0.6, 0.3, -0.9, 0.2, -0.4, 0],
+    transition: {
+      scaleY: { duration: 1.15, ease: 'easeInOut', repeat: Infinity },
+      scaleX: { duration: 0.95, ease: 'easeInOut', repeat: Infinity },
+      rotate: { duration: 1.35, ease: 'easeInOut', repeat: Infinity },
+      translateY: { duration: 0.85, ease: 'easeInOut', repeat: Infinity },
+    },
   },
 };
 
@@ -71,7 +85,7 @@ const FireIcon = forwardRef<FireIconHandle, FireIconProps>(
           variants={svgVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 85%' }}
+          style={{ transformOrigin: '50% 88%' }}
         >
           <path
             d="M13.8561 22C26.0783 19 19.2338 7 10.9227 2C9.9453 5.5 8.47838 6.5 5.54497 10C1.66121 14.6339 3.5895 20 8.96719 22C8.1524 21 6.04958 18.9008 7.5 16C8 15 9 14 8.5 12C9.47778 12.5 11.5 13 12 15.5C12.8148 14.5 13.6604 12.4 12.8783 10C19 14.5 16.5 19 13.8561 22Z"

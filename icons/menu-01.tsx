@@ -15,14 +15,15 @@ interface Menu01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// lines shimmy right one after another — a wave through the stack
+// a wave through the stack — each line launches and springs back past zero
 const lineVariants: Variants = {
   normal: { translateX: 0 },
   animate: (i: number) => ({
-    translateX: [0, 3, 0],
+    translateX: [0, 4.5, -1, 0],
     transition: {
-      duration: 0.45,
+      duration: 0.55,
       ease: 'easeInOut',
+      times: [0, 0.4, 0.75, 1],
       delay: i * 0.07,
     },
   }),
@@ -72,20 +73,39 @@ const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
           fill="none"
           overflow="visible"
         >
-          {['M4 5L20 5', 'M4 12L20 12', 'M4 19L20 19'].map((d, i) => (
-            <motion.path
-              key={d}
-              d={d}
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              variants={lineVariants}
-              custom={i}
-              animate={controls}
-              initial="normal"
-            />
-          ))}
+          <motion.path
+            d="M4 5L20 5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={lineVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M4 12L20 12"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={lineVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M4 19L20 19"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={lineVariants}
+            custom={2}
+            animate={controls}
+            initial="normal"
+          />
         </svg>
       </div>
     );

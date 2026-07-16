@@ -15,12 +15,13 @@ interface Message01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a reply being typed — the text lines redraw inside the bubble
+// a reply being typed — the bubble rocks as the text lines redraw inside it
 const bubbleVariants: Variants = {
-  normal: { scale: 1 },
+  normal: { scale: 1, rotate: 0 },
   animate: {
     scale: [1, 1.05, 1],
-    transition: { duration: 0.5, ease: 'easeInOut' },
+    rotate: [0, -2, 2, 0],
+    transition: { duration: 0.55, ease: 'easeInOut' },
   },
 };
 

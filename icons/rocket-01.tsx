@@ -15,23 +15,23 @@ interface Rocket01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// liftoff along the flight axis; the speed lines streak the other way
+// liftoff with engine shudder; the speed lines streak past twice
 const shipVariants: Variants = {
   normal: { translateX: 0, translateY: 0 },
   animate: {
-    translateX: [0, 2, 0],
-    translateY: [0, -2, 0],
-    transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.4, 1] },
+    translateX: [0, 0.4, -0.3, 2.2, 0],
+    translateY: [0, -0.4, 0.3, -2.2, 0],
+    transition: { duration: 0.75, ease: 'easeInOut', times: [0, 0.15, 0.3, 0.6, 1] },
   },
 };
 
 const streakVariants: Variants = {
   normal: { translateX: 0, translateY: 0, opacity: 1 },
   animate: (i: number) => ({
-    translateX: [0, -1.5, 0],
-    translateY: [0, 1.5, 0],
-    opacity: [1, 0.4, 1],
-    transition: { duration: 0.5, ease: 'easeInOut', delay: i * 0.06 },
+    translateX: [0, -2, 0],
+    translateY: [0, 2, 0],
+    opacity: [1, 0.3, 1],
+    transition: { duration: 0.35, ease: 'easeInOut', delay: i * 0.07, repeat: 1 },
   }),
 };
 

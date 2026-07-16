@@ -15,20 +15,20 @@ interface UserIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a friendly nod — the head bobs first, shoulders follow
+// a double nod of greeting — the head leads, shoulders echo softer
 const headVariants: Variants = {
   normal: { translateY: 0 },
   animate: {
-    translateY: [0, -1.5, 0],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.35, 1] },
+    translateY: [0, -1.8, 0, -0.9, 0],
+    transition: { duration: 0.75, ease: 'easeInOut', times: [0, 0.22, 0.5, 0.72, 1] },
   },
 };
 
 const bodyVariants: Variants = {
   normal: { translateY: 0 },
   animate: {
-    translateY: [0, -0.8, 0],
-    transition: { duration: 0.45, ease: 'easeInOut', delay: 0.08 },
+    translateY: [0, -0.9, 0, -0.4, 0],
+    transition: { duration: 0.75, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.78, 1] },
   },
 };
 

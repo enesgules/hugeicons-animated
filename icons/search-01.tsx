@@ -15,14 +15,14 @@ interface Search01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the lens sweeps a small arc, like scanning a page
+// the lens sweeps, pauses on a find, then settles
 const svgVariants: Variants = {
   normal: { translateX: 0, translateY: 0, rotate: 0 },
   animate: {
-    translateX: [0, -2, 2, 0],
-    translateY: [0, 2, -1.5, 0],
-    rotate: [0, -4, 4, 0],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.3, 0.65, 1] },
+    translateX: [0, -2, -2, 2, 0],
+    translateY: [0, 2, 2, -1.5, 0],
+    rotate: [0, -4, -4, 4, 0],
+    transition: { duration: 0.9, ease: 'easeInOut', times: [0, 0.25, 0.45, 0.7, 1] },
   },
 };
 

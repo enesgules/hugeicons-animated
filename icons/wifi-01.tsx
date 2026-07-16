@@ -15,13 +15,17 @@ interface Wifi01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// searching for signal — the arcs redraw outward from the smallest
+// while you hover, the signal keeps broadcasting — pulses ripple outward
 const arcVariants: Variants = {
-  normal: { pathLength: 1, opacity: 1 },
+  normal: { opacity: 1, transition: { duration: 0.3 } },
   animate: (i: number) => ({
-    pathLength: [0, 1],
-    opacity: [0, 1],
-    transition: { duration: 0.4, ease: 'easeOut', delay: i * 0.12 },
+    opacity: [0.25, 1, 0.25],
+    transition: {
+      duration: 1.1,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      delay: i * 0.22,
+    },
   }),
 };
 

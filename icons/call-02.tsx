@@ -15,12 +15,18 @@ interface Call02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// incoming call — the handset rattles in its cradle and settles
+// while you hover, the phone keeps ringing — rattle, rest, rattle again
 const svgVariants: Variants = {
-  normal: { rotate: 0 },
+  normal: { rotate: 0, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
     rotate: [0, -12, 10, -8, 6, -3, 0],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.15, 0.3, 0.5, 0.7, 0.85, 1] },
+    transition: {
+      duration: 0.7,
+      ease: 'easeInOut',
+      times: [0, 0.15, 0.3, 0.5, 0.7, 0.85, 1],
+      repeat: Infinity,
+      repeatDelay: 0.55,
+    },
   },
 };
 

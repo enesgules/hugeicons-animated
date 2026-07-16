@@ -15,12 +15,13 @@ interface Copy01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the front sheet stamps onto the back one, then slides home
+// the front sheet stamps onto the back one — squashing slightly on contact
 const frontVariants: Variants = {
-  normal: { translateX: 0, translateY: 0 },
+  normal: { translateX: 0, translateY: 0, scale: 1 },
   animate: {
     translateX: [0, -2.5, 0],
     translateY: [0, -2.5, 0],
+    scale: [1, 0.96, 1],
     transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.4, 1] },
   },
 };

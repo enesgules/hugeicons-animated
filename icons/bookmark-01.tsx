@@ -15,12 +15,13 @@ interface Bookmark01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// tucked in — the bookmark dips down as if sliding between pages
+// tucked in — dips between the pages with a small tilt, then settles proud
 const svgVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { translateY: 0, rotate: 0 },
   animate: {
-    translateY: [0, 2, -0.6, 0],
-    transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] },
+    translateY: [0, 2.2, -0.8, 0],
+    rotate: [0, 3, -1, 0],
+    transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.4, 0.72, 1] },
   },
 };
 

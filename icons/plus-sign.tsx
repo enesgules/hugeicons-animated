@@ -15,10 +15,21 @@ interface PlusSignIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a quarter turn with momentum — reads as "something is being added"
+// a quarter turn with momentum and a swell — something is being added
 const svgVariants: Variants = {
-  normal: { rotate: 0, transition: { type: 'spring', duration: 0.5, bounce: 0.15 } },
-  animate: { rotate: 90, transition: { type: 'spring', duration: 0.5, bounce: 0.25 } },
+  normal: {
+    rotate: 0,
+    scale: 1,
+    transition: { type: 'spring', duration: 0.5, bounce: 0.15 },
+  },
+  animate: {
+    rotate: 90,
+    scale: [1, 1.15, 1],
+    transition: {
+      rotate: { type: 'spring', duration: 0.5, bounce: 0.25 },
+      scale: { duration: 0.45, times: [0, 0.4, 1], ease: 'easeInOut' },
+    },
+  },
 };
 
 const PlusSignIcon = forwardRef<PlusSignIconHandle, PlusSignIconProps>(

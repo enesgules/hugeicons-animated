@@ -15,7 +15,7 @@ interface SentIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the plane banks and surges forward, then glides back to rest
+// the plane banks and surges; its fold line redraws like a speed streak
 const svgVariants: Variants = {
   normal: { translateX: 0, translateY: 0, rotate: 0 },
   animate: {
@@ -23,6 +23,15 @@ const svgVariants: Variants = {
     translateY: [0, -2.5, 0],
     rotate: [0, 5, 0],
     transition: { duration: 0.65, ease: 'easeInOut', times: [0, 0.4, 1] },
+  },
+};
+
+const streakVariants: Variants = {
+  normal: { pathLength: 1, opacity: 1 },
+  animate: {
+    pathLength: [0, 1],
+    opacity: [0, 1],
+    transition: { duration: 0.35, ease: 'easeOut', delay: 0.15 },
   },
 };
 
@@ -78,12 +87,15 @@ const SentIcon = forwardRef<SentIconHandle, SentIconProps>(
             stroke="currentColor"
             strokeWidth="1.5"
           />
-          <path
+          <motion.path
             d="M11.4999 12.5L14.9999 9"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={streakVariants}
+            animate={controls}
+            initial="normal"
           />
         </motion.svg>
       </div>

@@ -15,13 +15,13 @@ interface ThumbsUpIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// approval — the whole hand rocks up from the wrist
+// approval with enthusiasm — a double pump from the wrist
 const svgVariants: Variants = {
   normal: { rotate: 0, translateY: 0 },
   animate: {
-    rotate: [0, -12, 0],
-    translateY: [0, -1, 0],
-    transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.4, 1] },
+    rotate: [0, -14, 0, -8, 0],
+    translateY: [0, -1.2, 0, -0.6, 0],
+    transition: { duration: 0.75, ease: 'easeInOut', times: [0, 0.22, 0.5, 0.72, 1] },
   },
 };
 

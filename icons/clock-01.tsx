@@ -15,10 +15,18 @@ interface Clock01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// time flies — the hands sweep one full revolution around the fixed dial
+// a mechanical sweep: the hands tick around the dial, each jump overshooting
+// its stop like a real escapement
 const handsVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0 } },
-  animate: { rotate: 360, transition: { duration: 0.9, ease: 'easeInOut' } },
+  animate: {
+    rotate: [0, 97, 90, 187, 180, 277, 270, 360],
+    transition: {
+      duration: 1.5,
+      ease: 'easeInOut',
+      times: [0, 0.13, 0.2, 0.38, 0.45, 0.63, 0.7, 1],
+    },
+  },
 };
 
 const Clock01Icon = forwardRef<Clock01IconHandle, Clock01IconProps>(

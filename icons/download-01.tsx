@@ -15,20 +15,26 @@ interface Download01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the arrow drops toward the tray; the tray absorbs the impact a beat later
+// a conveyor: the arrow falls through, fades, and a new one drops in from
+// above — the tray dips as each delivery lands
 const arrowVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { translateY: 0, opacity: 1 },
   animate: {
-    translateY: [0, 2.5, 0],
-    transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.4, 1] },
+    translateY: [0, 5, -5, 0],
+    opacity: [1, 0, 0, 1],
+    transition: {
+      duration: 0.7,
+      times: [0, 0.42, 0.5, 1],
+      ease: ['easeIn', 'linear', 'easeOut'],
+    },
   },
 };
 
 const trayVariants: Variants = {
   normal: { translateY: 0 },
   animate: {
-    translateY: [0, 1, 0],
-    transition: { duration: 0.45, ease: 'easeInOut', delay: 0.18 },
+    translateY: [0, 1.2, 0],
+    transition: { duration: 0.3, ease: 'easeOut', delay: 0.32 },
   },
 };
 

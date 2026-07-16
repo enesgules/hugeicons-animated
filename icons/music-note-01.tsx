@@ -15,13 +15,20 @@ interface MusicNote01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the notes sway to the beat
+// while you hover, the notes keep time — swaying on the beat
 const svgVariants: Variants = {
-  normal: { rotate: 0, translateY: 0 },
+  normal: {
+    rotate: 0,
+    translateY: 0,
+    transition: { duration: 0.35, ease: 'easeOut' },
+  },
   animate: {
-    rotate: [0, -6, 4, 0],
-    translateY: [0, -1.2, 0, 0],
-    transition: { duration: 0.65, ease: 'easeInOut' },
+    rotate: [0, -6, 5, -6, 5, 0],
+    translateY: [0, -1.2, 0, -1.2, 0],
+    transition: {
+      rotate: { duration: 1.8, ease: 'easeInOut', repeat: Infinity },
+      translateY: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
+    },
   },
 };
 

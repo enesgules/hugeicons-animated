@@ -15,10 +15,17 @@ interface Cancel01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the X winds up tighter then springs back — a firm "no"
+// a firm headshake — "no", not a pirouette
 const svgVariants: Variants = {
-  normal: { rotate: 0, scale: 1, transition: { type: 'spring', duration: 0.5, bounce: 0.2 } },
-  animate: { rotate: 90, scale: 1, transition: { type: 'spring', duration: 0.5, bounce: 0.25 } },
+  normal: { translateX: 0 },
+  animate: {
+    translateX: [0, -2.8, 2.8, -1.8, 1.8, -0.8, 0],
+    transition: {
+      duration: 0.55,
+      ease: 'easeInOut',
+      times: [0, 0.15, 0.35, 0.55, 0.72, 0.88, 1],
+    },
+  },
 };
 
 const Cancel01Icon = forwardRef<Cancel01IconHandle, Cancel01IconProps>(

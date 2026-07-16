@@ -15,15 +15,15 @@ interface Settings01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// rotation carries momentum — slight bounce is right here (Apple: rotation ≈ damping 0.8)
+// a mechanism, not a decoration: winds back before it spins
 const svgVariants: Variants = {
   normal: {
     rotate: 0,
     transition: { type: 'spring', duration: 0.6, bounce: 0.15 },
   },
   animate: {
-    rotate: 180,
-    transition: { type: 'spring', duration: 0.6, bounce: 0.15 },
+    rotate: [0, -18, 180],
+    transition: { duration: 0.8, times: [0, 0.22, 1], ease: ['easeIn', 'easeOut'] },
   },
 };
 

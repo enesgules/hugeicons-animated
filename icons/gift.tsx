@@ -15,12 +15,28 @@ interface GiftIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a curious shake from the base — what's inside?
+// what's inside? — the box shakes from the base while the bows flutter loose
 const svgVariants: Variants = {
   normal: { rotate: 0 },
   animate: {
-    rotate: [0, -4, 4, -2, 0],
-    transition: { duration: 0.6, ease: 'easeInOut' },
+    rotate: [0, -4, 4, -2.5, 2.5, 0],
+    transition: { duration: 0.7, ease: 'easeInOut' },
+  },
+};
+
+const bowLeftVariants: Variants = {
+  normal: { rotate: 0 },
+  animate: {
+    rotate: [0, 10, -6, 3, 0],
+    transition: { duration: 0.7, ease: 'easeInOut', delay: 0.08 },
+  },
+};
+
+const bowRightVariants: Variants = {
+  normal: { rotate: 0 },
+  animate: {
+    rotate: [0, -10, 6, -3, 0],
+    transition: { duration: 0.7, ease: 'easeInOut', delay: 0.12 },
   },
 };
 
@@ -85,17 +101,23 @@ const GiftIcon = forwardRef<GiftIconHandle, GiftIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
-          <path
+          <motion.path
             d="M6 3.78571C6 2.79949 6.79949 2 7.78571 2H8.14286C10.2731 2 12 3.7269 12 5.85714V7H9.21429C7.43908 7 6 5.56091 6 3.78571Z"
             stroke="currentColor"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={bowLeftVariants}
+            animate={controls}
+            initial="normal"
           />
-          <path
+          <motion.path
             d="M18 3.78571C18 2.79949 17.2005 2 16.2143 2H15.8571C13.7269 2 12 3.7269 12 5.85714V7H14.7857C16.5609 7 18 5.56091 18 3.78571Z"
             stroke="currentColor"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={bowRightVariants}
+            animate={controls}
+            initial="normal"
           />
           <path
             d="M12 11L12 22"
