@@ -44,7 +44,10 @@ const template = (spec, elements) => {
         spec.svgStyle ? `\n          style={${spec.svgStyle}}` : ''
       }`
     : '';
-  const body = elements.map((e, i) => renderElement(e, i, spec)).join('\n');
+  // extra: raw JSX for elements the icon data doesn't have (particles, sparks…)
+  const body =
+    elements.map((e, i) => renderElement(e, i, spec)).join('\n') +
+    (spec.extra ? '\n' + spec.extra.replace(/^\n+|\s+$/g, '') : '');
 
   return `'use client';
 

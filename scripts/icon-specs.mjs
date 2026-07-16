@@ -123,11 +123,19 @@ const lineVariants: Variants = {
   {
     export: 'FavouriteIcon',
     defs: `
-// lub-dub — a real pulse: strong beat, quick fall, softer beat, long rest
-const svgVariants: Variants = {
-  normal: { scale: 1 },
+// lub-dub with real squash-and-stretch: on each beat the heart doesn't just
+// scale — its lobes bulge outward and the shape swells like a muscle
+const HEART_REST =
+  'M10.4107 19.9677C7.58942 17.858 2 13.0348 2 8.69444C2 5.82563 4.10526 3.5 7 3.5C8.5 3.5 10 4 12 6C14 4 15.5 3.5 17 3.5C19.8947 3.5 22 5.82563 22 8.69444C22 13.0348 16.4106 17.858 13.5893 19.9677C12.6399 20.6776 11.3601 20.6776 10.4107 19.9677Z';
+const HEART_BEAT =
+  'M10.3 19.8C7.2 17.6 1.2 12.9 1.2 8.6C1.2 5.6 4 3.2 7 3.2C8.6 3.2 10.1 3.8 12 5.8C13.9 3.8 15.4 3.2 17 3.2C20 3.2 22.8 5.6 22.8 8.6C22.8 12.9 16.8 17.6 13.7 19.8C12.7 20.6 11.3 20.6 10.3 19.8Z';
+const HEART_HALF =
+  'M10.36 19.88C7.4 17.73 1.6 12.97 1.6 8.65C1.6 5.7 4.05 3.35 7 3.35C8.55 3.35 10.05 3.9 12 5.9C13.95 3.9 15.45 3.35 17 3.35C19.95 3.35 22.4 5.7 22.4 8.65C22.4 12.97 16.6 17.73 13.65 19.88C12.67 20.64 11.33 20.64 10.36 19.88Z';
+
+const heartVariants: Variants = {
+  normal: { d: HEART_REST, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
-    scale: [1, 1.22, 1, 1.14, 1],
+    d: [HEART_REST, HEART_BEAT, HEART_REST, HEART_HALF, HEART_REST],
     transition: {
       duration: 0.9,
       ease: 'easeInOut',
@@ -135,7 +143,7 @@ const svgVariants: Variants = {
     },
   },
 };`,
-    svg: 'svgVariants',
+    els: { 0: { v: 'heartVariants' } },
   },
   {
     export: 'Loading03Icon',
@@ -732,7 +740,9 @@ const svgVariants: Variants = {
   {
     export: 'MusicNote01Icon',
     defs: `
-// while you hover, the notes keep time — swaying on the beat
+// while you hover, the band plays: the sheet sways, the two note heads
+// pulse on alternating beats, and the small note bobs its own eighth-note
+// rhythm on top
 const svgVariants: Variants = {
   normal: {
     rotate: 0,
@@ -740,15 +750,97 @@ const svgVariants: Variants = {
     transition: { duration: 0.35, ease: 'easeOut' },
   },
   animate: {
-    rotate: [0, -6, 5, -6, 5, 0],
-    translateY: [0, -1.2, 0, -1.2, 0],
+    rotate: [0, -4, 3.5, -4, 3.5, 0],
+    translateY: [0, -0.8, 0, -0.8, 0],
     transition: {
       rotate: { duration: 1.8, ease: 'easeInOut', repeat: Infinity },
       translateY: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
     },
   },
+};
+
+// downbeat — left head lands on 1 and 3
+const headLeftVariants: Variants = {
+  normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
+  animate: {
+    scale: [1, 1.22, 1],
+    transition: { duration: 0.45, ease: 'easeInOut', repeat: Infinity, repeatDelay: 0.45 },
+  },
+};
+
+// backbeat — right head answers on 2 and 4
+const headRightVariants: Variants = {
+  normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
+  animate: {
+    scale: [1, 1.22, 1],
+    transition: {
+      duration: 0.45,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      repeatDelay: 0.45,
+      delay: 0.45,
+    },
+  },
+};
+
+// the little grace note noodles over the top in eighth notes
+const smallNoteVariants: Variants = {
+  normal: {
+    rotate: 0,
+    translateY: 0,
+    transition: { duration: 0.3, ease: 'easeOut' },
+  },
+  animate: {
+    rotate: [0, -9, 7, 0],
+    translateY: [0, -1.5, 0, -0.8, 0],
+    transition: {
+      rotate: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
+      translateY: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
+    },
+  },
+};
+
+// tiny notes escape the tune, float up, and dissolve — one per bar
+const floatNoteVariants: Variants = {
+  normal: { opacity: 0, translateY: 0, rotate: 0, transition: { duration: 0.2 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    translateY: [1.5, -3.5],
+    rotate: [0, i === 0 ? -12 : 12],
+    transition: {
+      duration: 1.4,
+      ease: 'easeOut',
+      repeat: Infinity,
+      repeatDelay: 0.4,
+      delay: i * 0.9,
+    },
+  }),
 };`,
     svg: 'svgVariants',
+    els: {
+      0: { v: 'smallNoteVariants' },
+      1: { v: 'headLeftVariants' },
+      2: { v: 'headRightVariants' },
+    },
+    extra: `
+          <motion.g
+            variants={floatNoteVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          >
+            <circle cx="15.2" cy="4.6" r="0.8" fill="currentColor" />
+            <path d="M16 4.6V2.1" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" />
+          </motion.g>
+          <motion.g
+            variants={floatNoteVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          >
+            <circle cx="18.8" cy="3.2" r="0.65" fill="currentColor" />
+            <path d="M19.45 3.2V1" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" />
+          </motion.g>`,
   },
   {
     export: 'Camera01Icon',
@@ -1003,54 +1095,172 @@ const streakVariants: Variants = {
   {
     export: 'FireIcon',
     defs: `
-// while you hover, it burns: the flame licks — stretch and squash run at
-// different frequencies from the base so no two moments look alike
+// while you hover, it burns — for real: the flame OUTLINE morphs between
+// poses (lick left, straighten, lick right), the whole body bobs on the
+// heat, and embers break loose, wander up, and wink out
 const svgVariants: Variants = {
-  normal: {
-    scaleX: 1,
-    scaleY: 1,
-    rotate: 0,
-    translateY: 0,
-    transition: { duration: 0.35, ease: 'easeOut' },
-  },
+  normal: { translateY: 0, transition: { duration: 0.35, ease: 'easeOut' } },
   animate: {
-    scaleY: [1, 1.09, 0.96, 1.12, 0.95, 1.06, 1],
-    scaleX: [1, 0.95, 1.05, 0.93, 1.06, 0.96, 1],
-    rotate: [0, -2.5, 2, -3, 1.5, -1, 0],
-    translateY: [0, -0.6, 0.3, -0.9, 0.2, -0.4, 0],
-    transition: {
-      scaleY: { duration: 1.15, ease: 'easeInOut', repeat: Infinity },
-      scaleX: { duration: 0.95, ease: 'easeInOut', repeat: Infinity },
-      rotate: { duration: 1.35, ease: 'easeInOut', repeat: Infinity },
-      translateY: { duration: 0.85, ease: 'easeInOut', repeat: Infinity },
-    },
+    translateY: [0, -0.5, 0.2, 0],
+    transition: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
   },
+};
+
+// three poses of the same 9-segment path — tips and tongues move, base stays put
+const FLAME_REST =
+  'M13.8561 22C26.0783 19 19.2338 7 10.9227 2C9.9453 5.5 8.47838 6.5 5.54497 10C1.66121 14.6339 3.5895 20 8.96719 22C8.1524 21 6.04958 18.9008 7.5 16C8 15 9 14 8.5 12C9.47778 12.5 11.5 13 12 15.5C12.8148 14.5 13.6604 12.4 12.8783 10C19 14.5 16.5 19 13.8561 22Z';
+const FLAME_LEFT =
+  'M13.8561 22C26.0783 19.5 18.9 7.2 9.9 2.4C9.1 5.8 8.2 6.8 5.2 10.4C1.66121 14.6339 3.5895 20 8.96719 22C8.1524 21 6.2 18.7 7.8 16.3C8.4 15.2 9.4 14.2 8.9 12.6C9.7 13 11.5 13.4 11.9 15.9C12.7 14.8 13.3 12.8 12.5 10.6C18.4 14.9 16.2 19.2 13.8561 22Z';
+const FLAME_RIGHT =
+  'M13.8561 22C26.0783 18.6 19.6 6.6 12.1 1.7C10.4 5.2 8.8 6.2 5.9 9.6C1.66121 14.6339 3.5895 20 8.96719 22C8.1524 21 5.9 19.1 7.3 15.7C7.8 14.8 8.7 13.7 8.2 11.5C9.3 12.1 11.5 12.7 12.1 15.1C12.9 14.1 13.9 12 13.2 9.5C19.5 14.1 16.8 18.8 13.8561 22Z';
+
+const flameVariants: Variants = {
+  normal: { d: FLAME_REST, transition: { duration: 0.3, ease: 'easeOut' } },
+  animate: {
+    d: [FLAME_REST, FLAME_LEFT, FLAME_REST, FLAME_RIGHT, FLAME_REST],
+    transition: { duration: 1.7, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+// embers: born at the flame's shoulder, they wander up, shrink, and wink out
+const emberVariants: Variants = {
+  normal: { opacity: 0, translateY: 0, translateX: 0, scale: 1, transition: { duration: 0.2 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    translateY: [0.5, -4.5],
+    translateX: [0, i % 2 === 0 ? -0.9 : 0.9],
+    scale: [1, 0.65],
+    transition: {
+      duration: 1.1,
+      ease: 'easeOut',
+      repeat: Infinity,
+      repeatDelay: 0.3,
+      delay: i * 0.45,
+    },
+  }),
 };`,
     svg: 'svgVariants',
     svgStyle: `{ transformOrigin: '50% 88%' }`,
+    els: { 0: { v: 'flameVariants' } },
+    extra: `
+          <motion.circle
+            cx="8.5"
+            cy="7"
+            r="0.9"
+            fill="currentColor"
+            variants={emberVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.circle
+            cx="15.5"
+            cy="8.5"
+            r="0.7"
+            fill="currentColor"
+            variants={emberVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.circle
+            cx="12"
+            cy="4.5"
+            r="0.6"
+            fill="currentColor"
+            variants={emberVariants}
+            custom={2}
+            animate={controls}
+            initial="normal"
+          />`,
   },
   {
     export: 'FlashIcon',
     defs: `
-// a strike: the bolt draws in fast, flashes hard, then steadies
+// while you hover, the storm keeps striking. The strike fires the moment
+// you enter — instant response — and the bolt only re-draws during the dark
+// beat, where the cut is invisible. One shared 1.9s timeline keeps every
+// element in sync.
 const svgVariants: Variants = {
-  normal: { opacity: 1, scale: 1 },
+  normal: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.3, ease: 'easeOut' },
+  },
   animate: {
-    opacity: [1, 0.15, 1, 0.35, 1],
-    scale: [1, 1.12, 1, 1.05, 1],
-    transition: { duration: 0.5, ease: 'easeOut', times: [0, 0.12, 0.3, 0.5, 1] },
+    //        strike──flash──strike──hold      dark      redraw    settle
+    opacity: [1, 0.25, 1, 0.2, 1, 1, 0.3, 0.3, 1],
+    scale: [1, 1.1, 1.02, 1.08, 1, 1, 0.97, 0.97, 1],
+    transition: {
+      duration: 1.9,
+      ease: 'easeOut',
+      times: [0, 0.05, 0.12, 0.18, 0.26, 0.55, 0.66, 0.78, 0.92],
+      repeat: Infinity,
+    },
   },
 };
 
+// drawn through the strike; vanishes and re-draws inside the dark beat
 const boltVariants: Variants = {
-  normal: { pathLength: 1 },
+  normal: { pathLength: 1, transition: { duration: 0.2 } },
   animate: {
-    pathLength: [0, 1],
-    transition: { duration: 0.25, ease: 'easeIn' },
+    pathLength: [1, 1, 0, 0, 1, 1],
+    transition: {
+      duration: 1.9,
+      times: [0, 0.64, 0.66, 0.7, 0.85, 1],
+      ease: 'easeOut',
+      repeat: Infinity,
+    },
   },
+};
+
+// sparks pop off the tip at the moment of impact, then vanish
+const sparkVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0.8, 0, 0],
+    transition: {
+      duration: 1.9,
+      times: [0, 0.06, 0.14, 0.24, 1],
+      ease: 'easeOut',
+      repeat: Infinity,
+      delay: i * 0.04,
+    },
+  }),
 };`,
     svg: 'svgVariants',
     els: { 0: { v: 'boltVariants' } },
+    extra: `
+          <motion.path
+            d="M7.6 20.4L6.2 21.6"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={sparkVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M14.4 20.6L15.8 21.6"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={sparkVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M11.4 23L11.1 24.2"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={sparkVariants}
+            custom={2}
+            animate={controls}
+            initial="normal"
+          />`,
   },
   {
     export: 'ThumbsUpIcon',
