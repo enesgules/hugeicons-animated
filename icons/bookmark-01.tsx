@@ -66,6 +66,7 @@ const Bookmark01Icon = forwardRef<Bookmark01IconHandle, Bookmark01IconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
           variants={svgVariants}
           animate={controls}
           initial="normal"

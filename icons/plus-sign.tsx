@@ -63,6 +63,7 @@ const PlusSignIcon = forwardRef<PlusSignIconHandle, PlusSignIconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
           variants={svgVariants}
           animate={controls}
           initial="normal"

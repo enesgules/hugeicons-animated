@@ -75,6 +75,7 @@ const Share08Icon = forwardRef<Share08IconHandle, Share08IconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
         >
           <motion.path
             d="M21 6.5C21 8.15685 19.6569 9.5 18 9.5C16.3431 9.5 15 8.15685 15 6.5C15 4.84315 16.3431 3.5 18 3.5C19.6569 3.5 21 4.84315 21 6.5Z"

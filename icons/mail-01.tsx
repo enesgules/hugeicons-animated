@@ -76,6 +76,7 @@ const Mail01Icon = forwardRef<Mail01IconHandle, Mail01IconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
           variants={svgVariants}
           animate={controls}
           initial="normal"

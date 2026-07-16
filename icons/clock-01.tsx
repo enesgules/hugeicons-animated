@@ -63,6 +63,7 @@ const Clock01Icon = forwardRef<Clock01IconHandle, Clock01IconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
         >
           <circle
             cx="12"

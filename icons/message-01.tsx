@@ -75,6 +75,7 @@ const Message01Icon = forwardRef<Message01IconHandle, Message01IconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
         >
           <motion.path
             d="M8.5 14.5H15.5M8.5 9.5H12"

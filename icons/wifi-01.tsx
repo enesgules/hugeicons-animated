@@ -67,6 +67,7 @@ const Wifi01Icon = forwardRef<Wifi01IconHandle, Wifi01IconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
         >
           <motion.path
             d="M8.25 14.5C10.25 12.5 13.75 12.5 15.75 14.5"

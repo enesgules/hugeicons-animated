@@ -66,6 +66,7 @@ const EyeIcon = forwardRef<EyeIconHandle, EyeIconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
         >
           <path
             d="M2 8C2 8 6.47715 3 12 3C17.5228 3 22 8 22 8"

@@ -73,6 +73,7 @@ const ArrowDown02Icon = forwardRef<ArrowDown02IconHandle, ArrowDown02IconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
         >
           <motion.path
             d="M12 18.502V5.00195"

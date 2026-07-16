@@ -74,6 +74,7 @@ const Calendar03Icon = forwardRef<Calendar03IconHandle, Calendar03IconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
           variants={svgVariants}
           animate={controls}
           initial="normal"

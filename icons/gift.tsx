@@ -66,6 +66,7 @@ const GiftIcon = forwardRef<GiftIconHandle, GiftIconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
           variants={svgVariants}
           animate={controls}
           initial="normal"

@@ -70,6 +70,7 @@ const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
         >
           {['M4 5L20 5', 'M4 12L20 12', 'M4 19L20 19'].map((d, i) => (
             <motion.path

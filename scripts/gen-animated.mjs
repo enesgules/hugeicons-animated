@@ -106,7 +106,8 @@ const ${name} = forwardRef<${name}Handle, ${name}Props>(
           width={size}
           height={size}
           viewBox="0 0 24 24"
-          fill="none"${svgExtra}
+          fill="none"
+          overflow="visible"${svgExtra}
         >
 ${body}
         </${svgTag}>

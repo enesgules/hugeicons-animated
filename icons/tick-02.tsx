@@ -75,6 +75,7 @@ const Tick02Icon = forwardRef<Tick02IconHandle, Tick02IconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
           variants={svgVariants}
           animate={controls}
           initial="normal"

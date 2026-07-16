@@ -67,6 +67,7 @@ const MusicNote01Icon = forwardRef<MusicNote01IconHandle, MusicNote01IconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
           variants={svgVariants}
           animate={controls}
           initial="normal"

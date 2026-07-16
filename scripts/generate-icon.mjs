@@ -100,6 +100,7 @@ const ${name} = forwardRef<${name}Handle, ${name}Props>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
+          overflow="visible"
         >
 ${paths}
         </svg>
