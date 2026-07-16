@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "cloud",
+  "title": "cloud",
+  "description": "Animated cloud icon",
+  "dependencies": [
+    "motion"
+  ],
+  "files": [
+    {
+      "path": "icons/cloud.tsx",
+      "content": "'use client';\n\nimport type { Variants } from 'motion/react';\nimport { motion, useAnimation } from 'motion/react';\nimport type { HTMLAttributes } from 'react';\nimport { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';\nimport { cn } from '@/lib/utils';\n\nexport interface CloudIconHandle {\n  startAnimation: () => void;\n  stopAnimation: () => void;\n}\n\ninterface CloudIconProps extends HTMLAttributes<HTMLDivElement> {\n  size?: number;\n}\n\n// drifting on a light breeze\nconst svgVariants: Variants = {\n  normal: { translateX: 0 },\n  animate: {\n    translateX: [0, 2.2, -2.2, 0],\n    transition: { duration: 0.9, ease: 'easeInOut', times: [0, 0.3, 0.7, 1] },\n  },\n};\n\nconst CloudIcon = forwardRef<CloudIconHandle, CloudIconProps>(\n  ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {\n    const controls = useAnimation();\n    const isControlledRef = useRef(false);\n\n    useImperativeHandle(ref, () => {\n      isControlledRef.current = true;\n      return {\n        startAnimation: () => controls.start('animate'),\n        stopAnimation: () => controls.start('normal'),\n      };\n    });\n\n    const handleMouseEnter = useCallback(\n      (e: React.MouseEvent<HTMLDivElement>) => {\n        if (!isControlledRef.current) controls.start('animate');\n        else onMouseEnter?.(e);\n      },\n      [controls, onMouseEnter]\n    );\n\n    const handleMouseLeave = useCallback(\n      (e: React.MouseEvent<HTMLDivElement>) => {\n        if (!isControlledRef.current) controls.start('normal');\n        else onMouseLeave?.(e);\n      },\n      [controls, onMouseLeave]\n    );\n\n    return (\n      <div\n        className={cn(className)}\n        onMouseEnter={handleMouseEnter}\n        onMouseLeave={handleMouseLeave}\n        {...props}\n      >\n        <motion.svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          width={size}\n          height={size}\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          variants={svgVariants}\n          animate={controls}\n          initial=\"normal\"\n        >\n          <path\n            d=\"M17.4776 10.0001C17.485 10 17.4925 10 17.5 10C19.9853 10 22 12.0147 22 14.5C22 16.9853 19.9853 19 17.5 19H7C4.23858 19 2 16.7614 2 14C2 11.4003 3.98398 9.26407 6.52042 9.0227M17.4776 10.0001C17.4924 9.83536 17.5 9.66856 17.5 9.5C17.5 6.46243 15.0376 4 12 4C9.12324 4 6.76233 6.20862 6.52042 9.0227M17.4776 10.0001C17.3753 11.1345 16.9286 12.1696 16.2428 13M6.52042 9.0227C6.67826 9.00768 6.83823 9 7 9C8.12582 9 9.16474 9.37209 10.0005 10\"\n            stroke=\"currentColor\"\n            strokeLinecap=\"round\"\n            strokeLinejoin=\"round\"\n            strokeWidth=\"1.5\"\n          />\n        </motion.svg>\n      </div>\n    );\n  }\n);\n\nCloudIcon.displayName = 'CloudIcon';\n\nexport { CloudIcon };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

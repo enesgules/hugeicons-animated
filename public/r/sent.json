@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sent",
+  "title": "sent",
+  "description": "Animated sent icon",
+  "dependencies": [
+    "motion"
+  ],
+  "files": [
+    {
+      "path": "icons/sent.tsx",
+      "content": "'use client';\n\nimport type { Variants } from 'motion/react';\nimport { motion, useAnimation } from 'motion/react';\nimport type { HTMLAttributes } from 'react';\nimport { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';\nimport { cn } from '@/lib/utils';\n\nexport interface SentIconHandle {\n  startAnimation: () => void;\n  stopAnimation: () => void;\n}\n\ninterface SentIconProps extends HTMLAttributes<HTMLDivElement> {\n  size?: number;\n}\n\n// the plane banks and surges forward, then glides back to rest\nconst svgVariants: Variants = {\n  normal: { translateX: 0, translateY: 0, rotate: 0 },\n  animate: {\n    translateX: [0, 2.5, 0],\n    translateY: [0, -2.5, 0],\n    rotate: [0, 5, 0],\n    transition: { duration: 0.65, ease: 'easeInOut', times: [0, 0.4, 1] },\n  },\n};\n\nconst SentIcon = forwardRef<SentIconHandle, SentIconProps>(\n  ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {\n    const controls = useAnimation();\n    const isControlledRef = useRef(false);\n\n    useImperativeHandle(ref, () => {\n      isControlledRef.current = true;\n      return {\n        startAnimation: () => controls.start('animate'),\n        stopAnimation: () => controls.start('normal'),\n      };\n    });\n\n    const handleMouseEnter = useCallback(\n      (e: React.MouseEvent<HTMLDivElement>) => {\n        if (!isControlledRef.current) controls.start('animate');\n        else onMouseEnter?.(e);\n      },\n      [controls, onMouseEnter]\n    );\n\n    const handleMouseLeave = useCallback(\n      (e: React.MouseEvent<HTMLDivElement>) => {\n        if (!isControlledRef.current) controls.start('normal');\n        else onMouseLeave?.(e);\n      },\n      [controls, onMouseLeave]\n    );\n\n    return (\n      <div\n        className={cn(className)}\n        onMouseEnter={handleMouseEnter}\n        onMouseLeave={handleMouseLeave}\n        {...props}\n      >\n        <motion.svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          width={size}\n          height={size}\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          variants={svgVariants}\n          animate={controls}\n          initial=\"normal\"\n        >\n          <path\n            d=\"M21.0477 3.05293C18.8697 0.707363 2.48648 6.4532 2.50001 8.551C2.51535 10.9299 8.89809 11.6617 10.6672 12.1581C11.7311 12.4565 12.016 12.7625 12.2613 13.8781C13.3723 18.9305 13.9301 21.4435 15.2014 21.4996C17.2278 21.5892 23.1733 5.342 21.0477 3.05293Z\"\n            stroke=\"currentColor\"\n            strokeWidth=\"1.5\"\n          />\n          <path\n            d=\"M11.4999 12.5L14.9999 9\"\n            stroke=\"currentColor\"\n            strokeLinecap=\"round\"\n            strokeLinejoin=\"round\"\n            strokeWidth=\"1.5\"\n          />\n        </motion.svg>\n      </div>\n    );\n  }\n);\n\nSentIcon.displayName = 'SentIcon';\n\nexport { SentIcon };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

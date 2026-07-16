@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "flash",
+  "title": "flash",
+  "description": "Animated flash icon",
+  "dependencies": [
+    "motion"
+  ],
+  "files": [
+    {
+      "path": "icons/flash.tsx",
+      "content": "'use client';\n\nimport type { Variants } from 'motion/react';\nimport { motion, useAnimation } from 'motion/react';\nimport type { HTMLAttributes } from 'react';\nimport { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';\nimport { cn } from '@/lib/utils';\n\nexport interface FlashIconHandle {\n  startAnimation: () => void;\n  stopAnimation: () => void;\n}\n\ninterface FlashIconProps extends HTMLAttributes<HTMLDivElement> {\n  size?: number;\n}\n\n// a strike — the bolt blinks hard then steadies\nconst svgVariants: Variants = {\n  normal: { opacity: 1, scale: 1 },\n  animate: {\n    opacity: [1, 0.25, 1, 0.6, 1],\n    scale: [1, 1.08, 1, 1.04, 1],\n    transition: { duration: 0.55, ease: 'easeOut', times: [0, 0.15, 0.35, 0.55, 1] },\n  },\n};\n\nconst FlashIcon = forwardRef<FlashIconHandle, FlashIconProps>(\n  ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {\n    const controls = useAnimation();\n    const isControlledRef = useRef(false);\n\n    useImperativeHandle(ref, () => {\n      isControlledRef.current = true;\n      return {\n        startAnimation: () => controls.start('animate'),\n        stopAnimation: () => controls.start('normal'),\n      };\n    });\n\n    const handleMouseEnter = useCallback(\n      (e: React.MouseEvent<HTMLDivElement>) => {\n        if (!isControlledRef.current) controls.start('animate');\n        else onMouseEnter?.(e);\n      },\n      [controls, onMouseEnter]\n    );\n\n    const handleMouseLeave = useCallback(\n      (e: React.MouseEvent<HTMLDivElement>) => {\n        if (!isControlledRef.current) controls.start('normal');\n        else onMouseLeave?.(e);\n      },\n      [controls, onMouseLeave]\n    );\n\n    return (\n      <div\n        className={cn(className)}\n        onMouseEnter={handleMouseEnter}\n        onMouseLeave={handleMouseLeave}\n        {...props}\n      >\n        <motion.svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          width={size}\n          height={size}\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          variants={svgVariants}\n          animate={controls}\n          initial=\"normal\"\n        >\n          <path\n            d=\"M5.22576 11.3294L12.224 2.34651C12.7713 1.64397 13.7972 2.08124 13.7972 3.01707V9.96994C13.7972 10.5305 14.1995 10.985 14.6958 10.985H18.0996C18.8729 10.985 19.2851 12.0149 18.7742 12.6706L11.776 21.6535C11.2287 22.356 10.2028 21.9188 10.2028 20.9829V14.0301C10.2028 13.4695 9.80048 13.015 9.3042 13.015H5.90035C5.12711 13.015 4.71494 11.9851 5.22576 11.3294Z\"\n            stroke=\"currentColor\"\n            strokeLinecap=\"round\"\n            strokeLinejoin=\"round\"\n            strokeWidth=\"1.5\"\n          />\n        </motion.svg>\n      </div>\n    );\n  }\n);\n\nFlashIcon.displayName = 'FlashIcon';\n\nexport { FlashIcon };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

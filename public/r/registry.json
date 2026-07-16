@@ -1,0 +1,682 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "hugeicons-animated",
+  "homepage": "https://hugeicons-animated.vercel.app",
+  "items": [
+    {
+      "name": "arrow-down-02",
+      "type": "registry:ui",
+      "title": "arrow-down-02",
+      "description": "Animated arrow down icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-down-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "arrow-left-02",
+      "type": "registry:ui",
+      "title": "arrow-left-02",
+      "description": "Animated arrow left icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-left-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "arrow-right-02",
+      "type": "registry:ui",
+      "title": "arrow-right-02",
+      "description": "Animated arrow right icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-right-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "arrow-up-02",
+      "type": "registry:ui",
+      "title": "arrow-up-02",
+      "description": "Animated arrow up icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-up-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "bookmark-01",
+      "type": "registry:ui",
+      "title": "bookmark-01",
+      "description": "Animated bookmark icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/bookmark-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "calendar-03",
+      "type": "registry:ui",
+      "title": "calendar-03",
+      "description": "Animated calendar icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/calendar-03.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "call-02",
+      "type": "registry:ui",
+      "title": "call-02",
+      "description": "Animated call icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/call-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "camera-01",
+      "type": "registry:ui",
+      "title": "camera-01",
+      "description": "Animated camera icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/camera-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "cancel-01",
+      "type": "registry:ui",
+      "title": "cancel-01",
+      "description": "Animated cancel icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/cancel-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "clock-01",
+      "type": "registry:ui",
+      "title": "clock-01",
+      "description": "Animated clock icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/clock-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "cloud",
+      "type": "registry:ui",
+      "title": "cloud",
+      "description": "Animated cloud icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/cloud.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "copy-01",
+      "type": "registry:ui",
+      "title": "copy-01",
+      "description": "Animated copy icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/copy-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "delete-02",
+      "type": "registry:ui",
+      "title": "delete-02",
+      "description": "Animated delete icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/delete-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "download-01",
+      "type": "registry:ui",
+      "title": "download-01",
+      "description": "Animated download icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/download-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "edit-02",
+      "type": "registry:ui",
+      "title": "edit-02",
+      "description": "Animated edit icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/edit-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "eye",
+      "type": "registry:ui",
+      "title": "eye",
+      "description": "Animated eye icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/eye.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "favourite",
+      "type": "registry:ui",
+      "title": "favourite",
+      "description": "Animated favourite icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/favourite.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "fire",
+      "type": "registry:ui",
+      "title": "fire",
+      "description": "Animated fire icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/fire.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "flash",
+      "type": "registry:ui",
+      "title": "flash",
+      "description": "Animated flash icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/flash.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "gift",
+      "type": "registry:ui",
+      "title": "gift",
+      "description": "Animated gift icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/gift.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "home-01",
+      "type": "registry:ui",
+      "title": "home-01",
+      "description": "Animated home icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/home-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "link-01",
+      "type": "registry:ui",
+      "title": "link-01",
+      "description": "Animated link icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/link-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "loading-03",
+      "type": "registry:ui",
+      "title": "loading-03",
+      "description": "Animated loading icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/loading-03.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "mail-01",
+      "type": "registry:ui",
+      "title": "mail-01",
+      "description": "Animated mail icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/mail-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "menu-01",
+      "type": "registry:ui",
+      "title": "menu-01",
+      "description": "Animated menu icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/menu-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "message-01",
+      "type": "registry:ui",
+      "title": "message-01",
+      "description": "Animated message icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/message-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "moon-02",
+      "type": "registry:ui",
+      "title": "moon-02",
+      "description": "Animated moon icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/moon-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "music-note-01",
+      "type": "registry:ui",
+      "title": "music-note-01",
+      "description": "Animated music note icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/music-note-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "notification-03",
+      "type": "registry:ui",
+      "title": "notification-03",
+      "description": "Animated notification icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/notification-03.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "plus-sign",
+      "type": "registry:ui",
+      "title": "plus-sign",
+      "description": "Animated plus sign icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/plus-sign.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "refresh",
+      "type": "registry:ui",
+      "title": "refresh",
+      "description": "Animated refresh icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/refresh.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "rocket-01",
+      "type": "registry:ui",
+      "title": "rocket-01",
+      "description": "Animated rocket icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/rocket-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "search-01",
+      "type": "registry:ui",
+      "title": "search-01",
+      "description": "Animated search icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/search-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sent",
+      "type": "registry:ui",
+      "title": "sent",
+      "description": "Animated sent icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/sent.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "settings-01",
+      "type": "registry:ui",
+      "title": "settings-01",
+      "description": "Animated settings icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/settings-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "share-08",
+      "type": "registry:ui",
+      "title": "share-08",
+      "description": "Animated share icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/share-08.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "square-lock-01",
+      "type": "registry:ui",
+      "title": "square-lock-01",
+      "description": "Animated square lock icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/square-lock-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "star",
+      "type": "registry:ui",
+      "title": "star",
+      "description": "Animated star icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/star.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sun-03",
+      "type": "registry:ui",
+      "title": "sun-03",
+      "description": "Animated sun icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/sun-03.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "thumbs-up",
+      "type": "registry:ui",
+      "title": "thumbs-up",
+      "description": "Animated thumbs up icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/thumbs-up.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tick-02",
+      "type": "registry:ui",
+      "title": "tick-02",
+      "description": "Animated tick icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/tick-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "upload-01",
+      "type": "registry:ui",
+      "title": "upload-01",
+      "description": "Animated upload icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/upload-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "user",
+      "type": "registry:ui",
+      "title": "user",
+      "description": "Animated user icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/user.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "volume-high",
+      "type": "registry:ui",
+      "title": "volume-high",
+      "description": "Animated volume high icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/volume-high.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "wifi-01",
+      "type": "registry:ui",
+      "title": "wifi-01",
+      "description": "Animated wifi icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/wifi-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}
