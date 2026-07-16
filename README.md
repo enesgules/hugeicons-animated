@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# hugeicons-animated
 
-## Getting Started
+Animated [Hugeicons](https://hugeicons.com) built with [motion](https://motion.dev), distributed as copy-paste components via the shadcn CLI. Inspired by [pqoqubbw/icons](https://github.com/pqoqubbw/icons).
 
-First, run the development server:
+## Usage
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx shadcn@latest add "https://<your-domain>/r/notification-03.json"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```tsx
+import { Notification03Icon } from '@/components/ui/notification-03';
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+// hover animates automatically
+<Notification03Icon size={28} />
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+// or control it imperatively
+const ref = useRef<Notification03IconHandle>(null);
+ref.current?.startAnimation();
+```
 
-## Learn More
+## Adding a new icon
 
-To learn more about Next.js, take a look at the following resources:
+1. Add an animation spec to `scripts/icon-specs.mjs` — the spec holds the
+   hand-crafted `Variants` (svg-level and/or per-element). Export names come
+   from [`@hugeicons/core-free-icons`](https://www.npmjs.com/package/@hugeicons/core-free-icons).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Generate the component (and regenerate the site manifest + registry):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   node scripts/gen-animated.mjs NewIconName
+   pnpm registry:build
+   ```
 
-## Deploy on Vercel
+   The grid in `app/page.tsx` picks up new icons automatically via
+   `app/icons-manifest.ts`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   (`pnpm icon:gen <Name>` still exists for a quick skeleton with a default
+   draw-on animation, if you'd rather tune the file directly.)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Development
+
+```bash
+pnpm dev
+```
+
+## License
+
+MIT. Icon shapes from the free Hugeicons set (`@hugeicons/core-free-icons`, MIT).
