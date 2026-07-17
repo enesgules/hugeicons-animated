@@ -1,8 +1,23 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "hugeicons-animated",
-  "homepage": "https://hugeicons-animated.com",
+  "homepage": "https://hugeicons-animated.vercel.app",
   "items": [
+    {
+      "name": "alarm-clock",
+      "type": "registry:ui",
+      "title": "alarm-clock",
+      "description": "Animated alarm clock icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/alarm-clock.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
     {
       "name": "arrow-down-02",
       "type": "registry:ui",
@@ -74,6 +89,21 @@
       "files": [
         {
           "path": "icons/bookmark-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "bulb",
+      "type": "registry:ui",
+      "title": "bulb",
+      "description": "Animated bulb icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/bulb.tsx",
           "type": "registry:ui"
         }
       ]
@@ -154,6 +184,21 @@
       ]
     },
     {
+      "name": "cloud-rain",
+      "type": "registry:ui",
+      "title": "cloud-rain",
+      "description": "Animated cloud rain icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/cloud-rain.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "cloud",
       "type": "registry:ui",
       "title": "cloud",
@@ -164,6 +209,21 @@
       "files": [
         {
           "path": "icons/cloud.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "coffee-02",
+      "type": "registry:ui",
+      "title": "coffee-02",
+      "description": "Animated coffee icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/coffee-02.tsx",
           "type": "registry:ui"
         }
       ]
@@ -349,6 +409,36 @@
       ]
     },
     {
+      "name": "location-01",
+      "type": "registry:ui",
+      "title": "location-01",
+      "description": "Animated location icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/location-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "magic-wand-01",
+      "type": "registry:ui",
+      "title": "magic-wand-01",
+      "description": "Animated magic wand icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/magic-wand-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "mail-01",
       "type": "registry:ui",
       "title": "mail-01",
@@ -389,6 +479,21 @@
       "files": [
         {
           "path": "icons/message-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "mic-01",
+      "type": "registry:ui",
+      "title": "mic-01",
+      "description": "Animated mic icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/mic-01.tsx",
           "type": "registry:ui"
         }
       ]
@@ -544,6 +649,21 @@
       ]
     },
     {
+      "name": "smile",
+      "type": "registry:ui",
+      "title": "smile",
+      "description": "Animated smile icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/smile.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "square-lock-01",
       "type": "registry:ui",
       "title": "square-lock-01",
@@ -589,6 +709,21 @@
       ]
     },
     {
+      "name": "target-01",
+      "type": "registry:ui",
+      "title": "target-01",
+      "description": "Animated target icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/target-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "thumbs-up",
       "type": "registry:ui",
       "title": "thumbs-up",
@@ -614,6 +749,21 @@
       "files": [
         {
           "path": "icons/tick-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "umbrella",
+      "type": "registry:ui",
+      "title": "umbrella",
+      "description": "Animated umbrella icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/umbrella.tsx",
           "type": "registry:ui"
         }
       ]

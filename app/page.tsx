@@ -13,24 +13,13 @@ interface IconHandle {
   stopAnimation: () => void;
 }
 
-// pastel tints (bg / border / stroke), echoing hugeicons.com's card strip
-const TINTS = [
-  { bg: '#F8F1E4', border: '#EBDDBF', ink: '#A5793A' }, // amber
-  { bg: '#EAF0FA', border: '#D4E0F2', ink: '#5878B5' }, // blue
-  { bg: '#EEF2E3', border: '#DCE4C7', ink: '#75894E' }, // sage
-  { bg: '#F9ECEA', border: '#EFD6D2', ink: '#B26A5C' }, // rose
-  { bg: '#F9EAF1', border: '#F0D2E1', ink: '#BE5B8D' }, // pink
-  { bg: '#EFECF8', border: '#DED8F0', ink: '#75629F' }, // violet
-];
-
-// copied-state tint — the lime accent, so feedback reads as "brand said yes"
-const COPIED_TINT = { bg: '#E9F7C8', border: '#A8D94F', ink: '#4A5D1E' };
+// hugeicons.com palette — white ground, ink, one green
+const GREEN = { bg: '#AFE67F', border: '#79BD3E', deep: '#1D3208' };
+const COPIED_TINT = { bg: '#EDF8DF', border: '#AFE67F', ink: '#2C4A0F' };
 
 const ICONS = ICON_LIST.map((icon, i) => ({
   ...icon,
   idx: i, // stable ref slot — survives filtering
-  // diagonal shift so columns don't repeat the same hue row over row
-  ...TINTS[(i + Math.floor(i / 6)) % TINTS.length],
 }));
 
 const matches = (query: string) => {
@@ -43,7 +32,21 @@ const installCommand = (name: string) =>
 
 // shared link treatment for footer / header text links
 const textLink =
-  'rounded-sm text-[#6E7263] underline-offset-4 decoration-[#C9D8A4] transition-colors hover:text-[#1A1C16] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#75894E]';
+  'rounded-sm text-[#696D6E] underline-offset-4 decoration-[#AFE67F] decoration-2 transition-colors hover:text-[#141812] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]';
+
+// the faded icon field floating behind the hero — hugeicons' signature texture
+const FIELD = [
+  { i: 3, top: '4%', left: '58%', size: 30, rotate: -8 },
+  { i: 9, top: '14%', left: '72%', size: 44, rotate: 6 },
+  { i: 14, top: '2%', left: '86%', size: 26, rotate: 12 },
+  { i: 20, top: '38%', left: '64%', size: 26, rotate: 10 },
+  { i: 27, top: '30%', left: '80%', size: 56, rotate: -6 },
+  { i: 32, top: '58%', left: '57%', size: 40, rotate: -12 },
+  { i: 38, top: '66%', left: '74%', size: 28, rotate: 8 },
+  { i: 42, top: '52%', left: '92%', size: 34, rotate: -10 },
+  { i: 6, top: '84%', left: '65%', size: 24, rotate: 14 },
+  { i: 24, top: '82%', left: '85%', size: 44, rotate: -4 },
+];
 
 function GitHubMark({ className }: { className?: string }) {
   return (
@@ -122,7 +125,7 @@ export default function Home() {
     <MotionConfig reducedMotion="user">
       <div
         id="top"
-        className="relative flex min-h-screen w-full flex-col bg-[#FAF8F3] text-[#1A1C16]"
+        className="relative flex min-h-screen w-full flex-col bg-white text-[#141812]"
       >
         {/* scroll sentinel for the header material */}
         <div ref={sentinelRef} aria-hidden className="absolute top-0 h-px w-px" />
@@ -130,7 +133,7 @@ export default function Home() {
         <header
           className={`sticky top-0 z-40 transition-[background-color,box-shadow] duration-300 ${
             scrolled
-              ? 'bg-[#FAF8F3]/80 backdrop-blur-md [box-shadow:0_1px_0_rgba(26,28,22,0.06),0_12px_32px_-24px_rgba(26,28,22,0.35)]'
+              ? 'bg-white/80 backdrop-blur-md [box-shadow:0_1px_0_rgba(20,24,18,0.06),0_12px_32px_-24px_rgba(20,24,18,0.3)]'
               : 'bg-transparent'
           }`}
         >
@@ -141,9 +144,16 @@ export default function Home() {
               onMouseLeave={() => logoRef.current?.stopAnimation()}
               onFocus={() => logoRef.current?.startAnimation()}
               onBlur={() => logoRef.current?.stopAnimation()}
-              className="flex items-center gap-2.5 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#75894E]"
+              className="flex items-center gap-2.5 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4C7A22]"
             >
-              <span className="grid size-8 shrink-0 place-items-center rounded-xl border border-[#A8D94F] bg-[#C9EF7A] text-[#2A3413]">
+              <span
+                className="grid size-8 shrink-0 place-items-center rounded-xl border"
+                style={{
+                  backgroundColor: GREEN.bg,
+                  borderColor: GREEN.border,
+                  color: GREEN.deep,
+                }}
+              >
                 <Notification03Icon
                   size={17}
                   aria-hidden
@@ -152,38 +162,70 @@ export default function Home() {
                   }}
                 />
               </span>
-              <span className="[font-family:var(--font-display)] text-lg font-semibold leading-none tracking-[-0.01em]">
-                hugeicons <span className="text-[#8A8D80]">animated</span>
+              <span className="text-lg font-bold leading-none tracking-[-0.01em]">
+                hugeicons <span className="font-medium text-[#9DA19B]">animated</span>
               </span>
             </a>
 
             <div className="flex items-center gap-2 sm:gap-3">
               <a
-                href={GITHUB_URL}
-                aria-label="Star hugeicons-animated on GitHub"
-                className="flex items-center gap-1.5 rounded-full border border-[#E7E3D5] bg-white/50 px-3 py-1.5 text-sm text-[#3D4034] transition-colors hover:border-[#A8D94F] hover:bg-[#C9EF7A]/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#75894E]"
+                href="https://hugeicons.com"
+                className="hidden text-[15px] font-medium text-[#696D6E] transition-colors hover:text-[#141812] md:inline"
               >
-                <GitHubMark className="size-4" />
-                <span className="hidden sm:inline">Star</span>
+                Hugeicons
               </a>
               <a
-                href="https://hugeicons.com"
-                className={`hidden text-sm md:inline ${textLink}`}
+                href={GITHUB_URL}
+                aria-label="Star hugeicons-animated on GitHub"
+                className="flex items-center gap-1.5 rounded-[10px] border border-[#E5E5E3] bg-[#FAFAF9] px-3.5 py-2 text-sm font-bold text-[#141812] transition-colors hover:border-[#79BD3E] hover:bg-[#AFE67F]/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
               >
-                Hugeicons ↗
+                <GitHubMark className="size-4" />
+                <span className="hidden sm:inline">Star on GitHub</span>
               </a>
             </div>
           </nav>
         </header>
 
         <main className="mx-auto w-full max-w-6xl flex-1 px-5 sm:px-8">
-          <section className="pt-10 pb-12 sm:pt-16">
-            <h1 className="[font-family:var(--font-display)] text-[clamp(2.6rem,7.5vw,4.25rem)] font-bold leading-[1.04] tracking-[-0.025em]">
+          <section className="relative pt-12 pb-14 sm:pt-20">
+            {/* faded icon field — the hugeicons hero texture, drawn with our own set */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 hidden select-none text-[#141812] md:block"
+              style={{
+                maskImage:
+                  'radial-gradient(70% 90% at 75% 45%, black 30%, transparent 100%)',
+                WebkitMaskImage:
+                  'radial-gradient(70% 90% at 75% 45%, black 30%, transparent 100%)',
+              }}
+            >
+              {FIELD.map(({ i, top, left, size, rotate }) => {
+                const Field = ICONS[i % ICONS.length].Icon;
+                return (
+                  <span
+                    key={`${i}-${top}`}
+                    className="absolute opacity-[0.09]"
+                    style={{ top, left, transform: `rotate(${rotate}deg)` }}
+                  >
+                    <Field size={size} />
+                  </span>
+                );
+              })}
+            </div>
+
+            <h1 className="relative text-[clamp(2.6rem,7.5vw,4.25rem)] font-bold leading-[1.06] tracking-[-0.03em]">
               Beautiful icons.
               <br />
-              <span className="text-[#ADB0A2]">
+              <span className="text-[#BFC2BD]">
                 Now they{' '}
-                <span className="mx-[0.06em] inline-grid size-[0.95em] translate-y-[0.14em] place-items-center rounded-[0.26em] border border-[#A8D94F] bg-[#C9EF7A] text-[#3A4A16] [&_svg]:size-[0.58em] [&>div]:flex">
+                <span
+                  className="mx-[0.06em] inline-grid size-[0.95em] translate-y-[0.14em] place-items-center rounded-[0.26em] border [&_svg]:size-[0.58em] [&>div]:flex"
+                  style={{
+                    backgroundColor: GREEN.bg,
+                    borderColor: GREEN.border,
+                    color: GREEN.deep,
+                  }}
+                >
                   <Notification03Icon
                     aria-hidden
                     size={24}
@@ -196,11 +238,11 @@ export default function Home() {
               </span>
             </h1>
 
-            <p className="mt-6 max-w-md text-lg leading-[1.6] text-[#6E7263]">
+            <p className="relative mt-6 max-w-md text-lg font-medium leading-[1.6] text-[#696D6E]">
               Hand-animated{' '}
               <a
                 href="https://hugeicons.com"
-                className="underline decoration-[#C9D8A4] underline-offset-4"
+                className="text-[#141812] underline decoration-[#AFE67F] decoration-2 underline-offset-4"
               >
                 Hugeicons
               </a>{' '}
@@ -211,9 +253,13 @@ export default function Home() {
             <button
               type="button"
               onClick={() => copy('notification-03', 'hero')}
-              className="group mt-8 flex w-fit cursor-pointer items-center gap-3 rounded-2xl border border-[#A8D94F] bg-[#C9EF7A] py-3 pr-3 pl-4 transition-transform duration-[160ms] [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#75894E]"
+              className="group relative mt-8 flex w-fit cursor-pointer items-center gap-3 rounded-xl border py-3 pr-3 pl-4 transition-transform duration-[160ms] [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+              style={{ backgroundColor: GREEN.bg, borderColor: GREEN.border }}
             >
-              <span className="grid text-left font-mono text-sm text-[#2A3413]">
+              <span
+                className="grid text-left font-mono text-sm"
+                style={{ color: GREEN.deep }}
+              >
                 <span
                   aria-hidden={copied === 'hero'}
                   className={`col-start-1 row-start-1 transition-[opacity,filter] duration-200 ${
@@ -232,7 +278,10 @@ export default function Home() {
                   copied to clipboard!
                 </span>
               </span>
-              <span className="rounded-lg bg-[#2A3413]/10 px-2 py-1 font-mono text-[11px] text-[#2A3413] transition-colors group-hover:bg-[#2A3413]/15">
+              <span
+                className="rounded-lg bg-[#1D3208]/10 px-2 py-1 font-mono text-[11px] transition-colors group-hover:bg-[#1D3208]/15"
+                style={{ color: GREEN.deep }}
+              >
                 {copied === 'hero' ? '✓' : 'copy'}
               </span>
             </button>
@@ -240,45 +289,48 @@ export default function Home() {
 
           {/* toolbar: search + count + the hover/copy hint */}
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 py-3">
-            <label className="relative w-full max-w-xs">
-              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#8A8D80]">
-                <Search01Icon size={16} aria-hidden />
+            <label className="relative w-full max-w-sm">
+              <span
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2"
+                style={{ color: GREEN.border }}
+              >
+                <Search01Icon size={17} aria-hidden />
               </span>
               <input
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search icons…"
+                placeholder={`Search ${ICONS.length} icons…`}
                 aria-label="Search icons"
-                className="w-full rounded-full border border-[#E5E1D5] bg-white/70 py-2.5 pl-9 pr-4 text-sm text-[#1A1C16] placeholder:text-[#B4B7A9] focus:outline-none focus-visible:border-[#A8D94F] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#75894E]"
+                className="w-full rounded-xl border border-[#E5E5E3] bg-white py-3 pl-10 pr-4 text-[15px] font-medium text-[#141812] shadow-[0_1px_2px_rgba(20,24,18,0.04)] placeholder:text-[#BFC2BD] focus:outline-none focus-visible:border-[#79BD3E] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
               />
             </label>
-            <span className="font-mono text-xs text-[#8A8D80]" aria-live="polite">
+            <span className="font-mono text-xs text-[#9DA19B]" aria-live="polite">
               {filtered.length === ICONS.length
                 ? `${ICONS.length} icons`
                 : `${filtered.length} of ${ICONS.length}`}
             </span>
-            <span className="ml-auto hidden text-sm text-[#8A8D80] sm:block">
+            <span className="ml-auto hidden text-sm font-medium text-[#9DA19B] sm:block">
               Hover to preview — click to copy the install command.
             </span>
           </div>
 
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center gap-3 py-20 text-center">
-              <p className="text-[#6E7263]">
+              <p className="font-medium text-[#696D6E]">
                 No icons match &ldquo;{query.trim()}&rdquo;
               </p>
               <button
                 type="button"
                 onClick={() => setQuery('')}
-                className="cursor-pointer rounded-full border border-[#E5E1D5] px-4 py-2 text-sm text-[#6E7263] transition-colors hover:border-[#A8D94F] hover:text-[#1A1C16]"
+                className="cursor-pointer rounded-[10px] border border-[#E5E5E3] px-4 py-2 text-sm font-bold text-[#696D6E] transition-colors hover:border-[#79BD3E] hover:text-[#141812]"
               >
                 Clear search
               </button>
             </div>
           ) : (
             <div className="mt-4 grid grid-cols-3 gap-2 pb-16 sm:grid-cols-4 sm:gap-3 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8">
-              {filtered.map(({ name, Icon, idx, bg, border, ink }, pos) => {
+              {filtered.map(({ name, Icon, idx }, pos) => {
                 const isCopied = copied === name;
                 return (
                   <button
@@ -289,18 +341,18 @@ export default function Home() {
                     onMouseLeave={() => refs.current[idx]?.stopAnimation()}
                     onFocus={() => refs.current[idx]?.startAnimation()}
                     onBlur={() => refs.current[idx]?.stopAnimation()}
-                    className="tile-enter group relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border transition-[transform,background-color,border-color] duration-200 [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#75894E]"
+                    className="tile-enter group relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border transition-[transform,background-color,border-color] duration-200 [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
                     style={{
-                      backgroundColor: isCopied ? COPIED_TINT.bg : bg,
-                      borderColor: isCopied ? COPIED_TINT.border : border,
-                      color: isCopied ? COPIED_TINT.ink : ink,
+                      backgroundColor: isCopied ? COPIED_TINT.bg : '#F5F5F4',
+                      borderColor: isCopied ? COPIED_TINT.border : 'transparent',
+                      color: isCopied ? COPIED_TINT.ink : '#141812',
                       // cap the cascade so late rows don't feel laggy
                       ['--tile-delay' as string]: `${Math.min(pos * 30, 600)}ms`,
                     }}
                   >
                     <span
                       aria-hidden
-                      className={`absolute right-1.5 top-1.5 rounded-full bg-white/70 px-2 py-0.5 font-mono text-[9px] text-[#6E7263] transition-opacity duration-150 ${
+                      className={`absolute right-1.5 top-1.5 rounded-full bg-white px-2 py-0.5 font-mono text-[9px] text-[#696D6E] shadow-[0_1px_3px_rgba(20,24,18,0.08)] transition-opacity duration-150 ${
                         isCopied ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'
                       }`}
                     >
@@ -312,7 +364,7 @@ export default function Home() {
                         refs.current[idx] = h;
                       }}
                     />
-                    <span className="max-w-full truncate px-2 font-mono text-[10px] leading-none opacity-60 transition-opacity duration-150 group-hover:opacity-100">
+                    <span className="max-w-full truncate px-2 font-mono text-[10px] leading-none opacity-50 transition-opacity duration-150 group-hover:opacity-100">
                       {isCopied ? 'copied!' : name}
                     </span>
                   </button>
@@ -326,10 +378,10 @@ export default function Home() {
           {/* soft hairline instead of a hard border */}
           <div
             aria-hidden
-            className="mx-auto h-px max-w-6xl bg-gradient-to-r from-transparent via-[#E3DFCF] to-transparent"
+            className="mx-auto h-px max-w-6xl bg-gradient-to-r from-transparent via-[#E5E5E3] to-transparent"
           />
           <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 py-10 sm:flex-row sm:items-end sm:justify-between sm:px-8">
-            <div className="max-w-sm space-y-3 text-sm leading-relaxed text-[#6E7263]">
+            <div className="max-w-sm space-y-3 text-sm font-medium leading-relaxed text-[#696D6E]">
               <p>
                 Icons by{' '}
                 <a href="https://hugeicons.com" className={textLink}>
@@ -351,7 +403,7 @@ export default function Home() {
               </div>
             </div>
             <nav aria-label="Footer">
-              <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+              <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium">
                 <li>
                   <a href={GITHUB_URL} className={textLink}>
                     GitHub

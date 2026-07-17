@@ -1277,4 +1277,557 @@ const svgVariants: Variants = {
     svg: 'svgVariants',
     svgStyle: `{ transformOrigin: '25% 80%' }`,
   },
+
+  // ── drawn-signature batch 2 ─────────────────────────────────────────────
+  {
+    export: 'Coffee02Icon',
+    defs: `
+// while you hover, the cup stays hot — steam keeps rising and dissolving.
+// The wisps fade in low, drift up, and vanish; the loop seam hides at opacity 0.
+const steamVariants: Variants = {
+  normal: { opacity: 1, translateY: 0, transition: { duration: 0.3 } },
+  animate: {
+    opacity: [0, 1, 1, 0],
+    translateY: [0.8, -0.5, -1.8, -3],
+    transition: {
+      duration: 1.5,
+      ease: 'easeOut',
+      times: [0, 0.25, 0.7, 1],
+      repeat: Infinity,
+    },
+  },
+};`,
+    els: { 2: { v: 'steamVariants' } },
+  },
+  {
+    export: 'UmbrellaIcon',
+    defs: `
+// while you hover, it rains. Drawn drops fall from above and die on the
+// canopy; the umbrella sways gently under them.
+const svgVariants: Variants = {
+  normal: { rotate: 0, transition: { duration: 0.3 } },
+  animate: {
+    rotate: [0, -2.5, 2, -1, 0],
+    transition: { duration: 1.8, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+const dropVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 1, 0],
+    translateY: [0, 3, 6.5, 8.5],
+    transition: {
+      duration: 0.9,
+      ease: 'easeIn',
+      times: [0, 0.2, 0.8, 1],
+      repeat: Infinity,
+      delay: i * 0.3,
+    },
+  }),
+};`,
+    svg: 'svgVariants',
+    svgStyle: `{ transformOrigin: '12px 14px' }`,
+    extra: `
+          <motion.path
+            d="M5.5 -2.5V-0.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={dropVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M12 -4V-2"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={dropVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M18.5 -2.5V-0.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={dropVariants}
+            custom={2}
+            animate={controls}
+            initial="normal"
+          />`,
+  },
+  {
+    export: 'Location01Icon',
+    defs: `
+// the pin lifts, drops back onto the map, and the landing draws a ripple
+const svgVariants: Variants = {
+  normal: { translateY: 0, transition: { duration: 0.3 } },
+  animate: {
+    translateY: [0, -5, 0, -1.6, 0],
+    transition: {
+      duration: 0.85,
+      times: [0, 0.32, 0.6, 0.8, 1],
+      ease: ['easeOut', 'easeIn', 'easeOut', 'easeIn'],
+    },
+  },
+};
+
+// drawn landing ring — invisible at rest, spreads at the moment of touchdown
+const rippleVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.2 } },
+  animate: {
+    opacity: [0, 0.5, 0],
+    scale: [0.4, 1.2, 1.7],
+    transition: { duration: 0.55, ease: 'easeOut', delay: 0.48 },
+  },
+};`,
+    svg: 'svgVariants',
+    extra: `
+          <motion.ellipse
+            cx="12"
+            cy="21.7"
+            rx="3.5"
+            ry="1"
+            stroke="currentColor"
+            strokeWidth="1"
+            variants={rippleVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '12px 21.7px' }}
+          />`,
+  },
+  {
+    export: 'Mic01Icon',
+    defs: `
+// while you hover, it's live — drawn sound arcs broadcast off both sides
+// while the mic keeps a small performance bounce
+const svgVariants: Variants = {
+  normal: { translateY: 0, transition: { duration: 0.3 } },
+  animate: {
+    translateY: [0, -0.6, 0],
+    transition: { duration: 0.6, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+// custom: [direction, delay] — arcs drift outward as they fade
+const waveVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: (c: [number, number]) => ({
+    opacity: [0, 1, 0],
+    translateX: [0, c[0] * 1.6],
+    transition: {
+      duration: 1.2,
+      ease: 'easeOut',
+      repeat: Infinity,
+      delay: c[1],
+    },
+  }),
+};`,
+    svg: 'svgVariants',
+    extra: `
+          <motion.path
+            d="M4.8 3.2C3.9 4.4 3.4 5.9 3.4 7.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={waveVariants}
+            custom={[-1, 0]}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M19.2 3.2C20.1 4.4 20.6 5.9 20.6 7.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={waveVariants}
+            custom={[1, 0]}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M2.6 1.4C1.5 2.9 0.9 4.9 0.9 7"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={waveVariants}
+            custom={[-1, 0.35]}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M21.4 1.4C22.5 2.9 23.1 4.9 23.1 7"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={waveVariants}
+            custom={[1, 0.35]}
+            animate={controls}
+            initial="normal"
+          />`,
+  },
+  {
+    export: 'BulbIcon',
+    defs: `
+// the light turns on: the filament draws itself, the bulb pops, and drawn
+// rays burst outward and hold their glow while you hover
+const svgVariants: Variants = {
+  normal: { scale: 1, transition: { duration: 0.3 } },
+  animate: {
+    scale: [1, 1.05, 1],
+    transition: { duration: 0.45, ease: 'easeOut' },
+  },
+};
+
+const filamentVariants: Variants = {
+  normal: { pathLength: 1, transition: { duration: 0.3 } },
+  animate: {
+    pathLength: [0, 1],
+    transition: { duration: 0.35, ease: 'easeOut' },
+  },
+};
+
+// rays scale up from the view center, so they read as bursting off the glass
+const rayVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.2 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0.75, 1],
+    scale: [0.4, 1.15, 1, 1],
+    transition: {
+      duration: 0.55,
+      ease: 'easeOut',
+      times: [0, 0.4, 0.7, 1],
+      delay: 0.12 + i * 0.05,
+    },
+  }),
+};`,
+    svg: 'svgVariants',
+    svgStyle: `{ transformOrigin: '12px 12px' }`,
+    els: { 1: { v: 'filamentVariants' } },
+    extra: `
+          <motion.path
+            d="M12 0.2V-1.6"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={rayVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '12px 10px' }}
+          />
+          <motion.path
+            d="M6.3 4.2L5 2.9"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={rayVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '12px 10px' }}
+          />
+          <motion.path
+            d="M17.7 4.2L19 2.9"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={rayVariants}
+            custom={2}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '12px 10px' }}
+          />
+          <motion.path
+            d="M3.4 9.9H1.6"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={rayVariants}
+            custom={3}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '12px 10px' }}
+          />
+          <motion.path
+            d="M20.6 9.9H22.4"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={rayVariants}
+            custom={4}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '12px 10px' }}
+          />`,
+  },
+  {
+    export: 'MagicWand01Icon',
+    defs: `
+// a flick of the wrist, and the magic keeps happening — the built-in stars
+// twinkle in turn while drawn mini-sparkles pop in the empty corners
+const wandVariants: Variants = {
+  normal: { rotate: 0, transition: { duration: 0.3 } },
+  animate: {
+    rotate: [0, -14, 8, 0],
+    transition: { duration: 0.7, ease: 'easeInOut', times: [0, 0.3, 0.6, 1] },
+  },
+};
+
+const starVariants: Variants = {
+  normal: { scale: 1, rotate: 0, transition: { duration: 0.3 } },
+  animate: (i: number) => ({
+    scale: [1, 0.3, 1.3, 1],
+    rotate: [0, 45, 90, 90],
+    transition: {
+      duration: 1.1,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      delay: i * 0.4,
+    },
+  }),
+};
+
+const sparkleVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    scale: [0.4, 1, 0.6],
+    transition: {
+      duration: 1.1,
+      ease: 'easeOut',
+      repeat: Infinity,
+      delay: 0.2 + i * 0.5,
+    },
+  }),
+};`,
+    els: {
+      0: { v: 'wandVariants', style: `{ transformOrigin: '20px 21px' }` },
+      1: { v: 'starVariants', custom: 0, style: `{ transformOrigin: '17px 6px' }` },
+      2: { v: 'starVariants', custom: 1, style: `{ transformOrigin: '6px 7px' }` },
+    },
+    extra: `
+          <motion.path
+            d="M3.5 15.5V17.5M2.5 16.5H4.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={sparkleVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '3.5px 16.5px' }}
+          />
+          <motion.path
+            d="M21 10.5V12.5M20 11.5H22"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={sparkleVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '21px 11.5px' }}
+          />`,
+  },
+  {
+    export: 'AlarmClockIcon',
+    defs: `
+// while you hover, the alarm is going off — the whole clock rattles on its
+// feet and drawn ring ticks flash beside the bells
+const svgVariants: Variants = {
+  normal: { rotate: 0, transition: { duration: 0.3 } },
+  animate: {
+    rotate: [0, -7, 6, -5, 4, -2, 0],
+    transition: { duration: 0.6, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+const tickVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    transition: {
+      duration: 0.6,
+      ease: 'easeOut',
+      repeat: Infinity,
+      delay: i * 0.15,
+    },
+  }),
+};`,
+    svg: 'svgVariants',
+    svgStyle: `{ transformOrigin: '12px 13px' }`,
+    extra: `
+          <motion.path
+            d="M1.5 3.5L0.3 2.9"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={tickVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M22.5 3.5L23.7 2.9"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={tickVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M3.4 0.8L2.5 -0.2"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={tickVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M20.6 0.8L21.5 -0.2"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={tickVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />`,
+  },
+  {
+    export: 'CloudRainIcon',
+    defs: `
+// while you hover, the shower keeps falling — each drop accelerates,
+// dies low, and is reborn above; the cloud drifts on the updraft
+const cloudVariants: Variants = {
+  normal: { translateY: 0, transition: { duration: 0.3 } },
+  animate: {
+    translateY: [0, -0.7, 0],
+    transition: { duration: 1.8, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+const dropVariants: Variants = {
+  normal: { opacity: 1, translateY: 0, transition: { duration: 0.3 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    translateY: [-1.5, 1, 3.5],
+    transition: {
+      duration: 0.9,
+      ease: 'easeIn',
+      repeat: Infinity,
+      delay: i * 0.28,
+    },
+  }),
+};`,
+    els: {
+      0: { v: 'cloudVariants' },
+      1: { v: 'dropVariants', custom: 0 },
+      2: { v: 'dropVariants', custom: 1 },
+      3: { v: 'dropVariants', custom: 2 },
+    },
+  },
+  {
+    export: 'Target01Icon',
+    defs: `
+// the dart pulls back along its own line, strikes home, and the rings
+// flinch outward from the impact — a drawn shockwave carries it
+const dartVariants: Variants = {
+  normal: { translateX: 0, translateY: 0, transition: { duration: 0.3 } },
+  animate: {
+    translateX: [0, 2.4, 2.4, 0],
+    translateY: [0, -2.4, -2.4, 0],
+    transition: {
+      duration: 1,
+      times: [0, 0.3, 0.45, 0.58],
+      ease: ['easeOut', 'linear', 'easeIn'],
+    },
+  },
+};
+
+const ringVariants: Variants = {
+  normal: { scale: 1, transition: { duration: 0.3 } },
+  animate: (i: number) => ({
+    scale: [1, 1, i === 0 ? 1.05 : 1.1, 1],
+    transition: { duration: 1, times: [0, 0.58, 0.72, 0.95], ease: 'easeOut' },
+  }),
+};
+
+const shockVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.2 } },
+  animate: {
+    opacity: [0, 0, 0.7, 0],
+    scale: [0.5, 0.5, 1.6, 2.3],
+    transition: { duration: 1, times: [0, 0.56, 0.75, 1], ease: 'easeOut' },
+  },
+};`,
+    els: {
+      0: { v: 'ringVariants', custom: 0, style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'ringVariants', custom: 1, style: `{ transformOrigin: '12px 12px' }` },
+      2: { v: 'dartVariants' },
+    },
+    extra: `
+          <motion.circle
+            cx="12"
+            cy="12"
+            r="2"
+            stroke="currentColor"
+            strokeWidth="1"
+            variants={shockVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '12px 12px' }}
+          />`,
+  },
+  {
+    export: 'SmileIcon',
+    defs: `
+// recognition: a small head tilt, the smile widens, and it blinks —
+// the eyes are drawn shut and open again via scaleY at their own height
+const svgVariants: Variants = {
+  normal: { rotate: 0, transition: { duration: 0.3 } },
+  animate: {
+    rotate: [0, -6, -6, 0],
+    transition: { duration: 1.1, ease: 'easeInOut', times: [0, 0.25, 0.75, 1] },
+  },
+};
+
+const mouthVariants: Variants = {
+  normal: {
+    d: 'M8 15C8.91212 16.2144 10.3643 17 12 17C13.6357 17 15.0879 16.2144 16 15',
+    transition: { duration: 0.3, ease: 'easeOut' },
+  },
+  animate: {
+    d: 'M7.6 14.6C8.7 16.6 10.3 17.7 12 17.7C13.7 17.7 15.3 16.6 16.4 14.6',
+    transition: { duration: 0.35, ease: 'easeOut' },
+  },
+};
+
+const eyeVariants: Variants = {
+  normal: { scaleY: 1, transition: { duration: 0.2 } },
+  animate: {
+    scaleY: [1, 0.15, 1, 1, 0.15, 1],
+    transition: {
+      duration: 1.1,
+      times: [0, 0.12, 0.24, 0.5, 0.62, 0.74],
+      ease: 'easeInOut',
+    },
+  },
+};`,
+    svg: 'svgVariants',
+    svgStyle: `{ transformOrigin: '12px 12px' }`,
+    els: {
+      1: { v: 'mouthVariants' },
+      2: { v: 'eyeVariants', style: `{ transformOrigin: '12px 8.7px' }` },
+    },
+  },
 ];

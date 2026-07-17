@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-onest);
-  --font-display: var(--font-gabarito);
+  --font-sans: var(--font-quicksand);
+  --font-display: var(--font-quicksand);
   --font-mono: var(--font-geist-mono);
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -15,14 +15,14 @@
 }
 
 body {
-  background: #faf8f3;
-  color: #1a1c16;
+  background: #ffffff;
+  color: #141812;
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
 ::selection {
-  background: #c9ef7a;
-  color: #2a3413;
+  background: #afe67f;
+  color: #1d3208;
 }
 
 /* staggered tile entrance — page load only */
