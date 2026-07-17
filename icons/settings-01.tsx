@@ -15,15 +15,28 @@ interface Settings01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a mechanism, not a decoration: winds back before it spins
+// a mechanism, not a decoration: winds back, spins past its stop, and the
+// bore clicks the instant the gear catches
 const svgVariants: Variants = {
   normal: {
     rotate: 0,
     transition: { type: 'spring', duration: 0.6, bounce: 0.15 },
   },
   animate: {
-    rotate: [0, -18, 180],
-    transition: { duration: 0.8, times: [0, 0.22, 1], ease: ['easeIn', 'easeOut'] },
+    rotate: [0, -18, 196, 180],
+    transition: {
+      duration: 0.85,
+      times: [0, 0.22, 0.82, 1],
+      ease: ['easeIn', 'easeOut', 'easeOut'],
+    },
+  },
+};
+
+const boreVariants: Variants = {
+  normal: { scale: 1 },
+  animate: {
+    scale: [1, 1, 1.22, 0.92, 1],
+    transition: { duration: 0.85, ease: 'easeOut', times: [0, 0.78, 0.85, 0.93, 1] },
   },
 };
 
@@ -80,10 +93,14 @@ const Settings01Icon = forwardRef<Settings01IconHandle, Settings01IconProps>(
             strokeLinecap="round"
             strokeWidth="1.5"
           />
-          <path
+          <motion.path
             d="M15.5195 12C15.5195 13.933 13.9525 15.5 12.0195 15.5C10.0865 15.5 8.51953 13.933 8.51953 12C8.51953 10.067 10.0865 8.5 12.0195 8.5C13.9525 8.5 15.5195 10.067 15.5195 12Z"
             stroke="currentColor"
             strokeWidth="1.5"
+            variants={boreVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
           />
         </motion.svg>
       </div>

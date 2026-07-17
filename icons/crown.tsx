@@ -15,14 +15,20 @@ interface CrownIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a small coronation: the crown takes a dignified bow-and-lift while the
-// jewel gleams and drawn glints twinkle over the points
+// a real bow: the crown dips with the weight of ceremony, then lifts and
+// tips forward as it's raised — anticipation before the presentation.
+// The jewel gleams and drawn glints twinkle over the points.
 const svgVariants: Variants = {
-  normal: { translateY: 0, scale: 1, transition: { duration: 0.3 } },
+  normal: { translateY: 0, rotate: 0, scale: 1, transition: { duration: 0.3 } },
   animate: {
-    translateY: [0, -1.6, 0],
-    scale: [1, 1.04, 1],
-    transition: { duration: 0.6, ease: 'easeOut' },
+    translateY: [0, 1.4, -2.6, -1.6, 0],
+    rotate: [0, 3, -4, 1.5, 0],
+    scale: [1, 0.97, 1.06, 1.02, 1],
+    transition: {
+      duration: 0.85,
+      ease: 'easeInOut',
+      times: [0, 0.22, 0.58, 0.8, 1],
+    },
   },
 };
 

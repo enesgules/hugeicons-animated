@@ -15,13 +15,23 @@ interface Bookmark01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// tucked in — dips between the pages with a small tilt, then settles proud
+// tucked in — the ribbon dips past the binding line, which pinches as it
+// slides through, then the ribbon settles back proud
 const svgVariants: Variants = {
   normal: { translateY: 0, rotate: 0 },
   animate: {
     translateY: [0, 2.2, -0.8, 0],
     rotate: [0, 3, -1, 0],
     transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.4, 0.72, 1] },
+  },
+};
+
+const foldVariants: Variants = {
+  normal: { scaleX: 1, translateY: 0 },
+  animate: {
+    scaleX: [1, 0.82, 1],
+    translateY: [0, 0.8, 0],
+    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.5, 1], delay: 0.12 },
   },
 };
 
@@ -79,10 +89,14 @@ const Bookmark01Icon = forwardRef<Bookmark01IconHandle, Bookmark01IconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
-          <path
+          <motion.path
             d="M4 7H20"
             stroke="currentColor"
             strokeWidth="1.5"
+            variants={foldVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}
           />
         </motion.svg>
       </div>

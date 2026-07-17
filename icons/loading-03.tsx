@@ -15,15 +15,14 @@ interface Loading03IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const svgVariants: Variants = {
-  normal: {
-    rotate: 0,
-    transition: { duration: 0.3, ease: 'easeOut' },
-  },
-  animate: {
-    rotate: 360,
-    transition: { duration: 1, ease: 'linear', repeat: Infinity },
-  },
+// the glyph is eight radial ticks — so run a real activity chase around
+// them instead of rigidly spinning the whole svg
+const rayVariants: Variants = {
+  normal: { opacity: 1 },
+  animate: (i: number) => ({
+    opacity: [1, 0.15, 1],
+    transition: { duration: 1, ease: 'easeInOut', repeat: Infinity, delay: i * 0.125 },
+  }),
 };
 
 const Loading03Icon = forwardRef<Loading03IconHandle, Loading03IconProps>(
@@ -62,66 +61,95 @@ const Loading03Icon = forwardRef<Loading03IconHandle, Loading03IconProps>(
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <motion.svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
           viewBox="0 0 24 24"
           fill="none"
           overflow="visible"
-          variants={svgVariants}
-          animate={controls}
-          initial="normal"
         >
-          <path
+          <motion.path
             d="M12 3V6"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
+            variants={rayVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
           />
-          <path
+          <motion.path
             d="M12 18V21"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
+            variants={rayVariants}
+            custom={4}
+            animate={controls}
+            initial="normal"
           />
-          <path
+          <motion.path
             d="M21 12L18 12"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
+            variants={rayVariants}
+            custom={2}
+            animate={controls}
+            initial="normal"
           />
-          <path
+          <motion.path
             d="M6 12L3 12"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
+            variants={rayVariants}
+            custom={6}
+            animate={controls}
+            initial="normal"
           />
-          <path
+          <motion.path
             d="M18.3635 5.63672L16.2422 7.75804"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
+            variants={rayVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
           />
-          <path
+          <motion.path
             d="M7.75804 16.2422L5.63672 18.3635"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
+            variants={rayVariants}
+            custom={5}
+            animate={controls}
+            initial="normal"
           />
-          <path
+          <motion.path
             d="M18.3635 18.3635L16.2422 16.2422"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
+            variants={rayVariants}
+            custom={3}
+            animate={controls}
+            initial="normal"
           />
-          <path
+          <motion.path
             d="M7.75804 7.75804L5.63672 5.63672"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
+            variants={rayVariants}
+            custom={7}
+            animate={controls}
+            initial="normal"
           />
-        </motion.svg>
+        </svg>
       </div>
     );
   }

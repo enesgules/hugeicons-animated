@@ -15,20 +15,14 @@ interface PlusSignIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a quarter turn with momentum and a swell — something is being added
+// each arm takes its turn growing — vertical stroke first, then horizontal —
+// as if the plus is being built one line at a time
 const svgVariants: Variants = {
-  normal: {
-    rotate: 0,
-    scale: 1,
-    transition: { type: 'spring', duration: 0.5, bounce: 0.15 },
-  },
+  normal: { scaleY: 1, scaleX: 1, transition: { duration: 0.25, ease: 'easeOut' } },
   animate: {
-    rotate: 90,
-    scale: [1, 1.15, 1],
-    transition: {
-      rotate: { type: 'spring', duration: 0.5, bounce: 0.25 },
-      scale: { duration: 0.45, times: [0, 0.4, 1], ease: 'easeInOut' },
-    },
+    scaleY: [1, 1.3, 1, 1, 1],
+    scaleX: [1, 1, 1, 1.3, 1],
+    transition: { duration: 0.6, ease: 'easeOut', times: [0, 0.25, 0.5, 0.75, 1] },
   },
 };
 

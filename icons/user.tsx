@@ -15,20 +15,20 @@ interface UserIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a double nod of greeting — the head leads, shoulders echo softer
+// a real nod — the head dips on its neck, the shoulders settle after
 const headVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { rotate: 0 },
   animate: {
-    translateY: [0, -1.8, 0, -0.9, 0],
-    transition: { duration: 0.75, ease: 'easeInOut', times: [0, 0.22, 0.5, 0.72, 1] },
+    rotate: [0, 16, -4, 0],
+    transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] },
   },
 };
 
 const bodyVariants: Variants = {
   normal: { translateY: 0 },
   animate: {
-    translateY: [0, -0.9, 0, -0.4, 0],
-    transition: { duration: 0.75, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.78, 1] },
+    translateY: [0, 0, 0.6, 0],
+    transition: { duration: 0.5, ease: 'easeOut', delay: 0.3 },
   },
 };
 
@@ -85,6 +85,7 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
             variants={headVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'view-box', transformOrigin: '12px 13.5px' }}
           />
           <motion.path
             d="M19 20.5C19 16.634 15.866 13.5 12 13.5C8.13401 13.5 5 16.634 5 20.5"

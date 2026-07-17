@@ -15,13 +15,13 @@ interface Message01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a reply being typed — the bubble rocks as the text lines redraw inside it
+// a message arrives — the bubble unfurls from its speech-tail, then the
+// reply writes itself in on top of it
 const bubbleVariants: Variants = {
-  normal: { scale: 1, rotate: 0 },
+  normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
-    scale: [1, 1.05, 1],
-    rotate: [0, -2, 2, 0],
-    transition: { duration: 0.55, ease: 'easeInOut' },
+    scale: [0.85, 1.04, 1],
+    transition: { duration: 0.4, ease: 'easeOut', times: [0, 0.7, 1] },
   },
 };
 
@@ -30,7 +30,7 @@ const textVariants: Variants = {
   animate: {
     pathLength: [0, 1],
     opacity: 1,
-    transition: { duration: 0.5, ease: 'easeOut', delay: 0.12 },
+    transition: { duration: 0.4, ease: 'easeOut', delay: 0.3 },
   },
 };
 
@@ -96,6 +96,7 @@ const Message01Icon = forwardRef<Message01IconHandle, Message01IconProps>(
             variants={bubbleVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'fill-box', transformOrigin: '10% 97%' }}
           />
         </svg>
       </div>

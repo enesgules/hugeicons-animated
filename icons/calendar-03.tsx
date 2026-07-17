@@ -15,28 +15,22 @@ interface Calendar03IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the binder rings flip like turning pages while the marked days flicker past
+// the binder rings dip like a page turning, and the days scroll/flicker
+// past underneath on the same beat
 const ringsVariants: Variants = {
   normal: { translateY: 0 },
   animate: {
-    translateY: [0, -1.5, 0],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.35, 1] },
-  },
-};
-
-const svgVariants: Variants = {
-  normal: { rotate: 0 },
-  animate: {
-    rotate: [0, -2, 2, 0],
-    transition: { duration: 0.6, ease: 'easeInOut' },
+    translateY: [0, -1.6, 0.4, 0],
+    transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.35, 0.7, 1] },
   },
 };
 
 const daysVariants: Variants = {
-  normal: { opacity: 1 },
+  normal: { opacity: 1, translateY: 0 },
   animate: {
-    opacity: [1, 0.25, 1, 0.25, 1],
-    transition: { duration: 0.55, ease: 'easeInOut', delay: 0.15 },
+    opacity: [1, 0.2, 1, 0.2, 1],
+    translateY: [0, 1.2, 0, 1.2, 0],
+    transition: { duration: 0.6, ease: 'easeInOut', delay: 0.1 },
   },
 };
 
@@ -76,16 +70,13 @@ const Calendar03Icon = forwardRef<Calendar03IconHandle, Calendar03IconProps>(
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <motion.svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
           viewBox="0 0 24 24"
           fill="none"
           overflow="visible"
-          variants={svgVariants}
-          animate={controls}
-          initial="normal"
         >
           <motion.path
             d="M16 2V6M8 2V6"
@@ -121,7 +112,7 @@ const Calendar03Icon = forwardRef<Calendar03IconHandle, Calendar03IconProps>(
             animate={controls}
             initial="normal"
           />
-        </motion.svg>
+        </svg>
       </div>
     );
   }

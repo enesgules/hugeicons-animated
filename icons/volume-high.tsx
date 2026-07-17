@@ -19,7 +19,7 @@ interface VolumeHighIconProps extends HTMLAttributes<HTMLDivElement> {
 const speakerVariants: Variants = {
   normal: { scale: 1, transition: { duration: 0.3 } },
   animate: {
-    scale: [1, 1.04, 1],
+    scale: [1, 1.08, 1],
     transition: { duration: 0.45, ease: 'easeInOut', repeat: Infinity, repeatDelay: 0.45 },
   },
 };

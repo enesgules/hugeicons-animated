@@ -26,7 +26,7 @@ const renderElement = ([tag, attrs], i, spec) => {
   }
   const extra = [
     `variants={${el.v}}`,
-    el.custom !== undefined ? `custom={${el.custom}}` : null,
+    el.custom !== undefined ? `custom={${JSON.stringify(el.custom)}}` : null,
     'animate={controls}',
     'initial="normal"',
     el.style ? `style={${el.style}}` : null,

@@ -15,18 +15,29 @@ interface StarIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// twinkle — a quick shake with a swell, like catching the light
+// the star catches the light: a quick brightening pop, then glints keep
+// flashing off its points while you hover — twinkling is a state
 const svgVariants: Variants = {
-  normal: { rotate: 0, scale: 1 },
+  normal: { scale: 1, transition: { duration: 0.25, ease: 'easeOut' } },
   animate: {
-    rotate: [0, -10, 8, -4, 0],
-    scale: [1, 1.1, 1.1, 1.04, 1],
-    transition: {
-      duration: 0.7,
-      ease: 'easeInOut',
-      times: [0, 0.25, 0.5, 0.75, 1],
-    },
+    scale: [1, 1.15, 0.97, 1.05, 1],
+    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.3, 0.55, 0.8, 1] },
   },
+};
+
+const glintVariants: Variants = {
+  normal: { opacity: 0, scale: 0.4, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    scale: [0.4, 1, 0.6],
+    transition: {
+      duration: 0.9,
+      ease: 'easeOut',
+      repeat: Infinity,
+      repeatDelay: 0.5,
+      delay: 0.2 + i * 0.35,
+    },
+  }),
 };
 
 const StarIcon = forwardRef<StarIconHandle, StarIconProps>(
@@ -82,6 +93,39 @@ const StarIcon = forwardRef<StarIconHandle, StarIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+          />
+          <motion.path
+            d="M21.4 9L23.2 9M22.3 8.1L22.3 9.9"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={glintVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '22.3px 9px' }}
+          />
+          <motion.path
+            d="M3.1 21.3L4.9 21.3M4 20.4L4 22.2"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={glintVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '4px 21.3px' }}
+          />
+          <motion.path
+            d="M1.1 11.5L2.9 11.5M2 10.6L2 12.4"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={glintVariants}
+            custom={2}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '2px 11.5px' }}
           />
         </motion.svg>
       </div>

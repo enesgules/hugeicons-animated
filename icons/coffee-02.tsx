@@ -15,20 +15,27 @@ interface Coffee02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, the cup stays hot — steam keeps rising and dissolving.
-// The wisps fade in low, drift up, and vanish; the loop seam hides at opacity 0.
+// while you hover, the cup stays hot. The icon's own steam is one path
+// with three lockstep subpaths, so on hover it hands off to three
+// independent wisps that each rise on their own clock.
+const steamBaseVariants: Variants = {
+  normal: { opacity: 1, transition: { duration: 0.3, delay: 0.1 } },
+  animate: { opacity: 0, transition: { duration: 0.15 } },
+};
+
 const steamVariants: Variants = {
-  normal: { opacity: 1, translateY: 0, transition: { duration: 0.3 } },
-  animate: {
+  normal: { opacity: 0, translateY: 0, transition: { duration: 0.2 } },
+  animate: (i: number) => ({
     opacity: [0, 1, 1, 0],
-    translateY: [0.8, -0.5, -1.8, -3],
+    translateY: [0.8, -0.5, i === 1 ? -2.2 : -1.6, i === 1 ? -3.6 : -2.6],
     transition: {
-      duration: 1.5,
+      duration: 1.3 + i * 0.25,
       ease: 'easeOut',
       times: [0, 0.25, 0.7, 1],
       repeat: Infinity,
+      delay: i * 0.3,
     },
-  },
+  }),
 };
 
 const Coffee02Icon = forwardRef<Coffee02IconHandle, Coffee02IconProps>(
@@ -93,7 +100,40 @@ const Coffee02Icon = forwardRef<Coffee02IconHandle, Coffee02IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={steamBaseVariants}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M7.53971 4C7.53971 4 7 4.5 7 5.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
             variants={steamVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M11.3089 2.5C10.7622 2.83861 10.0012 4 10.0012 5.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={steamVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M14.0012 4C13.7279 4.1693 13.5 5 13.5 5.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={steamVariants}
+            custom={2}
             animate={controls}
             initial="normal"
           />

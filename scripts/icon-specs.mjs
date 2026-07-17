@@ -72,18 +72,37 @@ const headVariants: Variants = {
   {
     export: 'Settings01Icon',
     defs: `
-// a mechanism, not a decoration: winds back before it spins
+// a mechanism, not a decoration: winds back, spins past its stop, and the
+// bore clicks the instant the gear catches
 const svgVariants: Variants = {
   normal: {
     rotate: 0,
     transition: { type: 'spring', duration: 0.6, bounce: 0.15 },
   },
   animate: {
-    rotate: [0, -18, 180],
-    transition: { duration: 0.8, times: [0, 0.22, 1], ease: ['easeIn', 'easeOut'] },
+    rotate: [0, -18, 196, 180],
+    transition: {
+      duration: 0.85,
+      times: [0, 0.22, 0.82, 1],
+      ease: ['easeIn', 'easeOut', 'easeOut'],
+    },
+  },
+};
+
+const boreVariants: Variants = {
+  normal: { scale: 1 },
+  animate: {
+    scale: [1, 1, 1.22, 0.92, 1],
+    transition: { duration: 0.85, ease: 'easeOut', times: [0, 0.78, 0.85, 0.93, 1] },
   },
 };`,
     svg: 'svgVariants',
+    els: {
+      1: {
+        v: 'boreVariants',
+        style: `{ transformBox: 'view-box', transformOrigin: '12px 12px' }`,
+      },
+    },
   },
   {
     export: 'Delete02Icon',
@@ -148,22 +167,31 @@ const heartVariants: Variants = {
   {
     export: 'Loading03Icon',
     defs: `
-const svgVariants: Variants = {
-  normal: {
-    rotate: 0,
-    transition: { duration: 0.3, ease: 'easeOut' },
-  },
-  animate: {
-    rotate: 360,
-    transition: { duration: 1, ease: 'linear', repeat: Infinity },
-  },
+// the glyph is eight radial ticks — so run a real activity chase around
+// them instead of rigidly spinning the whole svg
+const rayVariants: Variants = {
+  normal: { opacity: 1 },
+  animate: (i: number) => ({
+    opacity: [1, 0.15, 1],
+    transition: { duration: 1, ease: 'easeInOut', repeat: Infinity, delay: i * 0.125 },
+  }),
 };`,
-    svg: 'svgVariants',
+    els: {
+      0: { v: 'rayVariants', custom: 0 },
+      4: { v: 'rayVariants', custom: 1 },
+      2: { v: 'rayVariants', custom: 2 },
+      6: { v: 'rayVariants', custom: 3 },
+      1: { v: 'rayVariants', custom: 4 },
+      5: { v: 'rayVariants', custom: 5 },
+      3: { v: 'rayVariants', custom: 6 },
+      7: { v: 'rayVariants', custom: 7 },
+    },
   },
   {
     export: 'Search01Icon',
     defs: `
-// the lens sweeps, pauses on a find, then settles
+// the lens sweeps, pauses on a find — and the find actually reads:
+// the lens zooms in and a glint blinks at its center
 const svgVariants: Variants = {
   normal: { translateX: 0, translateY: 0, rotate: 0 },
   animate: {
@@ -172,8 +200,41 @@ const svgVariants: Variants = {
     rotate: [0, -4, -4, 4, 0],
     transition: { duration: 0.9, ease: 'easeInOut', times: [0, 0.25, 0.45, 0.7, 1] },
   },
+};
+
+const lensVariants: Variants = {
+  normal: { scale: 1 },
+  animate: {
+    scale: [1, 1, 1.14, 1.14, 1],
+    transition: { duration: 0.9, ease: 'easeInOut', times: [0, 0.25, 0.35, 0.45, 1] },
+  },
+};
+
+const glintVariants: Variants = {
+  normal: { opacity: 0, scale: 0.5 },
+  animate: {
+    opacity: [0, 0, 1, 0],
+    scale: [0.5, 0.5, 1, 1.3],
+    transition: { duration: 0.9, ease: 'easeOut', times: [0, 0.25, 0.35, 0.5] },
+  },
 };`,
     svg: 'svgVariants',
+    els: {
+      1: {
+        v: 'lensVariants',
+        style: `{ transformBox: 'fill-box', transformOrigin: 'center' }`,
+      },
+    },
+    extra: `
+          <motion.path
+            d="M11 8.4V9.6M11 12.4V13.6M8.4 11H9.6M12.4 11H13.6"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1"
+            variants={glintVariants}
+            animate={controls}
+            initial="normal"
+          />`,
   },
   {
     export: 'Home01Icon',
@@ -201,23 +262,44 @@ const smileVariants: Variants = {
   {
     export: 'Menu01Icon',
     defs: `
-// a wave through the stack — each line launches and springs back past zero
-const lineVariants: Variants = {
-  normal: { translateX: 0 },
-  animate: (i: number) => ({
-    translateX: [0, 4.5, -1, 0],
-    transition: {
-      duration: 0.55,
-      ease: 'easeInOut',
-      times: [0, 0.4, 0.75, 1],
-      delay: i * 0.07,
-    },
-  }),
+// the hamburger teases what it becomes: top and bottom bars lean toward
+// the X while the middle bar recedes, then it all settles back
+const topLineVariants: Variants = {
+  normal: { translateY: 0, rotate: 0 },
+  animate: {
+    translateY: [0, 3.2, 0],
+    rotate: [0, 13, 0],
+    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.45, 1] },
+  },
+};
+
+const bottomLineVariants: Variants = {
+  normal: { translateY: 0, rotate: 0 },
+  animate: {
+    translateY: [0, -3.2, 0],
+    rotate: [0, -13, 0],
+    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.45, 1], delay: 0.03 },
+  },
+};
+
+const midLineVariants: Variants = {
+  normal: { opacity: 1, scaleX: 1 },
+  animate: {
+    opacity: [1, 0.15, 1],
+    scaleX: [1, 0.5, 1],
+    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.45, 1], delay: 0.03 },
+  },
 };`,
     els: {
-      0: { v: 'lineVariants', custom: 0 },
-      1: { v: 'lineVariants', custom: 1 },
-      2: { v: 'lineVariants', custom: 2 },
+      0: {
+        v: 'topLineVariants',
+        style: `{ transformBox: 'view-box', transformOrigin: '12px 5px' }`,
+      },
+      1: { v: 'midLineVariants' },
+      2: {
+        v: 'bottomLineVariants',
+        style: `{ transformBox: 'view-box', transformOrigin: '12px 19px' }`,
+      },
     },
   },
   {
@@ -323,13 +405,14 @@ const trayVariants: Variants = {
   {
     export: 'Mail01Icon',
     defs: `
-// new mail: the envelope perks up and the flap fold redraws
+// new mail arrives: the envelope drops in and lands, the flap fold
+// redraws, and a badge ping fires at the corner — "you've got mail"
 const svgVariants: Variants = {
-  normal: { scale: 1, rotate: 0 },
+  normal: { translateY: 0, rotate: 0 },
   animate: {
-    scale: [1, 1.06, 1],
-    rotate: [0, -2, 2, 0],
-    transition: { duration: 0.6, ease: 'easeInOut' },
+    translateY: [0, -2.5, 0.5, 0],
+    rotate: [0, -2, 1, 0],
+    transition: { duration: 0.55, ease: 'easeOut', times: [0, 0.3, 0.7, 1] },
   },
 };
 
@@ -340,27 +423,92 @@ const flapVariants: Variants = {
     opacity: [0.4, 1],
     transition: { duration: 0.45, ease: 'easeOut', delay: 0.12 },
   },
+};
+
+const badgeVariants: Variants = {
+  normal: { opacity: 0, scale: 0.4 },
+  animate: {
+    opacity: [0, 1, 1],
+    scale: [0.4, 1.3, 1],
+    transition: { duration: 0.35, ease: 'easeOut', delay: 0.3, times: [0, 0.6, 1] },
+  },
 };`,
     svg: 'svgVariants',
     els: { 0: { v: 'flapVariants' } },
+    extra: `
+          <motion.circle
+            cx="20.5"
+            cy="4"
+            r="1.8"
+            fill="currentColor"
+            variants={badgeVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '20.5px 4px' }}
+          />`,
   },
   {
     export: 'StarIcon',
     defs: `
-// twinkle — a quick shake with a swell, like catching the light
+// the star catches the light: a quick brightening pop, then glints keep
+// flashing off its points while you hover — twinkling is a state
 const svgVariants: Variants = {
-  normal: { rotate: 0, scale: 1 },
+  normal: { scale: 1, transition: { duration: 0.25, ease: 'easeOut' } },
   animate: {
-    rotate: [0, -10, 8, -4, 0],
-    scale: [1, 1.1, 1.1, 1.04, 1],
-    transition: {
-      duration: 0.7,
-      ease: 'easeInOut',
-      times: [0, 0.25, 0.5, 0.75, 1],
-    },
+    scale: [1, 1.15, 0.97, 1.05, 1],
+    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.3, 0.55, 0.8, 1] },
   },
+};
+
+const glintVariants: Variants = {
+  normal: { opacity: 0, scale: 0.4, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    scale: [0.4, 1, 0.6],
+    transition: {
+      duration: 0.9,
+      ease: 'easeOut',
+      repeat: Infinity,
+      repeatDelay: 0.5,
+      delay: 0.2 + i * 0.35,
+    },
+  }),
 };`,
     svg: 'svgVariants',
+    extra: `
+          <motion.path
+            d="M21.4 9L23.2 9M22.3 8.1L22.3 9.9"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={glintVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '22.3px 9px' }}
+          />
+          <motion.path
+            d="M3.1 21.3L4.9 21.3M4 20.4L4 22.2"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={glintVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '4px 21.3px' }}
+          />
+          <motion.path
+            d="M1.1 11.5L2.9 11.5M2 10.6L2 12.4"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={glintVariants}
+            custom={2}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '2px 11.5px' }}
+          />`,
   },
   {
     export: 'SquareLock01Icon',
@@ -405,20 +553,14 @@ const keyholeVariants: Variants = {
   {
     export: 'PlusSignIcon',
     defs: `
-// a quarter turn with momentum and a swell — something is being added
+// each arm takes its turn growing — vertical stroke first, then horizontal —
+// as if the plus is being built one line at a time
 const svgVariants: Variants = {
-  normal: {
-    rotate: 0,
-    scale: 1,
-    transition: { type: 'spring', duration: 0.5, bounce: 0.15 },
-  },
+  normal: { scaleY: 1, scaleX: 1, transition: { duration: 0.25, ease: 'easeOut' } },
   animate: {
-    rotate: 90,
-    scale: [1, 1.15, 1],
-    transition: {
-      rotate: { type: 'spring', duration: 0.5, bounce: 0.25 },
-      scale: { duration: 0.45, times: [0, 0.4, 1], ease: 'easeInOut' },
-    },
+    scaleY: [1, 1.3, 1, 1, 1],
+    scaleX: [1, 1, 1, 1.3, 1],
+    transition: { duration: 0.6, ease: 'easeOut', times: [0, 0.25, 0.5, 0.75, 1] },
   },
 };`,
     svg: 'svgVariants',
@@ -534,52 +676,51 @@ const svgVariants: Variants = {
   {
     export: 'UserIcon',
     defs: `
-// a double nod of greeting — the head leads, shoulders echo softer
+// a real nod — the head dips on its neck, the shoulders settle after
 const headVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { rotate: 0 },
   animate: {
-    translateY: [0, -1.8, 0, -0.9, 0],
-    transition: { duration: 0.75, ease: 'easeInOut', times: [0, 0.22, 0.5, 0.72, 1] },
+    rotate: [0, 16, -4, 0],
+    transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] },
   },
 };
 
 const bodyVariants: Variants = {
   normal: { translateY: 0 },
   animate: {
-    translateY: [0, -0.9, 0, -0.4, 0],
-    transition: { duration: 0.75, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.78, 1] },
+    translateY: [0, 0, 0.6, 0],
+    transition: { duration: 0.5, ease: 'easeOut', delay: 0.3 },
   },
 };`,
-    els: { 0: { v: 'headVariants' }, 1: { v: 'bodyVariants' } },
+    els: {
+      0: {
+        v: 'headVariants',
+        style: `{ transformBox: 'view-box', transformOrigin: '12px 13.5px' }`,
+      },
+      1: { v: 'bodyVariants' },
+    },
   },
   {
     export: 'Calendar03Icon',
     defs: `
-// the binder rings flip like turning pages while the marked days flicker past
+// the binder rings dip like a page turning, and the days scroll/flicker
+// past underneath on the same beat
 const ringsVariants: Variants = {
   normal: { translateY: 0 },
   animate: {
-    translateY: [0, -1.5, 0],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.35, 1] },
-  },
-};
-
-const svgVariants: Variants = {
-  normal: { rotate: 0 },
-  animate: {
-    rotate: [0, -2, 2, 0],
-    transition: { duration: 0.6, ease: 'easeInOut' },
+    translateY: [0, -1.6, 0.4, 0],
+    transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.35, 0.7, 1] },
   },
 };
 
 const daysVariants: Variants = {
-  normal: { opacity: 1 },
+  normal: { opacity: 1, translateY: 0 },
   animate: {
-    opacity: [1, 0.25, 1, 0.25, 1],
-    transition: { duration: 0.55, ease: 'easeInOut', delay: 0.15 },
+    opacity: [1, 0.2, 1, 0.2, 1],
+    translateY: [0, 1.2, 0, 1.2, 0],
+    transition: { duration: 0.6, ease: 'easeInOut', delay: 0.1 },
   },
 };`,
-    svg: 'svgVariants',
     els: { 0: { v: 'ringsVariants' }, 3: { v: 'daysVariants' } },
   },
   {
@@ -687,33 +828,101 @@ const streakVariants: Variants = {
   {
     export: 'Sun03Icon',
     defs: `
-// the rays wheel with momentum while the core swells with warmth
+// while you hover, the sun keeps shining — the disc glows warm, the rays
+// shimmer with heat, and a drawn halo of warmth blooms outward and fades
 const coreVariants: Variants = {
-  normal: { scale: 1 },
+  normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
-    scale: [1, 1.12, 1],
-    transition: { duration: 0.7, ease: 'easeInOut' },
+    scale: [1, 1.1, 1],
+    transition: { duration: 1.6, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
 const raysVariants: Variants = {
-  normal: { rotate: 0, transition: { type: 'spring', duration: 0.7, bounce: 0.1 } },
-  animate: { rotate: 90, transition: { type: 'spring', duration: 0.7, bounce: 0.2 } },
+  normal: { rotate: 0, scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
+  animate: {
+    rotate: [0, 6, -6, 0],
+    scale: [1, 1.06, 1],
+    transition: { duration: 2.2, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+const haloVariants: Variants = {
+  normal: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } },
+  animate: {
+    opacity: [0, 0.5, 0],
+    scale: [0.9, 1.5],
+    transition: { duration: 1.6, ease: 'easeOut', repeat: Infinity },
+  },
 };`,
-    els: { 0: { v: 'coreVariants' }, 1: { v: 'raysVariants' } },
+    els: {
+      0: { v: 'coreVariants', style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'raysVariants', style: `{ transformOrigin: '12px 12px' }` },
+    },
+    extra: `
+          <motion.circle
+            cx="12"
+            cy="12"
+            r="6"
+            stroke="currentColor"
+            strokeWidth="1"
+            variants={haloVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '12px 12px' }}
+          />`,
   },
   {
     export: 'Moon02Icon',
     defs: `
-// a sleepy rock — the crescent sways and settles
+// the moon doesn't rock — it glows, and stars blink awake in the patch of
+// sky its crescent opens onto
 const svgVariants: Variants = {
-  normal: { rotate: 0 },
+  normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
-    rotate: [0, -14, 9, -4, 0],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.5, 0.75, 1] },
+    scale: [1, 1.05, 1],
+    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
   },
+};
+
+const starVariants: Variants = {
+  normal: { opacity: 0, scale: 0.4, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0.3, 1, 0],
+    scale: [0.4, 1, 0.8, 1, 0.4],
+    transition: {
+      duration: 1.8,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      delay: i * 0.6,
+    },
+  }),
 };`,
     svg: 'svgVariants',
+    svgStyle: `{ transformOrigin: '12px 12px' }`,
+    extra: `
+          <motion.path
+            d="M17.5 4.2V6.2M16.5 5.2H18.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1"
+            variants={starVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '17.5px 5.2px' }}
+          />
+          <motion.circle
+            cx="14.5"
+            cy="8.5"
+            r="0.6"
+            fill="currentColor"
+            variants={starVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '14.5px 8.5px' }}
+          />`,
   },
   {
     export: 'CloudIcon',
@@ -875,13 +1084,13 @@ const dotVariants: Variants = {
   {
     export: 'Message01Icon',
     defs: `
-// a reply being typed — the bubble rocks as the text lines redraw inside it
+// a message arrives — the bubble unfurls from its speech-tail, then the
+// reply writes itself in on top of it
 const bubbleVariants: Variants = {
-  normal: { scale: 1, rotate: 0 },
+  normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
-    scale: [1, 1.05, 1],
-    rotate: [0, -2, 2, 0],
-    transition: { duration: 0.55, ease: 'easeInOut' },
+    scale: [0.85, 1.04, 1],
+    transition: { duration: 0.4, ease: 'easeOut', times: [0, 0.7, 1] },
   },
 };
 
@@ -890,10 +1099,16 @@ const textVariants: Variants = {
   animate: {
     pathLength: [0, 1],
     opacity: 1,
-    transition: { duration: 0.5, ease: 'easeOut', delay: 0.12 },
+    transition: { duration: 0.4, ease: 'easeOut', delay: 0.3 },
   },
 };`,
-    els: { 0: { v: 'textVariants' }, 1: { v: 'bubbleVariants' } },
+    els: {
+      0: { v: 'textVariants' },
+      1: {
+        v: 'bubbleVariants',
+        style: `{ transformBox: 'fill-box', transformOrigin: '10% 97%' }`,
+      },
+    },
   },
   {
     export: 'Call02Icon',
@@ -917,7 +1132,8 @@ const svgVariants: Variants = {
   {
     export: 'Bookmark01Icon',
     defs: `
-// tucked in — dips between the pages with a small tilt, then settles proud
+// tucked in — the ribbon dips past the binding line, which pinches as it
+// slides through, then the ribbon settles back proud
 const svgVariants: Variants = {
   normal: { translateY: 0, rotate: 0 },
   animate: {
@@ -925,8 +1141,23 @@ const svgVariants: Variants = {
     rotate: [0, 3, -1, 0],
     transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.4, 0.72, 1] },
   },
+};
+
+const foldVariants: Variants = {
+  normal: { scaleX: 1, translateY: 0 },
+  animate: {
+    scaleX: [1, 0.82, 1],
+    translateY: [0, 0.8, 0],
+    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.5, 1], delay: 0.12 },
+  },
 };`,
     svg: 'svgVariants',
+    els: {
+      1: {
+        v: 'foldVariants',
+        style: `{ transformBox: 'fill-box', transformOrigin: '50% 50%' }`,
+      },
+    },
   },
   {
     export: 'Clock01Icon',
@@ -1008,7 +1239,7 @@ const arcVariants: Variants = {
 const speakerVariants: Variants = {
   normal: { scale: 1, transition: { duration: 0.3 } },
   animate: {
-    scale: [1, 1.04, 1],
+    scale: [1, 1.08, 1],
     transition: { duration: 0.45, ease: 'easeInOut', repeat: Infinity, repeatDelay: 0.45 },
   },
 };
@@ -1265,39 +1496,94 @@ const sparkVariants: Variants = {
   {
     export: 'ThumbsUpIcon',
     defs: `
-// approval with enthusiasm — a double pump from the wrist
-const svgVariants: Variants = {
-  normal: { rotate: 0, translateY: 0 },
+// the thumb flicks up from the fist's actual hinge — a decisive nod, not
+// a whole-icon wave; the fist takes a small compressive reaction
+const thumbVariants: Variants = {
+  normal: { rotate: 0 },
   animate: {
-    rotate: [0, -14, 0, -8, 0],
-    translateY: [0, -1.2, 0, -0.6, 0],
-    transition: { duration: 0.75, ease: 'easeInOut', times: [0, 0.22, 0.5, 0.72, 1] },
+    rotate: [0, -20, 6, -10, 3, 0],
+    transition: {
+      duration: 0.75,
+      ease: 'easeInOut',
+      times: [0, 0.22, 0.48, 0.66, 0.84, 1],
+    },
+  },
+};
+
+const fistVariants: Variants = {
+  normal: { scale: 1 },
+  animate: {
+    scale: [1, 1, 1.05, 1],
+    transition: { duration: 0.75, ease: 'easeOut', times: [0, 0.22, 0.4, 0.7] },
   },
 };`,
-    svg: 'svgVariants',
-    svgStyle: `{ transformOrigin: '25% 80%' }`,
+    els: {
+      0: { v: 'fistVariants', style: `{ transformOrigin: '4.5px 15.5px' }` },
+      1: { v: 'thumbVariants', style: `{ transformOrigin: '7px 15px' }` },
+    },
   },
 
   // ── drawn-signature batch 2 ─────────────────────────────────────────────
   {
     export: 'Coffee02Icon',
     defs: `
-// while you hover, the cup stays hot — steam keeps rising and dissolving.
-// The wisps fade in low, drift up, and vanish; the loop seam hides at opacity 0.
+// while you hover, the cup stays hot. The icon's own steam is one path
+// with three lockstep subpaths, so on hover it hands off to three
+// independent wisps that each rise on their own clock.
+const steamBaseVariants: Variants = {
+  normal: { opacity: 1, transition: { duration: 0.3, delay: 0.1 } },
+  animate: { opacity: 0, transition: { duration: 0.15 } },
+};
+
 const steamVariants: Variants = {
-  normal: { opacity: 1, translateY: 0, transition: { duration: 0.3 } },
-  animate: {
+  normal: { opacity: 0, translateY: 0, transition: { duration: 0.2 } },
+  animate: (i: number) => ({
     opacity: [0, 1, 1, 0],
-    translateY: [0.8, -0.5, -1.8, -3],
+    translateY: [0.8, -0.5, i === 1 ? -2.2 : -1.6, i === 1 ? -3.6 : -2.6],
     transition: {
-      duration: 1.5,
+      duration: 1.3 + i * 0.25,
       ease: 'easeOut',
       times: [0, 0.25, 0.7, 1],
       repeat: Infinity,
+      delay: i * 0.3,
     },
-  },
+  }),
 };`,
-    els: { 2: { v: 'steamVariants' } },
+    els: { 2: { v: 'steamBaseVariants' } },
+    extra: `
+          <motion.path
+            d="M7.53971 4C7.53971 4 7 4.5 7 5.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={steamVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M11.3089 2.5C10.7622 2.83861 10.0012 4 10.0012 5.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={steamVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M14.0012 4C13.7279 4.1693 13.5 5 13.5 5.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={steamVariants}
+            custom={2}
+            animate={controls}
+            initial="normal"
+          />`,
   },
   {
     export: 'UmbrellaIcon',
@@ -1403,13 +1689,18 @@ const rippleVariants: Variants = {
   {
     export: 'Mic01Icon',
     defs: `
-// while you hover, it's live — drawn sound arcs broadcast off both sides
-// while the mic keeps a small performance bounce
-const svgVariants: Variants = {
-  normal: { translateY: 0, transition: { duration: 0.3 } },
+// while you hover, it's live — the grille lines flicker like an input
+// meter, and drawn sound arcs broadcast off both sides
+const grilleVariants: Variants = {
+  normal: { opacity: 1, transition: { duration: 0.2 } },
   animate: {
-    translateY: [0, -0.6, 0],
-    transition: { duration: 0.6, ease: 'easeInOut', repeat: Infinity },
+    opacity: [1, 0.3, 1, 0.5, 1],
+    transition: {
+      duration: 0.7,
+      ease: 'easeInOut',
+      times: [0, 0.25, 0.5, 0.75, 1],
+      repeat: Infinity,
+    },
   },
 };
 
@@ -1427,7 +1718,7 @@ const waveVariants: Variants = {
     },
   }),
 };`,
-    svg: 'svgVariants',
+    els: { 1: { v: 'grilleVariants' } },
     extra: `
           <motion.path
             d="M4.8 3.2C3.9 4.4 3.4 5.9 3.4 7.5"
@@ -1987,14 +2278,20 @@ const clickVariants: Variants = {
   {
     export: 'CrownIcon',
     defs: `
-// a small coronation: the crown takes a dignified bow-and-lift while the
-// jewel gleams and drawn glints twinkle over the points
+// a real bow: the crown dips with the weight of ceremony, then lifts and
+// tips forward as it's raised — anticipation before the presentation.
+// The jewel gleams and drawn glints twinkle over the points.
 const svgVariants: Variants = {
-  normal: { translateY: 0, scale: 1, transition: { duration: 0.3 } },
+  normal: { translateY: 0, rotate: 0, scale: 1, transition: { duration: 0.3 } },
   animate: {
-    translateY: [0, -1.6, 0],
-    scale: [1, 1.04, 1],
-    transition: { duration: 0.6, ease: 'easeOut' },
+    translateY: [0, 1.4, -2.6, -1.6, 0],
+    rotate: [0, 3, -4, 1.5, 0],
+    scale: [1, 0.97, 1.06, 1.02, 1],
+    transition: {
+      duration: 0.85,
+      ease: 'easeInOut',
+      times: [0, 0.22, 0.58, 0.8, 1],
+    },
   },
 };
 
@@ -2243,6 +2540,21 @@ const antennaVariants: Variants = {
       delay: i === 1 ? 0.2 : 0,
     },
   }),
+};
+
+// legs scrabble in an alternating tripod gait, synced to the body shiver.
+// custom: [rotation amplitude, phase delay]
+const legVariants: Variants = {
+  normal: { rotate: 0, transition: { duration: 0.3 } },
+  animate: (c: [number, number]) => ({
+    rotate: [0, c[0], -c[0] * 0.5, 0],
+    transition: {
+      duration: 0.55,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      delay: c[1],
+    },
+  }),
 };`,
     svg: 'svgVariants',
     els: {
@@ -2255,6 +2567,31 @@ const antennaVariants: Variants = {
         v: 'antennaVariants',
         custom: 1,
         style: `{ transformOrigin: '17.6px 8.4px' }`,
+      },
+      2: {
+        v: 'legVariants',
+        custom: [16, 0.12],
+        style: `{ transformOrigin: '17.6px 17.4px' }`,
+      },
+      3: {
+        v: 'legVariants',
+        custom: [-16, 0],
+        style: `{ transformOrigin: '6.45px 17.47px' }`,
+      },
+      5: {
+        v: 'legVariants',
+        custom: [-22, 0],
+        style: `{ transformOrigin: '5.95px 12.9px' }`,
+      },
+      6: {
+        v: 'legVariants',
+        custom: [22, 0.12],
+        style: `{ transformOrigin: '18.12px 12.9px' }`,
+      },
+      7: {
+        v: 'legVariants',
+        custom: [14, 0.06],
+        style: `{ transformOrigin: '12px 16.5px' }`,
       },
     },
   },
@@ -2290,7 +2627,7 @@ const sparkVariants: Variants = {
     },
     extra: `
           <motion.path
-            d="M20.5 2V4M19.5 3H21.5"
+            d="M23 7.5V9.5M22 8.5H24"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -2300,7 +2637,7 @@ const sparkVariants: Variants = {
             initial="normal"
           />
           <motion.path
-            d="M16 0.5V2.5M15 1.5H17"
+            d="M23.5 12.5V14.5M22.5 13.5H24.5"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"

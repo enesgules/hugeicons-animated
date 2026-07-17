@@ -15,18 +15,33 @@ interface Menu01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a wave through the stack — each line launches and springs back past zero
-const lineVariants: Variants = {
-  normal: { translateX: 0 },
-  animate: (i: number) => ({
-    translateX: [0, 4.5, -1, 0],
-    transition: {
-      duration: 0.55,
-      ease: 'easeInOut',
-      times: [0, 0.4, 0.75, 1],
-      delay: i * 0.07,
-    },
-  }),
+// the hamburger teases what it becomes: top and bottom bars lean toward
+// the X while the middle bar recedes, then it all settles back
+const topLineVariants: Variants = {
+  normal: { translateY: 0, rotate: 0 },
+  animate: {
+    translateY: [0, 3.2, 0],
+    rotate: [0, 13, 0],
+    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.45, 1] },
+  },
+};
+
+const bottomLineVariants: Variants = {
+  normal: { translateY: 0, rotate: 0 },
+  animate: {
+    translateY: [0, -3.2, 0],
+    rotate: [0, -13, 0],
+    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.45, 1], delay: 0.03 },
+  },
+};
+
+const midLineVariants: Variants = {
+  normal: { opacity: 1, scaleX: 1 },
+  animate: {
+    opacity: [1, 0.15, 1],
+    scaleX: [1, 0.5, 1],
+    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.45, 1], delay: 0.03 },
+  },
 };
 
 const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
@@ -79,10 +94,10 @@ const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={lineVariants}
-            custom={0}
+            variants={topLineVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'view-box', transformOrigin: '12px 5px' }}
           />
           <motion.path
             d="M4 12L20 12"
@@ -90,8 +105,7 @@ const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={lineVariants}
-            custom={1}
+            variants={midLineVariants}
             animate={controls}
             initial="normal"
           />
@@ -101,10 +115,10 @@ const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={lineVariants}
-            custom={2}
+            variants={bottomLineVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'view-box', transformOrigin: '12px 19px' }}
           />
         </svg>
       </div>

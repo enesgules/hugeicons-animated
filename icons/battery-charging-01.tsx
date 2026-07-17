@@ -108,7 +108,7 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             strokeWidth="1.5"
           />
           <motion.path
-            d="M20.5 2V4M19.5 3H21.5"
+            d="M23 7.5V9.5M22 8.5H24"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -118,7 +118,7 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             initial="normal"
           />
           <motion.path
-            d="M16 0.5V2.5M15 1.5H17"
+            d="M23.5 12.5V14.5M22.5 13.5H24.5"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
