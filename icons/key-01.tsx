@@ -98,7 +98,7 @@ const Key01Icon = forwardRef<Key01IconHandle, Key01IconProps>(
             variants={keyVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '15.5px 8.5px' }}
+            style={{ transformOrigin: '6px 19.5px' }}
           />
           <motion.path
             d="M17.5 6.5L16.5 7.5"

@@ -15,8 +15,7 @@ interface Search01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the lens sweeps, pauses on a find — and the find actually reads:
-// the lens zooms in and a glint blinks at its center
+// the lens sweeps, pauses on a find, and quietly zooms in
 const svgVariants: Variants = {
   normal: { translateX: 0, translateY: 0, rotate: 0 },
   animate: {
@@ -32,15 +31,6 @@ const lensVariants: Variants = {
   animate: {
     scale: [1, 1, 1.14, 1.14, 1],
     transition: { duration: 0.9, ease: 'easeInOut', times: [0, 0.25, 0.35, 0.45, 1] },
-  },
-};
-
-const glintVariants: Variants = {
-  normal: { opacity: 0, scale: 0.5 },
-  animate: {
-    opacity: [0, 0, 1, 0],
-    scale: [0.5, 0.5, 1, 1.3],
-    transition: { duration: 0.9, ease: 'easeOut', times: [0, 0.25, 0.35, 0.5] },
   },
 };
 
@@ -108,15 +98,6 @@ const Search01Icon = forwardRef<Search01IconHandle, Search01IconProps>(
             animate={controls}
             initial="normal"
             style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
-          />
-          <motion.path
-            d="M11 8.4V9.6M11 12.4V13.6M8.4 11H9.6M12.4 11H13.6"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1"
-            variants={glintVariants}
-            animate={controls}
-            initial="normal"
           />
         </motion.svg>
       </div>

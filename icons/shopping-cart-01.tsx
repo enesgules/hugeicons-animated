@@ -22,7 +22,12 @@ const svgVariants: Variants = {
   animate: {
     rotate: [0, -1.6, 1.2, -0.8, 0],
     translateY: [0, -0.5, 0, -0.3, 0],
-    transition: { duration: 0.55, ease: 'easeInOut', repeat: Infinity },
+    transition: {
+      duration: 0.55,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      repeatDelay: 0.35,
+    },
   },
 };
 
@@ -35,6 +40,7 @@ const itemsVariants: Variants = {
       duration: 0.55,
       ease: 'easeInOut',
       repeat: Infinity,
+      repeatDelay: 0.35,
       delay: 0.08,
     },
   },
@@ -49,6 +55,7 @@ const speedVariants: Variants = {
       duration: 0.5,
       ease: 'easeOut',
       repeat: Infinity,
+      repeatDelay: 0.35,
       delay: i * 0.22,
     },
   }),

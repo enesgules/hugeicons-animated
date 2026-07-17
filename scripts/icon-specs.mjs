@@ -190,8 +190,7 @@ const rayVariants: Variants = {
   {
     export: 'Search01Icon',
     defs: `
-// the lens sweeps, pauses on a find — and the find actually reads:
-// the lens zooms in and a glint blinks at its center
+// the lens sweeps, pauses on a find, and quietly zooms in
 const svgVariants: Variants = {
   normal: { translateX: 0, translateY: 0, rotate: 0 },
   animate: {
@@ -208,15 +207,6 @@ const lensVariants: Variants = {
     scale: [1, 1, 1.14, 1.14, 1],
     transition: { duration: 0.9, ease: 'easeInOut', times: [0, 0.25, 0.35, 0.45, 1] },
   },
-};
-
-const glintVariants: Variants = {
-  normal: { opacity: 0, scale: 0.5 },
-  animate: {
-    opacity: [0, 0, 1, 0],
-    scale: [0.5, 0.5, 1, 1.3],
-    transition: { duration: 0.9, ease: 'easeOut', times: [0, 0.25, 0.35, 0.5] },
-  },
 };`,
     svg: 'svgVariants',
     els: {
@@ -225,16 +215,6 @@ const glintVariants: Variants = {
         style: `{ transformBox: 'fill-box', transformOrigin: 'center' }`,
       },
     },
-    extra: `
-          <motion.path
-            d="M11 8.4V9.6M11 12.4V13.6M8.4 11H9.6M12.4 11H13.6"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1"
-            variants={glintVariants}
-            animate={controls}
-            initial="normal"
-          />`,
   },
   {
     export: 'Home01Icon',
@@ -405,8 +385,8 @@ const trayVariants: Variants = {
   {
     export: 'Mail01Icon',
     defs: `
-// new mail arrives: the envelope drops in and lands, the flap fold
-// redraws, and a badge ping fires at the corner — "you've got mail"
+// new mail arrives: the envelope drops in and lands, and the flap fold
+// redraws over it as it seals
 const svgVariants: Variants = {
   normal: { translateY: 0, rotate: 0 },
   animate: {
@@ -423,92 +403,30 @@ const flapVariants: Variants = {
     opacity: [0.4, 1],
     transition: { duration: 0.45, ease: 'easeOut', delay: 0.12 },
   },
-};
-
-const badgeVariants: Variants = {
-  normal: { opacity: 0, scale: 0.4 },
-  animate: {
-    opacity: [0, 1, 1],
-    scale: [0.4, 1.3, 1],
-    transition: { duration: 0.35, ease: 'easeOut', delay: 0.3, times: [0, 0.6, 1] },
-  },
 };`,
     svg: 'svgVariants',
     els: { 0: { v: 'flapVariants' } },
-    extra: `
-          <motion.circle
-            cx="20.5"
-            cy="4"
-            r="1.8"
-            fill="currentColor"
-            variants={badgeVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '20.5px 4px' }}
-          />`,
   },
   {
     export: 'StarIcon',
     defs: `
-// the star catches the light: a quick brightening pop, then glints keep
-// flashing off its points while you hover — twinkling is a state
-const svgVariants: Variants = {
-  normal: { scale: 1, transition: { duration: 0.25, ease: 'easeOut' } },
-  animate: {
-    scale: [1, 1.15, 0.97, 1.05, 1],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.3, 0.55, 0.8, 1] },
-  },
-};
+// catching the light, drawn by hand: the star's own points stretch out
+// and settle through redrawn poses — no added elements, one clean beat
+const STAR_REST =
+  'M13.7276 3.44418L15.4874 6.99288C15.7274 7.48687 16.3673 7.9607 16.9073 8.05143L20.0969 8.58575C22.1367 8.92853 22.6167 10.4206 21.1468 11.8925L18.6671 14.3927C18.2471 14.8161 18.0172 15.6327 18.1471 16.2175L18.8571 19.3125C19.417 21.7623 18.1271 22.71 15.9774 21.4296L12.9877 19.6452C12.4478 19.3226 11.5579 19.3226 11.0079 19.6452L8.01827 21.4296C5.8785 22.71 4.57865 21.7522 5.13859 19.3125L5.84851 16.2175C5.97849 15.6327 5.74852 14.8161 5.32856 14.3927L2.84884 11.8925C1.389 10.4206 1.85895 8.92853 3.89872 8.58575L7.08837 8.05143C7.61831 7.9607 8.25824 7.48687 8.49821 6.99288L10.258 3.44418C11.2179 1.51861 12.7777 1.51861 13.7276 3.44418Z';
+const STAR_STRETCH =
+  'M13.745 3.356L15.204 7.409C15.392 7.903 15.987 8.322 16.538 8.357L20.176 8.551C22.877 8.696 23.439 10.289 21.339 11.888L18.321 14.274C17.871 14.653 17.689 15.441 17.901 16.053L19.192 19.665C20.362 22.993 18.923 24.087 16.198 21.947L12.955 19.397C12.427 18.992 11.578 18.992 11.041 19.397L7.796 21.949C5.082 24.087 3.632 22.980 4.801 19.666L6.093 16.054C6.306 15.442 6.123 14.654 5.673 14.275L2.654 11.888C0.567 10.289 1.115 8.695 3.817 8.550L7.457 8.356C7.998 8.320 8.594 7.901 8.782 7.407L10.240 3.355C11.161 0.744 12.834 0.744 13.745 3.356Z';
+const STAR_GLIMMER =
+  'M13.735 3.407L15.377 7.155C15.597 7.649 16.220 8.101 16.764 8.170L20.130 8.571C22.450 8.830 22.964 10.365 21.228 11.891L18.532 14.347C18.101 14.753 17.890 15.558 18.051 16.154L18.999 19.462C19.817 22.283 18.464 23.293 16.071 21.649L12.975 19.549C12.440 19.194 11.566 19.194 11.021 19.549L7.924 21.649C5.542 23.293 4.178 22.272 4.996 19.462L5.944 16.154C6.106 15.558 5.894 14.753 5.463 14.347L2.766 11.890C1.041 10.365 1.544 8.830 3.864 8.571L7.232 8.170C7.766 8.101 8.389 7.648 8.608 7.154L10.250 3.406C11.194 1.191 12.802 1.191 13.735 3.407Z';
 
-const glintVariants: Variants = {
-  normal: { opacity: 0, scale: 0.4, transition: { duration: 0.15 } },
-  animate: (i: number) => ({
-    opacity: [0, 1, 0],
-    scale: [0.4, 1, 0.6],
-    transition: {
-      duration: 0.9,
-      ease: 'easeOut',
-      repeat: Infinity,
-      repeatDelay: 0.5,
-      delay: 0.2 + i * 0.35,
-    },
-  }),
+const starVariants: Variants = {
+  normal: { d: STAR_REST, transition: { duration: 0.25, ease: 'easeOut' } },
+  animate: {
+    d: [STAR_REST, STAR_STRETCH, STAR_REST, STAR_GLIMMER, STAR_REST],
+    transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.8, 1] },
+  },
 };`,
-    svg: 'svgVariants',
-    extra: `
-          <motion.path
-            d="M21.4 9L23.2 9M22.3 8.1L22.3 9.9"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={glintVariants}
-            custom={0}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '22.3px 9px' }}
-          />
-          <motion.path
-            d="M3.1 21.3L4.9 21.3M4 20.4L4 22.2"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={glintVariants}
-            custom={1}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '4px 21.3px' }}
-          />
-          <motion.path
-            d="M1.1 11.5L2.9 11.5M2 10.6L2 12.4"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={glintVariants}
-            custom={2}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '2px 11.5px' }}
-          />`,
+    els: { 0: { v: 'starVariants' } },
   },
   {
     export: 'SquareLock01Icon',
@@ -553,17 +471,58 @@ const keyholeVariants: Variants = {
   {
     export: 'PlusSignIcon',
     defs: `
-// each arm takes its turn growing — vertical stroke first, then horizontal —
-// as if the plus is being built one line at a time
-const svgVariants: Variants = {
-  normal: { scaleY: 1, scaleX: 1, transition: { duration: 0.25, ease: 'easeOut' } },
+// a mark stamping into place: the combined glyph hands off to two
+// hand-drawn strokes that each overshoot long, pinch short, and settle
+const plusBaseVariants: Variants = {
+  normal: { opacity: 1, transition: { duration: 0.2, delay: 0.05 } },
+  animate: { opacity: 0, transition: { duration: 0.08 } },
+};
+
+const stemVariants: Variants = {
+  normal: { d: 'M12 4V20', opacity: 0, transition: { duration: 0.15 } },
   animate: {
-    scaleY: [1, 1.3, 1, 1, 1],
-    scaleX: [1, 1, 1, 1.3, 1],
-    transition: { duration: 0.6, ease: 'easeOut', times: [0, 0.25, 0.5, 0.75, 1] },
+    d: ['M12 4V20', 'M12 2.6V21.4', 'M12 4.6V19.4', 'M12 4V20'],
+    opacity: 1,
+    transition: {
+      opacity: { duration: 0.08 },
+      d: { duration: 0.5, ease: 'easeInOut', times: [0, 0.32, 0.68, 1] },
+    },
+  },
+};
+
+const armVariants: Variants = {
+  normal: { d: 'M20 12H4', opacity: 0, transition: { duration: 0.15 } },
+  animate: {
+    d: ['M20 12H4', 'M21.4 12H2.6', 'M19.4 12H4.6', 'M20 12H4'],
+    opacity: 1,
+    transition: {
+      opacity: { duration: 0.08 },
+      d: { duration: 0.5, ease: 'easeInOut', times: [0, 0.32, 0.68, 1], delay: 0.05 },
+    },
   },
 };`,
-    svg: 'svgVariants',
+    els: { 0: { v: 'plusBaseVariants' } },
+    extra: `
+          <motion.path
+            d="M12 4V20"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={stemVariants}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M20 12H4"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={armVariants}
+            animate={controls}
+            initial="normal"
+          />`,
   },
   {
     export: 'Cancel01Icon',
@@ -663,9 +622,10 @@ const headVariants: Variants = {
   {
     export: 'RefreshIcon',
     defs: `
-// rewinds slightly, then whips a full revolution; 360 ≡ 0 so the reset is invisible
+// rewinds slightly, then whips a full revolution; 360 ≡ 0 so the reset is
+// invisible. Exit eases briefly instead of snapping mid-spin.
 const svgVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0 } },
+  normal: { rotate: 0, transition: { duration: 0.15, ease: 'easeOut' } },
   animate: {
     rotate: [0, -25, 360],
     transition: { duration: 0.9, times: [0, 0.2, 1], ease: ['easeIn', 'easeOut'] },
@@ -716,9 +676,9 @@ const ringsVariants: Variants = {
 const daysVariants: Variants = {
   normal: { opacity: 1, translateY: 0 },
   animate: {
-    opacity: [1, 0.2, 1, 0.2, 1],
-    translateY: [0, 1.2, 0, 1.2, 0],
-    transition: { duration: 0.6, ease: 'easeInOut', delay: 0.1 },
+    opacity: [1, 0.25, 1],
+    translateY: [0, 1.2, 0],
+    transition: { duration: 0.5, ease: 'easeInOut', delay: 0.1, times: [0, 0.45, 1] },
   },
 };`,
     els: { 0: { v: 'ringsVariants' }, 3: { v: 'daysVariants' } },
@@ -768,8 +728,14 @@ const lineVariants: Variants = {
   },
 };`,
     els: {
-      0: { v: 'pencilVariants' },
-      1: { v: 'pencilVariants' },
+      0: {
+        v: 'pencilVariants',
+        style: `{ transformBox: 'view-box', transformOrigin: '2px 21px' }`,
+      },
+      1: {
+        v: 'pencilVariants',
+        style: `{ transformBox: 'view-box', transformOrigin: '2px 21px' }`,
+      },
       2: { v: 'lineVariants' },
     },
   },
@@ -847,30 +813,11 @@ const raysVariants: Variants = {
   },
 };
 
-const haloVariants: Variants = {
-  normal: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } },
-  animate: {
-    opacity: [0, 0.5, 0],
-    scale: [0.9, 1.5],
-    transition: { duration: 1.6, ease: 'easeOut', repeat: Infinity },
-  },
-};`,
+`,
     els: {
       0: { v: 'coreVariants', style: `{ transformOrigin: '12px 12px' }` },
       1: { v: 'raysVariants', style: `{ transformOrigin: '12px 12px' }` },
     },
-    extra: `
-          <motion.circle
-            cx="12"
-            cy="12"
-            r="6"
-            stroke="currentColor"
-            strokeWidth="1"
-            variants={haloVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
-          />`,
   },
   {
     export: 'Moon02Icon',
@@ -1027,9 +974,18 @@ const floatNoteVariants: Variants = {
 };`,
     svg: 'svgVariants',
     els: {
-      0: { v: 'smallNoteVariants' },
-      1: { v: 'headLeftVariants' },
-      2: { v: 'headRightVariants' },
+      0: {
+        v: 'smallNoteVariants',
+        style: `{ transformBox: 'fill-box', transformOrigin: 'center' }`,
+      },
+      1: {
+        v: 'headLeftVariants',
+        style: `{ transformBox: 'fill-box', transformOrigin: 'center' }`,
+      },
+      2: {
+        v: 'headRightVariants',
+        style: `{ transformBox: 'fill-box', transformOrigin: 'center' }`,
+      },
     },
     extra: `
           <motion.g
@@ -1593,7 +1549,7 @@ const steamVariants: Variants = {
 const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
-    rotate: [0, -2.5, 2, -1, 0],
+    rotate: [0, -5, 3.5, -1.5, 0],
     transition: { duration: 1.8, ease: 'easeInOut', repeat: Infinity },
   },
 };
@@ -1689,19 +1645,28 @@ const rippleVariants: Variants = {
   {
     export: 'Mic01Icon',
     defs: `
-// while you hover, it's live — the grille lines flicker like an input
-// meter, and drawn sound arcs broadcast off both sides
-const grilleVariants: Variants = {
-  normal: { opacity: 1, transition: { duration: 0.2 } },
-  animate: {
-    opacity: [1, 0.3, 1, 0.5, 1],
+// while you hover, it's live — the grille bars pulse like an input meter
+// and drawn sound arcs broadcast off both sides. The built-in grille (one
+// path, two lockstep bars) hides during hover and hands off to two
+// independently clocked bars, so the meter doesn't blink as one flat unit.
+const grilleBaseVariants: Variants = {
+  normal: { opacity: 1, transition: { duration: 0.3, delay: 0.1 } },
+  animate: { opacity: 0, transition: { duration: 0.15 } },
+};
+
+// pathLength retract from the mic-body edge, like a VU bar
+const grilleBarVariants: Variants = {
+  normal: { pathLength: 1, opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: 1,
+    pathLength: [1, 0.3, 1],
     transition: {
-      duration: 0.7,
+      duration: 1 + i * 0.2,
       ease: 'easeInOut',
-      times: [0, 0.25, 0.5, 0.75, 1],
       repeat: Infinity,
+      delay: i * 0.25,
     },
-  },
+  }),
 };
 
 // custom: [direction, delay] — arcs drift outward as they fade
@@ -1718,8 +1683,28 @@ const waveVariants: Variants = {
     },
   }),
 };`,
-    els: { 1: { v: 'grilleVariants' } },
+    els: { 1: { v: 'grilleBaseVariants' } },
     extra: `
+          <motion.path
+            d="M17 7H14"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={grilleBarVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M17 11H14"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={grilleBarVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />
           <motion.path
             d="M4.8 3.2C3.9 4.4 3.4 5.9 3.4 7.5"
             stroke="currentColor"
@@ -2163,7 +2148,12 @@ const svgVariants: Variants = {
   animate: {
     rotate: [0, -1.6, 1.2, -0.8, 0],
     translateY: [0, -0.5, 0, -0.3, 0],
-    transition: { duration: 0.55, ease: 'easeInOut', repeat: Infinity },
+    transition: {
+      duration: 0.55,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      repeatDelay: 0.35,
+    },
   },
 };
 
@@ -2176,6 +2166,7 @@ const itemsVariants: Variants = {
       duration: 0.55,
       ease: 'easeInOut',
       repeat: Infinity,
+      repeatDelay: 0.35,
       delay: 0.08,
     },
   },
@@ -2190,6 +2181,7 @@ const speedVariants: Variants = {
       duration: 0.5,
       ease: 'easeOut',
       repeat: Infinity,
+      repeatDelay: 0.35,
       delay: i * 0.22,
     },
   }),
@@ -2252,7 +2244,7 @@ const clickVariants: Variants = {
   },
 };`,
     els: {
-      0: { v: 'keyVariants', style: `{ transformOrigin: '15.5px 8.5px' }` },
+      0: { v: 'keyVariants', style: `{ transformOrigin: '6px 19.5px' }` },
       1: { v: 'glintVariants' },
     },
     extra: `
@@ -2416,7 +2408,7 @@ const glintVariants: Variants = {
 const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.4 } },
   animate: {
-    rotate: [0, 7, -2, 5, 0],
+    rotate: [0, 6, -5, 0],
     transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
   },
 };
@@ -2540,21 +2532,6 @@ const antennaVariants: Variants = {
       delay: i === 1 ? 0.2 : 0,
     },
   }),
-};
-
-// legs scrabble in an alternating tripod gait, synced to the body shiver.
-// custom: [rotation amplitude, phase delay]
-const legVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0.3 } },
-  animate: (c: [number, number]) => ({
-    rotate: [0, c[0], -c[0] * 0.5, 0],
-    transition: {
-      duration: 0.55,
-      ease: 'easeInOut',
-      repeat: Infinity,
-      delay: c[1],
-    },
-  }),
 };`,
     svg: 'svgVariants',
     els: {
@@ -2567,31 +2544,6 @@ const legVariants: Variants = {
         v: 'antennaVariants',
         custom: 1,
         style: `{ transformOrigin: '17.6px 8.4px' }`,
-      },
-      2: {
-        v: 'legVariants',
-        custom: [16, 0.12],
-        style: `{ transformOrigin: '17.6px 17.4px' }`,
-      },
-      3: {
-        v: 'legVariants',
-        custom: [-16, 0],
-        style: `{ transformOrigin: '6.45px 17.47px' }`,
-      },
-      5: {
-        v: 'legVariants',
-        custom: [-22, 0],
-        style: `{ transformOrigin: '5.95px 12.9px' }`,
-      },
-      6: {
-        v: 'legVariants',
-        custom: [22, 0.12],
-        style: `{ transformOrigin: '18.12px 12.9px' }`,
-      },
-      7: {
-        v: 'legVariants',
-        custom: [14, 0.06],
-        style: `{ transformOrigin: '12px 16.5px' }`,
       },
     },
   },

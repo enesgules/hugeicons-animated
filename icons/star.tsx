@@ -15,29 +15,21 @@ interface StarIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the star catches the light: a quick brightening pop, then glints keep
-// flashing off its points while you hover — twinkling is a state
-const svgVariants: Variants = {
-  normal: { scale: 1, transition: { duration: 0.25, ease: 'easeOut' } },
-  animate: {
-    scale: [1, 1.15, 0.97, 1.05, 1],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.3, 0.55, 0.8, 1] },
-  },
-};
+// catching the light, drawn by hand: the star's own points stretch out
+// and settle through redrawn poses — no added elements, one clean beat
+const STAR_REST =
+  'M13.7276 3.44418L15.4874 6.99288C15.7274 7.48687 16.3673 7.9607 16.9073 8.05143L20.0969 8.58575C22.1367 8.92853 22.6167 10.4206 21.1468 11.8925L18.6671 14.3927C18.2471 14.8161 18.0172 15.6327 18.1471 16.2175L18.8571 19.3125C19.417 21.7623 18.1271 22.71 15.9774 21.4296L12.9877 19.6452C12.4478 19.3226 11.5579 19.3226 11.0079 19.6452L8.01827 21.4296C5.8785 22.71 4.57865 21.7522 5.13859 19.3125L5.84851 16.2175C5.97849 15.6327 5.74852 14.8161 5.32856 14.3927L2.84884 11.8925C1.389 10.4206 1.85895 8.92853 3.89872 8.58575L7.08837 8.05143C7.61831 7.9607 8.25824 7.48687 8.49821 6.99288L10.258 3.44418C11.2179 1.51861 12.7777 1.51861 13.7276 3.44418Z';
+const STAR_STRETCH =
+  'M13.745 3.356L15.204 7.409C15.392 7.903 15.987 8.322 16.538 8.357L20.176 8.551C22.877 8.696 23.439 10.289 21.339 11.888L18.321 14.274C17.871 14.653 17.689 15.441 17.901 16.053L19.192 19.665C20.362 22.993 18.923 24.087 16.198 21.947L12.955 19.397C12.427 18.992 11.578 18.992 11.041 19.397L7.796 21.949C5.082 24.087 3.632 22.980 4.801 19.666L6.093 16.054C6.306 15.442 6.123 14.654 5.673 14.275L2.654 11.888C0.567 10.289 1.115 8.695 3.817 8.550L7.457 8.356C7.998 8.320 8.594 7.901 8.782 7.407L10.240 3.355C11.161 0.744 12.834 0.744 13.745 3.356Z';
+const STAR_GLIMMER =
+  'M13.735 3.407L15.377 7.155C15.597 7.649 16.220 8.101 16.764 8.170L20.130 8.571C22.450 8.830 22.964 10.365 21.228 11.891L18.532 14.347C18.101 14.753 17.890 15.558 18.051 16.154L18.999 19.462C19.817 22.283 18.464 23.293 16.071 21.649L12.975 19.549C12.440 19.194 11.566 19.194 11.021 19.549L7.924 21.649C5.542 23.293 4.178 22.272 4.996 19.462L5.944 16.154C6.106 15.558 5.894 14.753 5.463 14.347L2.766 11.890C1.041 10.365 1.544 8.830 3.864 8.571L7.232 8.170C7.766 8.101 8.389 7.648 8.608 7.154L10.250 3.406C11.194 1.191 12.802 1.191 13.735 3.407Z';
 
-const glintVariants: Variants = {
-  normal: { opacity: 0, scale: 0.4, transition: { duration: 0.15 } },
-  animate: (i: number) => ({
-    opacity: [0, 1, 0],
-    scale: [0.4, 1, 0.6],
-    transition: {
-      duration: 0.9,
-      ease: 'easeOut',
-      repeat: Infinity,
-      repeatDelay: 0.5,
-      delay: 0.2 + i * 0.35,
-    },
-  }),
+const starVariants: Variants = {
+  normal: { d: STAR_REST, transition: { duration: 0.25, ease: 'easeOut' } },
+  animate: {
+    d: [STAR_REST, STAR_STRETCH, STAR_REST, STAR_GLIMMER, STAR_REST],
+    transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.8, 1] },
+  },
 };
 
 const StarIcon = forwardRef<StarIconHandle, StarIconProps>(
@@ -76,58 +68,25 @@ const StarIcon = forwardRef<StarIconHandle, StarIconProps>(
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <motion.svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
           viewBox="0 0 24 24"
           fill="none"
           overflow="visible"
-          variants={svgVariants}
-          animate={controls}
-          initial="normal"
         >
-          <path
+          <motion.path
             d="M13.7276 3.44418L15.4874 6.99288C15.7274 7.48687 16.3673 7.9607 16.9073 8.05143L20.0969 8.58575C22.1367 8.92853 22.6167 10.4206 21.1468 11.8925L18.6671 14.3927C18.2471 14.8161 18.0172 15.6327 18.1471 16.2175L18.8571 19.3125C19.417 21.7623 18.1271 22.71 15.9774 21.4296L12.9877 19.6452C12.4478 19.3226 11.5579 19.3226 11.0079 19.6452L8.01827 21.4296C5.8785 22.71 4.57865 21.7522 5.13859 19.3125L5.84851 16.2175C5.97849 15.6327 5.74852 14.8161 5.32856 14.3927L2.84884 11.8925C1.389 10.4206 1.85895 8.92853 3.89872 8.58575L7.08837 8.05143C7.61831 7.9607 8.25824 7.48687 8.49821 6.99288L10.258 3.44418C11.2179 1.51861 12.7777 1.51861 13.7276 3.44418Z"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-          />
-          <motion.path
-            d="M21.4 9L23.2 9M22.3 8.1L22.3 9.9"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={glintVariants}
-            custom={0}
+            variants={starVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '22.3px 9px' }}
           />
-          <motion.path
-            d="M3.1 21.3L4.9 21.3M4 20.4L4 22.2"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={glintVariants}
-            custom={1}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '4px 21.3px' }}
-          />
-          <motion.path
-            d="M1.1 11.5L2.9 11.5M2 10.6L2 12.4"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={glintVariants}
-            custom={2}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '2px 11.5px' }}
-          />
-        </motion.svg>
+        </svg>
       </div>
     );
   }

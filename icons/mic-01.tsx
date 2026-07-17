@@ -15,19 +15,28 @@ interface Mic01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, it's live — the grille lines flicker like an input
-// meter, and drawn sound arcs broadcast off both sides
-const grilleVariants: Variants = {
-  normal: { opacity: 1, transition: { duration: 0.2 } },
-  animate: {
-    opacity: [1, 0.3, 1, 0.5, 1],
+// while you hover, it's live — the grille bars pulse like an input meter
+// and drawn sound arcs broadcast off both sides. The built-in grille (one
+// path, two lockstep bars) hides during hover and hands off to two
+// independently clocked bars, so the meter doesn't blink as one flat unit.
+const grilleBaseVariants: Variants = {
+  normal: { opacity: 1, transition: { duration: 0.3, delay: 0.1 } },
+  animate: { opacity: 0, transition: { duration: 0.15 } },
+};
+
+// pathLength retract from the mic-body edge, like a VU bar
+const grilleBarVariants: Variants = {
+  normal: { pathLength: 1, opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: 1,
+    pathLength: [1, 0.3, 1],
     transition: {
-      duration: 0.7,
+      duration: 1 + i * 0.2,
       ease: 'easeInOut',
-      times: [0, 0.25, 0.5, 0.75, 1],
       repeat: Infinity,
+      delay: i * 0.25,
     },
-  },
+  }),
 };
 
 // custom: [direction, delay] — arcs drift outward as they fade
@@ -99,7 +108,7 @@ const Mic01Icon = forwardRef<Mic01IconHandle, Mic01IconProps>(
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={grilleVariants}
+            variants={grilleBaseVariants}
             animate={controls}
             initial="normal"
           />
@@ -108,6 +117,26 @@ const Mic01Icon = forwardRef<Mic01IconHandle, Mic01IconProps>(
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
+          />
+          <motion.path
+            d="M17 7H14"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={grilleBarVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M17 11H14"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={grilleBarVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
           />
           <motion.path
             d="M4.8 3.2C3.9 4.4 3.4 5.9 3.4 7.5"

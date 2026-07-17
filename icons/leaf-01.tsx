@@ -20,7 +20,7 @@ interface Leaf01IconProps extends HTMLAttributes<HTMLDivElement> {
 const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.4 } },
   animate: {
-    rotate: [0, 7, -2, 5, 0],
+    rotate: [0, 6, -5, 0],
     transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
   },
 };

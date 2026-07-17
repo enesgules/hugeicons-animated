@@ -8,6 +8,7 @@ import {
   SITE_URL,
 } from "@/lib/site";
 import "./globals.css";
+import { AnimatedFavicon } from "./animated-favicon";
 
 // Quicksand — rounded geometric sans, the closest open match to the
 // Cera Round that hugeicons.com sets everything in
@@ -90,6 +91,7 @@ export default function RootLayout({
             __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
+        <AnimatedFavicon />
         {children}
       </body>
     </html>

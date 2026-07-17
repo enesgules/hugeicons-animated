@@ -20,7 +20,7 @@ interface UmbrellaIconProps extends HTMLAttributes<HTMLDivElement> {
 const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
-    rotate: [0, -2.5, 2, -1, 0],
+    rotate: [0, -5, 3.5, -1.5, 0],
     transition: { duration: 1.8, ease: 'easeInOut', repeat: Infinity },
   },
 };

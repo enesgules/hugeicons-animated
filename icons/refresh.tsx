@@ -15,9 +15,10 @@ interface RefreshIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// rewinds slightly, then whips a full revolution; 360 ≡ 0 so the reset is invisible
+// rewinds slightly, then whips a full revolution; 360 ≡ 0 so the reset is
+// invisible. Exit eases briefly instead of snapping mid-spin.
 const svgVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0 } },
+  normal: { rotate: 0, transition: { duration: 0.15, ease: 'easeOut' } },
   animate: {
     rotate: [0, -25, 360],
     transition: { duration: 0.9, times: [0, 0.2, 1], ease: ['easeIn', 'easeOut'] },

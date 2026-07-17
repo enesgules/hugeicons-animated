@@ -34,15 +34,6 @@ const raysVariants: Variants = {
   },
 };
 
-const haloVariants: Variants = {
-  normal: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } },
-  animate: {
-    opacity: [0, 0.5, 0],
-    scale: [0.9, 1.5],
-    transition: { duration: 1.6, ease: 'easeOut', repeat: Infinity },
-  },
-};
-
 const Sun03Icon = forwardRef<Sun03IconHandle, Sun03IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
@@ -102,17 +93,6 @@ const Sun03Icon = forwardRef<Sun03IconHandle, Sun03IconProps>(
             strokeLinecap="round"
             strokeWidth="1.5"
             variants={raysVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
-          />
-          <motion.circle
-            cx="12"
-            cy="12"
-            r="6"
-            stroke="currentColor"
-            strokeWidth="1"
-            variants={haloVariants}
             animate={controls}
             initial="normal"
             style={{ transformOrigin: '12px 12px' }}

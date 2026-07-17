@@ -86,6 +86,7 @@ const Edit02Icon = forwardRef<Edit02IconHandle, Edit02IconProps>(
             variants={pencilVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'view-box', transformOrigin: '2px 21px' }}
           />
           <motion.path
             d="M13 4L20 11"
@@ -95,6 +96,7 @@ const Edit02Icon = forwardRef<Edit02IconHandle, Edit02IconProps>(
             variants={pencilVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'view-box', transformOrigin: '2px 21px' }}
           />
           <motion.path
             d="M14 22L22 22"

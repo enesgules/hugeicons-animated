@@ -28,9 +28,9 @@ const ringsVariants: Variants = {
 const daysVariants: Variants = {
   normal: { opacity: 1, translateY: 0 },
   animate: {
-    opacity: [1, 0.2, 1, 0.2, 1],
-    translateY: [0, 1.2, 0, 1.2, 0],
-    transition: { duration: 0.6, ease: 'easeInOut', delay: 0.1 },
+    opacity: [1, 0.25, 1],
+    translateY: [0, 1.2, 0],
+    transition: { duration: 0.5, ease: 'easeInOut', delay: 0.1, times: [0, 0.45, 1] },
   },
 };
 

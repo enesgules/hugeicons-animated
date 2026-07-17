@@ -38,21 +38,6 @@ const antennaVariants: Variants = {
   }),
 };
 
-// legs scrabble in an alternating tripod gait, synced to the body shiver.
-// custom: [rotation amplitude, phase delay]
-const legVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0.3 } },
-  animate: (c: [number, number]) => ({
-    rotate: [0, c[0], -c[0] * 0.5, 0],
-    transition: {
-      duration: 0.55,
-      ease: 'easeInOut',
-      repeat: Infinity,
-      delay: c[1],
-    },
-  }),
-};
-
 const Bug01Icon = forwardRef<Bug01IconHandle, Bug01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
@@ -122,65 +107,40 @@ const Bug01Icon = forwardRef<Bug01IconHandle, Bug01IconProps>(
             initial="normal"
             style={{ transformOrigin: '17.6px 8.4px' }}
           />
-          <motion.path
+          <path
             d="M20.9928 20.9989C21.0528 19.9429 20.1777 17.5549 17.599 17.4229"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={legVariants}
-            custom={[16,0.12]}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '17.6px 17.4px' }}
           />
-          <motion.path
+          <path
             d="M6.45163 17.4708C5.65013 17.2308 3.01306 18.3348 3.01306 20.9988"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={legVariants}
-            custom={[-16,0]}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '6.45px 17.47px' }}
           />
           <path
             d="M9.3299 6.11884C9.35388 5.09884 9.84533 2.99884 12.0029 2.99884C13.9208 2.99884 14.5861 4.61884 14.676 6.11884M6.26131 9.41884C6.38118 8.63884 7.29216 6.81484 9.36586 6.63484C11.4635 6.55564 14.3403 6.58684 14.8797 6.67084C15.5869 6.73377 17.2951 7.43884 17.7506 9.41884C17.9124 10.4388 17.8285 11.8788 17.8524 12.7188C17.8165 13.5588 17.9207 15.2623 17.7565 16.1388C17.6367 17.0988 16.9894 18.4668 16.1024 19.3068C14.7838 20.7228 11.1639 22.2108 8.03534 19.4508C6.41713 17.8908 6.30925 16.3788 6.18939 15.7788C6.15725 15.4571 6.15875 13.8763 6.16541 12.3588C6.14144 11.046 6.17235 9.78063 6.26131 9.41884Z"
             stroke="currentColor"
             strokeWidth="1.5"
           />
-          <motion.path
+          <path
             d="M3.01306 12.8988H5.9498"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={legVariants}
-            custom={[-22,0]}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '5.95px 12.9px' }}
           />
-          <motion.path
+          <path
             d="M20.9929 12.8988L18.1161 12.8988"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={legVariants}
-            custom={[22,0.12]}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '18.12px 12.9px' }}
           />
-          <motion.path
+          <path
             d="M12.0033 16.4988L12.0033 20.2788"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={legVariants}
-            custom={[14,0.06]}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 16.5px' }}
           />
         </motion.svg>
       </div>

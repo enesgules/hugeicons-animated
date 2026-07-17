@@ -15,14 +15,34 @@ interface PlusSignIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// each arm takes its turn growing — vertical stroke first, then horizontal —
-// as if the plus is being built one line at a time
-const svgVariants: Variants = {
-  normal: { scaleY: 1, scaleX: 1, transition: { duration: 0.25, ease: 'easeOut' } },
+// a mark stamping into place: the combined glyph hands off to two
+// hand-drawn strokes that each overshoot long, pinch short, and settle
+const plusBaseVariants: Variants = {
+  normal: { opacity: 1, transition: { duration: 0.2, delay: 0.05 } },
+  animate: { opacity: 0, transition: { duration: 0.08 } },
+};
+
+const stemVariants: Variants = {
+  normal: { d: 'M12 4V20', opacity: 0, transition: { duration: 0.15 } },
   animate: {
-    scaleY: [1, 1.3, 1, 1, 1],
-    scaleX: [1, 1, 1, 1.3, 1],
-    transition: { duration: 0.6, ease: 'easeOut', times: [0, 0.25, 0.5, 0.75, 1] },
+    d: ['M12 4V20', 'M12 2.6V21.4', 'M12 4.6V19.4', 'M12 4V20'],
+    opacity: 1,
+    transition: {
+      opacity: { duration: 0.08 },
+      d: { duration: 0.5, ease: 'easeInOut', times: [0, 0.32, 0.68, 1] },
+    },
+  },
+};
+
+const armVariants: Variants = {
+  normal: { d: 'M20 12H4', opacity: 0, transition: { duration: 0.15 } },
+  animate: {
+    d: ['M20 12H4', 'M21.4 12H2.6', 'M19.4 12H4.6', 'M20 12H4'],
+    opacity: 1,
+    transition: {
+      opacity: { duration: 0.08 },
+      d: { duration: 0.5, ease: 'easeInOut', times: [0, 0.32, 0.68, 1], delay: 0.05 },
+    },
   },
 };
 
@@ -62,25 +82,45 @@ const PlusSignIcon = forwardRef<PlusSignIconHandle, PlusSignIconProps>(
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <motion.svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
           viewBox="0 0 24 24"
           fill="none"
           overflow="visible"
-          variants={svgVariants}
-          animate={controls}
-          initial="normal"
         >
-          <path
+          <motion.path
             d="M12 4V20M20 12H4"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={plusBaseVariants}
+            animate={controls}
+            initial="normal"
           />
-        </motion.svg>
+          <motion.path
+            d="M12 4V20"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={stemVariants}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M20 12H4"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={armVariants}
+            animate={controls}
+            initial="normal"
+          />
+        </svg>
       </div>
     );
   }

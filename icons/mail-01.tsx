@@ -15,8 +15,8 @@ interface Mail01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// new mail arrives: the envelope drops in and lands, the flap fold
-// redraws, and a badge ping fires at the corner — "you've got mail"
+// new mail arrives: the envelope drops in and lands, and the flap fold
+// redraws over it as it seals
 const svgVariants: Variants = {
   normal: { translateY: 0, rotate: 0 },
   animate: {
@@ -32,15 +32,6 @@ const flapVariants: Variants = {
     pathLength: [0, 1],
     opacity: [0.4, 1],
     transition: { duration: 0.45, ease: 'easeOut', delay: 0.12 },
-  },
-};
-
-const badgeVariants: Variants = {
-  normal: { opacity: 0, scale: 0.4 },
-  animate: {
-    opacity: [0, 1, 1],
-    scale: [0.4, 1.3, 1],
-    transition: { duration: 0.35, ease: 'easeOut', delay: 0.3, times: [0, 0.6, 1] },
   },
 };
 
@@ -105,16 +96,6 @@ const Mail01Icon = forwardRef<Mail01IconHandle, Mail01IconProps>(
             stroke="currentColor"
             strokeLinejoin="round"
             strokeWidth="1.5"
-          />
-          <motion.circle
-            cx="20.5"
-            cy="4"
-            r="1.8"
-            fill="currentColor"
-            variants={badgeVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '20.5px 4px' }}
           />
         </motion.svg>
       </div>

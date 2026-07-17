@@ -148,6 +148,7 @@ const MusicNote01Icon = forwardRef<MusicNote01IconHandle, MusicNote01IconProps>(
             variants={smallNoteVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
           />
           <motion.circle
             cx="10.5"
@@ -158,6 +159,7 @@ const MusicNote01Icon = forwardRef<MusicNote01IconHandle, MusicNote01IconProps>(
             variants={headLeftVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
           />
           <motion.circle
             cx="20"
@@ -168,6 +170,7 @@ const MusicNote01Icon = forwardRef<MusicNote01IconHandle, MusicNote01IconProps>(
             variants={headRightVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
           />
           <path
             d="M13 19.5L13 11C13 10.09 13 9.63502 13.2466 9.35248C13.4932 9.06993 13.9938 9.00163 14.9949 8.86504C18.0085 8.45385 20.2013 7.19797 21.3696 6.42937C21.6498 6.24509 21.7898 6.15295 21.8949 6.20961C22 6.26627 22 6.43179 22 6.76283V17.9259"
