@@ -13,7 +13,7 @@ const ROT = [-10, -14, 11, -8, 5, -2, -10];
 const DX = [0, 2.2, -1.8, 1.2, -0.7, 0.3, 0];
 const DURATION = 900;
 const FRAME_MS = 75;
-const RING_EVERY = 6000;
+const RING_EVERY = 3000;
 
 function sample(keys: number[], t: number) {
   let i = 1;
@@ -53,9 +53,24 @@ function toPng(svgUri: string) {
 export function AnimatedFavicon() {
   useEffect(() => {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const link = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
-    if (!link) return;
-    const rest = link.href;
+    // Next's own icon links stay untouched. Chrome honors the last rel=icon
+    // in the document and repaints most reliably when a fresh node is
+    // inserted, so each frame appends a new link at the end of <head>;
+    // removing it on restore hands the favicon back to Next's static SVG.
+    let animLink: HTMLLinkElement | null = null;
+    const setFrame = (href: string) => {
+      const l = document.createElement('link');
+      l.rel = 'icon';
+      l.type = 'image/png';
+      l.href = href;
+      animLink?.remove();
+      animLink = l;
+      document.head.appendChild(l);
+    };
+    const restore = () => {
+      animLink?.remove();
+      animLink = null;
+    };
     let timers: number[] = [];
     let interval = 0;
     let cancelled = false;
@@ -66,14 +81,10 @@ export function AnimatedFavicon() {
       const ring = () => {
         timers.forEach(clearTimeout);
         timers = frames.map((f, i) =>
-          window.setTimeout(() => {
-            link.href = f;
-          }, i * FRAME_MS)
+          window.setTimeout(() => setFrame(f), i * FRAME_MS)
         );
         timers.push(
-          window.setTimeout(() => {
-            link.href = rest;
-          }, frames.length * FRAME_MS)
+          window.setTimeout(restore, frames.length * FRAME_MS)
         );
       };
 
@@ -89,7 +100,7 @@ export function AnimatedFavicon() {
       cancelled = true;
       clearInterval(interval);
       timers.forEach(clearTimeout);
-      link.href = rest;
+      restore();
     };
   }, []);
 
