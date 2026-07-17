@@ -79,6 +79,21 @@
       ]
     },
     {
+      "name": "battery-charging-01",
+      "type": "registry:ui",
+      "title": "battery-charging-01",
+      "description": "Animated battery charging icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/battery-charging-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "bookmark-01",
       "type": "registry:ui",
       "title": "bookmark-01",
@@ -89,6 +104,21 @@
       "files": [
         {
           "path": "icons/bookmark-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "bug-01",
+      "type": "registry:ui",
+      "title": "bug-01",
+      "description": "Animated bug icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/bug-01.tsx",
           "type": "registry:ui"
         }
       ]
@@ -229,6 +259,21 @@
       ]
     },
     {
+      "name": "compass",
+      "type": "registry:ui",
+      "title": "compass",
+      "description": "Animated compass icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/compass.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "copy-01",
       "type": "registry:ui",
       "title": "copy-01",
@@ -244,6 +289,21 @@
       ]
     },
     {
+      "name": "crown",
+      "type": "registry:ui",
+      "title": "crown",
+      "description": "Animated crown icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/crown.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "delete-02",
       "type": "registry:ui",
       "title": "delete-02",
@@ -254,6 +314,21 @@
       "files": [
         {
           "path": "icons/delete-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "diamond-02",
+      "type": "registry:ui",
+      "title": "diamond-02",
+      "description": "Animated diamond icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/diamond-02.tsx",
           "type": "registry:ui"
         }
       ]
@@ -349,6 +424,21 @@
       ]
     },
     {
+      "name": "ghost",
+      "type": "registry:ui",
+      "title": "ghost",
+      "description": "Animated ghost icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/ghost.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "gift",
       "type": "registry:ui",
       "title": "gift",
@@ -374,6 +464,36 @@
       "files": [
         {
           "path": "icons/home-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "key-01",
+      "type": "registry:ui",
+      "title": "key-01",
+      "description": "Animated key icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/key-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "leaf-01",
+      "type": "registry:ui",
+      "title": "leaf-01",
+      "description": "Animated leaf icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/leaf-01.tsx",
           "type": "registry:ui"
         }
       ]
@@ -544,6 +664,21 @@
       ]
     },
     {
+      "name": "paint-brush-02",
+      "type": "registry:ui",
+      "title": "paint-brush-02",
+      "description": "Animated paint brush icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/paint-brush-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "plus-sign",
       "type": "registry:ui",
       "title": "plus-sign",
@@ -554,6 +689,21 @@
       "files": [
         {
           "path": "icons/plus-sign.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "printer",
+      "type": "registry:ui",
+      "title": "printer",
+      "description": "Animated printer icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/printer.tsx",
           "type": "registry:ui"
         }
       ]
@@ -644,6 +794,36 @@
       "files": [
         {
           "path": "icons/share-08.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "shopping-cart-01",
+      "type": "registry:ui",
+      "title": "shopping-cart-01",
+      "description": "Animated shopping cart icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/shopping-cart-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sleeping",
+      "type": "registry:ui",
+      "title": "sleeping",
+      "description": "Animated sleeping icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/sleeping.tsx",
           "type": "registry:ui"
         }
       ]

@@ -1830,4 +1830,568 @@ const eyeVariants: Variants = {
       2: { v: 'eyeVariants', style: `{ transformOrigin: '12px 8.7px' }` },
     },
   },
+
+  // ── drawn-signature batch 3 ─────────────────────────────────────────────
+  {
+    export: 'GhostIcon',
+    defs: `
+// while you hover, it haunts — a weightless bob with shifty eyes that
+// glance one way, then the other
+const svgVariants: Variants = {
+  normal: { translateY: 0, rotate: 0, transition: { duration: 0.3 } },
+  animate: {
+    translateY: [0, -1.8, 0],
+    rotate: [0, -3, 3, 0],
+    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+const eyeVariants: Variants = {
+  normal: { translateX: 0, transition: { duration: 0.3 } },
+  animate: {
+    translateX: [0, -0.9, -0.9, 0.9, 0.9, 0],
+    transition: {
+      duration: 2,
+      ease: 'easeInOut',
+      times: [0, 0.15, 0.4, 0.55, 0.85, 1],
+      repeat: Infinity,
+    },
+  },
+};`,
+    svg: 'svgVariants',
+    svgStyle: `{ transformOrigin: '12px 12px' }`,
+    els: { 1: { v: 'eyeVariants' }, 2: { v: 'eyeVariants' } },
+  },
+  {
+    export: 'ShoppingCart01Icon',
+    defs: `
+// while you hover, the cart is mid-dash — rattling over the floor while
+// drawn speed lines whip past behind it
+const svgVariants: Variants = {
+  normal: { rotate: 0, translateY: 0, transition: { duration: 0.3 } },
+  animate: {
+    rotate: [0, -1.6, 1.2, -0.8, 0],
+    translateY: [0, -0.5, 0, -0.3, 0],
+    transition: { duration: 0.55, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+// the groceries bounce a beat behind the chassis
+const itemsVariants: Variants = {
+  normal: { translateY: 0, transition: { duration: 0.3 } },
+  animate: {
+    translateY: [0, -0.9, 0],
+    transition: {
+      duration: 0.55,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      delay: 0.08,
+    },
+  },
+};
+
+const speedVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    translateX: [2, -2.5],
+    transition: {
+      duration: 0.5,
+      ease: 'easeOut',
+      repeat: Infinity,
+      delay: i * 0.22,
+    },
+  }),
+};`,
+    svg: 'svgVariants',
+    svgStyle: `{ transformOrigin: '12px 18px' }`,
+    els: { 3: { v: 'itemsVariants' } },
+    extra: `
+          <motion.path
+            d="M-2 9.5H0.8"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={speedVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M-2 13.5H-0.2"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={speedVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />`,
+  },
+  {
+    export: 'Key01Icon',
+    defs: `
+// the key turns in an unseen lock, holds against the pins, and springs
+// back — drawn click ticks flash at the moment it gives
+const keyVariants: Variants = {
+  normal: { rotate: 0, transition: { duration: 0.3 } },
+  animate: {
+    rotate: [0, -40, -40, 6, 0],
+    transition: {
+      duration: 0.9,
+      ease: 'easeInOut',
+      times: [0, 0.3, 0.5, 0.78, 1],
+    },
+  },
+};
+
+const glintVariants: Variants = {
+  normal: { opacity: 1, transition: { duration: 0.3 } },
+  animate: {
+    opacity: [1, 0.2, 0.2, 1],
+    transition: { duration: 0.9, times: [0, 0.3, 0.6, 0.85] },
+  },
+};
+
+const clickVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: {
+    opacity: [0, 0, 1, 0],
+    transition: { duration: 0.9, times: [0, 0.5, 0.62, 0.85], ease: 'easeOut' },
+  },
+};`,
+    els: {
+      0: { v: 'keyVariants', style: `{ transformOrigin: '15.5px 8.5px' }` },
+      1: { v: 'glintVariants' },
+    },
+    extra: `
+          <motion.path
+            d="M22.6 4.6L23.6 3.6"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={clickVariants}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M23.2 8.5H24.6"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={clickVariants}
+            animate={controls}
+            initial="normal"
+          />`,
+  },
+  {
+    export: 'CrownIcon',
+    defs: `
+// a small coronation: the crown takes a dignified bow-and-lift while the
+// jewel gleams and drawn glints twinkle over the points
+const svgVariants: Variants = {
+  normal: { translateY: 0, scale: 1, transition: { duration: 0.3 } },
+  animate: {
+    translateY: [0, -1.6, 0],
+    scale: [1, 1.04, 1],
+    transition: { duration: 0.6, ease: 'easeOut' },
+  },
+};
+
+const jewelVariants: Variants = {
+  normal: { scale: 1, transition: { duration: 0.3 } },
+  animate: {
+    scale: [1, 1.7, 1],
+    transition: { duration: 1.2, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+const glintVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    scale: [0.4, 1, 0.6],
+    transition: {
+      duration: 1.2,
+      ease: 'easeOut',
+      repeat: Infinity,
+      delay: 0.15 + i * 0.55,
+    },
+  }),
+};`,
+    svg: 'svgVariants',
+    svgStyle: `{ transformOrigin: '12px 21px' }`,
+    els: {
+      1: { v: 'jewelVariants', style: `{ transformOrigin: '12px 12.75px' }` },
+    },
+    extra: `
+          <motion.path
+            d="M5.5 0.2V2M4.6 1.1H6.4"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={glintVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '5.5px 1.1px' }}
+          />
+          <motion.path
+            d="M18.5 -0.5V1.3M17.6 0.4H19.4"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={glintVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '18.5px 0.4px' }}
+          />`,
+  },
+  {
+    export: 'Diamond02Icon',
+    defs: `
+// brilliance — the stone rocks to catch the light and drawn glints
+// flash off its corners in turn
+const svgVariants: Variants = {
+  normal: { rotate: 0, transition: { duration: 0.3 } },
+  animate: {
+    rotate: [0, -4, 4, 0],
+    transition: { duration: 1.6, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+const glintVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    scale: [0.4, 1.05, 0.5],
+    transition: {
+      duration: 1.6,
+      ease: 'easeOut',
+      repeat: Infinity,
+      delay: i * 0.55,
+    },
+  }),
+};`,
+    svg: 'svgVariants',
+    svgStyle: `{ transformOrigin: '12px 12px' }`,
+    extra: `
+          <motion.path
+            d="M3.4 4.5V6.5M2.4 5.5H4.4"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={glintVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '3.4px 5.5px' }}
+          />
+          <motion.path
+            d="M21 11.5V13.5M20 12.5H22"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={glintVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '21px 12.5px' }}
+          />
+          <motion.path
+            d="M6.5 20V21.6M5.7 20.8H7.3"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={glintVariants}
+            custom={2}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '6.5px 20.8px' }}
+          />`,
+  },
+  {
+    export: 'Leaf01Icon',
+    defs: `
+// while you hover, the breeze holds — the leaf sways from its stem and
+// drawn wind lines drift through the gap it leans away from
+const svgVariants: Variants = {
+  normal: { rotate: 0, transition: { duration: 0.4 } },
+  animate: {
+    rotate: [0, 7, -2, 5, 0],
+    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+const windVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    translateX: [-3, 2.5],
+    transition: {
+      duration: 1,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      delay: i * 0.45,
+    },
+  }),
+};`,
+    svg: 'svgVariants',
+    svgStyle: `{ transformOrigin: '3px 21px' }`,
+    extra: `
+          <motion.path
+            d="M2 3H6"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={windVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M1 6H4"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={windVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />`,
+  },
+  {
+    export: 'CompassIcon',
+    defs: `
+// finding north: the needle whips a full turn, overshoots, and settles
+// with a navigator's confidence
+const needleVariants: Variants = {
+  normal: { rotate: 0, transition: { duration: 0.4 } },
+  animate: {
+    rotate: [0, 150, 340, 375, 360],
+    transition: {
+      duration: 1.4,
+      ease: 'easeInOut',
+      times: [0, 0.3, 0.62, 0.82, 1],
+    },
+  },
+};`,
+    els: {
+      3: { v: 'needleVariants', style: `{ transformOrigin: '12px 13px' }` },
+    },
+  },
+  {
+    export: 'PaintBrush02Icon',
+    defs: `
+// the brush swipes from the wrist and leaves a drawn stroke of paint
+// behind on the ground it just crossed
+const svgVariants: Variants = {
+  normal: { rotate: 0, transition: { duration: 0.3 } },
+  animate: {
+    rotate: [0, -12, 8, -4, 0],
+    transition: {
+      duration: 1.1,
+      ease: 'easeInOut',
+      times: [0, 0.25, 0.55, 0.8, 1],
+    },
+  },
+};
+
+const strokeVariants: Variants = {
+  normal: { pathLength: 0, opacity: 0, transition: { duration: 0.3 } },
+  animate: {
+    pathLength: [0, 1],
+    opacity: [0, 1],
+    transition: { duration: 0.8, ease: 'easeOut', delay: 0.15 },
+  },
+};`,
+    svg: 'svgVariants',
+    svgStyle: `{ transformOrigin: '13.5px 21px' }`,
+    extra: `
+          <motion.path
+            d="M5.5 23.8C8.5 22.6 15.5 22.6 18.5 23.8"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={strokeVariants}
+            animate={controls}
+            initial="normal"
+          />`,
+  },
+  {
+    export: 'Bug01Icon',
+    defs: `
+// while you hover, it's alive — the body scuttles in place and the
+// antennae feel around, each on its own beat
+const svgVariants: Variants = {
+  normal: { translateX: 0, transition: { duration: 0.3 } },
+  animate: {
+    translateX: [0, 0.9, -0.9, 0.6, -0.6, 0],
+    transition: { duration: 0.55, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+const antennaVariants: Variants = {
+  normal: { rotate: 0, transition: { duration: 0.3 } },
+  animate: (i: number) => ({
+    rotate: [0, i * 16, 0, i * 9, 0],
+    transition: {
+      duration: 0.9,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      delay: i === 1 ? 0.2 : 0,
+    },
+  }),
+};`,
+    svg: 'svgVariants',
+    els: {
+      0: {
+        v: 'antennaVariants',
+        custom: -1,
+        style: `{ transformOrigin: '6.5px 8.4px' }`,
+      },
+      1: {
+        v: 'antennaVariants',
+        custom: 1,
+        style: `{ transformOrigin: '17.6px 8.4px' }`,
+      },
+    },
+  },
+  {
+    export: 'BatteryCharging01Icon',
+    defs: `
+// while you hover, it's plugged in — the bolt pulses with each surge and
+// drawn charge sparks float up off the terminal
+const boltVariants: Variants = {
+  normal: { scale: 1, opacity: 1, transition: { duration: 0.3 } },
+  animate: {
+    scale: [1, 1.2, 1],
+    opacity: [1, 0.55, 1],
+    transition: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
+  },
+};
+
+const sparkVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    translateY: [1.5, -2.5],
+    transition: {
+      duration: 1.1,
+      ease: 'easeOut',
+      repeat: Infinity,
+      delay: i * 0.45,
+    },
+  }),
+};`,
+    els: {
+      1: { v: 'boltVariants', style: `{ transformOrigin: '10.2px 12px' }` },
+    },
+    extra: `
+          <motion.path
+            d="M20.5 2V4M19.5 3H21.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={sparkVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M16 0.5V2.5M15 1.5H17"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={sparkVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />`,
+  },
+  {
+    export: 'SleepingIcon',
+    defs: `
+// deep sleep — the big Z drifts off and is reborn, a drawn little z
+// trails higher, and the mouth puffs with each snore
+const zVariants: Variants = {
+  normal: { opacity: 1, translateX: 0, translateY: 0, transition: { duration: 0.3 } },
+  animate: {
+    opacity: [1, 1, 0, 0, 1],
+    translateY: [0, -2, -3.2, 0, 0],
+    translateX: [0, 0.8, 1.4, 0, 0],
+    transition: {
+      duration: 2,
+      ease: 'easeInOut',
+      times: [0, 0.5, 0.68, 0.7, 1],
+      repeat: Infinity,
+    },
+  },
+};
+
+const littleZVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: {
+    opacity: [0, 1, 0],
+    translateY: [1.5, -2.5],
+    translateX: [0, 1],
+    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity, delay: 0.6 },
+  },
+};
+
+const snoreVariants: Variants = {
+  normal: { scale: 1, transition: { duration: 0.3 } },
+  animate: {
+    scale: [1, 1.3, 1],
+    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
+  },
+};`,
+    els: {
+      2: { v: 'snoreVariants', style: `{ transformOrigin: '12px 16px' }` },
+      3: { v: 'zVariants' },
+    },
+    extra: `
+          <motion.path
+            d="M13 0.5H15.2L13 2.7H15.2"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={littleZVariants}
+            animate={controls}
+            initial="normal"
+          />`,
+  },
+  {
+    export: 'PrinterIcon',
+    defs: `
+// while you hover, it prints — the page feeds out in stepped advances
+// like a real printer, and the status light blinks busy
+const paperVariants: Variants = {
+  normal: { translateY: 0, opacity: 1, transition: { duration: 0.3 } },
+  animate: {
+    translateY: [0, 1, 1, 2, 2, 3],
+    opacity: [1, 1, 1, 1, 1, 0],
+    transition: {
+      duration: 1.2,
+      ease: 'linear',
+      times: [0, 0.2, 0.4, 0.6, 0.78, 1],
+      repeat: Infinity,
+    },
+  },
+};
+
+const lightVariants: Variants = {
+  normal: { opacity: 1, transition: { duration: 0.3 } },
+  animate: {
+    opacity: [1, 0.2, 1],
+    transition: { duration: 0.6, ease: 'easeInOut', repeat: Infinity },
+  },
+};`,
+    els: {
+      2: { v: 'paperVariants' },
+      3: { v: 'lightVariants' },
+    },
+  },
 ];

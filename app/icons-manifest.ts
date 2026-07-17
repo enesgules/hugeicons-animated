@@ -4,7 +4,9 @@ import { ArrowDown02Icon } from '@/icons/arrow-down-02';
 import { ArrowLeft02Icon } from '@/icons/arrow-left-02';
 import { ArrowRight02Icon } from '@/icons/arrow-right-02';
 import { ArrowUp02Icon } from '@/icons/arrow-up-02';
+import { BatteryCharging01Icon } from '@/icons/battery-charging-01';
 import { Bookmark01Icon } from '@/icons/bookmark-01';
+import { Bug01Icon } from '@/icons/bug-01';
 import { BulbIcon } from '@/icons/bulb';
 import { Calendar03Icon } from '@/icons/calendar-03';
 import { Call02Icon } from '@/icons/call-02';
@@ -14,16 +16,22 @@ import { Clock01Icon } from '@/icons/clock-01';
 import { CloudRainIcon } from '@/icons/cloud-rain';
 import { CloudIcon } from '@/icons/cloud';
 import { Coffee02Icon } from '@/icons/coffee-02';
+import { CompassIcon } from '@/icons/compass';
 import { Copy01Icon } from '@/icons/copy-01';
+import { CrownIcon } from '@/icons/crown';
 import { Delete02Icon } from '@/icons/delete-02';
+import { Diamond02Icon } from '@/icons/diamond-02';
 import { Download01Icon } from '@/icons/download-01';
 import { Edit02Icon } from '@/icons/edit-02';
 import { EyeIcon } from '@/icons/eye';
 import { FavouriteIcon } from '@/icons/favourite';
 import { FireIcon } from '@/icons/fire';
 import { FlashIcon } from '@/icons/flash';
+import { GhostIcon } from '@/icons/ghost';
 import { GiftIcon } from '@/icons/gift';
 import { Home01Icon } from '@/icons/home-01';
+import { Key01Icon } from '@/icons/key-01';
+import { Leaf01Icon } from '@/icons/leaf-01';
 import { Link01Icon } from '@/icons/link-01';
 import { Loading03Icon } from '@/icons/loading-03';
 import { Location01Icon } from '@/icons/location-01';
@@ -35,13 +43,17 @@ import { Mic01Icon } from '@/icons/mic-01';
 import { Moon02Icon } from '@/icons/moon-02';
 import { MusicNote01Icon } from '@/icons/music-note-01';
 import { Notification03Icon } from '@/icons/notification-03';
+import { PaintBrush02Icon } from '@/icons/paint-brush-02';
 import { PlusSignIcon } from '@/icons/plus-sign';
+import { PrinterIcon } from '@/icons/printer';
 import { RefreshIcon } from '@/icons/refresh';
 import { Rocket01Icon } from '@/icons/rocket-01';
 import { Search01Icon } from '@/icons/search-01';
 import { SentIcon } from '@/icons/sent';
 import { Settings01Icon } from '@/icons/settings-01';
 import { Share08Icon } from '@/icons/share-08';
+import { ShoppingCart01Icon } from '@/icons/shopping-cart-01';
+import { SleepingIcon } from '@/icons/sleeping';
 import { SmileIcon } from '@/icons/smile';
 import { SquareLock01Icon } from '@/icons/square-lock-01';
 import { StarIcon } from '@/icons/star';
@@ -61,7 +73,9 @@ export const ICON_LIST = [
   { name: 'arrow-left-02', Icon: ArrowLeft02Icon },
   { name: 'arrow-right-02', Icon: ArrowRight02Icon },
   { name: 'arrow-up-02', Icon: ArrowUp02Icon },
+  { name: 'battery-charging-01', Icon: BatteryCharging01Icon },
   { name: 'bookmark-01', Icon: Bookmark01Icon },
+  { name: 'bug-01', Icon: Bug01Icon },
   { name: 'bulb', Icon: BulbIcon },
   { name: 'calendar-03', Icon: Calendar03Icon },
   { name: 'call-02', Icon: Call02Icon },
@@ -71,16 +85,22 @@ export const ICON_LIST = [
   { name: 'cloud-rain', Icon: CloudRainIcon },
   { name: 'cloud', Icon: CloudIcon },
   { name: 'coffee-02', Icon: Coffee02Icon },
+  { name: 'compass', Icon: CompassIcon },
   { name: 'copy-01', Icon: Copy01Icon },
+  { name: 'crown', Icon: CrownIcon },
   { name: 'delete-02', Icon: Delete02Icon },
+  { name: 'diamond-02', Icon: Diamond02Icon },
   { name: 'download-01', Icon: Download01Icon },
   { name: 'edit-02', Icon: Edit02Icon },
   { name: 'eye', Icon: EyeIcon },
   { name: 'favourite', Icon: FavouriteIcon },
   { name: 'fire', Icon: FireIcon },
   { name: 'flash', Icon: FlashIcon },
+  { name: 'ghost', Icon: GhostIcon },
   { name: 'gift', Icon: GiftIcon },
   { name: 'home-01', Icon: Home01Icon },
+  { name: 'key-01', Icon: Key01Icon },
+  { name: 'leaf-01', Icon: Leaf01Icon },
   { name: 'link-01', Icon: Link01Icon },
   { name: 'loading-03', Icon: Loading03Icon },
   { name: 'location-01', Icon: Location01Icon },
@@ -92,13 +112,17 @@ export const ICON_LIST = [
   { name: 'moon-02', Icon: Moon02Icon },
   { name: 'music-note-01', Icon: MusicNote01Icon },
   { name: 'notification-03', Icon: Notification03Icon },
+  { name: 'paint-brush-02', Icon: PaintBrush02Icon },
   { name: 'plus-sign', Icon: PlusSignIcon },
+  { name: 'printer', Icon: PrinterIcon },
   { name: 'refresh', Icon: RefreshIcon },
   { name: 'rocket-01', Icon: Rocket01Icon },
   { name: 'search-01', Icon: Search01Icon },
   { name: 'sent', Icon: SentIcon },
   { name: 'settings-01', Icon: Settings01Icon },
   { name: 'share-08', Icon: Share08Icon },
+  { name: 'shopping-cart-01', Icon: ShoppingCart01Icon },
+  { name: 'sleeping', Icon: SleepingIcon },
   { name: 'smile', Icon: SmileIcon },
   { name: 'square-lock-01', Icon: SquareLock01Icon },
   { name: 'star', Icon: StarIcon },
