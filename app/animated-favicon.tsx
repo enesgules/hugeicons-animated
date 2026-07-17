@@ -53,12 +53,22 @@ function toPng(svgUri: string) {
 export function AnimatedFavicon() {
   useEffect(() => {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    // Next's own icon links stay untouched. Chrome honors the last rel=icon
-    // in the document and repaints most reliably when a fresh node is
-    // inserted, so each frame appends a new link at the end of <head>;
-    // removing it on restore hands the favicon back to Next's static SVG.
+    // Chrome scores icon candidates and an SVG with sizes="any" outranks a
+    // PNG, so Next's own icon links are sidelined (rel unset) for the ring's
+    // duration — re-checked every frame since Next injects links after mount.
+    // Each frame inserts a fresh PNG link node (fresh nodes force a repaint);
+    // restore removes it and hands the favicon back to Next's static SVG.
     let animLink: HTMLLinkElement | null = null;
+    const paused = new Set<HTMLLinkElement>();
     const setFrame = (href: string) => {
+      document
+        .querySelectorAll<HTMLLinkElement>('link[rel="icon"]')
+        .forEach((l) => {
+          if (l !== animLink) {
+            l.rel = 'icon-paused';
+            paused.add(l);
+          }
+        });
       const l = document.createElement('link');
       l.rel = 'icon';
       l.type = 'image/png';
@@ -70,6 +80,10 @@ export function AnimatedFavicon() {
     const restore = () => {
       animLink?.remove();
       animLink = null;
+      paused.forEach((l) => {
+        l.rel = 'icon';
+      });
+      paused.clear();
     };
     let timers: number[] = [];
     let interval = 0;
@@ -78,10 +92,14 @@ export function AnimatedFavicon() {
     Promise.all(SVG_FRAMES.map(toPng)).then((frames) => {
       if (cancelled) return;
 
+      let ringId = 0;
       const ring = () => {
+        // fragment makes every ring's frame URLs unique — icon caches dedupe
+        // by URL and would otherwise treat repeat rings as "nothing changed"
+        const bust = `#r${ringId++}`;
         timers.forEach(clearTimeout);
         timers = frames.map((f, i) =>
-          window.setTimeout(() => setFrame(f), i * FRAME_MS)
+          window.setTimeout(() => setFrame(f + bust), i * FRAME_MS)
         );
         timers.push(
           window.setTimeout(restore, frames.length * FRAME_MS)
