@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Quicksand } from "next/font/google";
 import {
   GITHUB_URL,
@@ -53,6 +53,10 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
 };
 
 // structured data for search engines and AI crawlers
