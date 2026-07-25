@@ -183,12 +183,16 @@ export default function Home() {
             <div className="flex items-center gap-2 sm:gap-3">
               <a
                 href="https://hugeicons.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hidden text-[15px] font-medium text-[#696D6E] transition-colors hover:text-[#141812] md:inline"
               >
                 Hugeicons
               </a>
               <a
                 href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Star hugeicons-animated on GitHub"
                 className="flex min-h-10 items-center gap-1.5 rounded-[10px] border border-[#E5E5E3] bg-[#FAFAF9] px-3.5 py-2 text-sm font-bold text-[#141812] transition-[color,background-color,border-color,scale] duration-150 hover:border-[#79BD3E] hover:bg-[#AFE67F]/25 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
               >
@@ -230,9 +234,9 @@ export default function Home() {
               Beautiful icons.
               <br />
               <span className="text-[#BFC2BD]">
-                Now they move.{' '}
+                Now they move.
                 <span
-                  className="ml-[0.08em] inline-grid size-[0.95em] translate-y-[0.14em] place-items-center rounded-[0.26em] border [&_svg]:size-[0.58em] [&>div]:flex"
+                  className="ml-[0.16em] inline-grid size-[0.78em] translate-y-[0.08em] place-items-center rounded-[0.22em] border [&_svg]:size-[0.58em] [&>div]:flex"
                   style={{
                     backgroundColor: GREEN.bg,
                     borderColor: GREEN.border,
@@ -254,6 +258,8 @@ export default function Home() {
               Hand-animated{' '}
               <a
                 href="https://hugeicons.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[#141812] underline decoration-[#AFE67F] decoration-2 underline-offset-4"
               >
                 Hugeicons
@@ -430,7 +436,12 @@ export default function Home() {
             <div className="max-w-sm space-y-3 text-sm font-medium leading-relaxed text-[#696D6E]">
               <p>
                 Icons by{' '}
-                <a href="https://hugeicons.com" className={textLink}>
+                <a
+                  href="https://hugeicons.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={textLink}
+                >
                   Hugeicons
                 </a>
                 , hand-animated with{' '}
