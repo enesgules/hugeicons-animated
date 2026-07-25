@@ -34,6 +34,21 @@
       ]
     },
     {
+      "name": "alert-circle",
+      "type": "registry:ui",
+      "title": "alert-circle",
+      "description": "Animated alert circle icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/alert-circle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "archive-02",
       "type": "registry:ui",
       "title": "archive-02",
@@ -104,6 +119,21 @@
       "files": [
         {
           "path": "icons/arrow-up-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "arrow-up-right-01",
+      "type": "registry:ui",
+      "title": "arrow-up-right-01",
+      "description": "Animated arrow up right icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-up-right-01.tsx",
           "type": "registry:ui"
         }
       ]
@@ -344,6 +374,21 @@
       "files": [
         {
           "path": "icons/circle-x.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "clipboard",
+      "type": "registry:ui",
+      "title": "clipboard",
+      "description": "Animated clipboard icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/clipboard.tsx",
           "type": "registry:ui"
         }
       ]
@@ -634,6 +679,21 @@
       ]
     },
     {
+      "name": "file-01",
+      "type": "registry:ui",
+      "title": "file-01",
+      "description": "Animated file icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/file-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "filter",
       "type": "registry:ui",
       "title": "filter",
@@ -769,6 +829,21 @@
       ]
     },
     {
+      "name": "help-circle",
+      "type": "registry:ui",
+      "title": "help-circle",
+      "description": "Animated help circle icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/help-circle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "home-01",
       "type": "registry:ui",
       "title": "home-01",
@@ -779,6 +854,36 @@
       "files": [
         {
           "path": "icons/home-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "image-01",
+      "type": "registry:ui",
+      "title": "image-01",
+      "description": "Animated image icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/image-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "information-circle",
+      "type": "registry:ui",
+      "title": "information-circle",
+      "description": "Animated information circle icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/information-circle.tsx",
           "type": "registry:ui"
         }
       ]
@@ -829,6 +934,21 @@
       ]
     },
     {
+      "name": "link-square-02",
+      "type": "registry:ui",
+      "title": "link-square-02",
+      "description": "Animated link square icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/link-square-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "loading-03",
       "type": "registry:ui",
       "title": "loading-03",
@@ -854,6 +974,51 @@
       "files": [
         {
           "path": "icons/location-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "lock",
+      "type": "registry:ui",
+      "title": "lock",
+      "description": "Animated lock icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/lock.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "login-01",
+      "type": "registry:ui",
+      "title": "login-01",
+      "description": "Animated login icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/login-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "logout-01",
+      "type": "registry:ui",
+      "title": "logout-01",
+      "description": "Animated logout icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/logout-01.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1079,6 +1244,21 @@
       "files": [
         {
           "path": "icons/pause.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pin",
+      "type": "registry:ui",
+      "title": "pin",
+      "description": "Animated pin icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/pin.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1489,6 +1669,21 @@
       ]
     },
     {
+      "name": "user-group",
+      "type": "registry:ui",
+      "title": "user-group",
+      "description": "Animated user group icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/user-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "user",
       "type": "registry:ui",
       "title": "user",
@@ -1534,6 +1729,21 @@
       ]
     },
     {
+      "name": "volume-mute-01",
+      "type": "registry:ui",
+      "title": "volume-mute-01",
+      "description": "Animated volume mute icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/volume-mute-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "wifi-01",
       "type": "registry:ui",
       "title": "wifi-01",
@@ -1544,6 +1754,36 @@
       "files": [
         {
           "path": "icons/wifi-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "zoom-in-area",
+      "type": "registry:ui",
+      "title": "zoom-in-area",
+      "description": "Animated zoom in area icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/zoom-in-area.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "zoom-out-area",
+      "type": "registry:ui",
+      "title": "zoom-out-area",
+      "description": "Animated zoom out area icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/zoom-out-area.tsx",
           "type": "registry:ui"
         }
       ]
