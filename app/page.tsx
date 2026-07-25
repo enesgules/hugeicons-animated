@@ -150,14 +150,14 @@ export default function Home() {
               : 'bg-transparent'
           }`}
         >
-          <nav className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-3.5 sm:px-8">
+          <nav className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3.5 sm:gap-3 sm:px-8">
             <a
               href="#top"
               onMouseEnter={() => logoRef.current?.startAnimation()}
               onMouseLeave={() => logoRef.current?.stopAnimation()}
               onFocus={() => logoRef.current?.startAnimation()}
               onBlur={() => logoRef.current?.stopAnimation()}
-              className="flex min-h-10 items-center gap-2.5 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4C7A22]"
+              className="flex min-h-10 min-w-0 items-center gap-2 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4C7A22] sm:gap-2.5"
             >
               <span
                 className="grid size-8 shrink-0 place-items-center rounded-xl border"
@@ -175,7 +175,7 @@ export default function Home() {
                   }}
                 />
               </span>
-              <span className="text-lg font-bold leading-none tracking-[-0.01em]">
+              <span className="whitespace-nowrap text-base font-bold leading-none tracking-[-0.01em] sm:text-lg">
                 hugeicons <span className="font-medium text-[#9DA19B]">animated</span>
               </span>
             </a>
