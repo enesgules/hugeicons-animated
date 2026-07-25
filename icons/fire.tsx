@@ -15,47 +15,64 @@ interface FireIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, it burns — for real: the flame OUTLINE morphs between
-// poses (lick left, straighten, lick right), the whole body bobs on the
-// heat, and embers break loose, wander up, and wink out
+// the base stays planted while the flame stretches, leans, and snaps between
+// uneven poses; embers peel away on their own rhythm
 const svgVariants: Variants = {
-  normal: { translateY: 0, transition: { duration: 0.35, ease: 'easeOut' } },
+  normal: {
+    translateY: 0,
+    rotate: 0,
+    scaleX: 1,
+    scaleY: 1,
+    transition: { duration: 0.3, ease: 'easeOut' },
+  },
   animate: {
-    translateY: [0, -0.5, 0.2, 0],
-    transition: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
+    translateY: [0, -0.25, 0, -0.4, 0.1, 0],
+    rotate: [0, -2.5, 1.5, -1.5, 2, 0],
+    scaleX: [1, 0.97, 1.02, 0.98, 1.01, 1],
+    scaleY: [1, 1.07, 0.99, 1.05, 1.01, 1],
+    transition: {
+      duration: 1.15,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      times: [0, 0.18, 0.4, 0.62, 0.82, 1],
+    },
   },
 };
 
-// three poses of the same 9-segment path — tips and tongues move, base stays put
+// three compatible path poses let the tip and inner tongue move independently
 const FLAME_REST =
   'M13.8561 22C26.0783 19 19.2338 7 10.9227 2C9.9453 5.5 8.47838 6.5 5.54497 10C1.66121 14.6339 3.5895 20 8.96719 22C8.1524 21 6.04958 18.9008 7.5 16C8 15 9 14 8.5 12C9.47778 12.5 11.5 13 12 15.5C12.8148 14.5 13.6604 12.4 12.8783 10C19 14.5 16.5 19 13.8561 22Z';
 const FLAME_LEFT =
-  'M13.8561 22C26.0783 19.5 18.9 7.2 9.9 2.4C9.1 5.8 8.2 6.8 5.2 10.4C1.66121 14.6339 3.5895 20 8.96719 22C8.1524 21 6.2 18.7 7.8 16.3C8.4 15.2 9.4 14.2 8.9 12.6C9.7 13 11.5 13.4 11.9 15.9C12.7 14.8 13.3 12.8 12.5 10.6C18.4 14.9 16.2 19.2 13.8561 22Z';
+  'M13.8561 22C24.8 19.6 18.2 7.4 8.9 1.5C8.7 5.4 7.4 7.1 4.9 10.7C1.66121 14.6339 3.5895 20 8.96719 22C8.1524 21 5.9 18.6 7.9 15.8C8.6 14.8 9.7 14 8.8 11.6C10.2 12.3 11.8 13.1 12 15.9C12.9 14.4 13.2 12 12.2 9.6C18.3 14.2 16.2 19.3 13.8561 22Z';
 const FLAME_RIGHT =
-  'M13.8561 22C26.0783 18.6 19.6 6.6 12.1 1.7C10.4 5.2 8.8 6.2 5.9 9.6C1.66121 14.6339 3.5895 20 8.96719 22C8.1524 21 5.9 19.1 7.3 15.7C7.8 14.8 8.7 13.7 8.2 11.5C9.3 12.1 11.5 12.7 12.1 15.1C12.9 14.1 13.9 12 13.2 9.5C19.5 14.1 16.8 18.8 13.8561 22Z';
+  'M13.8561 22C25.8 18.5 21 7.2 13.7 1.6C11.8 5.3 9.7 6.2 6.2 9.1C1.66121 14.6339 3.5895 20 8.96719 22C8.1524 21 6.1 19.2 7.2 15.6C7.7 14.5 8.5 13.4 8 10.9C9.5 11.8 11.6 12.3 12.3 15C13.2 13.8 14.3 11.6 13.5 8.9C20.1 13.8 16.9 18.8 13.8561 22Z';
 
 const flameVariants: Variants = {
   normal: { d: FLAME_REST, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
-    d: [FLAME_REST, FLAME_LEFT, FLAME_REST, FLAME_RIGHT, FLAME_REST],
-    transition: { duration: 1.7, ease: 'easeInOut', repeat: Infinity },
+    d: [FLAME_REST, FLAME_LEFT, FLAME_RIGHT, FLAME_LEFT, FLAME_REST],
+    transition: {
+      duration: 1.15,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      times: [0, 0.2, 0.46, 0.72, 1],
+    },
   },
 };
 
-// embers: born at the flame's shoulder, they wander up, shrink, and wink out
 const emberVariants: Variants = {
   normal: { opacity: 0, translateY: 0, translateX: 0, scale: 1, transition: { duration: 0.2 } },
   animate: (i: number) => ({
-    opacity: [0, 1, 0],
-    translateY: [0.5, -4.5],
-    translateX: [0, i % 2 === 0 ? -0.9 : 0.9],
-    scale: [1, 0.65],
+    opacity: [0, 0.9, 0.55, 0],
+    translateY: [0.5, -2.5, -5.5],
+    translateX: [0, i % 2 === 0 ? -0.6 : 0.6, i % 2 === 0 ? -1.2 : 1.2],
+    scale: [0.8, 1, 0.45],
     transition: {
-      duration: 1.1,
+      duration: 0.9,
       ease: 'easeOut',
       repeat: Infinity,
-      repeatDelay: 0.3,
-      delay: i * 0.45,
+      repeatDelay: 0.25,
+      delay: i * 0.33,
     },
   }),
 };
