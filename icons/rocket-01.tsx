@@ -35,6 +35,22 @@ const streakVariants: Variants = {
   }),
 };
 
+const exhaustVariants: Variants = {
+  normal: { opacity: 0, scale: 0.4, translateX: 0, translateY: 0 },
+  animate: (i: number) => ({
+    opacity: [0, 0.9, 0],
+    scale: [0.35, 1, 0.55],
+    translateX: [0, -2.4 - i * 0.6],
+    translateY: [0, 2.4 + i * 0.6],
+    transition: {
+      duration: 0.55,
+      ease: 'easeOut',
+      delay: 0.08 + i * 0.12,
+      repeat: 1,
+    },
+  }),
+};
+
 const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
@@ -125,6 +141,26 @@ const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
             variants={shipVariants}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.circle
+            cx="6.3"
+            cy="17.7"
+            r="0.7"
+            fill="currentColor"
+            variants={exhaustVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.circle
+            cx="8.2"
+            cy="15.8"
+            r="0.5"
+            fill="currentColor"
+            variants={exhaustVariants}
+            custom={1}
             animate={controls}
             initial="normal"
           />

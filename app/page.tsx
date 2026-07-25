@@ -72,28 +72,38 @@ export default function Home() {
     const visible = matches(query);
     if (visible.length === 0) return;
     let i = 0;
+    let stopTimer: ReturnType<typeof setTimeout> | undefined;
     const id = setInterval(() => {
-      const handle = refs.current[visible[i % visible.length].idx];
+      const icon = visible[i % visible.length];
+      const handle = refs.current[icon.idx];
       handle?.startAnimation();
-      setTimeout(() => handle?.stopAnimation(), 1200);
+      stopTimer = setTimeout(
+        () => refs.current[icon.idx]?.stopAnimation(),
+        1200
+      );
       i++;
     }, 3200);
-    return () => clearInterval(id);
+    return () => {
+      clearInterval(id);
+      if (stopTimer) clearTimeout(stopTimer);
+    };
   }, [reduced, query]);
 
   // the headline demos the product: the inline bell rings on load,
   // then again every few seconds, offset from the grid's wave
   useEffect(() => {
     if (reduced) return;
+    let stopTimer: ReturnType<typeof setTimeout> | undefined;
     const ring = () => {
       heroBell.current?.startAnimation();
-      setTimeout(() => heroBell.current?.stopAnimation(), 1200);
+      stopTimer = setTimeout(() => heroBell.current?.stopAnimation(), 1200);
     };
     const greet = setTimeout(ring, 900);
     const id = setInterval(ring, 6400);
     return () => {
       clearTimeout(greet);
       clearInterval(id);
+      if (stopTimer) clearTimeout(stopTimer);
     };
   }, [reduced]);
 
@@ -122,7 +132,10 @@ export default function Home() {
   const filtered = matches(query);
 
   return (
-    <MotionConfig reducedMotion="user">
+    <MotionConfig
+      reducedMotion="user"
+      transition={{ type: 'spring', duration: 0.45, bounce: 0 }}
+    >
       <div
         id="top"
         className="relative flex min-h-screen w-full flex-col bg-white text-[#141812]"
@@ -144,7 +157,7 @@ export default function Home() {
               onMouseLeave={() => logoRef.current?.stopAnimation()}
               onFocus={() => logoRef.current?.startAnimation()}
               onBlur={() => logoRef.current?.stopAnimation()}
-              className="flex items-center gap-2.5 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4C7A22]"
+              className="flex min-h-10 items-center gap-2.5 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4C7A22]"
             >
               <span
                 className="grid size-8 shrink-0 place-items-center rounded-xl border"
@@ -177,7 +190,7 @@ export default function Home() {
               <a
                 href={GITHUB_URL}
                 aria-label="Star hugeicons-animated on GitHub"
-                className="flex items-center gap-1.5 rounded-[10px] border border-[#E5E5E3] bg-[#FAFAF9] px-3.5 py-2 text-sm font-bold text-[#141812] transition-colors hover:border-[#79BD3E] hover:bg-[#AFE67F]/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+                className="flex min-h-10 items-center gap-1.5 rounded-[10px] border border-[#E5E5E3] bg-[#FAFAF9] px-3.5 py-2 text-sm font-bold text-[#141812] transition-[color,background-color,border-color,scale] duration-150 hover:border-[#79BD3E] hover:bg-[#AFE67F]/25 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
               >
                 <GitHubMark className="size-4" />
                 <span className="hidden sm:inline">Star on GitHub</span>
@@ -213,13 +226,13 @@ export default function Home() {
               })}
             </div>
 
-            <h1 className="relative text-[clamp(2.6rem,7.5vw,4.25rem)] font-bold leading-[1.06] tracking-[-0.03em]">
+            <h1 className="relative text-balance text-[clamp(2.6rem,7.5vw,4.25rem)] font-bold leading-[1.06] tracking-[-0.03em]">
               Beautiful icons.
               <br />
               <span className="text-[#BFC2BD]">
-                Now they{' '}
+                Now they move.{' '}
                 <span
-                  className="mx-[0.06em] inline-grid size-[0.95em] translate-y-[0.14em] place-items-center rounded-[0.26em] border [&_svg]:size-[0.58em] [&>div]:flex"
+                  className="ml-[0.08em] inline-grid size-[0.95em] translate-y-[0.14em] place-items-center rounded-[0.26em] border [&_svg]:size-[0.58em] [&>div]:flex"
                   style={{
                     backgroundColor: GREEN.bg,
                     borderColor: GREEN.border,
@@ -233,12 +246,11 @@ export default function Home() {
                       heroBell.current = h;
                     }}
                   />
-                </span>{' '}
-                move.
+                </span>
               </span>
             </h1>
 
-            <p className="relative mt-6 max-w-md text-lg font-medium leading-[1.6] text-[#696D6E]">
+            <p className="relative mt-6 max-w-md text-pretty text-lg font-medium leading-[1.6] text-[#696D6E]">
               Hand-animated{' '}
               <a
                 href="https://hugeicons.com"
@@ -250,128 +262,162 @@ export default function Home() {
               you own — no package, no lock-in.
             </p>
 
-            <button
-              type="button"
-              onClick={() => copy('notification-03', 'hero')}
-              className="group relative mt-8 flex w-fit cursor-pointer items-center gap-3 rounded-xl border py-3 pr-3 pl-4 transition-transform duration-[160ms] [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
-              style={{ backgroundColor: GREEN.bg, borderColor: GREEN.border }}
-            >
-              <span
-                className="grid text-left font-mono text-sm"
-                style={{ color: GREEN.deep }}
-              >
-                <span
-                  aria-hidden={copied === 'hero'}
-                  className={`col-start-1 row-start-1 transition-[opacity,filter] duration-200 ${
-                    copied === 'hero' ? 'opacity-0 blur-[2px]' : 'opacity-100 blur-0'
-                  }`}
-                >
-                  <span className="opacity-50">$ </span>
-                  npx shadcn@latest add …/r/notification-03.json
-                </span>
-                <span
-                  aria-hidden={copied !== 'hero'}
-                  className={`col-start-1 row-start-1 transition-[opacity,filter] duration-200 ${
-                    copied === 'hero' ? 'opacity-100 blur-0' : 'opacity-0 blur-[2px]'
-                  }`}
-                >
-                  copied to clipboard!
-                </span>
-              </span>
-              <span
-                className="rounded-lg bg-[#1D3208]/10 px-2 py-1 font-mono text-[11px] transition-colors group-hover:bg-[#1D3208]/15"
-                style={{ color: GREEN.deep }}
-              >
-                {copied === 'hero' ? '✓' : 'copy'}
-              </span>
-            </button>
-          </section>
-
-          {/* toolbar: search + count + the hover/copy hint */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 py-3">
-            <label className="relative w-full max-w-sm">
-              <span
-                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2"
-                style={{ color: GREEN.border }}
-              >
-                <Search01Icon size={17} aria-hidden />
-              </span>
-              <input
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={`Search ${ICONS.length} icons…`}
-                aria-label="Search icons"
-                className="w-full rounded-xl border border-[#E5E5E3] bg-white py-3 pl-10 pr-4 text-[15px] font-medium text-[#141812] shadow-[0_1px_2px_rgba(20,24,18,0.04)] placeholder:text-[#BFC2BD] focus:outline-none focus-visible:border-[#79BD3E] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
-              />
-            </label>
-            <span className="font-mono text-xs text-[#9DA19B]" aria-live="polite">
-              {filtered.length === ICONS.length
-                ? `${ICONS.length} icons`
-                : `${filtered.length} of ${ICONS.length}`}
-            </span>
-            <span className="ml-auto hidden text-sm font-medium text-[#9DA19B] sm:block">
-              Hover to preview — click to copy the install command.
-            </span>
-          </div>
-
-          {filtered.length === 0 ? (
-            <div className="flex flex-col items-center gap-3 py-20 text-center">
-              <p className="font-medium text-[#696D6E]">
-                No icons match &ldquo;{query.trim()}&rdquo;
+            <div className="relative mt-8 max-w-[34rem]">
+              <p className="mb-2 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-[#9DA19B]">
+                Install an icon
               </p>
               <button
                 type="button"
-                onClick={() => setQuery('')}
-                className="cursor-pointer rounded-[10px] border border-[#E5E5E3] px-4 py-2 text-sm font-bold text-[#696D6E] transition-colors hover:border-[#79BD3E] hover:text-[#141812]"
+                aria-label="Copy the notification icon install command"
+                onClick={() => copy('notification-03', 'hero')}
+                className="group flex min-h-12 w-full cursor-pointer items-center justify-between gap-3 rounded-xl border py-3 pr-3 pl-4 transition-transform duration-[160ms] [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:scale-[1.02] active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+                style={{ backgroundColor: GREEN.bg, borderColor: GREEN.border }}
               >
-                Clear search
+                <span
+                  className="grid min-w-0 text-left font-mono text-xs sm:text-sm"
+                  style={{ color: GREEN.deep }}
+                >
+                  <span
+                    aria-hidden={copied === 'hero'}
+                    className={`col-start-1 row-start-1 truncate transition-[opacity,filter] duration-200 ${
+                      copied === 'hero'
+                        ? 'opacity-0 blur-[2px]'
+                        : 'opacity-100 blur-0'
+                    }`}
+                  >
+                    <span className="opacity-50">$ </span>
+                    npx shadcn@latest add …/r/notification-03.json
+                  </span>
+                  <span
+                    aria-hidden={copied !== 'hero'}
+                    className={`col-start-1 row-start-1 transition-[opacity,filter] duration-200 ${
+                      copied === 'hero'
+                        ? 'opacity-100 blur-0'
+                        : 'opacity-0 blur-[2px]'
+                    }`}
+                  >
+                    copied to clipboard!
+                  </span>
+                </span>
+                <span
+                  className="shrink-0 rounded-lg bg-[#1D3208]/10 px-2 py-1 font-mono text-[11px] transition-colors group-hover:bg-[#1D3208]/15"
+                  style={{ color: GREEN.deep }}
+                >
+                  {copied === 'hero' ? '✓' : 'copy'}
+                </span>
               </button>
             </div>
-          ) : (
-            <div className="mt-4 grid grid-cols-3 gap-2 pb-16 sm:grid-cols-4 sm:gap-3 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8">
-              {filtered.map(({ name, Icon, idx }, pos) => {
-                const isCopied = copied === name;
-                return (
-                  <button
-                    key={name}
-                    type="button"
-                    onClick={() => copy(name, name)}
-                    onMouseEnter={() => refs.current[idx]?.startAnimation()}
-                    onMouseLeave={() => refs.current[idx]?.stopAnimation()}
-                    onFocus={() => refs.current[idx]?.startAnimation()}
-                    onBlur={() => refs.current[idx]?.stopAnimation()}
-                    className="tile-enter group relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border transition-[transform,background-color,border-color] duration-200 [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
-                    style={{
-                      backgroundColor: isCopied ? COPIED_TINT.bg : '#F5F5F4',
-                      borderColor: isCopied ? COPIED_TINT.border : 'transparent',
-                      color: isCopied ? COPIED_TINT.ink : '#141812',
-                      // cap the cascade so late rows don't feel laggy
-                      ['--tile-delay' as string]: `${Math.min(pos * 30, 600)}ms`,
-                    }}
+          </section>
+
+          <section aria-labelledby="icon-library-heading" className="pb-16">
+            <div className="grid gap-5 py-6 sm:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)] sm:items-end">
+              <div>
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <h2
+                    id="icon-library-heading"
+                    className="text-balance text-2xl font-bold tracking-[-0.02em] sm:text-3xl"
                   >
-                    <span
-                      aria-hidden
-                      className={`absolute right-1.5 top-1.5 rounded-full bg-white px-2 py-0.5 font-mono text-[9px] text-[#696D6E] shadow-[0_1px_3px_rgba(20,24,18,0.08)] transition-opacity duration-150 ${
-                        isCopied ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'
-                      }`}
-                    >
-                      copy
-                    </span>
-                    <Icon
-                      size={32}
-                      ref={(h: IconHandle | null) => {
-                        refs.current[idx] = h;
-                      }}
-                    />
-                    <span className="max-w-full truncate px-2 font-mono text-[10px] leading-none opacity-50 transition-opacity duration-150 group-hover:opacity-100">
-                      {isCopied ? 'copied!' : name}
-                    </span>
-                  </button>
-                );
-              })}
+                    Pick an icon.
+                  </h2>
+                  <span
+                    className="font-mono text-xs text-[#9DA19B]"
+                    aria-live="polite"
+                  >
+                    {filtered.length === ICONS.length
+                      ? `${ICONS.length} icons`
+                      : `${filtered.length} of ${ICONS.length}`}
+                  </span>
+                </div>
+                <p className="mt-1 text-pretty text-sm font-medium text-[#9DA19B]">
+                  Hover to preview. Click any icon to copy its install command.
+                </p>
+              </div>
+
+              <label className="relative w-full">
+                <span className="sr-only">Search icons</span>
+                <span
+                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2"
+                  style={{ color: GREEN.border }}
+                >
+                  <Search01Icon size={17} aria-hidden />
+                </span>
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder={`Search ${ICONS.length} icons…`}
+                  className="w-full rounded-xl border border-[#E5E5E3] bg-white py-3 pl-10 pr-4 text-[15px] font-medium text-[#141812] shadow-[0_1px_2px_rgba(20,24,18,0.04)] placeholder:text-[#BFC2BD] focus:outline-none focus-visible:border-[#79BD3E] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+                />
+              </label>
             </div>
-          )}
+
+            <div
+              aria-hidden
+              className="h-px bg-gradient-to-r from-[#E5E5E3] via-[#E5E5E3] to-transparent"
+            />
+
+            {filtered.length === 0 ? (
+              <div className="flex flex-col items-center gap-3 py-20 text-center">
+                <p className="font-medium text-[#696D6E]">
+                  No icons match &ldquo;{query.trim()}&rdquo;
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setQuery('')}
+                  className="min-h-10 cursor-pointer rounded-[10px] border border-[#E5E5E3] px-4 py-2 text-sm font-bold text-[#696D6E] transition-[color,border-color,scale] hover:border-[#79BD3E] hover:text-[#141812] active:scale-[0.96]"
+                >
+                  Clear search
+                </button>
+              </div>
+            ) : (
+              <div className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-4 sm:gap-3 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8">
+                {filtered.map(({ name, Icon, idx }, pos) => {
+                  const isCopied = copied === name;
+                  return (
+                    <button
+                      key={name}
+                      type="button"
+                      onClick={() => copy(name, name)}
+                      onPointerEnter={() => refs.current[idx]?.startAnimation()}
+                      onPointerLeave={() => refs.current[idx]?.stopAnimation()}
+                      onFocus={() => refs.current[idx]?.startAnimation()}
+                      onBlur={() => refs.current[idx]?.stopAnimation()}
+                      className="tile-enter group relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border transition-[transform,background-color,border-color] duration-200 [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+                      style={{
+                        backgroundColor: isCopied ? COPIED_TINT.bg : '#F5F5F4',
+                        borderColor: isCopied
+                          ? COPIED_TINT.border
+                          : 'transparent',
+                        color: isCopied ? COPIED_TINT.ink : '#141812',
+                        // cap the cascade so late rows don't feel laggy
+                        ['--tile-delay' as string]: `${Math.min(pos * 22, 360)}ms`,
+                      }}
+                    >
+                      <span
+                        aria-hidden
+                        className={`absolute right-1.5 top-1.5 rounded-full bg-white px-2 py-0.5 font-mono text-[9px] text-[#696D6E] shadow-[0_1px_3px_rgba(20,24,18,0.08)] transition-opacity duration-150 ${
+                          isCopied
+                            ? 'opacity-0'
+                            : 'opacity-0 group-hover:opacity-100'
+                        }`}
+                      >
+                        copy
+                      </span>
+                      <Icon
+                        size={32}
+                        ref={(h: IconHandle | null) => {
+                          refs.current[idx] = h;
+                        }}
+                      />
+                      <span className="max-w-full truncate px-2 font-mono text-[10px] leading-none opacity-50 transition-opacity duration-150 group-hover:opacity-100">
+                        {isCopied ? 'copied!' : name}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </section>
         </main>
 
         <footer className="mt-auto">

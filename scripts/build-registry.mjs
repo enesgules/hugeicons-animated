@@ -10,7 +10,7 @@ const files = (await readdir(path.join(root, 'icons'))).filter((f) =>
 const registry = {
   $schema: 'https://ui.shadcn.com/schema/registry.json',
   name: 'hugeicons-animated',
-  homepage: 'https://hugeicons-animated.vercel.app',
+  homepage: 'https://hugeicons-animated.com',
   items: files.map((f) => {
     const name = f.replace('.tsx', '');
     return {

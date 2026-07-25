@@ -1,8 +1,23 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "hugeicons-animated",
-  "homepage": "https://hugeicons-animated.vercel.app",
+  "homepage": "https://hugeicons-animated.com",
   "items": [
+    {
+      "name": "airplane-take-off-01",
+      "type": "registry:ui",
+      "title": "airplane-take-off-01",
+      "description": "Animated airplane take off icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/airplane-take-off-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
     {
       "name": "alarm-clock",
       "type": "registry:ui",
@@ -14,6 +29,21 @@
       "files": [
         {
           "path": "icons/alarm-clock.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "archive-02",
+      "type": "registry:ui",
+      "title": "archive-02",
+      "description": "Animated archive icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/archive-02.tsx",
           "type": "registry:ui"
         }
       ]
@@ -79,6 +109,21 @@
       ]
     },
     {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "attachment",
+      "description": "Animated attachment icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/attachment.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "battery-charging-01",
       "type": "registry:ui",
       "title": "battery-charging-01",
@@ -89,6 +134,21 @@
       "files": [
         {
           "path": "icons/battery-charging-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "bluetooth",
+      "type": "registry:ui",
+      "title": "bluetooth",
+      "description": "Animated bluetooth icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/bluetooth.tsx",
           "type": "registry:ui"
         }
       ]
@@ -214,6 +274,21 @@
       ]
     },
     {
+      "name": "cloud-lightning",
+      "type": "registry:ui",
+      "title": "cloud-lightning",
+      "description": "Animated cloud lightning icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/cloud-lightning.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "cloud-rain",
       "type": "registry:ui",
       "title": "cloud-rain",
@@ -239,6 +314,21 @@
       "files": [
         {
           "path": "icons/cloud.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "code-xml",
+      "type": "registry:ui",
+      "title": "code-xml",
+      "description": "Animated code xml icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/code-xml.tsx",
           "type": "registry:ui"
         }
       ]
@@ -304,6 +394,36 @@
       ]
     },
     {
+      "name": "cursor-pointer-01",
+      "type": "registry:ui",
+      "title": "cursor-pointer-01",
+      "description": "Animated cursor pointer icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/cursor-pointer-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "database",
+      "type": "registry:ui",
+      "title": "database",
+      "description": "Animated database icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/database.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "delete-02",
       "type": "registry:ui",
       "title": "delete-02",
@@ -344,6 +464,21 @@
       "files": [
         {
           "path": "icons/download-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "earth",
+      "type": "registry:ui",
+      "title": "earth",
+      "description": "Animated earth icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/earth.tsx",
           "type": "registry:ui"
         }
       ]
@@ -424,6 +559,36 @@
       ]
     },
     {
+      "name": "flower",
+      "type": "registry:ui",
+      "title": "flower",
+      "description": "Animated flower icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/flower.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "folder-open",
+      "type": "registry:ui",
+      "title": "folder-open",
+      "description": "Animated folder open icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/folder-open.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "ghost",
       "type": "registry:ui",
       "title": "ghost",
@@ -449,6 +614,21 @@
       "files": [
         {
           "path": "icons/gift.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "headphones",
+      "type": "registry:ui",
+      "title": "headphones",
+      "description": "Animated headphones icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/headphones.tsx",
           "type": "registry:ui"
         }
       ]
@@ -634,6 +814,21 @@
       ]
     },
     {
+      "name": "mouse-left-click-01",
+      "type": "registry:ui",
+      "title": "mouse-left-click-01",
+      "description": "Animated mouse left click icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/mouse-left-click-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "music-note-01",
       "type": "registry:ui",
       "title": "music-note-01",
@@ -679,6 +874,51 @@
       ]
     },
     {
+      "name": "party",
+      "type": "registry:ui",
+      "title": "party",
+      "description": "Animated party icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/party.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pause",
+      "type": "registry:ui",
+      "title": "pause",
+      "description": "Animated pause icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/pause.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "type": "registry:ui",
+      "title": "play",
+      "description": "Animated play icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/play.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "plus-sign",
       "type": "registry:ui",
       "title": "plus-sign",
@@ -709,6 +949,36 @@
       ]
     },
     {
+      "name": "puzzle",
+      "type": "registry:ui",
+      "title": "puzzle",
+      "description": "Animated puzzle icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/puzzle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "qr-code-01",
+      "type": "registry:ui",
+      "title": "qr-code-01",
+      "description": "Animated qr code icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/qr-code-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "refresh",
       "type": "registry:ui",
       "title": "refresh",
@@ -724,6 +994,21 @@
       ]
     },
     {
+      "name": "robot-01",
+      "type": "registry:ui",
+      "title": "robot-01",
+      "description": "Animated robot icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/robot-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "rocket-01",
       "type": "registry:ui",
       "title": "rocket-01",
@@ -734,6 +1019,21 @@
       "files": [
         {
           "path": "icons/rocket-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "save",
+      "type": "registry:ui",
+      "title": "save",
+      "description": "Animated save icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/save.tsx",
           "type": "registry:ui"
         }
       ]
@@ -799,6 +1099,21 @@
       ]
     },
     {
+      "name": "shield-02",
+      "type": "registry:ui",
+      "title": "shield-02",
+      "description": "Animated shield icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/shield-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "shopping-cart-01",
       "type": "registry:ui",
       "title": "shopping-cart-01",
@@ -839,6 +1154,36 @@
       "files": [
         {
           "path": "icons/smile.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "snow",
+      "type": "registry:ui",
+      "title": "snow",
+      "description": "Animated snow icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/snow.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sparkles",
+      "type": "registry:ui",
+      "title": "sparkles",
+      "description": "Animated sparkles icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/sparkles.tsx",
           "type": "registry:ui"
         }
       ]
@@ -974,6 +1319,21 @@
       "files": [
         {
           "path": "icons/user.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "video-01",
+      "type": "registry:ui",
+      "title": "video-01",
+      "description": "Animated video icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/video-01.tsx",
           "type": "registry:ui"
         }
       ]

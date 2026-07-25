@@ -20,7 +20,7 @@ interface Settings01IconProps extends HTMLAttributes<HTMLDivElement> {
 const svgVariants: Variants = {
   normal: {
     rotate: 0,
-    transition: { type: 'spring', duration: 0.6, bounce: 0.15 },
+    transition: { type: 'spring', duration: 0.6, bounce: 0 },
   },
   animate: {
     rotate: [0, -18, 196, 180],

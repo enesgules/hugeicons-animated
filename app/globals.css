@@ -18,6 +18,7 @@ body {
   background: #ffffff;
   color: #141812;
   font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
@@ -45,8 +46,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .tile-enter {
-    animation: tile-in 200ms ease forwards;
-    animation-delay: 0ms;
-    transform: none;
+    opacity: 1;
+    animation: none;
   }
 }

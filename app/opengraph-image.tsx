@@ -95,7 +95,7 @@ export default async function Image() {
               color: '#BFC2BD',
             }}
           >
-            Now they
+            Now they move.
             <div
               style={{
                 display: 'flex',
@@ -103,7 +103,7 @@ export default async function Image() {
                 justifyContent: 'center',
                 width: 92,
                 height: 92,
-                margin: '0 22px',
+                marginLeft: 22,
                 borderRadius: 24,
                 background: '#AFE67F',
                 border: '2.5px solid #79BD3E',
@@ -111,7 +111,6 @@ export default async function Image() {
             >
               <Mark width={68} />
             </div>
-            move.
           </div>
         </div>
 
