@@ -10,10 +10,10 @@ Source: https://github.com/enesgules/hugeicons-animated
 ## Install an icon
 
 ```bash
-npx shadcn@latest add "https://hugeicons-animated.com/r/notification-03.json"
+npx shadcn@latest add @hugeicons-animated/notification-03
 ```
 
-The registry endpoint pattern is `/r/{icon-name}.json`. Browse all icons on
+The public registry namespace is `@hugeicons-animated`. Browse all icons on
 the homepage; hovering an icon previews its animation.
 
 ## Usage

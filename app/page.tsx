@@ -28,7 +28,7 @@ const matches = (query: string) => {
 };
 
 const installCommand = (name: string) =>
-  `npx shadcn@latest add "${typeof window === 'undefined' ? '' : window.location.origin}/r/${name}.json"`;
+  `npx shadcn@latest add @hugeicons-animated/${name}`;
 
 // shared link treatment for footer / header text links
 const textLink =
@@ -292,7 +292,7 @@ export default function Home() {
                     }`}
                   >
                     <span className="opacity-50">$ </span>
-                    npx shadcn@latest add …/r/notification-03.json
+                    npx shadcn@latest add @hugeicons-animated/notification-03
                   </span>
                   <span
                     aria-hidden={copied !== 'hero'}
