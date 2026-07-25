@@ -28,8 +28,8 @@ const svgVariants: Variants = {
     rotate: [0, -4, 3.5, -4, 3.5, 0],
     translateY: [0, -0.8, 0, -0.8, 0],
     transition: {
-      rotate: { duration: 1.8, ease: 'easeInOut', repeat: Infinity },
-      translateY: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
+      rotate: { duration: 1.8, ease: 'easeInOut' },
+      translateY: { duration: 0.9, ease: 'easeInOut' },
     },
   },
 };
@@ -39,7 +39,7 @@ const headLeftVariants: Variants = {
   normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
     scale: [1, 1.22, 1],
-    transition: { duration: 0.45, ease: 'easeInOut', repeat: Infinity, repeatDelay: 0.45 },
+    transition: { duration: 0.45, ease: 'easeInOut' },
   },
 };
 
@@ -51,8 +51,6 @@ const headRightVariants: Variants = {
     transition: {
       duration: 0.45,
       ease: 'easeInOut',
-      repeat: Infinity,
-      repeatDelay: 0.45,
       delay: 0.45,
     },
   },
@@ -69,8 +67,8 @@ const smallNoteVariants: Variants = {
     rotate: [0, -9, 7, 0],
     translateY: [0, -1.5, 0, -0.8, 0],
     transition: {
-      rotate: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
-      translateY: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
+      rotate: { duration: 0.9, ease: 'easeInOut' },
+      translateY: { duration: 0.9, ease: 'easeInOut' },
     },
   },
 };
@@ -80,13 +78,11 @@ const floatNoteVariants: Variants = {
   normal: { opacity: 0, translateY: 0, rotate: 0, transition: { duration: 0.2 } },
   animate: (i: number) => ({
     opacity: [0, 1, 0],
-    translateY: [1.5, -3.5],
+    translateY: [1, -1.5],
     rotate: [0, i === 0 ? -12 : 12],
     transition: {
       duration: 1.4,
       ease: 'easeOut',
-      repeat: Infinity,
-      repeatDelay: 0.4,
       delay: i * 0.9,
     },
   }),
@@ -192,8 +188,8 @@ const MusicNote01Icon = forwardRef<MusicNote01IconHandle, MusicNote01IconProps>(
             animate={controls}
             initial="normal"
           >
-            <circle cx="15.2" cy="4.6" r="0.8" fill="currentColor" />
-            <path d="M16 4.6V2.1" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" />
+            <circle cx="15.2" cy="5.5" r="0.8" fill="currentColor" />
+            <path d="M16 5.5V3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" />
           </motion.g>
           <motion.g
             variants={floatNoteVariants}
@@ -201,8 +197,8 @@ const MusicNote01Icon = forwardRef<MusicNote01IconHandle, MusicNote01IconProps>(
             animate={controls}
             initial="normal"
           >
-            <circle cx="18.8" cy="3.2" r="0.65" fill="currentColor" />
-            <path d="M19.45 3.2V1" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" />
+            <circle cx="18.8" cy="4.8" r="0.65" fill="currentColor" />
+            <path d="M19.45 4.8V2.8" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" />
           </motion.g>
         </motion.svg>
       </div>

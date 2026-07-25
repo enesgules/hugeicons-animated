@@ -31,7 +31,7 @@ const confettiVariants: Variants = {
   animate: (i: number) => ({
     opacity: [1, 1, 0, 1],
     translateX: [0, 0.6 + (i % 2) * 0.8, 0],
-    translateY: [0, -1.5 - (i % 3) * 0.5, 0],
+    translateY: [0, -0.8 - (i % 3) * 0.25, 0],
     rotate: [0, (i % 2 === 0 ? 1 : -1) * (16 + i * 3), 0],
     transition: { duration: 0.9, delay: i * 0.025, ease: 'easeOut' },
   }),

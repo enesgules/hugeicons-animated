@@ -21,7 +21,7 @@ const rayVariants: Variants = {
   normal: { opacity: 1 },
   animate: (i: number) => ({
     opacity: [1, 0.15, 1],
-    transition: { duration: 1, ease: 'easeInOut', repeat: Infinity, delay: i * 0.125 },
+    transition: { duration: 1, ease: 'easeInOut', delay: i * 0.125 },
   }),
 };
 

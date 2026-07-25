@@ -21,7 +21,7 @@ const svgVariants: Variants = {
   normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
     scale: [1, 1.05, 1],
-    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
+    transition: { duration: 2, ease: 'easeInOut' },
   },
 };
 
@@ -33,7 +33,6 @@ const starVariants: Variants = {
     transition: {
       duration: 1.8,
       ease: 'easeInOut',
-      repeat: Infinity,
       delay: i * 0.6,
     },
   }),

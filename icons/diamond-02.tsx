@@ -21,7 +21,7 @@ const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
     rotate: [0, -4, 4, 0],
-    transition: { duration: 1.6, ease: 'easeInOut', repeat: Infinity },
+    transition: { duration: 1.6, ease: 'easeInOut' },
   },
 };
 
@@ -33,7 +33,6 @@ const glintVariants: Variants = {
     transition: {
       duration: 1.6,
       ease: 'easeOut',
-      repeat: Infinity,
       delay: i * 0.55,
     },
   }),

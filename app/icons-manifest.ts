@@ -16,6 +16,12 @@ import { Calendar03Icon } from '@/icons/calendar-03';
 import { Call02Icon } from '@/icons/call-02';
 import { Camera01Icon } from '@/icons/camera-01';
 import { Cancel01Icon } from '@/icons/cancel-01';
+import { ChevronDownIcon } from '@/icons/chevron-down';
+import { ChevronLeftIcon } from '@/icons/chevron-left';
+import { ChevronRightIcon } from '@/icons/chevron-right';
+import { ChevronUpIcon } from '@/icons/chevron-up';
+import { CircleCheckIcon } from '@/icons/circle-check';
+import { CircleXIcon } from '@/icons/circle-x';
 import { Clock01Icon } from '@/icons/clock-01';
 import { CloudLightningIcon } from '@/icons/cloud-lightning';
 import { CloudRainIcon } from '@/icons/cloud-rain';
@@ -32,14 +38,17 @@ import { Diamond02Icon } from '@/icons/diamond-02';
 import { Download01Icon } from '@/icons/download-01';
 import { EarthIcon } from '@/icons/earth';
 import { Edit02Icon } from '@/icons/edit-02';
+import { EyeOffIcon } from '@/icons/eye-off';
 import { EyeIcon } from '@/icons/eye';
 import { FavouriteIcon } from '@/icons/favourite';
+import { FilterIcon } from '@/icons/filter';
 import { FireIcon } from '@/icons/fire';
 import { FlashIcon } from '@/icons/flash';
 import { FlowerIcon } from '@/icons/flower';
 import { FolderOpenIcon } from '@/icons/folder-open';
 import { GhostIcon } from '@/icons/ghost';
 import { GiftIcon } from '@/icons/gift';
+import { GithubIcon } from '@/icons/github';
 import { HeadphonesIcon } from '@/icons/headphones';
 import { Home01Icon } from '@/icons/home-01';
 import { Key01Icon } from '@/icons/key-01';
@@ -52,7 +61,10 @@ import { Mail01Icon } from '@/icons/mail-01';
 import { Menu01Icon } from '@/icons/menu-01';
 import { Message01Icon } from '@/icons/message-01';
 import { Mic01Icon } from '@/icons/mic-01';
+import { MinusSignIcon } from '@/icons/minus-sign';
 import { Moon02Icon } from '@/icons/moon-02';
+import { MoreHorizontalIcon } from '@/icons/more-horizontal';
+import { MoreVerticalIcon } from '@/icons/more-vertical';
 import { MouseLeftClick01Icon } from '@/icons/mouse-left-click-01';
 import { MusicNote01Icon } from '@/icons/music-note-01';
 import { Notification03Icon } from '@/icons/notification-03';
@@ -109,6 +121,12 @@ export const ICON_LIST = [
   { name: 'call-02', Icon: Call02Icon },
   { name: 'camera-01', Icon: Camera01Icon },
   { name: 'cancel-01', Icon: Cancel01Icon },
+  { name: 'chevron-down', Icon: ChevronDownIcon },
+  { name: 'chevron-left', Icon: ChevronLeftIcon },
+  { name: 'chevron-right', Icon: ChevronRightIcon },
+  { name: 'chevron-up', Icon: ChevronUpIcon },
+  { name: 'circle-check', Icon: CircleCheckIcon },
+  { name: 'circle-x', Icon: CircleXIcon },
   { name: 'clock-01', Icon: Clock01Icon },
   { name: 'cloud-lightning', Icon: CloudLightningIcon },
   { name: 'cloud-rain', Icon: CloudRainIcon },
@@ -125,14 +143,17 @@ export const ICON_LIST = [
   { name: 'download-01', Icon: Download01Icon },
   { name: 'earth', Icon: EarthIcon },
   { name: 'edit-02', Icon: Edit02Icon },
+  { name: 'eye-off', Icon: EyeOffIcon },
   { name: 'eye', Icon: EyeIcon },
   { name: 'favourite', Icon: FavouriteIcon },
+  { name: 'filter', Icon: FilterIcon },
   { name: 'fire', Icon: FireIcon },
   { name: 'flash', Icon: FlashIcon },
   { name: 'flower', Icon: FlowerIcon },
   { name: 'folder-open', Icon: FolderOpenIcon },
   { name: 'ghost', Icon: GhostIcon },
   { name: 'gift', Icon: GiftIcon },
+  { name: 'github', Icon: GithubIcon },
   { name: 'headphones', Icon: HeadphonesIcon },
   { name: 'home-01', Icon: Home01Icon },
   { name: 'key-01', Icon: Key01Icon },
@@ -145,7 +166,10 @@ export const ICON_LIST = [
   { name: 'menu-01', Icon: Menu01Icon },
   { name: 'message-01', Icon: Message01Icon },
   { name: 'mic-01', Icon: Mic01Icon },
+  { name: 'minus-sign', Icon: MinusSignIcon },
   { name: 'moon-02', Icon: Moon02Icon },
+  { name: 'more-horizontal', Icon: MoreHorizontalIcon },
+  { name: 'more-vertical', Icon: MoreVerticalIcon },
   { name: 'mouse-left-click-01', Icon: MouseLeftClick01Icon },
   { name: 'music-note-01', Icon: MusicNote01Icon },
   { name: 'notification-03', Icon: Notification03Icon },

@@ -15,7 +15,7 @@ interface MagicWand01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a flick of the wrist, and the magic keeps happening — the built-in stars
+// a flick of the wrist releases a short burst of magic — the built-in stars
 // twinkle in turn while drawn mini-sparkles pop in the empty corners
 const wandVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
@@ -33,7 +33,6 @@ const starVariants: Variants = {
     transition: {
       duration: 1.1,
       ease: 'easeInOut',
-      repeat: Infinity,
       delay: i * 0.4,
     },
   }),
@@ -47,7 +46,6 @@ const sparkleVariants: Variants = {
     transition: {
       duration: 1.1,
       ease: 'easeOut',
-      repeat: Infinity,
       delay: 0.2 + i * 0.5,
     },
   }),

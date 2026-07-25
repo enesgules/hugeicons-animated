@@ -259,6 +259,96 @@
       ]
     },
     {
+      "name": "chevron-down",
+      "type": "registry:ui",
+      "title": "chevron-down",
+      "description": "Animated chevron down icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/chevron-down.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "chevron-left",
+      "type": "registry:ui",
+      "title": "chevron-left",
+      "description": "Animated chevron left icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/chevron-left.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "chevron-right",
+      "type": "registry:ui",
+      "title": "chevron-right",
+      "description": "Animated chevron right icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/chevron-right.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "chevron-up",
+      "type": "registry:ui",
+      "title": "chevron-up",
+      "description": "Animated chevron up icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/chevron-up.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "circle-check",
+      "type": "registry:ui",
+      "title": "circle-check",
+      "description": "Animated circle check icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/circle-check.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "circle-x",
+      "type": "registry:ui",
+      "title": "circle-x",
+      "description": "Animated circle x icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/circle-x.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "clock-01",
       "type": "registry:ui",
       "title": "clock-01",
@@ -499,6 +589,21 @@
       ]
     },
     {
+      "name": "eye-off",
+      "type": "registry:ui",
+      "title": "eye-off",
+      "description": "Animated eye off icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/eye-off.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "eye",
       "type": "registry:ui",
       "title": "eye",
@@ -524,6 +629,21 @@
       "files": [
         {
           "path": "icons/favourite.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "filter",
+      "type": "registry:ui",
+      "title": "filter",
+      "description": "Animated filter icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/filter.tsx",
           "type": "registry:ui"
         }
       ]
@@ -614,6 +734,21 @@
       "files": [
         {
           "path": "icons/gift.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "github",
+      "type": "registry:ui",
+      "title": "github",
+      "description": "Animated github icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/github.tsx",
           "type": "registry:ui"
         }
       ]
@@ -799,6 +934,21 @@
       ]
     },
     {
+      "name": "minus-sign",
+      "type": "registry:ui",
+      "title": "minus-sign",
+      "description": "Animated minus sign icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/minus-sign.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "moon-02",
       "type": "registry:ui",
       "title": "moon-02",
@@ -809,6 +959,36 @@
       "files": [
         {
           "path": "icons/moon-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "more-horizontal",
+      "type": "registry:ui",
+      "title": "more-horizontal",
+      "description": "Animated more horizontal icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/more-horizontal.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "more-vertical",
+      "type": "registry:ui",
+      "title": "more-vertical",
+      "description": "Animated more vertical icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/more-vertical.tsx",
           "type": "registry:ui"
         }
       ]

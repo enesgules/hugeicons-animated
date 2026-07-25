@@ -33,7 +33,6 @@ const grilleBarVariants: Variants = {
     transition: {
       duration: 1 + i * 0.2,
       ease: 'easeInOut',
-      repeat: Infinity,
       delay: i * 0.25,
     },
   }),
@@ -44,11 +43,10 @@ const waveVariants: Variants = {
   normal: { opacity: 0, transition: { duration: 0.15 } },
   animate: (c: [number, number]) => ({
     opacity: [0, 1, 0],
-    translateX: [0, c[0] * 1.6],
+    translateX: [0, c[0] * 0.65],
     transition: {
       duration: 1.2,
       ease: 'easeOut',
-      repeat: Infinity,
       delay: c[1],
     },
   }),
@@ -159,7 +157,7 @@ const Mic01Icon = forwardRef<Mic01IconHandle, Mic01IconProps>(
             initial="normal"
           />
           <motion.path
-            d="M2.6 1.4C1.5 2.9 0.9 4.9 0.9 7"
+            d="M3 1.8C2 3.2 1.5 5 1.5 7"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -169,7 +167,7 @@ const Mic01Icon = forwardRef<Mic01IconHandle, Mic01IconProps>(
             initial="normal"
           />
           <motion.path
-            d="M21.4 1.4C22.5 2.9 23.1 4.9 23.1 7"
+            d="M21 1.8C22 3.2 22.5 5 22.5 7"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"

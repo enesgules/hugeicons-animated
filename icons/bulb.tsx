@@ -38,11 +38,11 @@ const rayVariants: Variants = {
   normal: { opacity: 0, transition: { duration: 0.2 } },
   animate: (i: number) => ({
     opacity: [0, 1, 0.75, 1],
-    scale: [0.4, 1.15, 1, 1],
+    scale: [0.4, 1, 1],
     transition: {
       duration: 0.55,
       ease: 'easeOut',
-      times: [0, 0.4, 0.7, 1],
+      times: [0, 0.55, 1],
       delay: 0.12 + i * 0.05,
     },
   }),
@@ -129,7 +129,7 @@ const BulbIcon = forwardRef<BulbIconHandle, BulbIconProps>(
             strokeWidth="1.5"
           />
           <motion.path
-            d="M12 0.2V-1.6"
+            d="M12 0.9V2"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"

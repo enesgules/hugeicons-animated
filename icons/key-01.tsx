@@ -20,7 +20,7 @@ interface Key01IconProps extends HTMLAttributes<HTMLDivElement> {
 const keyVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
-    rotate: [0, -40, -40, 6, 0],
+    rotate: [0, -15, -15, 4, 0],
     transition: {
       duration: 0.9,
       ease: 'easeInOut',
@@ -111,7 +111,7 @@ const Key01Icon = forwardRef<Key01IconHandle, Key01IconProps>(
             initial="normal"
           />
           <motion.path
-            d="M22.6 4.6L23.6 3.6"
+            d="M20.8 5.2L21.8 4.2"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -120,7 +120,7 @@ const Key01Icon = forwardRef<Key01IconHandle, Key01IconProps>(
             initial="normal"
           />
           <motion.path
-            d="M23.2 8.5H24.6"
+            d="M21 8.5H22.4"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"

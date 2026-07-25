@@ -15,7 +15,7 @@ interface FlashIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, the storm keeps striking. The strike fires the moment
+// on hover, the storm strikes. The first flash fires the moment
 // you enter — instant response — and the bolt only re-draws during the dark
 // beat, where the cut is invisible. One shared 1.9s timeline keeps every
 // element in sync.
@@ -33,7 +33,6 @@ const svgVariants: Variants = {
       duration: 1.9,
       ease: 'easeOut',
       times: [0, 0.05, 0.12, 0.18, 0.26, 0.55, 0.66, 0.78, 0.92],
-      repeat: Infinity,
     },
   },
 };
@@ -47,7 +46,6 @@ const boltVariants: Variants = {
       duration: 1.9,
       times: [0, 0.64, 0.66, 0.7, 0.85, 1],
       ease: 'easeOut',
-      repeat: Infinity,
     },
   },
 };
@@ -61,7 +59,6 @@ const sparkVariants: Variants = {
       duration: 1.9,
       times: [0, 0.06, 0.14, 0.24, 1],
       ease: 'easeOut',
-      repeat: Infinity,
       delay: i * 0.04,
     },
   }),
@@ -145,7 +142,7 @@ const FlashIcon = forwardRef<FlashIconHandle, FlashIconProps>(
             initial="normal"
           />
           <motion.path
-            d="M11.4 23L11.1 24.2"
+            d="M11.4 21.8L11.1 23"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"

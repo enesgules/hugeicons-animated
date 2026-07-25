@@ -15,13 +15,12 @@ interface CloudRainIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, the shower keeps falling — each drop accelerates,
-// dies low, and is reborn above; the cloud drifts on the updraft
+// on hover, a shower falls while the cloud drifts on the updraft
 const cloudVariants: Variants = {
   normal: { translateY: 0, transition: { duration: 0.3 } },
   animate: {
     translateY: [0, -0.7, 0],
-    transition: { duration: 1.8, ease: 'easeInOut', repeat: Infinity },
+    transition: { duration: 1.8, ease: 'easeInOut' },
   },
 };
 
@@ -33,7 +32,6 @@ const dropVariants: Variants = {
     transition: {
       duration: 0.9,
       ease: 'easeIn',
-      repeat: Infinity,
       delay: i * 0.28,
     },
   }),

@@ -22,7 +22,7 @@ const boltVariants: Variants = {
   animate: {
     scale: [1, 1.2, 1],
     opacity: [1, 0.55, 1],
-    transition: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
+    transition: { duration: 0.9, ease: 'easeInOut' },
   },
 };
 
@@ -34,7 +34,6 @@ const sparkVariants: Variants = {
     transition: {
       duration: 1.1,
       ease: 'easeOut',
-      repeat: Infinity,
       delay: i * 0.45,
     },
   }),
@@ -108,7 +107,7 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             strokeWidth="1.5"
           />
           <motion.path
-            d="M23 7.5V9.5M22 8.5H24"
+            d="M21.6 7.2V8.8M20.8 8H22.4"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -118,7 +117,7 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             initial="normal"
           />
           <motion.path
-            d="M23.5 12.5V14.5M22.5 13.5H24.5"
+            d="M21.8 12.7V14.3M21 13.5H22.6"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"

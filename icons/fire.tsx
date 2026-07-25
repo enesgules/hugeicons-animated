@@ -33,7 +33,6 @@ const svgVariants: Variants = {
     transition: {
       duration: 1.15,
       ease: 'easeInOut',
-      repeat: Infinity,
       times: [0, 0.18, 0.4, 0.62, 0.82, 1],
     },
   },
@@ -54,7 +53,6 @@ const flameVariants: Variants = {
     transition: {
       duration: 1.15,
       ease: 'easeInOut',
-      repeat: Infinity,
       times: [0, 0.2, 0.46, 0.72, 1],
     },
   },
@@ -64,14 +62,12 @@ const emberVariants: Variants = {
   normal: { opacity: 0, translateY: 0, translateX: 0, scale: 1, transition: { duration: 0.2 } },
   animate: (i: number) => ({
     opacity: [0, 0.9, 0.55, 0],
-    translateY: [0.5, -2.5, -5.5],
+    translateY: [0.5, -1.5, -3.3],
     translateX: [0, i % 2 === 0 ? -0.6 : 0.6, i % 2 === 0 ? -1.2 : 1.2],
     scale: [0.8, 1, 0.45],
     transition: {
       duration: 0.9,
       ease: 'easeOut',
-      repeat: Infinity,
-      repeatDelay: 0.25,
       delay: i * 0.33,
     },
   }),

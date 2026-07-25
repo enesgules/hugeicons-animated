@@ -21,7 +21,7 @@ const svgVariants: Variants = {
   normal: { translateX: 0, transition: { duration: 0.3 } },
   animate: {
     translateX: [0, 0.9, -0.9, 0.6, -0.6, 0],
-    transition: { duration: 0.55, ease: 'easeInOut', repeat: Infinity },
+    transition: { duration: 0.55, ease: 'easeInOut' },
   },
 };
 
@@ -32,7 +32,6 @@ const antennaVariants: Variants = {
     transition: {
       duration: 0.9,
       ease: 'easeInOut',
-      repeat: Infinity,
       delay: i === 1 ? 0.2 : 0,
     },
   }),

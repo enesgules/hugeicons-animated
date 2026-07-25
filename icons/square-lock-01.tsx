@@ -20,8 +20,8 @@ interface SquareLock01IconProps extends HTMLAttributes<HTMLDivElement> {
 const shackleVariants: Variants = {
   normal: { translateY: 0, rotate: 0 },
   animate: {
-    translateY: [0, -2.2, -2.2, 0],
-    rotate: [0, -14, -14, 0],
+    translateY: [0, -0.6, -0.6, 0],
+    rotate: [0, -7, -7, 0],
     transition: { duration: 0.75, ease: 'easeInOut', times: [0, 0.3, 0.62, 1] },
   },
 };

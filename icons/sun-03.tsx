@@ -15,13 +15,13 @@ interface Sun03IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, the sun keeps shining — the disc glows warm, the rays
+// on hover, the sun brightens — the disc glows warm, the rays
 // shimmer with heat, and a drawn halo of warmth blooms outward and fades
 const coreVariants: Variants = {
   normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
     scale: [1, 1.1, 1],
-    transition: { duration: 1.6, ease: 'easeInOut', repeat: Infinity },
+    transition: { duration: 1.6, ease: 'easeInOut' },
   },
 };
 
@@ -30,7 +30,7 @@ const raysVariants: Variants = {
   animate: {
     rotate: [0, 6, -6, 0],
     scale: [1, 1.06, 1],
-    transition: { duration: 2.2, ease: 'easeInOut', repeat: Infinity },
+    transition: { duration: 2.2, ease: 'easeInOut' },
   },
 };
 

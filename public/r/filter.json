@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "filter",
+  "title": "filter",
+  "description": "Animated filter icon",
+  "dependencies": [
+    "motion"
+  ],
+  "files": [
+    {
+      "path": "icons/filter.tsx",
+      "content": "'use client';\n\nimport type { Variants } from 'motion/react';\nimport { motion, useAnimation } from 'motion/react';\nimport type { HTMLAttributes } from 'react';\nimport { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';\nimport { cn } from '@/lib/utils';\n\nexport interface FilterIconHandle {\n  startAnimation: () => void;\n  stopAnimation: () => void;\n}\n\ninterface FilterIconProps extends HTMLAttributes<HTMLDivElement> {\n  size?: number;\n}\n\nconst filterVariants: Variants = {\n  normal: { scaleX: 1, translateY: 0 },\n  animate: {\n    scaleX: [1, 0.84, 1.05, 1],\n    translateY: [0, 0.45, -0.15, 0],\n    transition: { duration: 0.5, ease: 'easeInOut' },\n  },\n};\n\nconst FilterIcon = forwardRef<FilterIconHandle, FilterIconProps>(\n  ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {\n    const controls = useAnimation();\n    const isControlledRef = useRef(false);\n\n    useImperativeHandle(ref, () => {\n      isControlledRef.current = true;\n      return {\n        startAnimation: () => controls.start('animate'),\n        stopAnimation: () => controls.start('normal'),\n      };\n    });\n\n    const handleMouseEnter = useCallback(\n      (e: React.MouseEvent<HTMLDivElement>) => {\n        if (!isControlledRef.current) controls.start('animate');\n        else onMouseEnter?.(e);\n      },\n      [controls, onMouseEnter]\n    );\n\n    const handleMouseLeave = useCallback(\n      (e: React.MouseEvent<HTMLDivElement>) => {\n        if (!isControlledRef.current) controls.start('normal');\n        else onMouseLeave?.(e);\n      },\n      [controls, onMouseLeave]\n    );\n\n    return (\n      <div\n        className={cn(className)}\n        onMouseEnter={handleMouseEnter}\n        onMouseLeave={handleMouseLeave}\n        {...props}\n      >\n        <svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          width={size}\n          height={size}\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          overflow=\"visible\"\n        >\n        <motion.path\n          d=\"M8.85746 12.5061C6.36901 10.6456 4.59564 8.59915 3.62734 7.44867C3.3276 7.09253 3.22938 6.8319 3.17033 6.3728C2.96811 4.8008 2.86701 4.0148 3.32795 3.5074C3.7889 3 4.60404 3 6.23433 3H17.7657C19.396 3 20.2111 3 20.672 3.5074C21.133 4.0148 21.0319 4.8008 20.8297 6.37281C20.7706 6.83191 20.6724 7.09254 20.3726 7.44867C19.403 8.60062 17.6261 10.6507 15.1326 12.5135C14.907 12.6821 14.7583 12.9567 14.7307 13.2614C14.4837 15.992 14.2559 17.4876 14.1141 18.2442C13.8853 19.4657 12.1532 20.2006 11.226 20.8563C10.6741 21.2466 10.0043 20.782 9.93278 20.1778C9.79643 19.0261 9.53961 16.6864 9.25927 13.2614C9.23409 12.9539 9.08486 12.6761 8.85746 12.5061Z\" stroke=\"currentColor\" strokeLinecap=\"round\" strokeLinejoin=\"round\" strokeWidth=\"1.5\"\n          variants={filterVariants}\n          animate={controls}\n          initial=\"normal\"\n          style={{ transformOrigin: '12px 3px' }}\n        />\n        </svg>\n      </div>\n    );\n  }\n);\n\nFilterIcon.displayName = 'FilterIcon';\n\nexport { FilterIcon };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}
