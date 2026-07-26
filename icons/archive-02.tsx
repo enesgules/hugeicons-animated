@@ -15,29 +15,42 @@ interface Archive02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the archive stack compresses and its front drawer answers with a click
+// the archive stack settles into place without crossing the drawer border
 const archiveLayerVariants: Variants = {
-  normal: { translateY: 0, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
+  normal: { opacity: 1, transform: 'translateY(0)' },
   animate: (i: number) => ({
-    translateY: [0, 1.2 - i * 0.45, 0],
-    transition: { duration: 0.65, delay: i * 0.07, ease: 'easeOut' },
+    opacity: [0.7, 1],
+    transform: ['translateY(-0.5px)', 'translateY(0)'],
+    transition: {
+      duration: 0.38,
+      delay: i * 0.06,
+      ease: [0.23, 1, 0.32, 1],
+    },
   }),
 };
 
 const archiveDrawerVariants: Variants = {
-  normal: { translateY: 0, scaleX: 1 },
+  normal: { opacity: 1, transform: 'translateY(0)' },
   animate: {
-    translateY: [0, 1, -0.35, 0],
-    scaleX: [1, 1.04, 1],
-    transition: { duration: 0.75, ease: 'easeOut' },
+    opacity: [0.72, 1],
+    transform: ['translateY(0.5px)', 'translateY(0)'],
+    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const archiveHandleVariants: Variants = {
-  normal: { scale: 1 },
+  normal: { transform: 'translateY(0) scale(1)' },
   animate: {
-    scale: [1, 0.72, 1.18, 1],
-    transition: { duration: 0.6, delay: 0.2, ease: 'easeOut' },
+    transform: [
+      'translateY(0) scale(1)',
+      'translateY(0.4px) scale(0.94)',
+      'translateY(0) scale(1)',
+    ],
+    transition: {
+      duration: 0.32,
+      delay: 0.16,
+      ease: [0.23, 1, 0.32, 1],
+    },
   },
 };
 

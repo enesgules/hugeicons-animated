@@ -1,6 +1,6 @@
 # hugeicons-animated
 
-Animated [Hugeicons](https://hugeicons.com) built with [motion](https://motion.dev), distributed as copy-paste components via the shadcn CLI. Inspired by [pqoqubbw/icons](https://github.com/pqoqubbw/icons).
+A curated collection of hand-animated [Hugeicons](https://hugeicons.com) built with [motion](https://motion.dev), distributed as copy-paste components via the shadcn CLI. Inspired by [pqoqubbw/icons](https://github.com/pqoqubbw/icons).
 
 ## Usage
 

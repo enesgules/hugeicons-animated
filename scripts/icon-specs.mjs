@@ -3530,4 +3530,980 @@ const archiveHandleVariants: Variants = {
       3: { v: 'archiveHandleVariants', style: `{ transformOrigin: '12px 16px' }` },
     },
   },
+  // ── curated growth batch: common product actions ────────────────────────────
+  {
+    export: 'AddCircleIcon',
+    defs: `
+// the boundary makes room, then the add mark resolves at its center
+const circleVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(1)', 'scale(1.06)', 'scale(1)'],
+    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const plusVariants: Variants = {
+  normal: { transform: 'rotate(0deg) scale(1)' },
+  animate: {
+    transform: ['rotate(-12deg) scale(0.72)', 'rotate(3deg) scale(1.12)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'circleVariants', style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'plusVariants', style: `{ transformOrigin: '12px 12px' }` },
+    },
+  },
+  {
+    export: 'MinusSignCircleIcon',
+    defs: `
+// subtraction compresses the mark while the containing circle absorbs it
+const minusVariants: Variants = {
+  normal: { transform: 'scaleX(1)' },
+  animate: {
+    transform: ['scaleX(1)', 'scaleX(0.48)', 'scaleX(1.08)', 'scaleX(1)'],
+    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const circleVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(1)', 'scale(0.96)', 'scale(1)'],
+    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'minusVariants', style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'circleVariants', style: `{ transformOrigin: '12px 12px' }` },
+    },
+  },
+  {
+    export: 'Folder01Icon',
+    defs: `
+// the folder lifts from the desk and settles back into place
+const folderVariants: Variants = {
+  normal: { transform: 'translateY(0px) rotate(0deg)' },
+  animate: {
+    transform: ['translateY(0px) rotate(0deg)', 'translateY(-1.2px) rotate(-1deg)', 'translateY(0px) rotate(0deg)'],
+    transition: { duration: 0.46, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: { 0: { v: 'folderVariants', style: `{ transformOrigin: '12px 18px' }` } },
+  },
+  {
+    export: 'FolderAddIcon',
+    defs: `
+// the folder acknowledges the action before the plus locks into place
+const folderVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(-0.8px)', 'translateY(0px)'],
+    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const plusVariants: Variants = {
+  normal: { transform: 'rotate(0deg) scale(1)' },
+  animate: {
+    transform: ['rotate(-10deg) scale(0.7)', 'rotate(2deg) scale(1.12)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.42, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'folderVariants', style: `{ transformOrigin: '11px 18px' }` },
+      1: { v: 'plusVariants', style: `{ transformOrigin: '18px 17px' }` },
+    },
+  },
+  {
+    export: 'FileAddIcon',
+    defs: `
+// a new sheet settles in as its add mark stamps into the corner
+const fileVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(0.8px)', 'translateY(0px)'],
+    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const plusVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(0.7)', 'scale(1.14)', 'scale(1)'],
+    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'fileVariants', style: `{ transformOrigin: '12px 14px' }` },
+      1: { v: 'plusVariants', style: `{ transformOrigin: '8px 6px' }` },
+    },
+  },
+  {
+    export: 'UserAdd01Icon',
+    defs: `
+// the person rises in acknowledgement and the add mark follows
+const personVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(-0.8px)', 'translateY(0px)'],
+    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const plusVariants: Variants = {
+  normal: { transform: 'rotate(0deg) scale(1)' },
+  animate: {
+    transform: ['rotate(-10deg) scale(0.72)', 'rotate(2deg) scale(1.12)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.42, delay: 0.05, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'personVariants', style: `{ transformOrigin: '10px 10px' }` },
+      1: { v: 'plusVariants', style: `{ transformOrigin: '17.5px 17.5px' }` },
+      2: { v: 'personVariants', style: `{ transformOrigin: '10px 18px' }` },
+    },
+  },
+  {
+    export: 'UserRemove01Icon',
+    defs: `
+// the profile recedes slightly as the remove mark closes decisively
+const personVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
+  animate: {
+    transform: ['translateX(0px)', 'translateX(-0.7px)', 'translateX(0px)'],
+    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const removeVariants: Variants = {
+  normal: { transform: 'rotate(0deg) scale(1)' },
+  animate: {
+    transform: ['rotate(0deg) scale(0.76)', 'rotate(8deg) scale(1.1)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.42, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'personVariants', style: `{ transformOrigin: '9.5px 8px' }` },
+      1: { v: 'removeVariants', style: `{ transformOrigin: '18.5px 18px' }` },
+      2: { v: 'personVariants', style: `{ transformOrigin: '9.5px 18px' }` },
+    },
+  },
+  {
+    export: 'MailOpenIcon',
+    defs: `
+// the letter rises from the envelope while the folded edge gives way
+const envelopeVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(0.5px)', 'translateY(0px)'],
+    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const letterVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(-1.5px)', 'translateY(-0.2px)', 'translateY(0px)'],
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'envelopeVariants', style: `{ transformOrigin: '12px 18px' }` },
+      1: { v: 'envelopeVariants', style: `{ transformOrigin: '12px 10px' }` },
+      2: { v: 'letterVariants', style: `{ transformOrigin: '12px 12px' }` },
+      3: { v: 'letterVariants', style: `{ transformOrigin: '12px 8px' }` },
+    },
+  },
+  {
+    export: 'MessageAdd01Icon',
+    defs: `
+// the conversation rises as a new message action appears
+const messageVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(-0.7px)', 'translateY(0px)'],
+    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const plusVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(0.7)', 'scale(1.13)', 'scale(1)'],
+    transition: { duration: 0.4, delay: 0.05, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'messageVariants', style: `{ transformOrigin: '11px 14px' }` },
+      1: { v: 'messageVariants', style: `{ transformOrigin: '12px 12px' }` },
+      2: { v: 'plusVariants', style: `{ transformOrigin: '18.5px 5.5px' }` },
+    },
+  },
+  {
+    export: 'CallIncoming01Icon',
+    defs: `
+// the arrow travels toward the handset to make the direction unmistakable
+const handsetVariants: Variants = {
+  normal: { transform: 'rotate(0deg)' },
+  animate: {
+    transform: ['rotate(0deg)', 'rotate(-2deg)', 'rotate(0deg)'],
+    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const incomingVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
+  animate: {
+    transform: ['translateX(0px)', 'translateX(-2px)', 'translateX(0px)'],
+    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'handsetVariants', style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'incomingVariants', style: `{ transformOrigin: '17px 7px' }` },
+    },
+  },
+  {
+    export: 'CallOutgoing01Icon',
+    defs: `
+// the arrow leaves the handset to communicate an outgoing call
+const handsetVariants: Variants = {
+  normal: { transform: 'rotate(0deg)' },
+  animate: {
+    transform: ['rotate(0deg)', 'rotate(2deg)', 'rotate(0deg)'],
+    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const outgoingVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
+  animate: {
+    transform: ['translateX(0px)', 'translateX(2px)', 'translateX(0px)'],
+    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'handsetVariants', style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'outgoingVariants', style: `{ transformOrigin: '17px 7px' }` },
+    },
+  },
+  {
+    export: 'CalendarAdd01Icon',
+    defs: `
+// the calendar settles like a turned page before the add mark lands
+const calendarVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(0.7px)', 'translateY(0px)'],
+    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const plusVariants: Variants = {
+  normal: { transform: 'rotate(0deg) scale(1)' },
+  animate: {
+    transform: ['rotate(-10deg) scale(0.72)', 'rotate(2deg) scale(1.12)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.42, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'calendarVariants', style: `{ transformOrigin: '12px 4px' }` },
+      1: { v: 'calendarVariants', style: `{ transformOrigin: '12px 13px' }` },
+      2: { v: 'calendarVariants', style: `{ transformOrigin: '12px 10px' }` },
+      3: { v: 'plusVariants', style: `{ transformOrigin: '17.5px 18.5px' }` },
+    },
+  },
+  {
+    export: 'LocationAdd01Icon',
+    defs: `
+// the pin drops into place and the add mark confirms the destination
+const pinVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(-1px)', 'translateY(0.5px)', 'translateY(0px)'],
+    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const plusVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(0.72)', 'scale(1.14)', 'scale(1)'],
+    transition: { duration: 0.4, delay: 0.05, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'pinVariants', style: `{ transformOrigin: '12px 22px' }` },
+      1: { v: 'plusVariants', style: `{ transformOrigin: '12px 11px' }` },
+    },
+  },
+  {
+    export: 'CreditCardIcon',
+    defs: `
+// the card slides through a reader and its details follow a fraction later
+const cardVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
+  animate: {
+    transform: ['translateX(0px)', 'translateX(1.2px)', 'translateX(0px)'],
+    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const detailVariants: Variants = {
+  normal: { transform: 'scaleX(1)' },
+  animate: {
+    transform: ['scaleX(1)', 'scaleX(0.7)', 'scaleX(1)'],
+    transition: { duration: 0.38, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'cardVariants', style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'detailVariants', style: `{ transformOrigin: '10.75px 16px' }` },
+      2: { v: 'detailVariants', style: `{ transformOrigin: '16.25px 16px' }` },
+      3: { v: 'cardVariants', style: `{ transformOrigin: '12px 9px' }` },
+    },
+  },
+  {
+    export: 'Wallet01Icon',
+    defs: `
+// the wallet steadies while its clasp opens and returns
+const walletVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(-0.6px)', 'translateY(0px)'],
+    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const claspVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
+  animate: {
+    transform: ['translateX(0px)', 'translateX(1.4px)', 'translateX(0px)'],
+    transition: { duration: 0.4, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'walletVariants', style: `{ transformOrigin: '12px 7px' }` },
+      1: { v: 'walletVariants', style: `{ transformOrigin: '12px 14px' }` },
+      2: { v: 'claspVariants', style: `{ transformOrigin: '19px 14px' }` },
+    },
+  },
+  {
+    export: 'ShoppingCartAdd01Icon',
+    defs: `
+// the added item nudges the cart forward and the wheels answer underneath
+const wheelVariants: Variants = {
+  normal: { transform: 'translateY(0px) scale(1)' },
+  animate: {
+    transform: ['translateY(0px) scale(1)', 'translateY(-0.6px) scale(1.1)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const cartVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
+  animate: {
+    transform: ['translateX(0px)', 'translateX(1.1px)', 'translateX(0px)'],
+    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const plusVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(0.72)', 'scale(1.13)', 'scale(1)'],
+    transition: { duration: 0.4, delay: 0.03, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'wheelVariants', style: `{ transformOrigin: '9.75px 20.25px' }` },
+      1: { v: 'wheelVariants', style: `{ transformOrigin: '18.25px 20.25px' }` },
+      2: { v: 'cartVariants', style: `{ transformOrigin: '12px 13px' }` },
+      3: { v: 'plusVariants', style: `{ transformOrigin: '19px 6px' }` },
+    },
+  },
+  {
+    export: 'ExternalLinkIcon',
+    defs: `
+// the arrow exits the frame while the source window remains anchored
+const arrowVariants: Variants = {
+  normal: { transform: 'translate(0px, 0px)' },
+  animate: {
+    transform: ['translate(0px, 0px)', 'translate(1.5px, -1.5px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const windowVariants: Variants = {
+  normal: { opacity: 1 },
+  animate: {
+    opacity: [1, 0.72, 1],
+    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'arrowVariants', style: `{ transformOrigin: '16px 8px' }` },
+      1: { v: 'windowVariants' },
+    },
+  },
+  {
+    export: 'FullScreenIcon',
+    defs: `
+// all four corners expand away from the center and settle at full size
+const fullScreenVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(1)', 'scale(1.09)', 'scale(1)'],
+    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: { 0: { v: 'fullScreenVariants', style: `{ transformOrigin: '12px 12px' }` } },
+  },
+  {
+    export: 'DashboardSquare01Icon',
+    defs: `
+// dashboard tiles populate in reading order rather than pulsing as one block
+const tileVariants: Variants = {
+  normal: { transform: 'scale(1)', opacity: 1 },
+  animate: (i: number) => ({
+    transform: ['scale(0.88)', 'scale(1.04)', 'scale(1)'],
+    opacity: [0.55, 1, 1],
+    transition: { duration: 0.38, delay: i * 0.045, ease: [0.23, 1, 0.32, 1] },
+  }),
+};`,
+    els: {
+      0: { v: 'tileVariants', custom: 3, style: `{ transformOrigin: '17.25px 17.25px' }` },
+      1: { v: 'tileVariants', custom: 1, style: `{ transformOrigin: '17.25px 6.75px' }` },
+      2: { v: 'tileVariants', custom: 2, style: `{ transformOrigin: '6.75px 17.25px' }` },
+      3: { v: 'tileVariants', custom: 0, style: `{ transformOrigin: '6.75px 6.75px' }` },
+    },
+  },
+  {
+    export: 'ListViewIcon',
+    defs: `
+// rows settle from top to bottom to communicate ordered content
+const rowVariants: Variants = {
+  normal: { transform: 'translateX(0px)', opacity: 1 },
+  animate: (i: number) => ({
+    transform: ['translateX(-1.5px)', 'translateX(0.4px)', 'translateX(0px)'],
+    opacity: [0.55, 1, 1],
+    transition: { duration: 0.38, delay: i * 0.055, ease: [0.23, 1, 0.32, 1] },
+  }),
+};`,
+    els: {
+      0: { v: 'rowVariants', custom: 1, style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'rowVariants', custom: 0, style: `{ transformOrigin: '12px 4px' }` },
+      2: { v: 'rowVariants', custom: 2, style: `{ transformOrigin: '12px 20px' }` },
+    },
+  },
+  {
+    export: 'DocumentAttachmentIcon',
+    defs: `
+// the document holds steady while the paperclip swings into attachment
+const documentVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(-0.5px)', 'translateY(0px)'],
+    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const lineVariants: Variants = {
+  normal: { transform: 'scaleX(1)' },
+  animate: {
+    transform: ['scaleX(0.68)', 'scaleX(1.04)', 'scaleX(1)'],
+    transition: { duration: 0.38, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const clipVariants: Variants = {
+  normal: { transform: 'rotate(0deg)' },
+  animate: {
+    transform: ['rotate(-8deg)', 'rotate(3deg)', 'rotate(0deg)'],
+    transition: { duration: 0.46, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'documentVariants', style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'lineVariants', style: `{ transformOrigin: '7.5px 7px' }` },
+      2: { v: 'lineVariants', style: `{ transformOrigin: '7.5px 12px' }` },
+      3: { v: 'clipVariants', style: `{ transformOrigin: '17.5px 18px' }` },
+    },
+  },
+  {
+    export: 'UndoIcon',
+    defs: `
+// the history loop rewinds toward its arrowhead
+const undoVariants: Variants = {
+  normal: { transform: 'rotate(0deg)' },
+  animate: {
+    transform: ['rotate(0deg)', 'rotate(-16deg)', 'rotate(0deg)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: { 0: { v: 'undoVariants', style: `{ transformOrigin: '12px 12px' }` } },
+  },
+  {
+    export: 'RedoIcon',
+    defs: `
+// the history loop advances toward its arrowhead
+const redoVariants: Variants = {
+  normal: { transform: 'rotate(0deg)' },
+  animate: {
+    transform: ['rotate(0deg)', 'rotate(16deg)', 'rotate(0deg)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: { 0: { v: 'redoVariants', style: `{ transformOrigin: '12px 12px' }` } },
+  },
+  {
+    export: 'Scissor01Icon',
+    defs: `
+// the blades close for one restrained snip inside their frame
+const frameVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(1)', 'scale(0.985)', 'scale(1)'],
+    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const scissorVariants: Variants = {
+  normal: { transform: 'rotate(0deg) scaleX(1)' },
+  animate: {
+    transform: ['rotate(0deg) scaleX(1)', 'rotate(-3deg) scaleX(0.9)', 'rotate(0deg) scaleX(1)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'frameVariants', style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'scissorVariants', style: `{ transformOrigin: '10.6px 12px' }` },
+    },
+  },
+  {
+    export: 'ClipboardPasteIcon',
+    defs: `
+// pasted content moves into the clipboard while the clip acknowledges it
+const pasteVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
+  animate: {
+    transform: ['translateX(-1.2px)', 'translateX(0.8px)', 'translateX(0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const clipVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(0.5px)', 'translateY(0px)'],
+    transition: { duration: 0.26, delay: 0.02, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'pasteVariants', style: `{ transformOrigin: '15px 13px' }` },
+      1: { v: 'pasteVariants', style: `{ transformOrigin: '18px 13px' }` },
+      2: { v: 'clipVariants', style: `{ transformOrigin: '11.5px 3.5px' }` },
+    },
+  },
+  {
+    export: 'FileDownloadIcon',
+    defs: `
+// the download arrow enters the document and the page absorbs the motion
+const arrowVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(-1px)', 'translateY(1.2px)', 'translateY(0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const fileVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(0.4px)', 'translateY(0px)'],
+    transition: { duration: 0.26, delay: 0.02, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'arrowVariants', style: `{ transformOrigin: '7px 6px' }` },
+      1: { v: 'fileVariants', style: `{ transformOrigin: '12px 14px' }` },
+    },
+  },
+  {
+    export: 'FileUploadIcon',
+    defs: `
+// the upload arrow leaves the document and the page recoils softly
+const fileVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(0.4px)', 'translateY(0px)'],
+    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const arrowVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(1px)', 'translateY(-1.2px)', 'translateY(0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'fileVariants', style: `{ transformOrigin: '12px 14px' }` },
+      1: { v: 'arrowVariants', style: `{ transformOrigin: '7px 6px' }` },
+    },
+  },
+  {
+    export: 'CloudDownloadIcon',
+    defs: `
+// the cloud settles as the transfer arrow drops through it
+const cloudVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(0.35px)', 'translateY(0px)'],
+    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const downloadVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(-1px)', 'translateY(1.3px)', 'translateY(0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'cloudVariants', style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'downloadVariants', style: `{ transformOrigin: '12px 17px' }` },
+    },
+  },
+  {
+    export: 'CloudUploadIcon',
+    defs: `
+// the transfer arrow rises into the cloud and lifts it a fraction
+const cloudVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(-0.35px)', 'translateY(0px)'],
+    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const uploadVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(1px)', 'translateY(-1.3px)', 'translateY(0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'cloudVariants', style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'uploadVariants', style: `{ transformOrigin: '12px 17px' }` },
+    },
+  },
+  {
+    export: 'InboxIcon',
+    defs: `
+// the tray receives an item and settles under its weight
+const inboxVariants: Variants = {
+  normal: { transform: 'scaleY(1)' },
+  animate: {
+    transform: ['scaleY(1)', 'scaleY(0.98)', 'scaleY(1)'],
+    transition: { duration: 0.27, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const trayVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(-0.5px)', 'translateY(0.7px)', 'translateY(0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'inboxVariants', style: `{ transformOrigin: '12px 18px' }` },
+      1: { v: 'trayVariants', style: `{ transformOrigin: '12px 14px' }` },
+    },
+  },
+  {
+    export: 'NotificationOff01Icon',
+    defs: `
+// the bell tries one muted shake before the slash quiets it
+const clapperVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
+  animate: {
+    transform: ['translateX(0px)', 'translateX(-0.6px)', 'translateX(0.4px)', 'translateX(0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const slashVariants: Variants = {
+  normal: { transform: 'scaleX(1)' },
+  animate: {
+    transform: ['scaleX(0.84)', 'scaleX(1.04)', 'scaleX(1)'],
+    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const bellVariants: Variants = {
+  normal: { transform: 'rotate(0deg)' },
+  animate: {
+    transform: ['rotate(0deg)', 'rotate(-2deg)', 'rotate(1deg)', 'rotate(0deg)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'clapperVariants', style: `{ transformOrigin: '12px 18px' }` },
+      1: { v: 'slashVariants', style: `{ transformOrigin: '12px 12px' }` },
+      2: { v: 'bellVariants', style: `{ transformOrigin: '12px 3px' }` },
+    },
+  },
+  {
+    export: 'UserCheck01Icon',
+    defs: `
+// the profile acknowledges selection before the check lands
+const userVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(-0.5px)', 'translateY(0px)'],
+    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const checkVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(0.78)', 'scale(1.08)', 'scale(1)'],
+    transition: { duration: 0.28, delay: 0.02, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'userVariants', style: `{ transformOrigin: '10px 8px' }` },
+      1: { v: 'userVariants', style: `{ transformOrigin: '10px 18px' }` },
+      2: { v: 'checkVariants', style: `{ transformOrigin: '17px 18px' }` },
+    },
+  },
+  {
+    export: 'UserMultiple02Icon',
+    defs: `
+// two profiles separate just enough to clarify the group
+const primaryVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
+  animate: {
+    transform: ['translateX(0px)', 'translateX(-0.6px)', 'translateX(0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const secondaryVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
+  animate: {
+    transform: ['translateX(0px)', 'translateX(0.7px)', 'translateX(0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'primaryVariants', style: `{ transformOrigin: '9px 7px' }` },
+      1: { v: 'secondaryVariants', style: `{ transformOrigin: '15px 7px' }` },
+      2: { v: 'primaryVariants', style: `{ transformOrigin: '9px 19px' }` },
+      3: { v: 'secondaryVariants', style: `{ transformOrigin: '18px 19px' }` },
+    },
+  },
+  {
+    export: 'SortByUp01Icon',
+    defs: `
+// the direction arrow rises as the two values trade visual emphasis
+const arrowVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0.8px)', 'translateY(-1px)', 'translateY(0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const valueVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: (i: number) => ({
+    transform: ['scale(1)', i === 0 ? 'scale(0.94)' : 'scale(1.04)', 'scale(1)'],
+    transition: { duration: 0.26, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
+  }),
+};`,
+    els: {
+      0: { v: 'arrowVariants', style: `{ transformOrigin: '18px 11px' }` },
+      1: { v: 'valueVariants', custom: 0, style: `{ transformOrigin: '6.5px 6.5px' }` },
+      2: { v: 'valueVariants', custom: 1, style: `{ transformOrigin: '6.5px 17.5px' }` },
+    },
+  },
+  {
+    export: 'SortByDown01Icon',
+    defs: `
+// the direction arrow drops as the two values trade visual emphasis
+const arrowVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(-0.8px)', 'translateY(1px)', 'translateY(0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const valueVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: (i: number) => ({
+    transform: ['scale(1)', i === 0 ? 'scale(1.04)' : 'scale(0.94)', 'scale(1)'],
+    transition: { duration: 0.26, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
+  }),
+};`,
+    els: {
+      0: { v: 'arrowVariants', style: `{ transformOrigin: '18px 13px' }` },
+      1: { v: 'valueVariants', custom: 0, style: `{ transformOrigin: '6.5px 6.5px' }` },
+      2: { v: 'valueVariants', custom: 1, style: `{ transformOrigin: '6.5px 17.5px' }` },
+    },
+  },
+  {
+    export: 'GridViewIcon',
+    defs: `
+// grid cells populate in reading order with a restrained stagger
+const cellVariants: Variants = {
+  normal: { transform: 'scale(1)', opacity: 1 },
+  animate: (i: number) => ({
+    transform: ['scale(0.92)', 'scale(1.03)', 'scale(1)'],
+    opacity: [0.65, 1, 1],
+    transition: { duration: 0.24, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
+  }),
+};`,
+    els: {
+      0: { v: 'cellVariants', custom: 0, style: `{ transformOrigin: '6.5px 6.5px' }` },
+      1: { v: 'cellVariants', custom: 1, style: `{ transformOrigin: '17.5px 6.5px' }` },
+      2: { v: 'cellVariants', custom: 2, style: `{ transformOrigin: '6.5px 17.5px' }` },
+      3: { v: 'cellVariants', custom: 3, style: `{ transformOrigin: '17.5px 17.5px' }` },
+    },
+  },
+  {
+    export: 'PanelLeftIcon',
+    defs: `
+// the sidebar divider opens the panel and returns to rest
+const frameVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(1)', 'scale(0.99)', 'scale(1)'],
+    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const dividerVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
+  animate: {
+    transform: ['translateX(0px)', 'translateX(1.2px)', 'translateX(0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'frameVariants', style: `{ transformOrigin: '12px 12px' }` },
+      1: { v: 'dividerVariants', style: `{ transformOrigin: '9px 12px' }` },
+    },
+  },
+  {
+    export: 'MaximizeScreenIcon',
+    defs: `
+// the active window travels toward the available frame
+const arrowVariants: Variants = {
+  normal: { transform: 'translate(0px, 0px)' },
+  animate: {
+    transform: ['translate(0px, 0px)', 'translate(1px, -1px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const windowVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(1)', 'scale(1.04)', 'scale(1)'],
+    transition: { duration: 0.27, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'arrowVariants', style: `{ transformOrigin: '13px 11px' }` },
+      1: { v: 'windowVariants', style: `{ transformOrigin: '6.5px 17.5px' }` },
+    },
+  },
+  {
+    export: 'MinimizeScreenIcon',
+    defs: `
+// the active window travels inward toward the smaller frame
+const arrowVariants: Variants = {
+  normal: { transform: 'translate(0px, 0px)' },
+  animate: {
+    transform: ['translate(0px, 0px)', 'translate(-1px, 1px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const windowVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(1)', 'scale(0.96)', 'scale(1)'],
+    transition: { duration: 0.27, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'arrowVariants', style: `{ transformOrigin: '11px 13px' }` },
+      1: { v: 'windowVariants', style: `{ transformOrigin: '17.5px 6.5px' }` },
+    },
+  },
+  {
+    export: 'HistoryIcon',
+    defs: `
+// time rewinds briefly while the clock hand follows behind
+const historyVariants: Variants = {
+  normal: { transform: 'rotate(0deg)' },
+  animate: {
+    transform: ['rotate(0deg)', 'rotate(-10deg)', 'rotate(0deg)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const handVariants: Variants = {
+  normal: { transform: 'rotate(0deg)' },
+  animate: {
+    transform: ['rotate(0deg)', 'rotate(-24deg)', 'rotate(0deg)'],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const arrowVariants: Variants = {
+  normal: { transform: 'translate(0px, 0px)' },
+  animate: {
+    transform: ['translate(0px, 0px)', 'translate(-0.5px, -0.4px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+  },
+};`,
+    els: {
+      0: { v: 'historyVariants', style: `{ transformOrigin: '13px 12px' }` },
+      1: { v: 'handVariants', style: `{ transformOrigin: '12.93px 12px' }` },
+      2: { v: 'arrowVariants', style: `{ transformOrigin: '4.5px 8.5px' }` },
+    },
+  },
+  {
+    export: 'SlidersHorizontalIcon',
+    defs: `
+// each control moves along its own track, one after another
+const knobVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
+  animate: (i: number) => ({
+    transform: [
+      'translateX(0px)',
+      i === 0 ? 'translateX(-1.6px)' : i === 1 ? 'translateX(1.7px)' : 'translateX(-1.2px)',
+      'translateX(0px)',
+    ],
+    transition: { duration: 0.25, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
+  }),
+};`,
+    els: {
+      2: { v: 'knobVariants', custom: 0, style: `{ transformOrigin: '16px 12px' }` },
+      3: { v: 'knobVariants', custom: 1, style: `{ transformOrigin: '10px 5px' }` },
+      4: { v: 'knobVariants', custom: 2, style: `{ transformOrigin: '12px 19px' }` },
+    },
+  },
 ];

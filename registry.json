@@ -4,6 +4,21 @@
   "homepage": "https://hugeicons-animated.com",
   "items": [
     {
+      "name": "add-circle",
+      "type": "registry:ui",
+      "title": "add-circle",
+      "description": "Animated add circle icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/add-circle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "airplane-take-off-01",
       "type": "registry:ui",
       "title": "airplane-take-off-01",
@@ -244,6 +259,21 @@
       ]
     },
     {
+      "name": "calendar-add-01",
+      "type": "registry:ui",
+      "title": "calendar-add-01",
+      "description": "Animated calendar add icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/calendar-add-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "call-02",
       "type": "registry:ui",
       "title": "call-02",
@@ -254,6 +284,36 @@
       "files": [
         {
           "path": "icons/call-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "call-incoming-01",
+      "type": "registry:ui",
+      "title": "call-incoming-01",
+      "description": "Animated call incoming icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/call-incoming-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "call-outgoing-01",
+      "type": "registry:ui",
+      "title": "call-outgoing-01",
+      "description": "Animated call outgoing icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/call-outgoing-01.tsx",
           "type": "registry:ui"
         }
       ]
@@ -379,6 +439,21 @@
       ]
     },
     {
+      "name": "clipboard-paste",
+      "type": "registry:ui",
+      "title": "clipboard-paste",
+      "description": "Animated clipboard paste icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/clipboard-paste.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "clipboard",
       "type": "registry:ui",
       "title": "clipboard",
@@ -409,6 +484,21 @@
       ]
     },
     {
+      "name": "cloud-download",
+      "type": "registry:ui",
+      "title": "cloud-download",
+      "description": "Animated cloud download icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/cloud-download.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "cloud-lightning",
       "type": "registry:ui",
       "title": "cloud-lightning",
@@ -434,6 +524,21 @@
       "files": [
         {
           "path": "icons/cloud-rain.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "cloud-upload",
+      "type": "registry:ui",
+      "title": "cloud-upload",
+      "description": "Animated cloud upload icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/cloud-upload.tsx",
           "type": "registry:ui"
         }
       ]
@@ -514,6 +619,21 @@
       ]
     },
     {
+      "name": "credit-card",
+      "type": "registry:ui",
+      "title": "credit-card",
+      "description": "Animated credit card icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/credit-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "crown",
       "type": "registry:ui",
       "title": "crown",
@@ -539,6 +659,21 @@
       "files": [
         {
           "path": "icons/cursor-pointer-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dashboard-square-01",
+      "type": "registry:ui",
+      "title": "dashboard-square-01",
+      "description": "Animated dashboard square icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/dashboard-square-01.tsx",
           "type": "registry:ui"
         }
       ]
@@ -589,6 +724,21 @@
       ]
     },
     {
+      "name": "document-attachment",
+      "type": "registry:ui",
+      "title": "document-attachment",
+      "description": "Animated document attachment icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/document-attachment.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "download-01",
       "type": "registry:ui",
       "title": "download-01",
@@ -629,6 +779,21 @@
       "files": [
         {
           "path": "icons/edit-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "external-link",
+      "type": "registry:ui",
+      "title": "external-link",
+      "description": "Animated external link icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/external-link.tsx",
           "type": "registry:ui"
         }
       ]
@@ -694,6 +859,51 @@
       ]
     },
     {
+      "name": "file-add",
+      "type": "registry:ui",
+      "title": "file-add",
+      "description": "Animated file add icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/file-add.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "file-download",
+      "type": "registry:ui",
+      "title": "file-download",
+      "description": "Animated file download icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/file-download.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "file-upload",
+      "type": "registry:ui",
+      "title": "file-upload",
+      "description": "Animated file upload icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/file-upload.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "filter",
       "type": "registry:ui",
       "title": "filter",
@@ -754,6 +964,36 @@
       ]
     },
     {
+      "name": "folder-01",
+      "type": "registry:ui",
+      "title": "folder-01",
+      "description": "Animated folder icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/folder-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "folder-add",
+      "type": "registry:ui",
+      "title": "folder-add",
+      "description": "Animated folder add icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/folder-add.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "folder-open",
       "type": "registry:ui",
       "title": "folder-open",
@@ -764,6 +1004,21 @@
       "files": [
         {
           "path": "icons/folder-open.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "full-screen",
+      "type": "registry:ui",
+      "title": "full-screen",
+      "description": "Animated full screen icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/full-screen.tsx",
           "type": "registry:ui"
         }
       ]
@@ -814,6 +1069,21 @@
       ]
     },
     {
+      "name": "grid-view",
+      "type": "registry:ui",
+      "title": "grid-view",
+      "description": "Animated grid view icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/grid-view.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "headphones",
       "type": "registry:ui",
       "title": "headphones",
@@ -844,6 +1114,21 @@
       ]
     },
     {
+      "name": "history",
+      "type": "registry:ui",
+      "title": "history",
+      "description": "Animated history icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/history.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "home-01",
       "type": "registry:ui",
       "title": "home-01",
@@ -869,6 +1154,21 @@
       "files": [
         {
           "path": "icons/image-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "inbox",
+      "type": "registry:ui",
+      "title": "inbox",
+      "description": "Animated inbox icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/inbox.tsx",
           "type": "registry:ui"
         }
       ]
@@ -949,6 +1249,21 @@
       ]
     },
     {
+      "name": "list-view",
+      "type": "registry:ui",
+      "title": "list-view",
+      "description": "Animated list view icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/list-view.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "loading-03",
       "type": "registry:ui",
       "title": "loading-03",
@@ -974,6 +1289,21 @@
       "files": [
         {
           "path": "icons/location-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "location-add-01",
+      "type": "registry:ui",
+      "title": "location-add-01",
+      "description": "Animated location add icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/location-add-01.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1054,6 +1384,36 @@
       ]
     },
     {
+      "name": "mail-open",
+      "type": "registry:ui",
+      "title": "mail-open",
+      "description": "Animated mail open icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/mail-open.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "maximize-screen",
+      "type": "registry:ui",
+      "title": "maximize-screen",
+      "description": "Animated maximize screen icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/maximize-screen.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "menu-01",
       "type": "registry:ui",
       "title": "menu-01",
@@ -1084,6 +1444,21 @@
       ]
     },
     {
+      "name": "message-add-01",
+      "type": "registry:ui",
+      "title": "message-add-01",
+      "description": "Animated message add icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/message-add-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "mic-01",
       "type": "registry:ui",
       "title": "mic-01",
@@ -1094,6 +1469,36 @@
       "files": [
         {
           "path": "icons/mic-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "minimize-screen",
+      "type": "registry:ui",
+      "title": "minimize-screen",
+      "description": "Animated minimize screen icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/minimize-screen.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "minus-sign-circle",
+      "type": "registry:ui",
+      "title": "minus-sign-circle",
+      "description": "Animated minus sign circle icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/minus-sign-circle.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1204,6 +1609,21 @@
       ]
     },
     {
+      "name": "notification-off-01",
+      "type": "registry:ui",
+      "title": "notification-off-01",
+      "description": "Animated notification off icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/notification-off-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "paint-brush-02",
       "type": "registry:ui",
       "title": "paint-brush-02",
@@ -1214,6 +1634,21 @@
       "files": [
         {
           "path": "icons/paint-brush-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "panel-left",
+      "type": "registry:ui",
+      "title": "panel-left",
+      "description": "Animated panel left icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/panel-left.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1339,6 +1774,21 @@
       ]
     },
     {
+      "name": "redo",
+      "type": "registry:ui",
+      "title": "redo",
+      "description": "Animated redo icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/redo.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "refresh",
       "type": "registry:ui",
       "title": "refresh",
@@ -1394,6 +1844,21 @@
       "files": [
         {
           "path": "icons/save.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scissor-01",
+      "type": "registry:ui",
+      "title": "scissor-01",
+      "description": "Animated scissor icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/scissor-01.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1489,6 +1954,21 @@
       ]
     },
     {
+      "name": "shopping-cart-add-01",
+      "type": "registry:ui",
+      "title": "shopping-cart-add-01",
+      "description": "Animated shopping cart add icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/shopping-cart-add-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "sleeping",
       "type": "registry:ui",
       "title": "sleeping",
@@ -1499,6 +1979,21 @@
       "files": [
         {
           "path": "icons/sleeping.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sliders-horizontal",
+      "type": "registry:ui",
+      "title": "sliders-horizontal",
+      "description": "Animated sliders horizontal icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/sliders-horizontal.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1529,6 +2024,36 @@
       "files": [
         {
           "path": "icons/snow.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sort-by-down-01",
+      "type": "registry:ui",
+      "title": "sort-by-down-01",
+      "description": "Animated sort by down icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/sort-by-down-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sort-by-up-01",
+      "type": "registry:ui",
+      "title": "sort-by-up-01",
+      "description": "Animated sort by up icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/sort-by-up-01.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1654,6 +2179,21 @@
       ]
     },
     {
+      "name": "undo",
+      "type": "registry:ui",
+      "title": "undo",
+      "description": "Animated undo icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/undo.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "upload-01",
       "type": "registry:ui",
       "title": "upload-01",
@@ -1669,6 +2209,36 @@
       ]
     },
     {
+      "name": "user-add-01",
+      "type": "registry:ui",
+      "title": "user-add-01",
+      "description": "Animated user add icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/user-add-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "user-check-01",
+      "type": "registry:ui",
+      "title": "user-check-01",
+      "description": "Animated user check icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/user-check-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "user-group",
       "type": "registry:ui",
       "title": "user-group",
@@ -1679,6 +2249,36 @@
       "files": [
         {
           "path": "icons/user-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "user-multiple-02",
+      "type": "registry:ui",
+      "title": "user-multiple-02",
+      "description": "Animated user multiple icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/user-multiple-02.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "user-remove-01",
+      "type": "registry:ui",
+      "title": "user-remove-01",
+      "description": "Animated user remove icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/user-remove-01.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1739,6 +2339,21 @@
       "files": [
         {
           "path": "icons/volume-mute-01.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "wallet-01",
+      "type": "registry:ui",
+      "title": "wallet-01",
+      "description": "Animated wallet icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/wallet-01.tsx",
           "type": "registry:ui"
         }
       ]
