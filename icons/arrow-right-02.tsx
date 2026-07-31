@@ -16,21 +16,26 @@ interface ArrowRight02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a rigid arrow travels in the direction it already names; neither the shaft
-// nor the head deforms
-const svgVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+// a launch and a softer echo — the head leads, the shaft stretches after it
+const shaftVariants: Variants = {
+  normal: { d: 'M18.5 12L4.99997 12' },
   animate: {
-    transform: [
-      'translateX(0px)',
-      'translateX(2px)',
-      'translateX(0px)',
+    d: [
+      'M18.5 12L4.99997 12',
+      'M18.5 12L9.5 12',
+      'M18.5 12L4.99997 12',
+      'M18.5 12L7.5 12',
+      'M18.5 12L4.99997 12',
     ],
-    transition: {
-      duration: 0.46,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.58, 1],
-    },
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
+  },
+};
+
+const headVariants: Variants = {
+  normal: { translateX: 0 },
+  animate: {
+    translateX: [0, 4, 0, 1.8, 0],
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
   },
 };
 
@@ -52,32 +57,35 @@ const ArrowRight02Icon = forwardRef<ArrowRight02IconHandle, ArrowRight02IconProp
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <motion.svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
           viewBox="0 0 24 24"
           fill="none"
           overflow="visible"
-          variants={svgVariants}
-          animate={controls}
-          initial="normal"
         >
-          <path
+          <motion.path
             d="M18.5 12L4.99997 12"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={shaftVariants}
+            animate={controls}
+            initial="normal"
           />
-          <path
+          <motion.path
             d="M13 18C13 18 19 13.5811 19 12C19 10.4188 13 6 13 6"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={headVariants}
+            animate={controls}
+            initial="normal"
           />
-        </motion.svg>
+        </svg>
       </div>
     );
   }

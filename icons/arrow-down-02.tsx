@@ -16,20 +16,25 @@ interface ArrowDown02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the down arrow stays rigid and travels along its own axis
-const svgVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+const shaftVariants: Variants = {
+  normal: { d: 'M12 18.502V5.00195' },
   animate: {
-    transform: [
-      'translateY(0px)',
-      'translateY(2px)',
-      'translateY(0px)',
+    d: [
+      'M12 18.502V5.00195',
+      'M12 18.502V9.5',
+      'M12 18.502V5.00195',
+      'M12 18.502V7.5',
+      'M12 18.502V5.00195',
     ],
-    transition: {
-      duration: 0.46,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.58, 1],
-    },
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
+  },
+};
+
+const headVariants: Variants = {
+  normal: { translateY: 0 },
+  animate: {
+    translateY: [0, 4, 0, 1.8, 0],
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
   },
 };
 
@@ -51,32 +56,35 @@ const ArrowDown02Icon = forwardRef<ArrowDown02IconHandle, ArrowDown02IconProps>(
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <motion.svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
           viewBox="0 0 24 24"
           fill="none"
           overflow="visible"
-          variants={svgVariants}
-          animate={controls}
-          initial="normal"
         >
-          <path
+          <motion.path
             d="M12 18.502V5.00195"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={shaftVariants}
+            animate={controls}
+            initial="normal"
           />
-          <path
+          <motion.path
             d="M18 13.002C18 13.002 13.5811 19.0019 12 19.002C10.4188 19.002 6 13.002 6 13.002"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={headVariants}
+            animate={controls}
+            initial="normal"
           />
-        </motion.svg>
+        </svg>
       </div>
     );
   }

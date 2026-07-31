@@ -5,7 +5,8 @@
 // Design language:
 // - name the verb first; animate the one part that performs it and leave the
 //   rest anchored
-// - rigid parts translate or rotate; morph paths only when the material bends
+// - squash, stretch, and wobble are welcome when they make a small gesture
+//   readable at icon size
 // - hide travel with clipping or occlusion, not a fade
 // - related states share geometry; rotated siblings keep the same shape
 // - hover = a state, not a trigger, where the metaphor supports it: fire burns,
@@ -50,24 +51,29 @@ const clapperVariants: Variants = {
   {
     export: 'ArrowRight02Icon',
     defs: `
-// a rigid arrow travels in the direction it already names; neither the shaft
-// nor the head deforms
-const svgVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+// a launch and a softer echo — the head leads, the shaft stretches after it
+const shaftVariants: Variants = {
+  normal: { d: 'M18.5 12L4.99997 12' },
   animate: {
-    transform: [
-      'translateX(0px)',
-      'translateX(2px)',
-      'translateX(0px)',
+    d: [
+      'M18.5 12L4.99997 12',
+      'M18.5 12L9.5 12',
+      'M18.5 12L4.99997 12',
+      'M18.5 12L7.5 12',
+      'M18.5 12L4.99997 12',
     ],
-    transition: {
-      duration: 0.46,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.58, 1],
-    },
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
+  },
+};
+
+const headVariants: Variants = {
+  normal: { translateX: 0 },
+  animate: {
+    translateX: [0, 4, 0, 1.8, 0],
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
   },
 };`,
-    svg: 'svgVariants',
+    els: { 0: { v: 'shaftVariants' }, 1: { v: 'headVariants' } },
   },
   {
     export: 'Settings01Icon',
@@ -567,65 +573,80 @@ const svgVariants: Variants = {
   {
     export: 'ArrowLeft02Icon',
     defs: `
-// the left arrow uses the same rigid travel as its rotation group
-const svgVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+const shaftVariants: Variants = {
+  normal: { d: 'M5.5 12.002H19' },
   animate: {
-    transform: [
-      'translateX(0px)',
-      'translateX(-2px)',
-      'translateX(0px)',
+    d: [
+      'M5.5 12.002H19',
+      'M5.5 12.002H14.5',
+      'M5.5 12.002H19',
+      'M5.5 12.002H16.5',
+      'M5.5 12.002H19',
     ],
-    transition: {
-      duration: 0.46,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.58, 1],
-    },
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
+  },
+};
+
+const headVariants: Variants = {
+  normal: { translateX: 0 },
+  animate: {
+    translateX: [0, -4, 0, -1.8, 0],
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
   },
 };`,
-    svg: 'svgVariants',
+    els: { 0: { v: 'shaftVariants' }, 1: { v: 'headVariants' } },
   },
   {
     export: 'ArrowUp02Icon',
     defs: `
-// the up arrow stays rigid and travels along its own axis
-const svgVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+const shaftVariants: Variants = {
+  normal: { d: 'M12 5.5V19' },
   animate: {
-    transform: [
-      'translateY(0px)',
-      'translateY(-2px)',
-      'translateY(0px)',
+    d: [
+      'M12 5.5V19',
+      'M12 5.5V14.5',
+      'M12 5.5V19',
+      'M12 5.5V16.5',
+      'M12 5.5V19',
     ],
-    transition: {
-      duration: 0.46,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.58, 1],
-    },
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
+  },
+};
+
+const headVariants: Variants = {
+  normal: { translateY: 0 },
+  animate: {
+    translateY: [0, -4, 0, -1.8, 0],
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
   },
 };`,
-    svg: 'svgVariants',
+    els: { 0: { v: 'shaftVariants' }, 1: { v: 'headVariants' } },
   },
   {
     export: 'ArrowDown02Icon',
     defs: `
-// the down arrow stays rigid and travels along its own axis
-const svgVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+const shaftVariants: Variants = {
+  normal: { d: 'M12 18.502V5.00195' },
   animate: {
-    transform: [
-      'translateY(0px)',
-      'translateY(2px)',
-      'translateY(0px)',
+    d: [
+      'M12 18.502V5.00195',
+      'M12 18.502V9.5',
+      'M12 18.502V5.00195',
+      'M12 18.502V7.5',
+      'M12 18.502V5.00195',
     ],
-    transition: {
-      duration: 0.46,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.58, 1],
-    },
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
+  },
+};
+
+const headVariants: Variants = {
+  normal: { translateY: 0 },
+  animate: {
+    translateY: [0, 4, 0, 1.8, 0],
+    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
   },
 };`,
-    svg: 'svgVariants',
+    els: { 0: { v: 'shaftVariants' }, 1: { v: 'headVariants' } },
   },
   {
     export: 'RefreshIcon',
