@@ -3,6 +3,11 @@
 // svg: variants const applied to the <svg> root. els: per-element variants by index.
 //
 // Design language:
+// - name the verb first; animate the one part that performs it and leave the
+//   rest anchored
+// - rigid parts translate or rotate; morph paths only when the material bends
+// - hide travel with clipping or occlusion, not a fade
+// - related states share geometry; rotated siblings keep the same shape
 // - hover = a state, not a trigger, where the metaphor supports it: fire burns,
 //   clouds float, phones ring, signals broadcast → repeat: Infinity loops that
 //   exit cleanly through the 'normal' variant on mouse leave
@@ -45,29 +50,24 @@ const clapperVariants: Variants = {
   {
     export: 'ArrowRight02Icon',
     defs: `
-// a launch and a softer echo — the head leads, the shaft stretches after it
-const shaftVariants: Variants = {
-  normal: { d: 'M18.5 12L4.99997 12' },
+// a rigid arrow travels in the direction it already names; neither the shaft
+// nor the head deforms
+const svgVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
   animate: {
-    d: [
-      'M18.5 12L4.99997 12',
-      'M18.5 12L9.5 12',
-      'M18.5 12L4.99997 12',
-      'M18.5 12L7.5 12',
-      'M18.5 12L4.99997 12',
+    transform: [
+      'translateX(0px)',
+      'translateX(2px)',
+      'translateX(0px)',
     ],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
-  },
-};
-
-const headVariants: Variants = {
-  normal: { translateX: 0 },
-  animate: {
-    translateX: [0, 4, 0, 1.8, 0],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
+    transition: {
+      duration: 0.46,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.58, 1],
+    },
   },
 };`,
-    els: { 0: { v: 'shaftVariants' }, 1: { v: 'headVariants' } },
+    svg: 'svgVariants',
   },
   {
     export: 'Settings01Icon',
@@ -242,32 +242,52 @@ const smileVariants: Variants = {
   {
     export: 'Menu01Icon',
     defs: `
-// the hamburger teases what it becomes: top and bottom bars lean toward
-// the X while the middle bar recedes, then it all settles back
+// three shared strokes make the state change legible: the outer bars become
+// the X while the unused middle bar collapses to an invisible center line
 const topLineVariants: Variants = {
-  normal: { translateY: 0, rotate: 0 },
+  normal: { transform: 'translateY(0px) rotate(0deg)' },
   animate: {
-    translateY: [0, 3.2, 0],
-    rotate: [0, 13, 0],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.45, 1] },
+    transform: [
+      'translateY(0px) rotate(0deg)',
+      'translateY(7px) rotate(45deg)',
+      'translateY(7px) rotate(45deg)',
+      'translateY(0px) rotate(0deg)',
+    ],
+    transition: {
+      duration: 0.72,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.36, 0.64, 1],
+    },
   },
 };
 
 const bottomLineVariants: Variants = {
-  normal: { translateY: 0, rotate: 0 },
+  normal: { transform: 'translateY(0px) rotate(0deg)' },
   animate: {
-    translateY: [0, -3.2, 0],
-    rotate: [0, -13, 0],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.45, 1], delay: 0.03 },
+    transform: [
+      'translateY(0px) rotate(0deg)',
+      'translateY(-7px) rotate(-45deg)',
+      'translateY(-7px) rotate(-45deg)',
+      'translateY(0px) rotate(0deg)',
+    ],
+    transition: {
+      duration: 0.72,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.36, 0.64, 1],
+    },
   },
 };
 
 const midLineVariants: Variants = {
-  normal: { opacity: 1, scaleX: 1 },
+  normal: { opacity: 1, transform: 'scaleX(1)' },
   animate: {
-    opacity: [1, 0.15, 1],
-    scaleX: [1, 0.5, 1],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.45, 1], delay: 0.03 },
+    opacity: [1, 0, 0, 1],
+    transform: ['scaleX(1)', 'scaleX(0.001)', 'scaleX(0.001)', 'scaleX(1)'],
+    transition: {
+      duration: 0.72,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.3, 0.7, 1],
+    },
   },
 };`,
     els: {
@@ -275,7 +295,10 @@ const midLineVariants: Variants = {
         v: 'topLineVariants',
         style: `{ transformBox: 'view-box', transformOrigin: '12px 5px' }`,
       },
-      1: { v: 'midLineVariants' },
+      1: {
+        v: 'midLineVariants',
+        style: `{ transformBox: 'view-box', transformOrigin: '12px 12px' }`,
+      },
       2: {
         v: 'bottomLineVariants',
         style: `{ transformBox: 'view-box', transformOrigin: '12px 19px' }`,
@@ -544,80 +567,65 @@ const svgVariants: Variants = {
   {
     export: 'ArrowLeft02Icon',
     defs: `
-const shaftVariants: Variants = {
-  normal: { d: 'M5.5 12.002H19' },
+// the left arrow uses the same rigid travel as its rotation group
+const svgVariants: Variants = {
+  normal: { transform: 'translateX(0px)' },
   animate: {
-    d: [
-      'M5.5 12.002H19',
-      'M5.5 12.002H14.5',
-      'M5.5 12.002H19',
-      'M5.5 12.002H16.5',
-      'M5.5 12.002H19',
+    transform: [
+      'translateX(0px)',
+      'translateX(-2px)',
+      'translateX(0px)',
     ],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
-  },
-};
-
-const headVariants: Variants = {
-  normal: { translateX: 0 },
-  animate: {
-    translateX: [0, -4, 0, -1.8, 0],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
+    transition: {
+      duration: 0.46,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.58, 1],
+    },
   },
 };`,
-    els: { 0: { v: 'shaftVariants' }, 1: { v: 'headVariants' } },
+    svg: 'svgVariants',
   },
   {
     export: 'ArrowUp02Icon',
     defs: `
-const shaftVariants: Variants = {
-  normal: { d: 'M12 5.5V19' },
+// the up arrow stays rigid and travels along its own axis
+const svgVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
   animate: {
-    d: [
-      'M12 5.5V19',
-      'M12 5.5V14.5',
-      'M12 5.5V19',
-      'M12 5.5V16.5',
-      'M12 5.5V19',
+    transform: [
+      'translateY(0px)',
+      'translateY(-2px)',
+      'translateY(0px)',
     ],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
-  },
-};
-
-const headVariants: Variants = {
-  normal: { translateY: 0 },
-  animate: {
-    translateY: [0, -4, 0, -1.8, 0],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
+    transition: {
+      duration: 0.46,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.58, 1],
+    },
   },
 };`,
-    els: { 0: { v: 'shaftVariants' }, 1: { v: 'headVariants' } },
+    svg: 'svgVariants',
   },
   {
     export: 'ArrowDown02Icon',
     defs: `
-const shaftVariants: Variants = {
-  normal: { d: 'M12 18.502V5.00195' },
+// the down arrow stays rigid and travels along its own axis
+const svgVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
   animate: {
-    d: [
-      'M12 18.502V5.00195',
-      'M12 18.502V9.5',
-      'M12 18.502V5.00195',
-      'M12 18.502V7.5',
-      'M12 18.502V5.00195',
+    transform: [
+      'translateY(0px)',
+      'translateY(2px)',
+      'translateY(0px)',
     ],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
-  },
-};
-
-const headVariants: Variants = {
-  normal: { translateY: 0 },
-  animate: {
-    translateY: [0, 4, 0, 1.8, 0],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
+    transition: {
+      duration: 0.46,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.58, 1],
+    },
   },
 };`,
-    els: { 0: { v: 'shaftVariants' }, 1: { v: 'headVariants' } },
+    svg: 'svgVariants',
   },
   {
     export: 'RefreshIcon',

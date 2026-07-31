@@ -19,6 +19,18 @@ const ref = useRef<Notification03IconHandle>(null);
 ref.current?.startAnimation();
 ```
 
+Finite gestures finish their beat even if the pointer leaves halfway through.
+Looping gestures stop and return to rest. Reduced-motion preferences are
+respected automatically.
+
+## Animation rules
+
+- Start with the verb the icon performs.
+- Move only the part that carries that action.
+- Translate or rotate rigid parts. Morph paths only when the shape really bends.
+- Keep related states on shared geometry and rotate directional siblings.
+- Every finite gesture returns to the original Hugeicon pose.
+
 ## Adding a new icon
 
 1. Add an animation spec to `scripts/icon-specs.mjs` — the spec holds the

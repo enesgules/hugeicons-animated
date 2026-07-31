@@ -15,6 +15,10 @@
         {
           "path": "icons/add-circle.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -30,6 +34,10 @@
         {
           "path": "icons/airplane-take-off-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -45,6 +53,10 @@
         {
           "path": "icons/alarm-clock.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -60,6 +72,10 @@
         {
           "path": "icons/alert-circle.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -75,6 +91,10 @@
         {
           "path": "icons/archive-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -90,6 +110,10 @@
         {
           "path": "icons/arrow-down-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -105,6 +129,10 @@
         {
           "path": "icons/arrow-left-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -120,6 +148,10 @@
         {
           "path": "icons/arrow-right-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -135,6 +167,10 @@
         {
           "path": "icons/arrow-up-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -150,6 +186,10 @@
         {
           "path": "icons/arrow-up-right-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -165,6 +205,10 @@
         {
           "path": "icons/attachment.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -180,6 +224,10 @@
         {
           "path": "icons/battery-charging-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -195,6 +243,10 @@
         {
           "path": "icons/bluetooth.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -210,6 +262,10 @@
         {
           "path": "icons/bookmark-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -225,6 +281,10 @@
         {
           "path": "icons/bug-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -240,6 +300,10 @@
         {
           "path": "icons/bulb.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -255,6 +319,10 @@
         {
           "path": "icons/calendar-03.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -270,6 +338,10 @@
         {
           "path": "icons/calendar-add-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -285,6 +357,10 @@
         {
           "path": "icons/call-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -300,6 +376,10 @@
         {
           "path": "icons/call-incoming-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -315,6 +395,10 @@
         {
           "path": "icons/call-outgoing-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -330,6 +414,10 @@
         {
           "path": "icons/camera-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -345,6 +433,10 @@
         {
           "path": "icons/cancel-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -360,6 +452,10 @@
         {
           "path": "icons/chevron-down.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -375,6 +471,10 @@
         {
           "path": "icons/chevron-left.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -390,6 +490,10 @@
         {
           "path": "icons/chevron-right.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -405,6 +509,10 @@
         {
           "path": "icons/chevron-up.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -420,6 +528,10 @@
         {
           "path": "icons/circle-check.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -435,6 +547,10 @@
         {
           "path": "icons/circle-x.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -450,6 +566,10 @@
         {
           "path": "icons/clipboard-paste.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -465,6 +585,10 @@
         {
           "path": "icons/clipboard.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -480,6 +604,10 @@
         {
           "path": "icons/clock-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -495,6 +623,10 @@
         {
           "path": "icons/cloud-download.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -510,6 +642,10 @@
         {
           "path": "icons/cloud-lightning.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -525,6 +661,10 @@
         {
           "path": "icons/cloud-rain.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -540,6 +680,10 @@
         {
           "path": "icons/cloud-upload.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -555,6 +699,10 @@
         {
           "path": "icons/cloud.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -570,6 +718,10 @@
         {
           "path": "icons/code-xml.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -585,6 +737,10 @@
         {
           "path": "icons/coffee-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -600,6 +756,10 @@
         {
           "path": "icons/compass.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -615,6 +775,10 @@
         {
           "path": "icons/copy-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -630,6 +794,10 @@
         {
           "path": "icons/credit-card.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -645,6 +813,10 @@
         {
           "path": "icons/crown.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -660,6 +832,10 @@
         {
           "path": "icons/cursor-pointer-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -675,6 +851,10 @@
         {
           "path": "icons/dashboard-square-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -690,6 +870,10 @@
         {
           "path": "icons/database.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -705,6 +889,10 @@
         {
           "path": "icons/delete-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -720,6 +908,10 @@
         {
           "path": "icons/diamond-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -735,6 +927,10 @@
         {
           "path": "icons/document-attachment.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -750,6 +946,10 @@
         {
           "path": "icons/download-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -765,6 +965,10 @@
         {
           "path": "icons/earth.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -780,6 +984,10 @@
         {
           "path": "icons/edit-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -795,6 +1003,10 @@
         {
           "path": "icons/external-link.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -810,6 +1022,10 @@
         {
           "path": "icons/eye-off.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -825,6 +1041,10 @@
         {
           "path": "icons/eye.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -840,6 +1060,10 @@
         {
           "path": "icons/favourite.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -855,6 +1079,10 @@
         {
           "path": "icons/file-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -870,6 +1098,10 @@
         {
           "path": "icons/file-add.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -885,6 +1117,10 @@
         {
           "path": "icons/file-download.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -900,6 +1136,10 @@
         {
           "path": "icons/file-upload.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -915,6 +1155,10 @@
         {
           "path": "icons/filter.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -930,6 +1174,10 @@
         {
           "path": "icons/fire.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -945,6 +1193,10 @@
         {
           "path": "icons/flash.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -960,6 +1212,10 @@
         {
           "path": "icons/flower.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -975,6 +1231,10 @@
         {
           "path": "icons/folder-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -990,6 +1250,10 @@
         {
           "path": "icons/folder-add.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1005,6 +1269,10 @@
         {
           "path": "icons/folder-open.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1020,6 +1288,10 @@
         {
           "path": "icons/full-screen.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1035,6 +1307,10 @@
         {
           "path": "icons/ghost.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1050,6 +1326,10 @@
         {
           "path": "icons/gift.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1065,6 +1345,10 @@
         {
           "path": "icons/github.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1080,6 +1364,10 @@
         {
           "path": "icons/grid-view.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1095,6 +1383,10 @@
         {
           "path": "icons/headphones.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1110,6 +1402,10 @@
         {
           "path": "icons/help-circle.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1125,6 +1421,10 @@
         {
           "path": "icons/history.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1140,6 +1440,10 @@
         {
           "path": "icons/home-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1155,6 +1459,10 @@
         {
           "path": "icons/image-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1170,6 +1478,10 @@
         {
           "path": "icons/inbox.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1185,6 +1497,10 @@
         {
           "path": "icons/information-circle.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1200,6 +1516,10 @@
         {
           "path": "icons/key-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1215,6 +1535,10 @@
         {
           "path": "icons/leaf-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1230,6 +1554,10 @@
         {
           "path": "icons/link-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1245,6 +1573,10 @@
         {
           "path": "icons/link-square-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1260,6 +1592,10 @@
         {
           "path": "icons/list-view.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1275,6 +1611,10 @@
         {
           "path": "icons/loading-03.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1290,6 +1630,10 @@
         {
           "path": "icons/location-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1305,6 +1649,10 @@
         {
           "path": "icons/location-add-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1320,6 +1668,10 @@
         {
           "path": "icons/lock.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1335,6 +1687,10 @@
         {
           "path": "icons/login-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1350,6 +1706,10 @@
         {
           "path": "icons/logout-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1365,6 +1725,10 @@
         {
           "path": "icons/magic-wand-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1380,6 +1744,10 @@
         {
           "path": "icons/mail-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1395,6 +1763,10 @@
         {
           "path": "icons/mail-open.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1410,6 +1782,10 @@
         {
           "path": "icons/maximize-screen.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1425,6 +1801,10 @@
         {
           "path": "icons/menu-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1440,6 +1820,10 @@
         {
           "path": "icons/message-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1455,6 +1839,10 @@
         {
           "path": "icons/message-add-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1470,6 +1858,10 @@
         {
           "path": "icons/mic-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1485,6 +1877,10 @@
         {
           "path": "icons/minimize-screen.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1500,6 +1896,10 @@
         {
           "path": "icons/minus-sign-circle.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1515,6 +1915,10 @@
         {
           "path": "icons/minus-sign.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1530,6 +1934,10 @@
         {
           "path": "icons/moon-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1545,6 +1953,10 @@
         {
           "path": "icons/more-horizontal.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1560,6 +1972,10 @@
         {
           "path": "icons/more-vertical.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1575,6 +1991,10 @@
         {
           "path": "icons/mouse-left-click-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1590,6 +2010,10 @@
         {
           "path": "icons/music-note-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1605,6 +2029,10 @@
         {
           "path": "icons/notification-03.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1620,6 +2048,10 @@
         {
           "path": "icons/notification-off-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1635,6 +2067,10 @@
         {
           "path": "icons/paint-brush-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1650,6 +2086,10 @@
         {
           "path": "icons/panel-left.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1665,6 +2105,10 @@
         {
           "path": "icons/party.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1680,6 +2124,10 @@
         {
           "path": "icons/pause.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1695,6 +2143,10 @@
         {
           "path": "icons/pin.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1710,6 +2162,10 @@
         {
           "path": "icons/play.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1725,6 +2181,10 @@
         {
           "path": "icons/plus-sign.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1740,6 +2200,10 @@
         {
           "path": "icons/printer.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1755,6 +2219,10 @@
         {
           "path": "icons/puzzle.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1770,6 +2238,10 @@
         {
           "path": "icons/qr-code-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1785,6 +2257,10 @@
         {
           "path": "icons/redo.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1800,6 +2276,10 @@
         {
           "path": "icons/refresh.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1815,6 +2295,10 @@
         {
           "path": "icons/robot-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1830,6 +2314,10 @@
         {
           "path": "icons/rocket-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1845,6 +2333,10 @@
         {
           "path": "icons/save.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1860,6 +2352,10 @@
         {
           "path": "icons/scissor-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1875,6 +2371,10 @@
         {
           "path": "icons/search-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1890,6 +2390,10 @@
         {
           "path": "icons/sent.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1905,6 +2409,10 @@
         {
           "path": "icons/settings-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1920,6 +2428,10 @@
         {
           "path": "icons/share-08.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1935,6 +2447,10 @@
         {
           "path": "icons/shield-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1950,6 +2466,10 @@
         {
           "path": "icons/shopping-cart-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1965,6 +2485,10 @@
         {
           "path": "icons/shopping-cart-add-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1980,6 +2504,10 @@
         {
           "path": "icons/sleeping.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1995,6 +2523,10 @@
         {
           "path": "icons/sliders-horizontal.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2010,6 +2542,10 @@
         {
           "path": "icons/smile.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2025,6 +2561,10 @@
         {
           "path": "icons/snow.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2040,6 +2580,10 @@
         {
           "path": "icons/sort-by-down-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2055,6 +2599,10 @@
         {
           "path": "icons/sort-by-up-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2070,6 +2618,10 @@
         {
           "path": "icons/sparkles.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2085,6 +2637,10 @@
         {
           "path": "icons/square-lock-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2100,6 +2656,10 @@
         {
           "path": "icons/star.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2115,6 +2675,10 @@
         {
           "path": "icons/sun-03.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2130,6 +2694,10 @@
         {
           "path": "icons/target-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2145,6 +2713,10 @@
         {
           "path": "icons/thumbs-up.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2160,6 +2732,10 @@
         {
           "path": "icons/tick-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2175,6 +2751,10 @@
         {
           "path": "icons/umbrella.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2190,6 +2770,10 @@
         {
           "path": "icons/undo.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2205,6 +2789,10 @@
         {
           "path": "icons/upload-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2220,6 +2808,10 @@
         {
           "path": "icons/user-add-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2235,6 +2827,10 @@
         {
           "path": "icons/user-check-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2250,6 +2846,10 @@
         {
           "path": "icons/user-group.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2265,6 +2865,10 @@
         {
           "path": "icons/user-multiple-02.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2280,6 +2884,10 @@
         {
           "path": "icons/user-remove-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2295,6 +2903,10 @@
         {
           "path": "icons/user.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2310,6 +2922,10 @@
         {
           "path": "icons/video-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2325,6 +2941,10 @@
         {
           "path": "icons/volume-high.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2340,6 +2960,10 @@
         {
           "path": "icons/volume-mute-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2355,6 +2979,10 @@
         {
           "path": "icons/wallet-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2370,6 +2998,10 @@
         {
           "path": "icons/wifi-01.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2385,6 +3017,10 @@
         {
           "path": "icons/zoom-in-area.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     },
@@ -2400,6 +3036,10 @@
         {
           "path": "icons/zoom-out-area.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
         }
       ]
     }

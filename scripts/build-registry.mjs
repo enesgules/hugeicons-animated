@@ -19,7 +19,13 @@ const registry = {
       title: name,
       description: `Animated ${name.replace(/-\d+$/, '').replace(/-/g, ' ')} icon`,
       dependencies: ['motion'],
-      files: [{ path: `icons/${f}`, type: 'registry:ui' }],
+      files: [
+        { path: `icons/${f}`, type: 'registry:ui' },
+        {
+          path: 'lib/use-icon-animation.ts',
+          type: 'registry:lib',
+        },
+      ],
     };
   }),
 };

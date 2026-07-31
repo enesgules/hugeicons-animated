@@ -3,15 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { MotionConfig, useReducedMotion } from 'motion/react';
 import { ICON_LIST } from '@/app/icons-manifest';
+import type { AnimatedIconHandle as IconHandle } from '@/lib/use-icon-animation';
 import { GITHUB_URL } from '@/lib/site';
 import { FavouriteIcon } from '@/icons/favourite';
 import { Notification03Icon } from '@/icons/notification-03';
 import { Search01Icon } from '@/icons/search-01';
-
-interface IconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
-}
 
 // hugeicons.com palette — white ground, ink, one green
 const GREEN = { bg: '#AFE67F', border: '#79BD3E', deep: '#1D3208' };
