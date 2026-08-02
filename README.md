@@ -27,6 +27,7 @@ respected automatically.
 
 - Start with the verb the icon performs.
 - Move only the part that carries that action.
+- Add animation-only rays, trails, echoes, or particles when they clarify the action; keep them hidden at rest.
 - Use squash, stretch, and wobble when they make the gesture clearer at icon size.
 - Keep related states on shared geometry and rotate directional siblings.
 - Every finite gesture returns to the original Hugeicon pose.

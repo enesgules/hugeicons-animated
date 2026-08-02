@@ -5,6 +5,8 @@
 // Design language:
 // - name the verb first; animate the one part that performs it and leave the
 //   rest anchored
+// - add animation-only rays, trails, echoes, or particles when they clarify
+//   the action; keep them hidden at rest
 // - squash, stretch, and wobble are welcome when they make a small gesture
 //   readable at icon size
 // - hide travel with clipping or occlusion, not a fade
