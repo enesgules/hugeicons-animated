@@ -16,7 +16,7 @@ interface Call02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// on hover, the phone rings with a quick decaying rattle
+// while you hover, the phone keeps ringing — rattle, rest, rattle again
 const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
@@ -25,6 +25,8 @@ const svgVariants: Variants = {
       duration: 0.7,
       ease: 'easeInOut',
       times: [0, 0.15, 0.3, 0.5, 0.7, 0.85, 1],
+      repeat: Infinity,
+      repeatDelay: 0.55,
     },
   },
 };
@@ -34,6 +36,7 @@ const Call02Icon = forwardRef<Call02IconHandle, Call02IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,

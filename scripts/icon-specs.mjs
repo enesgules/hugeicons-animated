@@ -575,6 +575,7 @@ const svgVariants: Variants = {
   {
     export: 'ArrowLeft02Icon',
     defs: `
+// the head launches left first; the shaft stretches after it and answers with a smaller echo
 const shaftVariants: Variants = {
   normal: { d: 'M5.5 12.002H19' },
   animate: {
@@ -601,6 +602,7 @@ const headVariants: Variants = {
   {
     export: 'ArrowUp02Icon',
     defs: `
+// the head launches upward first; the shaft stretches after it and answers with a smaller echo
 const shaftVariants: Variants = {
   normal: { d: 'M12 5.5V19' },
   animate: {
@@ -627,6 +629,7 @@ const headVariants: Variants = {
   {
     export: 'ArrowDown02Icon',
     defs: `
+// the head drops first; the shaft stretches after it and answers with a smaller echo
 const shaftVariants: Variants = {
   normal: { d: 'M12 18.502V5.00195' },
   animate: {
@@ -1817,35 +1820,44 @@ const waveVariants: Variants = {
   {
     export: 'BulbIcon',
     defs: `
-// the light turns on: the filament draws itself, the bulb pops, and drawn
-// rays burst outward and hold their glow while you hover
+// the idea arrives physically: the bulb squashes, jumps, lands, and throws
+// seven hand-drawn rays past its silhouette
 const svgVariants: Variants = {
-  normal: { scale: 1, transition: { duration: 0.3 } },
+  normal: { transform: 'translateY(0px) scaleX(1) scaleY(1)' },
   animate: {
-    scale: [1, 1.05, 1],
-    transition: { duration: 0.45, ease: 'easeOut' },
+    transform: [
+      'translateY(0px) scaleX(1) scaleY(1)',
+      'translateY(1.2px) scaleX(1.13) scaleY(0.87)',
+      'translateY(-4.2px) scaleX(0.88) scaleY(1.16)',
+      'translateY(1px) scaleX(1.09) scaleY(0.92)',
+      'translateY(0px) scaleX(1) scaleY(1)',
+    ],
+    transition: { duration: 0.84, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const filamentVariants: Variants = {
-  normal: { pathLength: 1, transition: { duration: 0.3 } },
+  normal: { transform: 'translateY(0px) scale(1)' },
   animate: {
-    pathLength: [0, 1],
-    transition: { duration: 0.35, ease: 'easeOut' },
+    transform: [
+      'translateY(0px) scale(1)',
+      'translateY(-2px) scale(1.5)',
+      'translateY(0.5px) scale(0.92)',
+      'translateY(0px) scale(1)',
+    ],
+    transition: { duration: 0.68, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
-// rays scale up from the view center, so they read as bursting off the glass
 const rayVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.2 } },
+  normal: { opacity: 0, transform: 'scale(0.45)' },
   animate: (i: number) => ({
-    opacity: [0, 1, 0.75, 1],
-    scale: [0.4, 1.15, 1, 1],
+    opacity: [0, 1, 0.7, 0],
+    transform: ['scale(0.45)', 'scale(1.25)', 'scale(1)', 'scale(0.9)'],
     transition: {
-      duration: 0.55,
+      duration: 0.72,
       ease: 'easeOut',
-      times: [0, 0.4, 0.7, 1],
-      delay: 0.12 + i * 0.05,
+      delay: 0.1 + i * 0.035,
     },
   }),
 };`,
@@ -1904,6 +1916,28 @@ const rayVariants: Variants = {
             strokeWidth="1.5"
             variants={rayVariants}
             custom={4}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '12px 10px' }}
+          />
+          <motion.path
+            d="M6.2 15.2L4.1 17.3"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={rayVariants}
+            custom={5}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '12px 10px' }}
+          />
+          <motion.path
+            d="M17.8 15.2L19.9 17.3"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={rayVariants}
+            custom={6}
             animate={controls}
             initial="normal"
             style={{ transformOrigin: '12px 10px' }}
@@ -2579,26 +2613,26 @@ const strokeVariants: Variants = {
   {
     export: 'Bug01Icon',
     defs: `
-// while you hover, it's alive — the body scuttles in place and the
-// antennae feel around, each on its own beat
+// the bug crouches, springs upward, and lands with its antennae trailing
 const svgVariants: Variants = {
-  normal: { translateX: 0, transition: { duration: 0.3 } },
+  normal: { transform: 'translateY(0px) scaleX(1) scaleY(1)' },
   animate: {
-    translateX: [0, 0.9, -0.9, 0.6, -0.6, 0],
-    transition: { duration: 0.55, ease: 'easeInOut', repeat: Infinity },
+    transform: [
+      'translateY(0px) scaleX(1) scaleY(1)',
+      'translateY(1px) scaleX(1.12) scaleY(0.88)',
+      'translateY(-3px) scaleX(0.9) scaleY(1.14)',
+      'translateY(0.8px) scaleX(1.08) scaleY(0.93)',
+      'translateY(0px) scaleX(1) scaleY(1)',
+    ],
+    transition: { duration: 0.78, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const antennaVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0.3 } },
+  normal: { transform: 'rotate(0deg)' },
   animate: (i: number) => ({
-    rotate: [0, i * 16, 0, i * 9, 0],
-    transition: {
-      duration: 0.9,
-      ease: 'easeInOut',
-      repeat: Infinity,
-      delay: i === 1 ? 0.2 : 0,
-    },
+    transform: ['rotate(0deg)', \`rotate(\${i * 12}deg)\`, 'rotate(0deg)'],
+    transition: { duration: 0.5, delay: 0.18, ease: [0.23, 1, 0.32, 1] },
   }),
 };`,
     svg: 'svgVariants',
@@ -2618,54 +2652,61 @@ const antennaVariants: Variants = {
   {
     export: 'BatteryCharging01Icon',
     defs: `
-// while you hover, it's plugged in — the bolt pulses with each surge and
-// drawn charge sparks float up off the terminal
-const boltVariants: Variants = {
-  normal: { scale: 1, opacity: 1, transition: { duration: 0.3 } },
+// charge travels left to right; the bolt catches at the crest, then the
+// battery settles with the stored energy
+const bodyVariants: Variants = {
+  normal: { transform: 'translateY(0px) scaleY(1)' },
   animate: {
-    scale: [1, 1.2, 1],
-    opacity: [1, 0.55, 1],
-    transition: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
+    transform: [
+      'translateY(0px) scaleY(1)',
+      'translateY(0.8px) scaleY(0.94)',
+      'translateY(-0.5px) scaleY(1.04)',
+      'translateY(0px) scaleY(1)',
+    ],
+    transition: { duration: 0.82, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
-const sparkVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.15 } },
-  animate: (i: number) => ({
-    opacity: [0, 1, 0],
-    translateY: [1.5, -2.5],
-    transition: {
-      duration: 1.1,
-      ease: 'easeOut',
-      repeat: Infinity,
-      delay: i * 0.45,
-    },
-  }),
+const boltVariants: Variants = {
+  normal: { opacity: 1, transform: 'translateY(0px) scale(1)' },
+  animate: {
+    opacity: [0.4, 1, 1, 1],
+    transform: [
+      'translateY(2.4px) scale(0.76)',
+      'translateY(0px) scale(1.35)',
+      'translateY(0px) scale(1.35)',
+      'translateY(0px) scale(1)',
+    ],
+    transition: { duration: 0.82, ease: [0.23, 1, 0.32, 1], times: [0, 0.56, 0.74, 1] },
+  },
+};
+
+const fillVariants: Variants = {
+  normal: { opacity: 0, transform: 'scaleX(0.08)' },
+  animate: {
+    opacity: [0, 0.14, 0.14, 0],
+    transform: ['scaleX(0.08)', 'scaleX(1)', 'scaleX(1)', 'scaleX(1)'],
+    transition: { duration: 0.82, ease: [0.23, 1, 0.32, 1], times: [0, 0.56, 0.74, 1] },
+  },
 };`,
+    svg: 'bodyVariants',
+    svgStyle: `{ transformOrigin: '12px 12px' }`,
+    before: `
+          <motion.rect
+            x="3.6"
+            y="7.6"
+            width="14.2"
+            height="8.8"
+            rx="2.2"
+            fill="currentColor"
+            variants={fillVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '3.6px 12px' }}
+          />`,
     els: {
       1: { v: 'boltVariants', style: `{ transformOrigin: '10.2px 12px' }` },
     },
-    extra: `
-          <motion.path
-            d="M23 7.5V9.5M22 8.5H24"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={sparkVariants}
-            custom={0}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M23.5 12.5V14.5M22.5 13.5H24.5"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={sparkVariants}
-            custom={1}
-            animate={controls}
-            initial="normal"
-          />`,
   },
   {
     export: 'SleepingIcon',
@@ -3529,29 +3570,57 @@ const recordDotVariants: Variants = {
   {
     export: 'Archive02Icon',
     defs: `
-// the archive stack compresses and its front drawer answers with a click
+// the drawer opens decisively, separating the stack while five motion marks
+// flare into the newly opened space
 const archiveLayerVariants: Variants = {
-  normal: { translateY: 0, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
+  normal: { transform: 'translateY(0px)' },
   animate: (i: number) => ({
-    translateY: [0, 1.2 - i * 0.45, 0],
-    transition: { duration: 0.65, delay: i * 0.07, ease: 'easeOut' },
+    transform: [
+      'translateY(0px)',
+      \`translateY(\${-3.2 - i * 1.7}px)\`,
+      \`translateY(\${-3.2 - i * 1.7}px)\`,
+      'translateY(0px)',
+    ],
+    transition: { duration: 0.86, delay: i * 0.05, ease: [0.77, 0, 0.175, 1], times: [0, 0.36, 0.62, 1] },
   }),
 };
 
 const archiveDrawerVariants: Variants = {
-  normal: { translateY: 0, scaleX: 1 },
+  normal: { transform: 'translateY(0px) scaleX(1)' },
   animate: {
-    translateY: [0, 1, -0.35, 0],
-    scaleX: [1, 1.04, 1],
-    transition: { duration: 0.75, ease: 'easeOut' },
+    transform: [
+      'translateY(0px) scaleX(1)',
+      'translateY(3.6px) scaleX(1.05)',
+      'translateY(3.6px) scaleX(1.05)',
+      'translateY(0px) scaleX(1)',
+    ],
+    transition: { duration: 0.86, ease: [0.77, 0, 0.175, 1], times: [0, 0.36, 0.62, 1] },
   },
 };
 
 const archiveHandleVariants: Variants = {
-  normal: { scale: 1 },
+  normal: { transform: 'translateY(0px) scaleX(1)' },
   animate: {
-    scale: [1, 0.72, 1.18, 1],
-    transition: { duration: 0.6, delay: 0.2, ease: 'easeOut' },
+    transform: [
+      'translateY(0px) scaleX(1)',
+      'translateY(3.6px) scaleX(0.82)',
+      'translateY(3.6px) scaleX(1.12)',
+      'translateY(0px) scaleX(1)',
+    ],
+    transition: { duration: 0.86, ease: [0.77, 0, 0.175, 1], times: [0, 0.36, 0.62, 1] },
+  },
+};
+
+const archiveOpenLineVariants: Variants = {
+  normal: { opacity: 0, transform: 'translate(0px, 0px)' },
+  animate: (i: number) => {
+    const start = i === 3 ? 'translate(1.5px, 0px)' : i === 4 ? 'translate(-1.5px, 0px)' : 'translate(0px, 1.5px)';
+    const outward = i === 3 ? 'translate(-1px, 0px)' : i === 4 ? 'translate(1px, 0px)' : 'translate(0px, -1px)';
+    return {
+      opacity: [0, 1, 0.85, 0],
+      transform: [start, outward, outward, 'translate(0px, 0px)'],
+      transition: { duration: 0.56, delay: 0.08 + i * 0.035, ease: [0.23, 1, 0.32, 1], times: [0, 0.28, 0.62, 1] },
+    };
   },
 };`,
     els: {
@@ -3560,6 +3629,12 @@ const archiveHandleVariants: Variants = {
       2: { v: 'archiveLayerVariants', custom: 1 },
       3: { v: 'archiveHandleVariants', style: `{ transformOrigin: '12px 16px' }` },
     },
+    extra: `
+          <motion.path d="M5.8 2.6L4.2 0.6" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={0} animate={controls} initial="normal" />
+          <motion.path d="M12 0.5V-2" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={1} animate={controls} initial="normal" />
+          <motion.path d="M18.2 2.6L19.8 0.6" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={2} animate={controls} initial="normal" />
+          <motion.path d="M1.2 11H-1.3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={3} animate={controls} initial="normal" />
+          <motion.path d="M22.8 11H25.3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={4} animate={controls} initial="normal" />`,
   },
   // ── curated growth batch: common product actions ────────────────────────────
   {

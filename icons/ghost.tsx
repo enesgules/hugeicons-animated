@@ -23,7 +23,7 @@ const svgVariants: Variants = {
   animate: {
     translateY: [0, -1.8, 0],
     rotate: [0, -3, 3, 0],
-    transition: { duration: 2, ease: 'easeInOut' },
+    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
@@ -35,6 +35,7 @@ const eyeVariants: Variants = {
       duration: 2,
       ease: 'easeInOut',
       times: [0, 0.15, 0.4, 0.55, 0.85, 1],
+      repeat: Infinity,
     },
   },
 };
@@ -44,6 +45,7 @@ const GhostIcon = forwardRef<GhostIconHandle, GhostIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,

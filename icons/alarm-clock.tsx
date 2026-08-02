@@ -21,8 +21,8 @@ interface AlarmClockIconProps extends HTMLAttributes<HTMLDivElement> {
 const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
-    rotate: [0, -5, 4, -3.5, 3, -1.5, 0],
-    transition: { duration: 0.6, ease: 'easeInOut' },
+    rotate: [0, -7, 6, -5, 4, -2, 0],
+    transition: { duration: 0.6, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
@@ -33,6 +33,7 @@ const tickVariants: Variants = {
     transition: {
       duration: 0.6,
       ease: 'easeOut',
+      repeat: Infinity,
       delay: i * 0.15,
     },
   }),
@@ -43,6 +44,7 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -110,7 +112,7 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
             strokeWidth="1.5"
           />
           <motion.path
-            d="M2.2 4L1.2 3.5"
+            d="M1.5 3.5L0.3 2.9"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -120,7 +122,7 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
             initial="normal"
           />
           <motion.path
-            d="M21.8 4L22.8 3.5"
+            d="M22.5 3.5L23.7 2.9"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -130,7 +132,7 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
             initial="normal"
           />
           <motion.path
-            d="M4 1.8L3.2 0.9"
+            d="M3.4 0.8L2.5 -0.2"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -140,7 +142,7 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
             initial="normal"
           />
           <motion.path
-            d="M20 1.8L20.8 0.9"
+            d="M20.6 0.8L21.5 -0.2"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"

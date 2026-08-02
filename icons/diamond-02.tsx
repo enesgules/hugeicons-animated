@@ -22,7 +22,7 @@ const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
     rotate: [0, -4, 4, 0],
-    transition: { duration: 1.6, ease: 'easeInOut' },
+    transition: { duration: 1.6, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
@@ -34,6 +34,7 @@ const glintVariants: Variants = {
     transition: {
       duration: 1.6,
       ease: 'easeOut',
+      repeat: Infinity,
       delay: i * 0.55,
     },
   }),
@@ -44,6 +45,7 @@ const Diamond02Icon = forwardRef<Diamond02IconHandle, Diamond02IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,

@@ -16,7 +16,7 @@ interface Wifi01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// on hover, the signal broadcasts once — pulses ripple outward
+// while you hover, the signal keeps broadcasting — pulses ripple outward
 const arcVariants: Variants = {
   normal: { opacity: 1, transition: { duration: 0.3 } },
   animate: (i: number) => ({
@@ -24,6 +24,7 @@ const arcVariants: Variants = {
     transition: {
       duration: 1.1,
       ease: 'easeInOut',
+      repeat: Infinity,
       delay: i * 0.22,
     },
   }),
@@ -34,6 +35,7 @@ const Wifi01Icon = forwardRef<Wifi01IconHandle, Wifi01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,

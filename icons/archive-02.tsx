@@ -16,42 +16,57 @@ interface Archive02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the archive stack settles into place without crossing the drawer border
+// the drawer opens decisively, separating the stack while five motion marks
+// flare into the newly opened space
 const archiveLayerVariants: Variants = {
-  normal: { opacity: 1, transform: 'translateY(0)' },
+  normal: { transform: 'translateY(0px)' },
   animate: (i: number) => ({
-    opacity: [0.7, 1],
-    transform: ['translateY(-0.5px)', 'translateY(0)'],
-    transition: {
-      duration: 0.38,
-      delay: i * 0.06,
-      ease: [0.23, 1, 0.32, 1],
-    },
+    transform: [
+      'translateY(0px)',
+      `translateY(${-3.2 - i * 1.7}px)`,
+      `translateY(${-3.2 - i * 1.7}px)`,
+      'translateY(0px)',
+    ],
+    transition: { duration: 0.86, delay: i * 0.05, ease: [0.77, 0, 0.175, 1], times: [0, 0.36, 0.62, 1] },
   }),
 };
 
 const archiveDrawerVariants: Variants = {
-  normal: { opacity: 1, transform: 'translateY(0)' },
+  normal: { transform: 'translateY(0px) scaleX(1)' },
   animate: {
-    opacity: [0.72, 1],
-    transform: ['translateY(0.5px)', 'translateY(0)'],
-    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+    transform: [
+      'translateY(0px) scaleX(1)',
+      'translateY(3.6px) scaleX(1.05)',
+      'translateY(3.6px) scaleX(1.05)',
+      'translateY(0px) scaleX(1)',
+    ],
+    transition: { duration: 0.86, ease: [0.77, 0, 0.175, 1], times: [0, 0.36, 0.62, 1] },
   },
 };
 
 const archiveHandleVariants: Variants = {
-  normal: { transform: 'translateY(0) scale(1)' },
+  normal: { transform: 'translateY(0px) scaleX(1)' },
   animate: {
     transform: [
-      'translateY(0) scale(1)',
-      'translateY(0.4px) scale(0.94)',
-      'translateY(0) scale(1)',
+      'translateY(0px) scaleX(1)',
+      'translateY(3.6px) scaleX(0.82)',
+      'translateY(3.6px) scaleX(1.12)',
+      'translateY(0px) scaleX(1)',
     ],
-    transition: {
-      duration: 0.32,
-      delay: 0.16,
-      ease: [0.23, 1, 0.32, 1],
-    },
+    transition: { duration: 0.86, ease: [0.77, 0, 0.175, 1], times: [0, 0.36, 0.62, 1] },
+  },
+};
+
+const archiveOpenLineVariants: Variants = {
+  normal: { opacity: 0, transform: 'translate(0px, 0px)' },
+  animate: (i: number) => {
+    const start = i === 3 ? 'translate(1.5px, 0px)' : i === 4 ? 'translate(-1.5px, 0px)' : 'translate(0px, 1.5px)';
+    const outward = i === 3 ? 'translate(-1px, 0px)' : i === 4 ? 'translate(1px, 0px)' : 'translate(0px, -1px)';
+    return {
+      opacity: [0, 1, 0.85, 0],
+      transform: [start, outward, outward, 'translate(0px, 0px)'],
+      transition: { duration: 0.56, delay: 0.08 + i * 0.035, ease: [0.23, 1, 0.32, 1], times: [0, 0.28, 0.62, 1] },
+    };
   },
 };
 
@@ -124,6 +139,11 @@ const Archive02Icon = forwardRef<Archive02IconHandle, Archive02IconProps>(
             initial="normal"
             style={{ transformOrigin: '12px 16px' }}
           />
+          <motion.path d="M5.8 2.6L4.2 0.6" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={0} animate={controls} initial="normal" />
+          <motion.path d="M12 0.5V-2" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={1} animate={controls} initial="normal" />
+          <motion.path d="M18.2 2.6L19.8 0.6" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={2} animate={controls} initial="normal" />
+          <motion.path d="M1.2 11H-1.3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={3} animate={controls} initial="normal" />
+          <motion.path d="M22.8 11H25.3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={4} animate={controls} initial="normal" />
         </svg>
       </div>
     );

@@ -20,8 +20,8 @@ interface Edit02IconProps extends HTMLAttributes<HTMLDivElement> {
 const pencilVariants: Variants = {
   normal: { rotate: 0, translateX: 0 },
   animate: {
-    rotate: [0, -2.5, 2, -1, 0],
-    translateX: [0, -0.4, 0.5, -0.2, 0],
+    rotate: [0, -5, 3, -2, 0],
+    translateX: [0, -1.5, 1, -0.5, 0],
     transition: { duration: 0.65, ease: 'easeInOut' },
   },
 };

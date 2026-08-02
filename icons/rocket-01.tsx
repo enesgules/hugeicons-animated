@@ -16,7 +16,7 @@ interface Rocket01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// liftoff with engine shudder; the speed lines and exhaust trail the launch
+// liftoff with engine shudder; the speed lines streak past twice
 const shipVariants: Variants = {
   normal: { translateX: 0, translateY: 0 },
   animate: {
@@ -32,7 +32,7 @@ const streakVariants: Variants = {
     translateX: [0, -2, 0],
     translateY: [0, 2, 0],
     opacity: [1, 0.3, 1],
-    transition: { duration: 0.7, ease: 'easeInOut', delay: i * 0.07 },
+    transition: { duration: 0.35, ease: 'easeInOut', delay: i * 0.07, repeat: 1 },
   }),
 };
 
@@ -47,6 +47,7 @@ const exhaustVariants: Variants = {
       duration: 0.55,
       ease: 'easeOut',
       delay: 0.08 + i * 0.12,
+      repeat: 1,
     },
   }),
 };

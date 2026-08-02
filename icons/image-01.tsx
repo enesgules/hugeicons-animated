@@ -16,27 +16,25 @@ interface Image01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const pathVariants: Variants = {
-  normal: { pathLength: 1, opacity: 1, transform: 'translateY(0) scale(1)' },
-  animate: (i: number) =>
-    i === 0
-      ? {
-          transform: ['scale(0.65)', 'scale(1.12)', 'scale(1)'],
-          transformOrigin: '7.5px 7.5px',
-          opacity: [0.4, 1, 1],
-          transition: { duration: 0.42, ease: 'easeOut' },
-        }
-      : i === 2
-        ? {
-            pathLength: [0, 1],
-            transform: ['translateY(1px)', 'translateY(0)'],
-            transition: { duration: 0.48, delay: 0.06, ease: 'easeOut' },
-          }
-        : {
-            transform: ['scale(1)', 'scale(1.02)', 'scale(1)'],
-            transformOrigin: '12px 12px',
-            transition: { duration: 0.45, ease: 'easeOut' },
-          },
+// the frame holds steady while the sun lifts and the ridge settles beneath it
+const sunVariants: Variants = {
+  normal: { transform: 'translate(0px, 0px) scale(1)' },
+  animate: {
+    transform: [
+      'translate(0px, 0px) scale(1)',
+      'translate(-0.3px, -0.35px) scale(1.06)',
+      'translate(0px, 0px) scale(1)',
+    ],
+    transition: { duration: 0.22, ease: [0.23, 1, 0.32, 1], times: [0, 0.45, 1] },
+  },
+};
+
+const ridgeVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(0.45px)', 'translateY(0px)'],
+    transition: { duration: 0.24, delay: 0.025, ease: [0.23, 1, 0.32, 1] },
+  },
 };
 
 const Image01Icon = forwardRef<Image01IconHandle, Image01IconProps>(
@@ -66,22 +64,17 @@ const Image01Icon = forwardRef<Image01IconHandle, Image01IconProps>(
         >
         <motion.circle
           cx="7.5" cy="7.5" r="1.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
-          variants={pathVariants}
-          custom={0}
+          variants={sunVariants}
           animate={controls}
           initial="normal"
+          style={{ transformBox: 'view-box', transformOrigin: '7.5px 7.5px' }}
         />
-        <motion.path
+        <path
           d="M2.5 12C2.5 7.52166 2.5 5.28249 3.89124 3.89124C5.28249 2.5 7.52166 2.5 12 2.5C16.4783 2.5 18.7175 2.5 20.1088 3.89124C21.5 5.28249 21.5 7.52166 21.5 12C21.5 16.4783 21.5 18.7175 20.1088 20.1088C18.7175 21.5 16.4783 21.5 12 21.5C7.52166 21.5 5.28249 21.5 3.89124 20.1088C2.5 18.7175 2.5 16.4783 2.5 12Z" stroke="currentColor" strokeWidth="1.5"
-          variants={pathVariants}
-          custom={1}
-          animate={controls}
-          initial="normal"
         />
         <motion.path
           d="M5 21C9.37246 15.775 14.2741 8.88406 21.4975 13.5424" stroke="currentColor" strokeWidth="1.5"
-          variants={pathVariants}
-          custom={2}
+          variants={ridgeVariants}
           animate={controls}
           initial="normal"
         />

@@ -16,24 +16,26 @@ interface PaintBrush02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a short wrist-led swipe using only the original brush geometry
+// the brush swipes from the wrist and leaves a drawn stroke of paint
+// behind on the ground it just crossed
 const svgVariants: Variants = {
-  normal: {
-    transform: 'translateX(0) rotate(0deg)',
-    transition: { duration: 0.2, ease: 'easeOut' },
-  },
+  normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
-    transform: [
-      'translateX(0) rotate(0deg)',
-      'translateX(-0.6px) rotate(-6deg)',
-      'translateX(0.8px) rotate(4deg)',
-      'translateX(0) rotate(0deg)',
-    ],
+    rotate: [0, -12, 8, -4, 0],
     transition: {
-      duration: 0.6,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.35, 0.7, 1],
+      duration: 1.1,
+      ease: 'easeInOut',
+      times: [0, 0.25, 0.55, 0.8, 1],
     },
+  },
+};
+
+const strokeVariants: Variants = {
+  normal: { pathLength: 0, opacity: 0, transition: { duration: 0.3 } },
+  animate: {
+    pathLength: [0, 1],
+    opacity: [0, 1],
+    transition: { duration: 0.8, ease: 'easeOut', delay: 0.15 },
   },
 };
 
@@ -84,6 +86,15 @@ const PaintBrush02Icon = forwardRef<PaintBrush02IconHandle, PaintBrush02IconProp
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+          />
+          <motion.path
+            d="M5.5 23.8C8.5 22.6 15.5 22.6 18.5 23.8"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={strokeVariants}
+            animate={controls}
+            initial="normal"
           />
         </motion.svg>
       </div>

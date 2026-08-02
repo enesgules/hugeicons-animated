@@ -20,8 +20,8 @@ interface Delete02IconProps extends HTMLAttributes<HTMLDivElement> {
 const lidVariants: Variants = {
   normal: { translateY: 0, rotate: 0 },
   animate: {
-    translateY: [0, -0.7, -0.7, 0],
-    rotate: [0, -4, -4, 0],
+    translateY: [0, -2, -2, 0],
+    rotate: [0, -7, -7, 0],
     transition: { duration: 0.7, ease: 'easeInOut', times: [0, 0.25, 0.6, 1] },
   },
 };

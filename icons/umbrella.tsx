@@ -22,7 +22,7 @@ const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
     rotate: [0, -5, 3.5, -1.5, 0],
-    transition: { duration: 1.8, ease: 'easeInOut' },
+    transition: { duration: 1.8, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
@@ -35,6 +35,7 @@ const dropVariants: Variants = {
       duration: 0.9,
       ease: 'easeIn',
       times: [0, 0.2, 0.8, 1],
+      repeat: Infinity,
       delay: i * 0.3,
     },
   }),
@@ -45,6 +46,7 @@ const UmbrellaIcon = forwardRef<UmbrellaIconHandle, UmbrellaIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -91,7 +93,7 @@ const UmbrellaIcon = forwardRef<UmbrellaIconHandle, UmbrellaIconProps>(
             strokeWidth="1.5"
           />
           <motion.path
-            d="M5.5 1.2V2.8"
+            d="M5.5 -2.5V-0.5"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -101,7 +103,7 @@ const UmbrellaIcon = forwardRef<UmbrellaIconHandle, UmbrellaIconProps>(
             initial="normal"
           />
           <motion.path
-            d="M12 0.8V2.4"
+            d="M12 -4V-2"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -111,7 +113,7 @@ const UmbrellaIcon = forwardRef<UmbrellaIconHandle, UmbrellaIconProps>(
             initial="normal"
           />
           <motion.path
-            d="M18.5 1.2V2.8"
+            d="M18.5 -2.5V-0.5"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"

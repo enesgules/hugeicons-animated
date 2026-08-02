@@ -21,7 +21,7 @@ interface ThumbsUpIconProps extends HTMLAttributes<HTMLDivElement> {
 const thumbVariants: Variants = {
   normal: { rotate: 0 },
   animate: {
-    rotate: [0, -10, 4, -6, 2, 0],
+    rotate: [0, -20, 6, -10, 3, 0],
     transition: {
       duration: 0.75,
       ease: 'easeInOut',

@@ -16,25 +16,26 @@ interface Bug01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, it's alive — the body scuttles in place and the
-// antennae feel around, each on its own beat
+// the bug crouches, springs upward, and lands with its antennae trailing
 const svgVariants: Variants = {
-  normal: { translateX: 0, transition: { duration: 0.3 } },
+  normal: { transform: 'translateY(0px) scaleX(1) scaleY(1)' },
   animate: {
-    translateX: [0, 0.9, -0.9, 0.6, -0.6, 0],
-    transition: { duration: 0.55, ease: 'easeInOut' },
+    transform: [
+      'translateY(0px) scaleX(1) scaleY(1)',
+      'translateY(1px) scaleX(1.12) scaleY(0.88)',
+      'translateY(-3px) scaleX(0.9) scaleY(1.14)',
+      'translateY(0.8px) scaleX(1.08) scaleY(0.93)',
+      'translateY(0px) scaleX(1) scaleY(1)',
+    ],
+    transition: { duration: 0.78, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const antennaVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0.3 } },
+  normal: { transform: 'rotate(0deg)' },
   animate: (i: number) => ({
-    rotate: [0, i * 16, 0, i * 9, 0],
-    transition: {
-      duration: 0.9,
-      ease: 'easeInOut',
-      delay: i === 1 ? 0.2 : 0,
-    },
+    transform: ['rotate(0deg)', `rotate(${i * 12}deg)`, 'rotate(0deg)'],
+    transition: { duration: 0.5, delay: 0.18, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 

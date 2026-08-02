@@ -20,9 +20,9 @@ interface AirplaneTakeOff01IconProps extends HTMLAttributes<HTMLDivElement> {
 const planeVariants: Variants = {
   normal: { translateX: 0, translateY: 0, rotate: 0, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
   animate: {
-    translateX: [0, -0.5, 0, 0.8, 0],
-    translateY: [0, 0.3, 0, -1.4, 0],
-    rotate: [0, 0, -2, -5, 0],
+    translateX: [0, -1, 0, 2.8, 0],
+    translateY: [0, 0.3, 0, -2.6, 0],
+    rotate: [0, 0, -3, -8, 0],
     transition: { duration: 1, times: [0, 0.18, 0.34, 0.7, 1], ease: 'easeInOut' },
   },
 };
@@ -40,7 +40,7 @@ const windVariants: Variants = {
   normal: { opacity: 0, translateX: 0 },
   animate: (i: number) => ({
     opacity: [0, 0.75, 0],
-    translateX: [0.5, -0.25],
+    translateX: [2, -3],
     transition: { duration: 0.5, delay: 0.28 + i * 0.1, ease: 'easeOut' },
   }),
 };
@@ -90,7 +90,7 @@ const AirplaneTakeOff01Icon = forwardRef<AirplaneTakeOff01IconHandle, AirplaneTa
             style={{ transformOrigin: '12px 9px' }}
           />
           <motion.path d="M4 15.5H8" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" variants={windVariants} custom={0} animate={controls} initial="normal" />
-          <motion.path d="M1.5 13.5H5.5" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" variants={windVariants} custom={1} animate={controls} initial="normal" />
+          <motion.path d="M1.5 13.5H6.5" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" variants={windVariants} custom={1} animate={controls} initial="normal" />
         </svg>
       </div>
     );

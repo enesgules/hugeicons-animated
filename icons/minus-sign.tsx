@@ -16,11 +16,12 @@ interface MinusSignIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
+// the decrement bar pinches toward its exact center and returns without leaving the baseline
 const minusVariants: Variants = {
-  normal: { scaleX: 1 },
+  normal: { transform: 'scaleX(1)' },
   animate: {
-    scaleX: [1, 0.35, 1.08, 1],
-    transition: { duration: 0.42, ease: 'easeOut' },
+    transform: ['scaleX(1)', 'scaleX(0.82)', 'scaleX(1)'],
+    transition: { duration: 0.16, ease: [0.23, 1, 0.32, 1], times: [0, 0.42, 1] },
   },
 };
 
@@ -54,7 +55,7 @@ const MinusSignIcon = forwardRef<MinusSignIconHandle, MinusSignIconProps>(
           variants={minusVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '12px 12px' }}
+          style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
         />
         </svg>
       </div>

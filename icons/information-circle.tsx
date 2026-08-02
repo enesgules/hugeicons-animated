@@ -16,22 +16,42 @@ interface InformationCircleIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const pathVariants: Variants = {
-  normal: { pathLength: 1, opacity: 1, transform: 'translateY(0) scale(1)' },
-  animate: (i: number) =>
-    i === 0
-      ? {
-          transform: ['scale(1)', 'scale(1.035)', 'scale(1)'],
-          transformOrigin: '12px 12px',
-          transition: { duration: 0.42, ease: 'easeOut' },
-        }
-      : {
-          pathLength: [0, 1],
-          opacity: [0, 1],
-          transform: i === 1 ? ['translateY(1px)', 'translateY(0)'] : ['scale(0.5)', 'scale(1)'],
-          transformOrigin: '12px 8.25px',
-          transition: { duration: 0.32, delay: i * 0.05, ease: 'easeOut' },
-        },
+// the information dot drops into place, the stem takes the weight, and the ring settles
+const ringVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: ['scale(1)', 'scale(1)', 'scale(0.987)', 'scale(1.018)', 'scale(1)'],
+    transition: {
+      duration: 0.4,
+      ease: [0.23, 1, 0.32, 1],
+      times: [0, 0.46, 0.64, 0.82, 1],
+    },
+  },
+};
+
+const stemVariants: Variants = {
+  normal: { transform: 'translateY(0px) scaleY(1)' },
+  animate: {
+    transform: [
+      'translateY(0px) scaleY(1)',
+      'translateY(0.7px) scaleY(0.88)',
+      'translateY(-0.2px) scaleY(1.08)',
+      'translateY(0px) scaleY(1)',
+    ],
+    transition: { duration: 0.32, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const dotVariants: Variants = {
+  normal: { transform: 'translateY(0px) scale(1)' },
+  animate: {
+    transform: [
+      'translateY(-0.8px) scale(0.68)',
+      'translateY(0.25px) scale(1.28)',
+      'translateY(0px) scale(1)',
+    ],
+    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+  },
 };
 
 const InformationCircleIcon = forwardRef<InformationCircleIconHandle, InformationCircleIconProps>(
@@ -61,24 +81,24 @@ const InformationCircleIcon = forwardRef<InformationCircleIconHandle, Informatio
         >
         <motion.circle
           cx="12" cy="12" r="10" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
-          variants={pathVariants}
-          custom={0}
+          variants={ringVariants}
           animate={controls}
           initial="normal"
+          style={{ transformOrigin: '12px 12px' }}
         />
         <motion.path
           d="M12 16V12" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
-          variants={pathVariants}
-          custom={1}
+          variants={stemVariants}
           animate={controls}
           initial="normal"
+          style={{ transformOrigin: '12px 16px' }}
         />
         <motion.path
           d="M12.125 8.25H12M12.25 8.25C12.25 8.11193 12.1381 8 12 8C11.8619 8 11.75 8.11193 11.75 8.25C11.75 8.38807 11.8619 8.5 12 8.5C12.1381 8.5 12.25 8.38807 12.25 8.25Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
-          variants={pathVariants}
-          custom={2}
+          variants={dotVariants}
           animate={controls}
           initial="normal"
+          style={{ transformOrigin: '12px 8.25px' }}
         />
         </svg>
       </div>

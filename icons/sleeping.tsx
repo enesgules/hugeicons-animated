@@ -22,12 +22,13 @@ const zVariants: Variants = {
   normal: { opacity: 1, translateX: 0, translateY: 0, transition: { duration: 0.3 } },
   animate: {
     opacity: [1, 1, 0, 0, 1],
-    translateY: [0, -0.7, -1, 0, 0],
-    translateX: [0, 0.45, 0.7, 0, 0],
+    translateY: [0, -2, -3.2, 0, 0],
+    translateX: [0, 0.8, 1.4, 0, 0],
     transition: {
       duration: 2,
       ease: 'easeInOut',
       times: [0, 0.5, 0.68, 0.7, 1],
+      repeat: Infinity,
     },
   },
 };
@@ -38,7 +39,7 @@ const littleZVariants: Variants = {
     opacity: [0, 1, 0],
     translateY: [1.5, -2.5],
     translateX: [0, 1],
-    transition: { duration: 2, ease: 'easeInOut', delay: 0.6 },
+    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity, delay: 0.6 },
   },
 };
 
@@ -46,7 +47,7 @@ const snoreVariants: Variants = {
   normal: { scale: 1, transition: { duration: 0.3 } },
   animate: {
     scale: [1, 1.3, 1],
-    transition: { duration: 2, ease: 'easeInOut' },
+    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
@@ -55,6 +56,7 @@ const SleepingIcon = forwardRef<SleepingIconHandle, SleepingIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -113,7 +115,7 @@ const SleepingIcon = forwardRef<SleepingIconHandle, SleepingIconProps>(
             initial="normal"
           />
           <motion.path
-            d="M13 3.5H15.2L13 5.7H15.2"
+            d="M13 0.5H15.2L13 2.7H15.2"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"

@@ -28,11 +28,12 @@ const steamVariants: Variants = {
   normal: { opacity: 0, translateY: 0, transition: { duration: 0.2 } },
   animate: (i: number) => ({
     opacity: [0, 1, 1, 0],
-    translateY: [0.8, -0.35, i === 1 ? -1 : -0.8, i === 1 ? -1.4 : -1.1],
+    translateY: [0.8, -0.5, i === 1 ? -2.2 : -1.6, i === 1 ? -3.6 : -2.6],
     transition: {
       duration: 1.3 + i * 0.25,
       ease: 'easeOut',
       times: [0, 0.25, 0.7, 1],
+      repeat: Infinity,
       delay: i * 0.3,
     },
   }),
@@ -43,6 +44,7 @@ const Coffee02Icon = forwardRef<Coffee02IconHandle, Coffee02IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,

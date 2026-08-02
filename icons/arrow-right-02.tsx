@@ -44,7 +44,6 @@ const ArrowRight02Icon = forwardRef<ArrowRight02IconHandle, ArrowRight02IconProp
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
-      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

@@ -16,7 +16,8 @@ interface CloudIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// on hover, the cloud floats through overlapping horizontal and vertical arcs
+// while you hover, the cloud simply floats — two drift frequencies so the
+// path never feels scripted
 const svgVariants: Variants = {
   normal: {
     translateX: 0,
@@ -27,8 +28,8 @@ const svgVariants: Variants = {
     translateX: [0, 2.6, 0, -2.6, 0],
     translateY: [0, -1.1, 0],
     transition: {
-      translateX: { duration: 3.6, ease: 'easeInOut' },
-      translateY: { duration: 1.9, ease: 'easeInOut' },
+      translateX: { duration: 3.6, ease: 'easeInOut', repeat: Infinity },
+      translateY: { duration: 1.9, ease: 'easeInOut', repeat: Infinity },
     },
   },
 };
@@ -38,6 +39,7 @@ const CloudIcon = forwardRef<CloudIconHandle, CloudIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,

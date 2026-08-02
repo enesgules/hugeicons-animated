@@ -16,6 +16,7 @@ interface ArrowDown02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
+// the head drops first; the shaft stretches after it and answers with a smaller echo
 const shaftVariants: Variants = {
   normal: { d: 'M12 18.502V5.00195' },
   animate: {
@@ -43,7 +44,6 @@ const ArrowDown02Icon = forwardRef<ArrowDown02IconHandle, ArrowDown02IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
-      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

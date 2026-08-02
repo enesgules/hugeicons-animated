@@ -16,12 +16,18 @@ interface MoreVerticalIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
+// focus descends through the options, with each dot handing off to the next
 const dotVariants: Variants = {
-  normal: { translateX: 0, scale: 1 },
+  normal: { opacity: 1, transform: 'scale(1)' },
   animate: (i: number) => ({
-    translateX: [0, 1.5, -0.35, 0],
-    scale: [1, 1.2, 0.95, 1],
-    transition: { duration: 0.42, ease: 'easeOut', delay: i * 0.08 },
+    opacity: [1, 0.55, 1],
+    transform: ['scale(1)', 'scale(1.14)', 'scale(1)'],
+    transition: {
+      duration: 0.16,
+      ease: [0.23, 1, 0.32, 1],
+      delay: i * 0.035,
+      times: [0, 0.45, 1],
+    },
   }),
 };
 
@@ -63,7 +69,7 @@ const MoreVerticalIcon = forwardRef<MoreVerticalIconHandle, MoreVerticalIconProp
               custom={index}
               animate={controls}
               initial="normal"
-              style={{ transformOrigin: `12px ${cy}px` }}
+              style={{ transformBox: 'view-box', transformOrigin: `12px ${cy}px` }}
             />
           ))}
         </svg>

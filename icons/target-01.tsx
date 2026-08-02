@@ -21,8 +21,8 @@ interface Target01IconProps extends HTMLAttributes<HTMLDivElement> {
 const dartVariants: Variants = {
   normal: { translateX: 0, translateY: 0, transition: { duration: 0.3 } },
   animate: {
-    translateX: [0, 0.6, 0.6, 0],
-    translateY: [0, -0.6, -0.6, 0],
+    translateX: [0, 2.4, 2.4, 0],
+    translateY: [0, -2.4, -2.4, 0],
     transition: {
       duration: 1,
       times: [0, 0.3, 0.45, 0.58],

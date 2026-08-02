@@ -22,7 +22,7 @@ const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.4 } },
   animate: {
     rotate: [0, 6, -5, 0],
-    transition: { duration: 2, ease: 'easeInOut' },
+    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
@@ -30,10 +30,11 @@ const windVariants: Variants = {
   normal: { opacity: 0, transition: { duration: 0.15 } },
   animate: (i: number) => ({
     opacity: [0, 1, 0],
-    translateX: [-0.5, 1],
+    translateX: [-3, 2.5],
     transition: {
       duration: 1,
       ease: 'easeInOut',
+      repeat: Infinity,
       delay: i * 0.45,
     },
   }),
@@ -44,6 +45,7 @@ const Leaf01Icon = forwardRef<Leaf01IconHandle, Leaf01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -82,7 +84,7 @@ const Leaf01Icon = forwardRef<Leaf01IconHandle, Leaf01IconProps>(
             strokeWidth="1.5"
           />
           <motion.path
-            d="M2.5 3H6.5"
+            d="M2 3H6"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -92,7 +94,7 @@ const Leaf01Icon = forwardRef<Leaf01IconHandle, Leaf01IconProps>(
             initial="normal"
           />
           <motion.path
-            d="M1.5 6H4.5"
+            d="M1 6H4"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"

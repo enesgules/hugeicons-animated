@@ -22,7 +22,7 @@ const svgVariants: Variants = {
   normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
     scale: [1, 1.05, 1],
-    transition: { duration: 2, ease: 'easeInOut' },
+    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
@@ -34,6 +34,7 @@ const starVariants: Variants = {
     transition: {
       duration: 1.8,
       ease: 'easeInOut',
+      repeat: Infinity,
       delay: i * 0.6,
     },
   }),
@@ -44,6 +45,7 @@ const Moon02Icon = forwardRef<Moon02IconHandle, Moon02IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,

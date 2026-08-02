@@ -21,12 +21,13 @@ interface PrinterIconProps extends HTMLAttributes<HTMLDivElement> {
 const paperVariants: Variants = {
   normal: { translateY: 0, opacity: 1, transition: { duration: 0.3 } },
   animate: {
-    translateY: [0, 0.4, 0.4, 0.7, 0.7, 1],
+    translateY: [0, 1, 1, 2, 2, 3],
     opacity: [1, 1, 1, 1, 1, 0],
     transition: {
       duration: 1.2,
       ease: 'linear',
       times: [0, 0.2, 0.4, 0.6, 0.78, 1],
+      repeat: Infinity,
     },
   },
 };
@@ -35,7 +36,7 @@ const lightVariants: Variants = {
   normal: { opacity: 1, transition: { duration: 0.3 } },
   animate: {
     opacity: [1, 0.2, 1],
-    transition: { duration: 0.6, ease: 'easeInOut' },
+    transition: { duration: 0.6, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
@@ -44,6 +45,7 @@ const PrinterIcon = forwardRef<PrinterIconHandle, PrinterIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,

@@ -21,7 +21,7 @@ const speakerVariants: Variants = {
   normal: { scale: 1, transition: { duration: 0.3 } },
   animate: {
     scale: [1, 1.08, 1],
-    transition: { duration: 0.45, ease: 'easeInOut' },
+    transition: { duration: 0.45, ease: 'easeInOut', repeat: Infinity, repeatDelay: 0.45 },
   },
 };
 
@@ -32,6 +32,7 @@ const waveVariants: Variants = {
     transition: {
       duration: 0.9,
       ease: 'easeInOut',
+      repeat: Infinity,
       delay: i * 0.22,
     },
   }),
@@ -42,6 +43,7 @@ const VolumeHighIcon = forwardRef<VolumeHighIconHandle, VolumeHighIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,

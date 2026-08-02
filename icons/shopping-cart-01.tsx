@@ -26,6 +26,8 @@ const svgVariants: Variants = {
     transition: {
       duration: 0.55,
       ease: 'easeInOut',
+      repeat: Infinity,
+      repeatDelay: 0.35,
     },
   },
 };
@@ -38,6 +40,8 @@ const itemsVariants: Variants = {
     transition: {
       duration: 0.55,
       ease: 'easeInOut',
+      repeat: Infinity,
+      repeatDelay: 0.35,
       delay: 0.08,
     },
   },
@@ -47,10 +51,12 @@ const speedVariants: Variants = {
   normal: { opacity: 0, transition: { duration: 0.15 } },
   animate: (i: number) => ({
     opacity: [0, 1, 0],
-    translateX: [0.5, 0],
+    translateX: [2, -2.5],
     transition: {
       duration: 0.5,
       ease: 'easeOut',
+      repeat: Infinity,
+      repeatDelay: 0.35,
       delay: i * 0.22,
     },
   }),
@@ -61,6 +67,7 @@ const ShoppingCart01Icon = forwardRef<ShoppingCart01IconHandle, ShoppingCart01Ic
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -117,7 +124,7 @@ const ShoppingCart01Icon = forwardRef<ShoppingCart01IconHandle, ShoppingCart01Ic
             initial="normal"
           />
           <motion.path
-            d="M1 9.5H3.5"
+            d="M-2 9.5H0.8"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -127,7 +134,7 @@ const ShoppingCart01Icon = forwardRef<ShoppingCart01IconHandle, ShoppingCart01Ic
             initial="normal"
           />
           <motion.path
-            d="M1 13.5H2.75"
+            d="M-2 13.5H-0.2"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"

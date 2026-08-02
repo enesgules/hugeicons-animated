@@ -16,31 +16,31 @@ interface BluetoothIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the mark resolves from its center and the side nodes answer once
+// the mark broadcasts once from its center and the side nodes answer
 const markVariants: Variants = {
-  normal: {
-    opacity: 1,
-    transform: 'rotate(0deg) scale(1)',
-    transition: { duration: 0.2, ease: 'easeOut' },
-  },
+  normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
-    opacity: [0.65, 1, 1],
-    transform: [
-      'rotate(-3deg) scale(0.96)',
-      'rotate(1deg) scale(1.02)',
-      'rotate(0deg) scale(1)',
-    ],
-    transition: { duration: 0.45, ease: [0.23, 1, 0.32, 1] },
+    scale: [1, 0.94, 1.08, 1],
+    transition: { duration: 0.65, times: [0, 0.2, 0.62, 1], ease: 'easeOut' },
   },
 };
 
 const nodeVariants: Variants = {
-  normal: { opacity: 1, transform: 'scale(1)' },
+  normal: { opacity: 1, scale: 1 },
   animate: {
-    opacity: [0.3, 1],
-    transform: ['scale(0.7)', 'scale(1)'],
-    transition: { duration: 0.28, delay: 0.12, ease: [0.23, 1, 0.32, 1] },
+    opacity: [1, 0.25, 1, 0.5, 1],
+    scale: [1, 0.7, 1, 0.8, 1],
+    transition: { duration: 0.8, ease: 'easeInOut' },
   },
+};
+
+const signalVariants: Variants = {
+  normal: { opacity: 0, scale: 0.35 },
+  animate: (i: number) => ({
+    opacity: [0, 0.65, 0],
+    scale: [0.35, 1.1 + i * 0.25],
+    transition: { duration: 0.7, delay: i * 0.12, ease: 'easeOut' },
+  }),
 };
 
 const BluetoothIcon = forwardRef<BluetoothIconHandle, BluetoothIconProps>(
@@ -90,6 +90,8 @@ const BluetoothIcon = forwardRef<BluetoothIconHandle, BluetoothIconProps>(
             initial="normal"
             style={{ transformOrigin: '12px 12px' }}
           />
+          <motion.circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="1" variants={signalVariants} custom={0} animate={controls} initial="normal" style={{ transformOrigin: '12px 12px' }} />
+          <motion.circle cx="12" cy="12" r="7" stroke="currentColor" strokeWidth="0.8" variants={signalVariants} custom={1} animate={controls} initial="normal" style={{ transformOrigin: '12px 12px' }} />
         </svg>
       </div>
     );
