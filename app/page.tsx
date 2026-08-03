@@ -66,12 +66,6 @@ const HERO_SPECIMEN_PLACEMENTS: HeroSpecimenPlacement[] = [
   { iconIndex: 57, top: '76%', left: '29%', size: 23, rotate: 8, moveX: 6, moveY: -8, moveRotate: 14 },
   { iconIndex: 63, top: '70%', left: '54%', size: 26, rotate: -9, moveX: -8, moveY: 5, moveRotate: -15, mediumHidden: true },
   { iconIndex: 69, top: '72%', left: '80%', size: 22, rotate: 5, moveX: 7, moveY: -6, moveRotate: 10 },
-  { iconIndex: 76, top: '82%', left: '6%', size: 27, rotate: -12, moveX: -6, moveY: 7, moveRotate: -18 },
-  { iconIndex: 84, top: '85%', left: '37%', size: 23, rotate: 10, moveX: 8, moveY: -6, moveRotate: 16 },
-  { iconIndex: 92, top: '84%', left: '63%', size: 28, rotate: -5, moveX: -8, moveY: 8, moveRotate: -11 },
-  { iconIndex: 104, top: '89%', left: '94%', size: 24, rotate: 9, moveX: 7, moveY: -7, moveRotate: 15 },
-  { iconIndex: 115, top: '96%', left: '18%', size: 22, rotate: -8, moveX: -7, moveY: 6, moveRotate: -14 },
-  { iconIndex: 127, top: '96%', left: '72%', size: 25, rotate: 6, moveX: 8, moveY: -6, moveRotate: 12 },
 ];
 
 const HERO_SPECIMENS = HERO_SPECIMEN_PLACEMENTS.map((specimen) => ({
