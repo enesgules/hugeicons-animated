@@ -29,6 +29,7 @@ const redoVariants: Variants = {
     ],
     pathLength: [1, 0.82, 1, 1, 1],
     transition: { duration: 0.82, ease: [0.77, 0, 0.175, 1], times: [0, 0.1, 0.68, 0.84, 1] },
+    transitionEnd: { transform: 'rotate(0deg) scale(1)' },
   },
 };
 
