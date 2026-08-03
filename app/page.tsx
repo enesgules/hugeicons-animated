@@ -146,7 +146,7 @@ export default function Home() {
               : 'border-transparent bg-white/0'
           }`}
         >
-          <nav className="mx-auto grid h-16 max-w-6xl grid-cols-[1fr_auto] items-center px-5 sm:px-8 lg:grid-cols-[1fr_auto_1fr]">
+          <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
             <a
               href="#top"
               onMouseEnter={() => logoRef.current?.startAnimation()}
@@ -165,50 +165,20 @@ export default function Home() {
                 />
               </span>
               <span className="whitespace-nowrap text-[17px] font-bold leading-none tracking-[-0.025em]">
-                hugeicons
-              </span>
-              <span
-                aria-hidden
-                className="hidden h-4 w-px bg-[#D8DAD6] sm:block"
-              />
-              <span className="hidden items-center gap-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-[#696D6E] sm:flex">
-                animated
-                <span className="size-1.5 rounded-full bg-[#79BD3E]" />
+                hugeicons <span className="text-[#9DA19B]">animated</span>
               </span>
             </a>
 
-            <div className="hidden items-center gap-1 lg:flex">
-              <a
-                href="#icons"
-                className="flex min-h-10 items-center rounded-md px-3 text-sm font-medium text-[#696D6E] transition-colors duration-150 hover:bg-[#141812]/4 hover:text-[#141812] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#4C7A22]"
-              >
-                Icons
-              </a>
-              <a
-                href="https://hugeicons.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex min-h-10 items-center gap-1 rounded-md px-3 text-sm font-medium text-[#696D6E] transition-colors duration-150 hover:bg-[#141812]/4 hover:text-[#141812] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#4C7A22]"
-              >
-                Hugeicons
-                <span aria-hidden className="translate-y-[-0.08em] text-xs">
-                  ↗
-                </span>
-              </a>
-            </div>
-
-            <div className="flex justify-end">
-              <a
-                href={GITHUB_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="View hugeicons-animated on GitHub"
-                className="flex size-10 items-center justify-center gap-2 rounded-lg bg-[#141812] text-sm font-bold text-white shadow-[0_1px_2px_rgba(20,24,18,0.18),inset_0_0_0_1px_rgba(255,255,255,0.08)] transition-[background-color,scale] duration-150 hover:bg-[#2A2E27] active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22] sm:w-auto sm:px-3.5"
-              >
-                <GitHubMark className="size-4" />
-                <span className="hidden sm:inline">GitHub</span>
-              </a>
-            </div>
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View hugeicons-animated on GitHub"
+              className="flex size-10 items-center justify-center gap-2 rounded-lg bg-[#141812] text-sm font-bold text-white shadow-[0_1px_2px_rgba(20,24,18,0.18),inset_0_0_0_1px_rgba(255,255,255,0.08)] transition-[background-color,scale] duration-150 hover:bg-[#2A2E27] active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22] sm:w-auto sm:px-3.5"
+            >
+              <GitHubMark className="size-4" />
+              <span className="hidden sm:inline">GitHub</span>
+            </a>
           </nav>
         </header>
 
@@ -324,11 +294,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section
-            id="icons"
-            aria-labelledby="icon-library-heading"
-            className="scroll-mt-20 pb-16"
-          >
+          <section aria-labelledby="icon-library-heading" className="pb-16">
             <div className="grid gap-5 py-6 sm:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)] sm:items-end">
               <div>
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
