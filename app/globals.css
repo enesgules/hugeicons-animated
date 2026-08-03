@@ -89,6 +89,8 @@ body {
 .hero-specimen {
   position: absolute;
   display: grid;
+  top: var(--specimen-top);
+  left: var(--specimen-left);
   width: 3.25rem;
   height: 3.25rem;
   pointer-events: auto;
@@ -138,6 +140,26 @@ body {
 @media (max-width: 1100px) {
   .hero-random-field .hero-specimen-medium-hidden {
     display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-random-field .hero-specimen {
+    display: none;
+  }
+
+  .hero-random-field .hero-specimen-mobile {
+    display: grid;
+    top: auto;
+    bottom: var(--specimen-mobile-bottom);
+    left: var(--specimen-mobile-left);
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .hero-random-hero[data-move-active="true"] .hero-specimen-mobile {
+    transform: translate(-50%, -50%)
+      rotate(var(--specimen-move-rotate)) scale(1.04);
   }
 }
 

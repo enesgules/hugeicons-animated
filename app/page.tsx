@@ -50,10 +50,14 @@ type HeroSpecimenPlacement = {
   moveY: number;
   moveRotate: number;
   mediumHidden?: boolean;
+  mobile?: {
+    bottom: string;
+    left: string;
+  };
 };
 
 const HERO_SPECIMEN_PLACEMENTS: HeroSpecimenPlacement[] = [
-  { iconIndex: 3, top: '7%', left: '12%', size: 22, rotate: -10, moveX: -7, moveY: 6, moveRotate: -15 },
+  { iconIndex: 3, top: '22%', left: '74%', size: 22, rotate: -10, moveX: -7, moveY: 6, moveRotate: -15, mobile: { bottom: '10rem', left: '18%' } },
   { iconIndex: 9, top: '11%', left: '38%', size: 28, rotate: 7, moveX: 8, moveY: -7, moveRotate: 13 },
   { iconIndex: 14, top: '9%', left: '69%', size: 25, rotate: -5, moveX: -10, moveY: -3, moveRotate: -10 },
   { iconIndex: 20, top: '15%', left: '91%', size: 23, rotate: 11, moveX: 8, moveY: 8, moveRotate: 17 },
@@ -63,9 +67,9 @@ const HERO_SPECIMEN_PLACEMENTS: HeroSpecimenPlacement[] = [
   { iconIndex: 42, top: '47%', left: '3%', size: 24, rotate: -7, moveX: 7, moveY: -7, moveRotate: -12, mediumHidden: true },
   { iconIndex: 46, top: '53%', left: '68%', size: 27, rotate: 13, moveX: -7, moveY: 7, moveRotate: 19 },
   { iconIndex: 51, top: '57%', left: '91%', size: 29, rotate: -4, moveX: 9, moveY: 8, moveRotate: -9 },
-  { iconIndex: 57, top: '76%', left: '29%', size: 23, rotate: 8, moveX: 6, moveY: -8, moveRotate: 14 },
+  { iconIndex: 57, top: '76%', left: '29%', size: 23, rotate: 8, moveX: 6, moveY: -8, moveRotate: 14, mobile: { bottom: '9.75rem', left: '50%' } },
   { iconIndex: 63, top: '70%', left: '54%', size: 26, rotate: -9, moveX: -8, moveY: 5, moveRotate: -15, mediumHidden: true },
-  { iconIndex: 69, top: '72%', left: '80%', size: 22, rotate: 5, moveX: 7, moveY: -6, moveRotate: 10 },
+  { iconIndex: 69, top: '72%', left: '80%', size: 22, rotate: 5, moveX: 7, moveY: -6, moveRotate: 10, mobile: { bottom: '10.125rem', left: '82%' } },
 ];
 
 const HERO_SPECIMENS = HERO_SPECIMEN_PLACEMENTS.map((specimen) => ({
@@ -84,6 +88,10 @@ const HERO_FIELD_STYLE: HeroFieldStyle = {
 };
 
 type SpecimenStyle = CSSProperties & {
+  '--specimen-top': string;
+  '--specimen-left': string;
+  '--specimen-mobile-bottom': string;
+  '--specimen-mobile-left': string;
   '--specimen-rotate': string;
   '--specimen-move-x': string;
   '--specimen-move-y': string;
@@ -347,12 +355,12 @@ export default function Home() {
         <main className="mx-auto w-full max-w-6xl flex-1 px-5 sm:px-8">
           <section
             ref={heroRef}
-            className="hero-random-hero relative pt-12 pb-14 sm:pt-20"
+            className="hero-random-hero relative pt-12 pb-20 sm:pt-20 lg:pb-14"
             style={HERO_FIELD_STYLE}
             data-move-active="false"
             data-specimen-active="false"
           >
-            <div className="hero-random-field hidden lg:block">
+            <div className="hero-random-field block">
               <div aria-hidden className="hero-random-glow" />
               {HERO_SPECIMENS.map(
                 (
@@ -366,12 +374,15 @@ export default function Home() {
                     moveY,
                     moveRotate,
                     mediumHidden,
+                    mobile,
                   },
                   specimenIndex
                 ) => {
                   const specimenStyle: SpecimenStyle = {
-                    top,
-                    left,
+                    '--specimen-top': top,
+                    '--specimen-left': left,
+                    '--specimen-mobile-bottom': mobile?.bottom ?? 'auto',
+                    '--specimen-mobile-left': mobile?.left ?? 'auto',
                     '--specimen-rotate': `${rotate}deg`,
                     '--specimen-move-x': `${moveX}px`,
                     '--specimen-move-y': `${moveY}px`,
@@ -383,7 +394,7 @@ export default function Home() {
                       aria-label={`Use ${name} in the install command`}
                       className={`hero-specimen${
                         mediumHidden ? ' hero-specimen-medium-hidden' : ''
-                      }`}
+                      }${mobile ? ' hero-specimen-mobile' : ''}`}
                       style={specimenStyle}
                       key={name}
                       onClick={() => previewSpecimen(specimenIndex, name, left, top)}
