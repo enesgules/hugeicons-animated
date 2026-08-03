@@ -48,6 +48,7 @@ const QrCode01Icon = forwardRef<QrCode01IconHandle, QrCode01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

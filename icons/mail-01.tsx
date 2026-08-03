@@ -41,6 +41,7 @@ const Mail01Icon = forwardRef<Mail01IconHandle, Mail01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

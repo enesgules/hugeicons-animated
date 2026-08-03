@@ -16,20 +16,20 @@ interface CloudDownloadIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the cloud settles as the transfer arrow drops through it
+// the cloud compresses under a decisive downward transfer, then floats back
 const cloudVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.35px)', 'translateY(0px)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(-0.4px) scaleY(1.02)', 'translateY(0.8px) scaleY(0.96)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1], times: [0, 0.22, 0.58, 1] },
   },
 };
 
 const downloadVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(-1px)', 'translateY(1.3px)', 'translateY(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(-2.5px)', 'translateY(2.2px)', 'translateY(-0.4px)', 'translateY(0px)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.78, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const CloudDownloadIcon = forwardRef<CloudDownloadIconHandle, CloudDownloadIconP
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

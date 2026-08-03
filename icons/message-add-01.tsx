@@ -16,20 +16,20 @@ interface MessageAdd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the conversation rises as a new message action appears
+// the conversation inhales and the add mark pops into the open corner
 const messageVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.7px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scale(1)', 'translateY(0.7px) scale(0.96)', 'translateY(-1px) scale(1.025)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(0.7)', 'scale(1.13)', 'scale(1)'],
-    transition: { duration: 0.4, delay: 0.05, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(-14deg) scale(0.48)', 'rotate(5deg) scale(1.22)', 'rotate(-2deg) scale(0.98)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.5, delay: 0.07, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const MessageAdd01Icon = forwardRef<MessageAdd01IconHandle, MessageAdd01IconProp
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

@@ -31,6 +31,7 @@ const RefreshIcon = forwardRef<RefreshIconHandle, RefreshIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

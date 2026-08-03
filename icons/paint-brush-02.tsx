@@ -44,6 +44,7 @@ const PaintBrush02Icon = forwardRef<PaintBrush02IconHandle, PaintBrush02IconProp
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

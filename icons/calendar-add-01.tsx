@@ -16,20 +16,20 @@ interface CalendarAdd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the calendar settles like a turned page before the add mark lands
+// the calendar flips forward on its rings and the add mark stamps the new day
 const calendarVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.7px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(-1.2px) scaleY(0.96)', 'translateY(0.65px) scaleY(1.03)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    transform: ['rotate(-10deg) scale(0.72)', 'rotate(2deg) scale(1.12)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.42, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(-15deg) scale(0.5)', 'rotate(5deg) scale(1.22)', 'rotate(-2deg) scale(0.98)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.5, delay: 0.12, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const CalendarAdd01Icon = forwardRef<CalendarAdd01IconHandle, CalendarAdd01IconP
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

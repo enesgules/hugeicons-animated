@@ -25,12 +25,21 @@ respected automatically.
 
 ## Animation rules
 
-- Start with the verb the icon performs.
-- Move only the part that carries that action.
-- Add animation-only rays, trails, echoes, or particles when they clarify the action; keep them hidden at rest.
-- Use squash, stretch, and wobble when they make the gesture clearer at icon size.
-- Keep related states on shared geometry and rotate directional siblings.
+- Name the action and animate only the geometry that communicates it.
+- Preserve SVG primitives between poses. Rotate shared shapes and morph only
+  paths with compatible commands; do not crossfade whole icons.
+- Prefer a short, discrete, productive gesture. Use expressive or indefinite
+  motion only when it communicates an important or genuinely ongoing state.
+- Respect reduced-motion preferences. Nonessential autoplay must finish within
+  five seconds or provide a pause control.
 - Every finite gesture returns to the original Hugeicon pose.
+
+The full [animation guidelines](docs/animation-guidelines.md) combine the
+geometry approach from
+[Morphing icons with Claude](https://benji.org/morphing-icons-with-claude) with
+platform motion and accessibility guidance. The article's exact three-line
+constraint is for a cross-icon morphing system; standalone Hugeicons preserve
+the native primitives needed by each icon instead.
 
 ## Adding a new icon
 

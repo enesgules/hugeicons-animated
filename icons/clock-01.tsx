@@ -35,6 +35,7 @@ const Clock01Icon = forwardRef<Clock01IconHandle, Clock01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

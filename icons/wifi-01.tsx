@@ -16,18 +16,32 @@ interface Wifi01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, the signal keeps broadcasting — pulses ripple outward
+// the signal physically expands from its source; opacity only supports the motion
 const arcVariants: Variants = {
-  normal: { opacity: 1, transition: { duration: 0.3 } },
+  normal: { opacity: 1, transform: 'translateY(0px) scale(1)', transition: { duration: 0.22 } },
   animate: (i: number) => ({
-    opacity: [0.25, 1, 0.25],
+    opacity: [0.22, 1, 0.42],
+    transform: [
+      'translateY(0.8px) scale(0.82)',
+      'translateY(0px) scale(1.06)',
+      'translateY(0px) scale(1)',
+    ],
     transition: {
-      duration: 1.1,
-      ease: 'easeInOut',
+      duration: 0.95,
+      ease: [0.23, 1, 0.32, 1],
       repeat: Infinity,
-      delay: i * 0.22,
+      repeatDelay: 0.08,
+      delay: i * 0.12,
     },
   }),
+};
+
+const sourceVariants: Variants = {
+  normal: { transform: 'scale(1)', transition: { duration: 0.2 } },
+  animate: {
+    transform: ['scale(1)', 'scale(0.86)', 'scale(1.18)', 'scale(1)'],
+    transition: { duration: 0.95, ease: [0.23, 1, 0.32, 1], repeat: Infinity, repeatDelay: 0.08 },
+  },
 };
 
 const Wifi01Icon = forwardRef<Wifi01IconHandle, Wifi01IconProps>(
@@ -66,6 +80,7 @@ const Wifi01Icon = forwardRef<Wifi01IconHandle, Wifi01IconProps>(
             custom={0}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '12px 18px' }}
           />
           <motion.path
             d="M18.5 11.5C14.7324 8.16667 9.5 8.16667 5.5 11.5"
@@ -77,6 +92,7 @@ const Wifi01Icon = forwardRef<Wifi01IconHandle, Wifi01IconProps>(
             custom={1}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '12px 18px' }}
           />
           <motion.path
             d="M2 8.5C8.31579 3.16669 15.6842 3.16668 22 8.49989"
@@ -88,8 +104,9 @@ const Wifi01Icon = forwardRef<Wifi01IconHandle, Wifi01IconProps>(
             custom={2}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '12px 18px' }}
           />
-          <circle
+          <motion.circle
             cx="12"
             cy="18"
             r="1.5"
@@ -97,6 +114,10 @@ const Wifi01Icon = forwardRef<Wifi01IconHandle, Wifi01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={sourceVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '12px 18px' }}
           />
         </svg>
       </div>

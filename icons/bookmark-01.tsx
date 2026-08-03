@@ -41,6 +41,7 @@ const Bookmark01Icon = forwardRef<Bookmark01IconHandle, Bookmark01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

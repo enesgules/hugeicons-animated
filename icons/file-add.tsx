@@ -16,20 +16,20 @@ interface FileAddIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a new sheet settles in as its add mark stamps into the corner
+// a new sheet drops into the stack while the add mark stamps the corner
 const fileVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.8px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(-1.8px) scaleY(1.02)', 'translateY(1px) scaleY(0.96)', 'translateY(-0.25px) scaleY(1.01)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.54, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(0.7)', 'scale(1.14)', 'scale(1)'],
-    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(-12deg) scale(0.5)', 'rotate(4deg) scale(1.22)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.48, delay: 0.07, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const FileAddIcon = forwardRef<FileAddIconHandle, FileAddIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

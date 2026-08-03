@@ -16,39 +16,20 @@ interface ArrowUpRight01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the shaft gathers first, then the corner leads it outward and both settle home
-const shaftVariants: Variants = {
-  normal: { transform: 'translate(0px, 0px)' },
+const pathVariants: Variants = {
+  normal: { opacity: 1, transform: 'translate(0, 0)' },
   animate: {
     transform: [
-      'translate(0px, 0px)',
-      'translate(-0.45px, 0.45px)',
-      'translate(1.2px, -1.2px)',
-      'translate(0.18px, -0.18px)',
-      'translate(0px, 0px)',
+      'translate(0, 0)',
+      'translate(-0.7px, 0.7px)',
+      'translate(3px, -3px)',
+      'translate(-0.4px, 0.4px)',
+      'translate(0, 0)',
     ],
     transition: {
-      duration: 0.42,
+      duration: 0.6,
       ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.18, 0.56, 0.82, 1],
-    },
-  },
-};
-
-const cornerVariants: Variants = {
-  normal: { transform: 'translate(0px, 0px)' },
-  animate: {
-    transform: [
-      'translate(0px, 0px)',
-      'translate(-0.2px, 0.2px)',
-      'translate(1.55px, -1.55px)',
-      'translate(0.22px, -0.22px)',
-      'translate(0px, 0px)',
-    ],
-    transition: {
-      duration: 0.42,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.18, 0.52, 0.82, 1],
+      times: [0, 0.16, 0.5, 0.8, 1],
     },
   },
 };
@@ -78,26 +59,13 @@ const ArrowUpRight01Icon = forwardRef<ArrowUpRight01IconHandle, ArrowUpRight01Ic
           fill="none"
           overflow="visible"
         >
-          <motion.path
-            d="M9 6.65032C9 6.65032 15.9383 6.10759 16.9154 7.08463C17.8924 8.06167 17.3496 15 17.3496 15"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={cornerVariants}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M16.5 7.5L6.5 17.5"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={shaftVariants}
-            animate={controls}
-            initial="normal"
-          />
+        <motion.path
+          d="M9 6.65032C9 6.65032 15.9383 6.10759 16.9154 7.08463C17.8924 8.06167 17.3496 15 17.3496 15M16.5 7.5L6.5 17.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
+          variants={pathVariants}
+          custom={0}
+          animate={controls}
+          initial="normal"
+        />
         </svg>
       </div>
     );

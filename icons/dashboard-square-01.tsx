@@ -16,13 +16,13 @@ interface DashboardSquare01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// dashboard tiles populate in reading order rather than pulsing as one block
+// dashboard tiles assemble in reading order with a crisp diagonal ripple
 const tileVariants: Variants = {
   normal: { transform: 'scale(1)', opacity: 1 },
   animate: (i: number) => ({
-    transform: ['scale(0.88)', 'scale(1.04)', 'scale(1)'],
-    opacity: [0.55, 1, 1],
-    transition: { duration: 0.38, delay: i * 0.045, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(1.4px) scale(0.74)', 'translateY(-0.4px) scale(1.1)', 'translateY(0px) scale(1)'],
+    opacity: [0.4, 1, 1],
+    transition: { duration: 0.48, delay: i * 0.06, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 
@@ -31,6 +31,7 @@ const DashboardSquare01Icon = forwardRef<DashboardSquare01IconHandle, DashboardS
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

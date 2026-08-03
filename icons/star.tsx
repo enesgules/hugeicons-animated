@@ -38,6 +38,7 @@ const StarIcon = forwardRef<StarIconHandle, StarIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

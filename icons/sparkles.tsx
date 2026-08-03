@@ -41,6 +41,7 @@ const SparklesIcon = forwardRef<SparklesIconHandle, SparklesIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

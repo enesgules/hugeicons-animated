@@ -56,6 +56,7 @@ const Robot01Icon = forwardRef<Robot01IconHandle, Robot01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

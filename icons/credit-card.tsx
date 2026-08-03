@@ -16,20 +16,20 @@ interface CreditCardIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the card slides through a reader and its details follow a fraction later
+// the card swipes through a reader; its stripe and details lag with inertia
 const cardVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(1.2px)', 'translateX(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(-2.2px) rotate(-2deg)', 'translateX(2.6px) rotate(1.5deg)', 'translateX(-0.35px) rotate(-0.3deg)', 'translateX(0px) rotate(0deg)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1], times: [0, 0.52, 0.8, 1] },
   },
 };
 
 const detailVariants: Variants = {
   normal: { transform: 'scaleX(1)' },
   animate: {
-    transform: ['scaleX(1)', 'scaleX(0.7)', 'scaleX(1)'],
-    transition: { duration: 0.38, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleX(1)', 'scaleX(0.48)', 'scaleX(1.08)', 'scaleX(1)'],
+    transition: { duration: 0.48, delay: 0.1, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const CreditCardIcon = forwardRef<CreditCardIconHandle, CreditCardIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

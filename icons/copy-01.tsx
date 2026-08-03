@@ -41,6 +41,7 @@ const Copy01Icon = forwardRef<Copy01IconHandle, Copy01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

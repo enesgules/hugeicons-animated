@@ -16,28 +16,29 @@ interface NotificationOff01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the bell tries one muted shake before the slash quiets it
+// the bell gets one lively shake; the slash draws across and arrests it
 const clapperVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(-0.6px)', 'translateX(0.4px)', 'translateX(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(0px)', 'translateX(-1.3px)', 'translateX(1px)', 'translateX(-0.45px)', 'translateX(0px)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const slashVariants: Variants = {
-  normal: { transform: 'scaleX(1)' },
+  normal: { transform: 'scaleX(1)', pathLength: 1 },
   animate: {
-    transform: ['scaleX(0.84)', 'scaleX(1.04)', 'scaleX(1)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleX(0.72)', 'scaleX(1.06)', 'scaleX(1)'],
+    pathLength: [0.35, 1, 1],
+    transition: { duration: 0.46, delay: 0.12, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const bellVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(-2deg)', 'rotate(1deg)', 'rotate(0deg)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(0deg)', 'rotate(-10deg)', 'rotate(8deg)', 'rotate(-4deg)', 'rotate(0deg)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -46,6 +47,7 @@ const NotificationOff01Icon = forwardRef<NotificationOff01IconHandle, Notificati
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

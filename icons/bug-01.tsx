@@ -16,26 +16,26 @@ interface Bug01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the bug crouches, springs upward, and lands with its antennae trailing
+// while you hover, it's alive — the body scuttles in place and the
+// antennae feel around, each on its own beat
 const svgVariants: Variants = {
-  normal: { transform: 'translateY(0px) scaleX(1) scaleY(1)' },
+  normal: { translateX: 0, transition: { duration: 0.3 } },
   animate: {
-    transform: [
-      'translateY(0px) scaleX(1) scaleY(1)',
-      'translateY(1px) scaleX(1.12) scaleY(0.88)',
-      'translateY(-3px) scaleX(0.9) scaleY(1.14)',
-      'translateY(0.8px) scaleX(1.08) scaleY(0.93)',
-      'translateY(0px) scaleX(1) scaleY(1)',
-    ],
-    transition: { duration: 0.78, ease: [0.23, 1, 0.32, 1] },
+    translateX: [0, 0.9, -0.9, 0.6, -0.6, 0],
+    transition: { duration: 0.55, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
 const antennaVariants: Variants = {
-  normal: { transform: 'rotate(0deg)' },
+  normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: (i: number) => ({
-    transform: ['rotate(0deg)', `rotate(${i * 12}deg)`, 'rotate(0deg)'],
-    transition: { duration: 0.5, delay: 0.18, ease: [0.23, 1, 0.32, 1] },
+    rotate: [0, i * 16, 0, i * 9, 0],
+    transition: {
+      duration: 0.9,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      delay: i === 1 ? 0.2 : 0,
+    },
   }),
 };
 
@@ -44,6 +44,7 @@ const Bug01Icon = forwardRef<Bug01IconHandle, Bug01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,

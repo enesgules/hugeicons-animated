@@ -16,16 +16,17 @@ interface SlidersHorizontalIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// each control moves along its own track, one after another
+// each control snaps to a new setting in a quick three-beat mix
 const knobVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: (i: number) => ({
     transform: [
       'translateX(0px)',
-      i === 0 ? 'translateX(-1.6px)' : i === 1 ? 'translateX(1.7px)' : 'translateX(-1.2px)',
+      i === 0 ? 'translateX(-2.8px)' : i === 1 ? 'translateX(3px)' : 'translateX(-2.4px)',
+      i === 0 ? 'translateX(0.45px)' : i === 1 ? 'translateX(-0.45px)' : 'translateX(0.4px)',
       'translateX(0px)',
     ],
-    transition: { duration: 0.25, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
+    transition: { duration: 0.48, delay: i * 0.07, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 
@@ -34,6 +35,7 @@ const SlidersHorizontalIcon = forwardRef<SlidersHorizontalIconHandle, SlidersHor
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

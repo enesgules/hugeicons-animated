@@ -16,20 +16,20 @@ interface UserAdd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the person rises in acknowledgement and the add mark follows
+// the profile gives a buoyant nod and the add mark answers beside it
 const personVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.8px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scale(1)', 'translateY(-1.5px) scale(1.03)', 'translateY(0.5px) scale(0.98)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    transform: ['rotate(-10deg) scale(0.72)', 'rotate(2deg) scale(1.12)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.42, delay: 0.05, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(-16deg) scale(0.5)', 'rotate(5deg) scale(1.2)', 'rotate(-2deg) scale(0.98)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.5, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const UserAdd01Icon = forwardRef<UserAdd01IconHandle, UserAdd01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

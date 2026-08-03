@@ -43,6 +43,7 @@ const Upload01Icon = forwardRef<Upload01IconHandle, Upload01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

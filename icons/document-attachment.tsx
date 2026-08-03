@@ -16,28 +16,28 @@ interface DocumentAttachmentIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the document holds steady while the paperclip swings into attachment
+// the paperclip swings hard into the page and its text lines answer the impact
 const documentVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.5px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) rotate(0deg)', 'translateY(-0.8px) rotate(-1deg)', 'translateY(0.45px) rotate(0.5deg)', 'translateY(0px) rotate(0deg)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const lineVariants: Variants = {
   normal: { transform: 'scaleX(1)' },
   animate: {
-    transform: ['scaleX(0.68)', 'scaleX(1.04)', 'scaleX(1)'],
-    transition: { duration: 0.38, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleX(1)', 'scaleX(0.5)', 'scaleX(1.1)', 'scaleX(1)'],
+    transition: { duration: 0.48, delay: 0.12, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const clipVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(-8deg)', 'rotate(3deg)', 'rotate(0deg)'],
-    transition: { duration: 0.46, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(0deg) translateY(0px)', 'rotate(-22deg) translateY(-1px)', 'rotate(7deg) translateY(0.35px)', 'rotate(-2deg) translateY(0px)', 'rotate(0deg) translateY(0px)'],
+    transition: { duration: 0.62, ease: [0.77, 0, 0.175, 1] },
   },
 };
 
@@ -46,6 +46,7 @@ const DocumentAttachmentIcon = forwardRef<DocumentAttachmentIconHandle, Document
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

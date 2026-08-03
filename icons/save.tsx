@@ -49,6 +49,7 @@ const SaveIcon = forwardRef<SaveIconHandle, SaveIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

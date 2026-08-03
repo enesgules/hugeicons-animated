@@ -16,20 +16,20 @@ interface FolderAddIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the folder acknowledges the action before the plus locks into place
+// the folder leans into the action and the add mark snaps firmly into place
 const folderVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.8px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) rotate(0deg)', 'translateY(-1.7px) rotate(-2deg)', 'translateY(0.4px) rotate(0.7deg)', 'translateY(0px) rotate(0deg)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    transform: ['rotate(-10deg) scale(0.7)', 'rotate(2deg) scale(1.12)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.42, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(-18deg) scale(0.5)', 'rotate(5deg) scale(1.22)', 'rotate(-2deg) scale(0.97)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.5, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const FolderAddIcon = forwardRef<FolderAddIconHandle, FolderAddIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

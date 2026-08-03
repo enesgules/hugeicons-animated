@@ -48,6 +48,7 @@ const MouseLeftClick01Icon = forwardRef<MouseLeftClick01IconHandle, MouseLeftCli
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

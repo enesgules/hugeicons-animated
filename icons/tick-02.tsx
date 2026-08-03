@@ -39,6 +39,7 @@ const Tick02Icon = forwardRef<Tick02IconHandle, Tick02IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

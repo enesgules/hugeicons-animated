@@ -16,20 +16,20 @@ interface MailOpenIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the letter rises from the envelope while the folded edge gives way
+// the envelope dips as the letter springs up, pauses, and slips home
 const envelopeVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.5px)', 'translateY(0px)'],
-    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(0.9px) scaleY(0.96)', 'translateY(-0.2px) scaleY(1.01)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.62, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const letterVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-1.5px)', 'translateY(-0.2px)', 'translateY(0px)'],
-    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px)', 'translateY(-3.2px)', 'translateY(-3.2px)', 'translateY(0.45px)', 'translateY(0px)'],
+    transition: { duration: 0.68, ease: [0.77, 0, 0.175, 1], times: [0, 0.34, 0.54, 0.82, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const MailOpenIcon = forwardRef<MailOpenIconHandle, MailOpenIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

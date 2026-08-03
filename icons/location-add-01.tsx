@@ -16,20 +16,20 @@ interface LocationAdd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the pin drops into place and the add mark confirms the destination
+// the pin hops, drops onto its point, and the add mark ripples from the landing
 const pinVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-1px)', 'translateY(0.5px)', 'translateY(0px)'],
-    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(-2.6px) scaleY(1.04)', 'translateY(1.1px) scaleY(0.93)', 'translateY(-0.35px) scaleY(1.02)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.68, ease: [0.23, 1, 0.32, 1], times: [0, 0.34, 0.58, 0.78, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(0.72)', 'scale(1.14)', 'scale(1)'],
-    transition: { duration: 0.4, delay: 0.05, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(0.5)', 'scale(1.24)', 'scale(0.94)', 'scale(1)'],
+    transition: { duration: 0.5, delay: 0.16, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const LocationAdd01Icon = forwardRef<LocationAdd01IconHandle, LocationAdd01IconP
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

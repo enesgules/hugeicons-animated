@@ -16,12 +16,12 @@ interface Link01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the chain halves pull apart and snap back past zero — a real click
+// the chain halves tighten their interlock, then settle without breaking apart
 const lowerVariants: Variants = {
   normal: { translateX: 0, translateY: 0 },
   animate: {
-    translateX: [0, -1.6, 0.4, 0],
-    translateY: [0, 1.6, -0.4, 0],
+    translateX: [0, 0.8, -0.2, 0],
+    translateY: [0, -0.8, 0.2, 0],
     transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.4, 0.75, 1] },
   },
 };
@@ -29,8 +29,8 @@ const lowerVariants: Variants = {
 const upperVariants: Variants = {
   normal: { translateX: 0, translateY: 0 },
   animate: {
-    translateX: [0, 1.6, -0.4, 0],
-    translateY: [0, -1.6, 0.4, 0],
+    translateX: [0, -0.8, 0.2, 0],
+    translateY: [0, 0.8, -0.2, 0],
     transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.4, 0.75, 1] },
   },
 };
@@ -40,6 +40,7 @@ const Link01Icon = forwardRef<Link01IconHandle, Link01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

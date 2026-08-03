@@ -16,26 +16,20 @@ interface CircleCheckIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the check writes decisively, then the ring gives one quiet confirmation
 const ringVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+  normal: { scale: 1 },
   animate: {
-    transform: ['scale(1)', 'scale(1)', 'scale(0.985)', 'scale(1.025)', 'scale(1)'],
-    transition: {
-      duration: 0.42,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.5, 0.66, 0.84, 1],
-    },
+    scale: [1, 1.05, 1],
+    transition: { duration: 0.45, ease: 'easeOut' },
   },
 };
 
 const checkVariants: Variants = {
-  normal: { pathLength: 1, opacity: 1, transform: 'translate(0px, 0px)' },
+  normal: { pathLength: 1, opacity: 1 },
   animate: {
     pathLength: [0, 1],
-    opacity: [0.35, 1],
-    transform: ['translate(-0.5px, 0.5px)', 'translate(0px, 0px)'],
-    transition: { duration: 0.3, ease: [0.23, 1, 0.32, 1] },
+    opacity: [0.2, 1],
+    transition: { duration: 0.35, ease: 'easeOut', delay: 0.08 },
   },
 };
 

@@ -49,6 +49,7 @@ const Video01Icon = forwardRef<Video01IconHandle, Video01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

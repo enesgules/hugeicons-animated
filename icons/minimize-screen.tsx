@@ -16,20 +16,20 @@ interface MinimizeScreenIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the active window travels inward toward the smaller frame
+// the window yields inward toward the target frame, then clicks into place
 const arrowVariants: Variants = {
   normal: { transform: 'translate(0px, 0px)' },
   animate: {
-    transform: ['translate(0px, 0px)', 'translate(-1px, 1px)', 'translate(0px, 0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translate(0px, 0px)', 'translate(0.5px, -0.5px)', 'translate(-2.2px, 2.2px)', 'translate(0.25px, -0.25px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const windowVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.96)', 'scale(1)'],
-    transition: { duration: 0.27, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(1.06)', 'scale(0.86)', 'scale(1.01)', 'scale(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const MinimizeScreenIcon = forwardRef<MinimizeScreenIconHandle, MinimizeScreenIc
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

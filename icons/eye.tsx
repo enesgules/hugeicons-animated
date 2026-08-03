@@ -42,6 +42,7 @@ const EyeIcon = forwardRef<EyeIconHandle, EyeIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

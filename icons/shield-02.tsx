@@ -49,6 +49,7 @@ const Shield02Icon = forwardRef<Shield02IconHandle, Shield02IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

@@ -46,6 +46,7 @@ const Notification03Icon = forwardRef<Notification03IconHandle, Notification03Ic
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

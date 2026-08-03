@@ -16,13 +16,13 @@ interface ListViewIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// rows settle from top to bottom to communicate ordered content
+// rows sweep in from the leading edge and align in a quick reading-order cascade
 const rowVariants: Variants = {
   normal: { transform: 'translateX(0px)', opacity: 1 },
   animate: (i: number) => ({
-    transform: ['translateX(-1.5px)', 'translateX(0.4px)', 'translateX(0px)'],
-    opacity: [0.55, 1, 1],
-    transition: { duration: 0.38, delay: i * 0.055, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(-3px) scaleX(0.86)', 'translateX(0.65px) scaleX(1.03)', 'translateX(0px) scaleX(1)'],
+    opacity: [0.4, 1, 1],
+    transition: { duration: 0.48, delay: i * 0.07, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 
@@ -31,6 +31,7 @@ const ListViewIcon = forwardRef<ListViewIconHandle, ListViewIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

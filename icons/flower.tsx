@@ -39,6 +39,7 @@ const FlowerIcon = forwardRef<FlowerIconHandle, FlowerIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

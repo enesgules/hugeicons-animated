@@ -16,13 +16,13 @@ interface GridViewIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// grid cells populate in reading order with a restrained stagger
+// the four cells wake in a diagonal ripple and overshoot into alignment
 const cellVariants: Variants = {
   normal: { transform: 'scale(1)', opacity: 1 },
   animate: (i: number) => ({
-    transform: ['scale(0.92)', 'scale(1.03)', 'scale(1)'],
-    opacity: [0.65, 1, 1],
-    transition: { duration: 0.24, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(0.72) rotate(-5deg)', 'scale(1.1) rotate(2deg)', 'scale(1) rotate(0deg)'],
+    opacity: [0.45, 1, 1],
+    transition: { duration: 0.46, delay: i * 0.055, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 
@@ -31,6 +31,7 @@ const GridViewIcon = forwardRef<GridViewIconHandle, GridViewIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

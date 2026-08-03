@@ -47,6 +47,7 @@ const Delete02Icon = forwardRef<Delete02IconHandle, Delete02IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

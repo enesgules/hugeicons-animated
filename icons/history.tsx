@@ -16,28 +16,28 @@ interface HistoryIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// time rewinds briefly while the clock hand follows behind
+// the history ring pulls backward while the clock hand races to catch up
 const historyVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(-10deg)', 'rotate(0deg)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(0deg)', 'rotate(7deg)', 'rotate(-22deg)', 'rotate(3deg)', 'rotate(0deg)'],
+    transition: { duration: 0.62, ease: [0.77, 0, 0.175, 1], times: [0, 0.12, 0.48, 0.76, 1] },
   },
 };
 
 const handVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(-24deg)', 'rotate(0deg)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(0deg)', 'rotate(-12deg)', 'rotate(-92deg)', 'rotate(8deg)', 'rotate(0deg)'],
+    transition: { duration: 0.62, ease: [0.77, 0, 0.175, 1], times: [0, 0.12, 0.48, 0.76, 1] },
   },
 };
 
 const arrowVariants: Variants = {
   normal: { transform: 'translate(0px, 0px)' },
   animate: {
-    transform: ['translate(0px, 0px)', 'translate(-0.5px, -0.4px)', 'translate(0px, 0px)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translate(0px, 0px)', 'translate(0.5px, 0.4px)', 'translate(-1.1px, -0.8px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -46,6 +46,7 @@ const HistoryIcon = forwardRef<HistoryIconHandle, HistoryIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

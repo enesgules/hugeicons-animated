@@ -16,24 +16,30 @@ interface VolumeHighIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, sound is playing — waves ripple away from the speaker
+// sound pressure expands away from the speaker instead of blinking in place
 const speakerVariants: Variants = {
-  normal: { scale: 1, transition: { duration: 0.3 } },
+  normal: { transform: 'scale(1)', transition: { duration: 0.22 } },
   animate: {
-    scale: [1, 1.08, 1],
-    transition: { duration: 0.45, ease: 'easeInOut', repeat: Infinity, repeatDelay: 0.45 },
+    transform: ['scale(1)', 'scale(0.97)', 'scale(1.055)', 'scale(1)'],
+    transition: { duration: 0.9, ease: [0.23, 1, 0.32, 1], repeat: Infinity, repeatDelay: 0.08 },
   },
 };
 
 const waveVariants: Variants = {
-  normal: { opacity: 1, transition: { duration: 0.3 } },
+  normal: { opacity: 1, transform: 'translateX(0px) scale(1)', transition: { duration: 0.22 } },
   animate: (i: number) => ({
-    opacity: [0.2, 1, 0.2],
+    opacity: [0.2, 1, 0.4],
+    transform: [
+      'translateX(-0.6px) scale(0.82)',
+      'translateX(0px) scale(1.06)',
+      'translateX(0px) scale(1)',
+    ],
     transition: {
       duration: 0.9,
-      ease: 'easeInOut',
+      ease: [0.23, 1, 0.32, 1],
       repeat: Infinity,
-      delay: i * 0.22,
+      repeatDelay: 0.08,
+      delay: i * 0.14,
     },
   }),
 };
@@ -73,6 +79,7 @@ const VolumeHighIcon = forwardRef<VolumeHighIconHandle, VolumeHighIconProps>(
             variants={speakerVariants}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '8px 12px' }}
           />
           <motion.path
             d="M17 9C17.6254 9.81968 18 10.8634 18 12C18 13.1366 17.6254 14.1803 17 15"
@@ -84,6 +91,7 @@ const VolumeHighIcon = forwardRef<VolumeHighIconHandle, VolumeHighIconProps>(
             custom={0}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '14px 12px' }}
           />
           <motion.path
             d="M20 7C21.2508 8.36613 22 10.1057 22 12C22 13.8943 21.2508 15.6339 20 17"
@@ -95,6 +103,7 @@ const VolumeHighIcon = forwardRef<VolumeHighIconHandle, VolumeHighIconProps>(
             custom={1}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '14px 12px' }}
           />
         </svg>
       </div>

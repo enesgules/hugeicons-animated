@@ -34,6 +34,7 @@ const Cancel01Icon = forwardRef<Cancel01IconHandle, Cancel01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

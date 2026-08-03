@@ -16,21 +16,35 @@ interface UserMultiple02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// two profiles separate just enough to clarify the group
+// the cropped secondary profile completes into a whole person, then returns
 const primaryVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+  normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(-0.6px)', 'translateX(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(0.97)', 'scale(1.015)', 'scale(1)'],
+    transition: { duration: 0.68, ease: [0.23, 1, 0.32, 1], times: [0, 0.24, 0.64, 1] },
   },
 };
 
 const secondaryVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+  normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(0.7px)', 'translateX(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(1.02)', 'scale(0.985)', 'scale(1)'],
+    transition: { duration: 0.68, delay: 0.03, ease: [0.23, 1, 0.32, 1], times: [0, 0.24, 0.64, 1] },
   },
+};
+
+const completionVariants: Variants = {
+  normal: { pathLength: 0, opacity: 0 },
+  animate: (i: number) => ({
+    pathLength: [0, 1, 1, 0],
+    opacity: [0, 1, 1, 0],
+    transition: {
+      duration: 0.68,
+      delay: i * 0.035,
+      ease: [0.23, 1, 0.32, 1],
+      times: [0, 0.38, 0.72, 1],
+    },
+  }),
 };
 
 const UserMultiple02Icon = forwardRef<UserMultiple02IconHandle, UserMultiple02IconProps>(
@@ -38,6 +52,7 @@ const UserMultiple02Icon = forwardRef<UserMultiple02IconHandle, UserMultiple02Ic
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -98,6 +113,28 @@ const UserMultiple02Icon = forwardRef<UserMultiple02IconHandle, UserMultiple02Ic
             animate={controls}
             initial="normal"
             style={{ transformOrigin: '18px 19px' }}
+          />
+          <motion.path
+            d="M15 3C12.7909 3 11 4.79086 11 7C11 9.20914 12.7909 11 15 11"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={completionVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M18.5 21H14C12.8954 21 12 20.1046 12 19C12 16.2386 14.2386 14 17 14"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={completionVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
           />
         </svg>
       </div>

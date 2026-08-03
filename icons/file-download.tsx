@@ -16,20 +16,20 @@ interface FileDownloadIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the download arrow enters the document and the page absorbs the motion
+// the download arrow falls decisively into the document and the page catches it
 const arrowVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(-1px)', 'translateY(1.2px)', 'translateY(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(-2.4px)', 'translateY(1.8px)', 'translateY(-0.35px)', 'translateY(0px)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.78, 1] },
   },
 };
 
 const fileVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.4px)', 'translateY(0px)'],
-    transition: { duration: 0.26, delay: 0.02, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(0px) scaleY(1)', 'translateY(0.7px) scaleY(0.96)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.42, 0.62, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const FileDownloadIcon = forwardRef<FileDownloadIconHandle, FileDownloadIconProp
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

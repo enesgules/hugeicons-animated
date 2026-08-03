@@ -16,22 +16,40 @@ interface Sun03IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, the sun keeps shining — the disc glows warm, the rays
-// shimmer with heat, and a drawn halo of warmth blooms outward and fades
+// a bright solar breath: the core gathers energy, the rays burst outward,
+// and both settle into a gentle living shimmer instead of a slow wobble
 const coreVariants: Variants = {
-  normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
+  normal: { transform: 'scale(1)', transition: { duration: 0.2, ease: 'easeOut' } },
   animate: {
-    scale: [1, 1.1, 1],
-    transition: { duration: 1.6, ease: 'easeInOut', repeat: Infinity },
+    transform: ['scale(1)', 'scale(0.9)', 'scale(1.16)', 'scale(1.02)', 'scale(1)'],
+    transition: {
+      duration: 1.15,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.12, 0.32, 0.58, 1],
+      repeat: Infinity,
+      repeatDelay: 0.18,
+    },
   },
 };
 
 const raysVariants: Variants = {
-  normal: { rotate: 0, scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
+  normal: { transform: 'rotate(0deg) scale(1)', transition: { duration: 0.2, ease: 'easeOut' } },
   animate: {
-    rotate: [0, 6, -6, 0],
-    scale: [1, 1.06, 1],
-    transition: { duration: 2.2, ease: 'easeInOut', repeat: Infinity },
+    transform: [
+      'rotate(0deg) scale(1)',
+      'rotate(-7deg) scale(0.82)',
+      'rotate(5deg) scale(1.18)',
+      'rotate(-2deg) scale(1.04)',
+      'rotate(0deg) scale(1)',
+    ],
+    opacity: [1, 0.62, 1, 0.9, 1],
+    transition: {
+      duration: 1.15,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.12, 0.34, 0.62, 1],
+      repeat: Infinity,
+      repeatDelay: 0.18,
+    },
   },
 };
 

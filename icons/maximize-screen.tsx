@@ -16,20 +16,20 @@ interface MaximizeScreenIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the active window travels toward the available frame
+// the window gathers momentum and expands decisively toward the outer frame
 const arrowVariants: Variants = {
   normal: { transform: 'translate(0px, 0px)' },
   animate: {
-    transform: ['translate(0px, 0px)', 'translate(1px, -1px)', 'translate(0px, 0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translate(0px, 0px)', 'translate(-0.5px, 0.5px)', 'translate(2.2px, -2.2px)', 'translate(-0.25px, 0.25px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const windowVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(1.04)', 'scale(1)'],
-    transition: { duration: 0.27, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(0.94)', 'scale(1.12)', 'scale(0.99)', 'scale(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const MaximizeScreenIcon = forwardRef<MaximizeScreenIconHandle, MaximizeScreenIc
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

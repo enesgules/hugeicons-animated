@@ -16,28 +16,28 @@ interface ShoppingCartAdd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the added item nudges the cart forward and the wheels answer underneath
+// the add mark drops weight into the cart, which rolls and rebounds on its wheels
 const wheelVariants: Variants = {
   normal: { transform: 'translateY(0px) scale(1)' },
   animate: {
-    transform: ['translateY(0px) scale(1)', 'translateY(-0.6px) scale(1.1)', 'translateY(0px) scale(1)'],
-    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scale(1)', 'translateY(-1px) scale(1.14)', 'translateY(0.45px) scale(0.96)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.54, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const cartVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(1.1px)', 'translateX(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(0px) rotate(0deg)', 'translateX(-0.8px) rotate(-1deg)', 'translateX(2.5px) rotate(1.5deg)', 'translateX(-0.35px) rotate(-0.3deg)', 'translateX(0px) rotate(0deg)'],
+    transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(0.72)', 'scale(1.13)', 'scale(1)'],
-    transition: { duration: 0.4, delay: 0.03, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(-1.5px) scale(0.5)', 'translateY(0.4px) scale(1.22)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.5, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -46,6 +46,7 @@ const ShoppingCartAdd01Icon = forwardRef<ShoppingCartAdd01IconHandle, ShoppingCa
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

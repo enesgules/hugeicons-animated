@@ -16,7 +16,6 @@ interface ArrowLeft02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the head launches left first; the shaft stretches after it and answers with a smaller echo
 const shaftVariants: Variants = {
   normal: { d: 'M5.5 12.002H19' },
   animate: {
@@ -44,6 +43,7 @@ const ArrowLeft02Icon = forwardRef<ArrowLeft02IconHandle, ArrowLeft02IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

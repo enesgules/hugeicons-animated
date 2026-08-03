@@ -16,20 +16,20 @@ interface PanelLeftIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the sidebar divider opens the panel and returns to rest
+// the frame compresses as the sidebar opens wide, then both settle together
 const frameVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.99)', 'scale(1)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scaleX(0.97) scaleY(1.02)', 'scale(1)'],
+    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const dividerVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(1.2px)', 'translateX(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(0px)', 'translateX(-0.5px)', 'translateX(2.5px)', 'translateX(-0.3px)', 'translateX(0px)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const PanelLeftIcon = forwardRef<PanelLeftIconHandle, PanelLeftIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

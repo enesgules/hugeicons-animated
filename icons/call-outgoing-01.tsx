@@ -16,20 +16,20 @@ interface CallOutgoing01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the arrow leaves the handset to communicate an outgoing call
+// the handset kicks the outgoing arrow into motion and answers its departure
 const handsetVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(2deg)', 'rotate(0deg)'],
-    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(0deg)', 'rotate(-4deg)', 'rotate(5deg)', 'rotate(-1deg)', 'rotate(0deg)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const outgoingVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(2px)', 'translateX(0px)'],
-    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(-1.2px)', 'translateX(3.2px)', 'translateX(-0.35px)', 'translateX(0px)'],
+    transition: { duration: 0.56, delay: 0.05, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.78, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const CallOutgoing01Icon = forwardRef<CallOutgoing01IconHandle, CallOutgoing01Ic
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

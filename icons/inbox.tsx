@@ -16,20 +16,20 @@ interface InboxIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the tray receives an item and settles under its weight
+// the tray rises to catch incoming weight, then the whole inbox settles
 const inboxVariants: Variants = {
   normal: { transform: 'scaleY(1)' },
   animate: {
-    transform: ['scaleY(1)', 'scaleY(0.98)', 'scaleY(1)'],
-    transition: { duration: 0.27, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleY(1)', 'scaleY(1.025)', 'scaleY(0.94)', 'scaleY(1)'],
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1], times: [0, 0.3, 0.58, 1] },
   },
 };
 
 const trayVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(-0.5px)', 'translateY(0.7px)', 'translateY(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(-1.6px)', 'translateY(1.15px)', 'translateY(-0.25px)', 'translateY(0px)'],
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.78, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const InboxIcon = forwardRef<InboxIconHandle, InboxIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

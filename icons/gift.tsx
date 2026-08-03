@@ -46,6 +46,7 @@ const GiftIcon = forwardRef<GiftIconHandle, GiftIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

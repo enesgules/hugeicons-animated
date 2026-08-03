@@ -16,20 +16,20 @@ interface ClipboardPasteIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// pasted content moves into the clipboard while the clip acknowledges it
+// the paste arrow drives into the board; the clip absorbs the impact
 const pasteVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(-1.2px)', 'translateX(0.8px)', 'translateX(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(-2.8px)', 'translateX(1.2px)', 'translateX(-0.35px)', 'translateX(0px)'],
+    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.76, 1] },
   },
 };
 
 const clipVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+  normal: { transform: 'translateY(0px) scaleX(1)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.5px)', 'translateY(0px)'],
-    transition: { duration: 0.26, delay: 0.02, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleX(1)', 'translateY(0.8px) scaleX(0.9)', 'translateY(-0.25px) scaleX(1.04)', 'translateY(0px) scaleX(1)'],
+    transition: { duration: 0.44, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const ClipboardPasteIcon = forwardRef<ClipboardPasteIconHandle, ClipboardPasteIc
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

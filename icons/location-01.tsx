@@ -44,6 +44,7 @@ const Location01Icon = forwardRef<Location01IconHandle, Location01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

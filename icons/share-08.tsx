@@ -39,6 +39,7 @@ const Share08Icon = forwardRef<Share08IconHandle, Share08IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

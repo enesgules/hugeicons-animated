@@ -16,12 +16,19 @@ interface RedoIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the history loop advances toward its arrowhead
+// a complete forward turn mirrors undo and settles in the same visual state
 const redoVariants: Variants = {
-  normal: { transform: 'rotate(0deg)' },
+  normal: { transform: 'rotate(0deg) scale(1)', pathLength: 1 },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(16deg)', 'rotate(0deg)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: [
+      'rotate(0deg) scale(1)',
+      'rotate(-16deg) scale(0.97)',
+      'rotate(360deg) scale(1)',
+      'rotate(352deg) scale(1.01)',
+      'rotate(360deg) scale(1)',
+    ],
+    pathLength: [1, 0.82, 1, 1, 1],
+    transition: { duration: 0.82, ease: [0.77, 0, 0.175, 1], times: [0, 0.1, 0.68, 0.84, 1] },
   },
 };
 
@@ -30,6 +37,7 @@ const RedoIcon = forwardRef<RedoIconHandle, RedoIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

@@ -51,6 +51,7 @@ const EarthIcon = forwardRef<EarthIconHandle, EarthIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

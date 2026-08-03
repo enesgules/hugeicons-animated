@@ -38,6 +38,7 @@ const AddCircleIcon = forwardRef<AddCircleIconHandle, AddCircleIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

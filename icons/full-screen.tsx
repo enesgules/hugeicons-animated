@@ -16,12 +16,12 @@ interface FullScreenIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// all four corners expand away from the center and settle at full size
+// all four corners contract for leverage, burst outward, and settle together
 const fullScreenVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(1.09)', 'scale(1)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(0.86)', 'scale(1.18)', 'scale(0.98)', 'scale(1)'],
+    transition: { duration: 0.58, ease: [0.77, 0, 0.175, 1], times: [0, 0.18, 0.5, 0.78, 1] },
   },
 };
 
@@ -30,6 +30,7 @@ const FullScreenIcon = forwardRef<FullScreenIconHandle, FullScreenIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

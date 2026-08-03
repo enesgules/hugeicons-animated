@@ -16,20 +16,20 @@ interface UserRemove01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the profile recedes slightly as the remove mark closes decisively
+// the profile recoils from a decisive remove mark, then both settle cleanly
 const personVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(-0.7px)', 'translateX(0px)'],
-    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(0px) scale(1)', 'translateX(-1.5px) scale(0.97)', 'translateX(0.35px) scale(1.01)', 'translateX(0px) scale(1)'],
+    transition: { duration: 0.54, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const removeVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    transform: ['rotate(0deg) scale(0.76)', 'rotate(8deg) scale(1.1)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.42, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(-10deg) scale(0.58)', 'rotate(12deg) scale(1.2)', 'rotate(-3deg) scale(0.98)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.5, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const UserRemove01Icon = forwardRef<UserRemove01IconHandle, UserRemove01IconProp
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

@@ -3,17 +3,22 @@
 // svg: variants const applied to the <svg> root. els: per-element variants by index.
 //
 // Design language:
-// - name the verb first; animate the one part that performs it and leave the
-//   rest anchored
-// - add animation-only rays, trails, echoes, or particles when they clarify
-//   the action; keep them hidden at rest
-// - squash, stretch, and wobble are welcome when they make a small gesture
-//   readable at icon size
+// - name the verb first and decide whether the motion is productive (the
+//   default) or expressive; animate only the part that communicates the action
+// - keep the same SVG primitives mounted through every pose; transform their
+//   geometry instead of swapping or crossfading whole icons
+// - same-shape poses share coordinates and rotate as a group; if a pose needs
+//   fewer primitives, collapse the unused ones to a point instead of removing
+//   them
+// - morph path data only when every pose has compatible commands; set explicit
+//   transform origins for SVG elements and groups
+// - animation-only rays, trails, echoes, particles, squash, stretch, and
+//   wobble are expressive tools, not defaults; use them only when they clarify
+//   the action at icon size and keep added geometry hidden at rest
 // - hide travel with clipping or occlusion, not a fade
 // - related states share geometry; rotated siblings keep the same shape
-// - hover = a state, not a trigger, where the metaphor supports it: fire burns,
-//   clouds float, phones ring, signals broadcast → repeat: Infinity loops that
-//   exit cleanly through the 'normal' variant on mouse leave
+// - prefer one short, finite cycle; repeat: Infinity is reserved for a real
+//   ongoing condition and must exit cleanly through 'normal' when it ends
 // - anticipation before action: mechanisms wind up before they spin
 // - cause and effect between paths: a lid that lands makes the bin react,
 //   a launching arrow makes the tray recoil
@@ -575,7 +580,6 @@ const svgVariants: Variants = {
   {
     export: 'ArrowLeft02Icon',
     defs: `
-// the head launches left first; the shaft stretches after it and answers with a smaller echo
 const shaftVariants: Variants = {
   normal: { d: 'M5.5 12.002H19' },
   animate: {
@@ -602,7 +606,6 @@ const headVariants: Variants = {
   {
     export: 'ArrowUp02Icon',
     defs: `
-// the head launches upward first; the shaft stretches after it and answers with a smaller echo
 const shaftVariants: Variants = {
   normal: { d: 'M12 5.5V19' },
   animate: {
@@ -629,7 +632,6 @@ const headVariants: Variants = {
   {
     export: 'ArrowDown02Icon',
     defs: `
-// the head drops first; the shaft stretches after it and answers with a smaller echo
 const shaftVariants: Variants = {
   normal: { d: 'M12 18.502V5.00195' },
   animate: {
@@ -720,12 +722,12 @@ const daysVariants: Variants = {
   {
     export: 'Link01Icon',
     defs: `
-// the chain halves pull apart and snap back past zero — a real click
+// the chain halves tighten their interlock, then settle without breaking apart
 const lowerVariants: Variants = {
   normal: { translateX: 0, translateY: 0 },
   animate: {
-    translateX: [0, -1.6, 0.4, 0],
-    translateY: [0, 1.6, -0.4, 0],
+    translateX: [0, 0.8, -0.2, 0],
+    translateY: [0, -0.8, 0.2, 0],
     transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.4, 0.75, 1] },
   },
 };
@@ -733,8 +735,8 @@ const lowerVariants: Variants = {
 const upperVariants: Variants = {
   normal: { translateX: 0, translateY: 0 },
   animate: {
-    translateX: [0, 1.6, -0.4, 0],
-    translateY: [0, -1.6, 0.4, 0],
+    translateX: [0, -0.8, 0.2, 0],
+    translateY: [0, 0.8, -0.2, 0],
     transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.4, 0.75, 1] },
   },
 };`,
@@ -828,22 +830,40 @@ const streakVariants: Variants = {
   {
     export: 'Sun03Icon',
     defs: `
-// while you hover, the sun keeps shining — the disc glows warm, the rays
-// shimmer with heat, and a drawn halo of warmth blooms outward and fades
+// a bright solar breath: the core gathers energy, the rays burst outward,
+// and both settle into a gentle living shimmer instead of a slow wobble
 const coreVariants: Variants = {
-  normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
+  normal: { transform: 'scale(1)', transition: { duration: 0.2, ease: 'easeOut' } },
   animate: {
-    scale: [1, 1.1, 1],
-    transition: { duration: 1.6, ease: 'easeInOut', repeat: Infinity },
+    transform: ['scale(1)', 'scale(0.9)', 'scale(1.16)', 'scale(1.02)', 'scale(1)'],
+    transition: {
+      duration: 1.15,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.12, 0.32, 0.58, 1],
+      repeat: Infinity,
+      repeatDelay: 0.18,
+    },
   },
 };
 
 const raysVariants: Variants = {
-  normal: { rotate: 0, scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
+  normal: { transform: 'rotate(0deg) scale(1)', transition: { duration: 0.2, ease: 'easeOut' } },
   animate: {
-    rotate: [0, 6, -6, 0],
-    scale: [1, 1.06, 1],
-    transition: { duration: 2.2, ease: 'easeInOut', repeat: Infinity },
+    transform: [
+      'rotate(0deg) scale(1)',
+      'rotate(-7deg) scale(0.82)',
+      'rotate(5deg) scale(1.18)',
+      'rotate(-2deg) scale(1.04)',
+      'rotate(0deg) scale(1)',
+    ],
+    opacity: [1, 0.62, 1, 0.9, 1],
+    transition: {
+      duration: 1.15,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.12, 0.34, 0.62, 1],
+      repeat: Infinity,
+      repeatDelay: 0.18,
+    },
   },
 };
 
@@ -1203,53 +1223,74 @@ const lidVariants: Variants = {
   {
     export: 'Wifi01Icon',
     defs: `
-// while you hover, the signal keeps broadcasting — pulses ripple outward
+// the signal physically expands from its source; opacity only supports the motion
 const arcVariants: Variants = {
-  normal: { opacity: 1, transition: { duration: 0.3 } },
+  normal: { opacity: 1, transform: 'translateY(0px) scale(1)', transition: { duration: 0.22 } },
   animate: (i: number) => ({
-    opacity: [0.25, 1, 0.25],
+    opacity: [0.22, 1, 0.42],
+    transform: [
+      'translateY(0.8px) scale(0.82)',
+      'translateY(0px) scale(1.06)',
+      'translateY(0px) scale(1)',
+    ],
     transition: {
-      duration: 1.1,
-      ease: 'easeInOut',
+      duration: 0.95,
+      ease: [0.23, 1, 0.32, 1],
       repeat: Infinity,
-      delay: i * 0.22,
+      repeatDelay: 0.08,
+      delay: i * 0.12,
     },
   }),
+};
+
+const sourceVariants: Variants = {
+  normal: { transform: 'scale(1)', transition: { duration: 0.2 } },
+  animate: {
+    transform: ['scale(1)', 'scale(0.86)', 'scale(1.18)', 'scale(1)'],
+    transition: { duration: 0.95, ease: [0.23, 1, 0.32, 1], repeat: Infinity, repeatDelay: 0.08 },
+  },
 };`,
     els: {
-      0: { v: 'arcVariants', custom: 0 },
-      1: { v: 'arcVariants', custom: 1 },
-      2: { v: 'arcVariants', custom: 2 },
+      0: { v: 'arcVariants', custom: 0, style: `{ transformOrigin: '12px 18px' }` },
+      1: { v: 'arcVariants', custom: 1, style: `{ transformOrigin: '12px 18px' }` },
+      2: { v: 'arcVariants', custom: 2, style: `{ transformOrigin: '12px 18px' }` },
+      3: { v: 'sourceVariants', style: `{ transformOrigin: '12px 18px' }` },
     },
   },
   {
     export: 'VolumeHighIcon',
     defs: `
-// while you hover, sound is playing — waves ripple away from the speaker
+// sound pressure expands away from the speaker instead of blinking in place
 const speakerVariants: Variants = {
-  normal: { scale: 1, transition: { duration: 0.3 } },
+  normal: { transform: 'scale(1)', transition: { duration: 0.22 } },
   animate: {
-    scale: [1, 1.08, 1],
-    transition: { duration: 0.45, ease: 'easeInOut', repeat: Infinity, repeatDelay: 0.45 },
+    transform: ['scale(1)', 'scale(0.97)', 'scale(1.055)', 'scale(1)'],
+    transition: { duration: 0.9, ease: [0.23, 1, 0.32, 1], repeat: Infinity, repeatDelay: 0.08 },
   },
 };
 
 const waveVariants: Variants = {
-  normal: { opacity: 1, transition: { duration: 0.3 } },
+  normal: { opacity: 1, transform: 'translateX(0px) scale(1)', transition: { duration: 0.22 } },
   animate: (i: number) => ({
-    opacity: [0.2, 1, 0.2],
+    opacity: [0.2, 1, 0.4],
+    transform: [
+      'translateX(-0.6px) scale(0.82)',
+      'translateX(0px) scale(1.06)',
+      'translateX(0px) scale(1)',
+    ],
     transition: {
       duration: 0.9,
-      ease: 'easeInOut',
+      ease: [0.23, 1, 0.32, 1],
       repeat: Infinity,
-      delay: i * 0.22,
+      repeatDelay: 0.08,
+      delay: i * 0.14,
     },
   }),
 };`,
     els: {
-      0: { v: 'speakerVariants' },
-      1: { v: 'waveVariants', custom: 0 },
-      2: { v: 'waveVariants', custom: 1 },
+      0: { v: 'speakerVariants', style: `{ transformOrigin: '8px 12px' }` },
+      1: { v: 'waveVariants', custom: 0, style: `{ transformOrigin: '14px 12px' }` },
+      2: { v: 'waveVariants', custom: 1, style: `{ transformOrigin: '14px 12px' }` },
     },
   },
   {
@@ -1820,44 +1861,35 @@ const waveVariants: Variants = {
   {
     export: 'BulbIcon',
     defs: `
-// the idea arrives physically: the bulb squashes, jumps, lands, and throws
-// seven hand-drawn rays past its silhouette
+// the light turns on: the filament draws itself, the bulb pops, and drawn
+// rays burst outward and hold their glow while you hover
 const svgVariants: Variants = {
-  normal: { transform: 'translateY(0px) scaleX(1) scaleY(1)' },
+  normal: { scale: 1, transition: { duration: 0.3 } },
   animate: {
-    transform: [
-      'translateY(0px) scaleX(1) scaleY(1)',
-      'translateY(1.2px) scaleX(1.13) scaleY(0.87)',
-      'translateY(-4.2px) scaleX(0.88) scaleY(1.16)',
-      'translateY(1px) scaleX(1.09) scaleY(0.92)',
-      'translateY(0px) scaleX(1) scaleY(1)',
-    ],
-    transition: { duration: 0.84, ease: [0.23, 1, 0.32, 1] },
+    scale: [1, 1.05, 1],
+    transition: { duration: 0.45, ease: 'easeOut' },
   },
 };
 
 const filamentVariants: Variants = {
-  normal: { transform: 'translateY(0px) scale(1)' },
+  normal: { pathLength: 1, transition: { duration: 0.3 } },
   animate: {
-    transform: [
-      'translateY(0px) scale(1)',
-      'translateY(-2px) scale(1.5)',
-      'translateY(0.5px) scale(0.92)',
-      'translateY(0px) scale(1)',
-    ],
-    transition: { duration: 0.68, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
+    pathLength: [0, 1],
+    transition: { duration: 0.35, ease: 'easeOut' },
   },
 };
 
+// rays scale up from the view center, so they read as bursting off the glass
 const rayVariants: Variants = {
-  normal: { opacity: 0, transform: 'scale(0.45)' },
+  normal: { opacity: 0, transition: { duration: 0.2 } },
   animate: (i: number) => ({
-    opacity: [0, 1, 0.7, 0],
-    transform: ['scale(0.45)', 'scale(1.25)', 'scale(1)', 'scale(0.9)'],
+    opacity: [0, 1, 0.75, 1],
+    scale: [0.4, 1.15, 1, 1],
     transition: {
-      duration: 0.72,
+      duration: 0.55,
       ease: 'easeOut',
-      delay: 0.1 + i * 0.035,
+      times: [0, 0.4, 0.7, 1],
+      delay: 0.12 + i * 0.05,
     },
   }),
 };`,
@@ -1916,28 +1948,6 @@ const rayVariants: Variants = {
             strokeWidth="1.5"
             variants={rayVariants}
             custom={4}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 10px' }}
-          />
-          <motion.path
-            d="M6.2 15.2L4.1 17.3"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={rayVariants}
-            custom={5}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 10px' }}
-          />
-          <motion.path
-            d="M17.8 15.2L19.9 17.3"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={rayVariants}
-            custom={6}
             animate={controls}
             initial="normal"
             style={{ transformOrigin: '12px 10px' }}
@@ -2613,26 +2623,26 @@ const strokeVariants: Variants = {
   {
     export: 'Bug01Icon',
     defs: `
-// the bug crouches, springs upward, and lands with its antennae trailing
+// while you hover, it's alive — the body scuttles in place and the
+// antennae feel around, each on its own beat
 const svgVariants: Variants = {
-  normal: { transform: 'translateY(0px) scaleX(1) scaleY(1)' },
+  normal: { translateX: 0, transition: { duration: 0.3 } },
   animate: {
-    transform: [
-      'translateY(0px) scaleX(1) scaleY(1)',
-      'translateY(1px) scaleX(1.12) scaleY(0.88)',
-      'translateY(-3px) scaleX(0.9) scaleY(1.14)',
-      'translateY(0.8px) scaleX(1.08) scaleY(0.93)',
-      'translateY(0px) scaleX(1) scaleY(1)',
-    ],
-    transition: { duration: 0.78, ease: [0.23, 1, 0.32, 1] },
+    translateX: [0, 0.9, -0.9, 0.6, -0.6, 0],
+    transition: { duration: 0.55, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
 const antennaVariants: Variants = {
-  normal: { transform: 'rotate(0deg)' },
+  normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: (i: number) => ({
-    transform: ['rotate(0deg)', \`rotate(\${i * 12}deg)\`, 'rotate(0deg)'],
-    transition: { duration: 0.5, delay: 0.18, ease: [0.23, 1, 0.32, 1] },
+    rotate: [0, i * 16, 0, i * 9, 0],
+    transition: {
+      duration: 0.9,
+      ease: 'easeInOut',
+      repeat: Infinity,
+      delay: i === 1 ? 0.2 : 0,
+    },
   }),
 };`,
     svg: 'svgVariants',
@@ -2652,61 +2662,54 @@ const antennaVariants: Variants = {
   {
     export: 'BatteryCharging01Icon',
     defs: `
-// charge travels left to right; the bolt catches at the crest, then the
-// battery settles with the stored energy
-const bodyVariants: Variants = {
-  normal: { transform: 'translateY(0px) scaleY(1)' },
-  animate: {
-    transform: [
-      'translateY(0px) scaleY(1)',
-      'translateY(0.8px) scaleY(0.94)',
-      'translateY(-0.5px) scaleY(1.04)',
-      'translateY(0px) scaleY(1)',
-    ],
-    transition: { duration: 0.82, ease: [0.23, 1, 0.32, 1] },
-  },
-};
-
+// while you hover, it's plugged in — the bolt pulses with each surge and
+// drawn charge sparks float up off the terminal
 const boltVariants: Variants = {
-  normal: { opacity: 1, transform: 'translateY(0px) scale(1)' },
+  normal: { scale: 1, opacity: 1, transition: { duration: 0.3 } },
   animate: {
-    opacity: [0.4, 1, 1, 1],
-    transform: [
-      'translateY(2.4px) scale(0.76)',
-      'translateY(0px) scale(1.35)',
-      'translateY(0px) scale(1.35)',
-      'translateY(0px) scale(1)',
-    ],
-    transition: { duration: 0.82, ease: [0.23, 1, 0.32, 1], times: [0, 0.56, 0.74, 1] },
+    scale: [1, 1.2, 1],
+    opacity: [1, 0.55, 1],
+    transition: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
-const fillVariants: Variants = {
-  normal: { opacity: 0, transform: 'scaleX(0.08)' },
-  animate: {
-    opacity: [0, 0.14, 0.14, 0],
-    transform: ['scaleX(0.08)', 'scaleX(1)', 'scaleX(1)', 'scaleX(1)'],
-    transition: { duration: 0.82, ease: [0.23, 1, 0.32, 1], times: [0, 0.56, 0.74, 1] },
-  },
+const sparkVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    translateY: [1.5, -2.5],
+    transition: {
+      duration: 1.1,
+      ease: 'easeOut',
+      repeat: Infinity,
+      delay: i * 0.45,
+    },
+  }),
 };`,
-    svg: 'bodyVariants',
-    svgStyle: `{ transformOrigin: '12px 12px' }`,
-    before: `
-          <motion.rect
-            x="3.6"
-            y="7.6"
-            width="14.2"
-            height="8.8"
-            rx="2.2"
-            fill="currentColor"
-            variants={fillVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '3.6px 12px' }}
-          />`,
     els: {
       1: { v: 'boltVariants', style: `{ transformOrigin: '10.2px 12px' }` },
     },
+    extra: `
+          <motion.path
+            d="M23 7.5V9.5M22 8.5H24"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={sparkVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M23.5 12.5V14.5M22.5 13.5H24.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={sparkVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />`,
   },
   {
     export: 'SleepingIcon',
@@ -3570,57 +3573,29 @@ const recordDotVariants: Variants = {
   {
     export: 'Archive02Icon',
     defs: `
-// the drawer opens decisively, separating the stack while five motion marks
-// flare into the newly opened space
+// the archive stack compresses and its front drawer answers with a click
 const archiveLayerVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+  normal: { translateY: 0, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
   animate: (i: number) => ({
-    transform: [
-      'translateY(0px)',
-      \`translateY(\${-3.2 - i * 1.7}px)\`,
-      \`translateY(\${-3.2 - i * 1.7}px)\`,
-      'translateY(0px)',
-    ],
-    transition: { duration: 0.86, delay: i * 0.05, ease: [0.77, 0, 0.175, 1], times: [0, 0.36, 0.62, 1] },
+    translateY: [0, 1.2 - i * 0.45, 0],
+    transition: { duration: 0.65, delay: i * 0.07, ease: 'easeOut' },
   }),
 };
 
 const archiveDrawerVariants: Variants = {
-  normal: { transform: 'translateY(0px) scaleX(1)' },
+  normal: { translateY: 0, scaleX: 1 },
   animate: {
-    transform: [
-      'translateY(0px) scaleX(1)',
-      'translateY(3.6px) scaleX(1.05)',
-      'translateY(3.6px) scaleX(1.05)',
-      'translateY(0px) scaleX(1)',
-    ],
-    transition: { duration: 0.86, ease: [0.77, 0, 0.175, 1], times: [0, 0.36, 0.62, 1] },
+    translateY: [0, 1, -0.35, 0],
+    scaleX: [1, 1.04, 1],
+    transition: { duration: 0.75, ease: 'easeOut' },
   },
 };
 
 const archiveHandleVariants: Variants = {
-  normal: { transform: 'translateY(0px) scaleX(1)' },
+  normal: { scale: 1 },
   animate: {
-    transform: [
-      'translateY(0px) scaleX(1)',
-      'translateY(3.6px) scaleX(0.82)',
-      'translateY(3.6px) scaleX(1.12)',
-      'translateY(0px) scaleX(1)',
-    ],
-    transition: { duration: 0.86, ease: [0.77, 0, 0.175, 1], times: [0, 0.36, 0.62, 1] },
-  },
-};
-
-const archiveOpenLineVariants: Variants = {
-  normal: { opacity: 0, transform: 'translate(0px, 0px)' },
-  animate: (i: number) => {
-    const start = i === 3 ? 'translate(1.5px, 0px)' : i === 4 ? 'translate(-1.5px, 0px)' : 'translate(0px, 1.5px)';
-    const outward = i === 3 ? 'translate(-1px, 0px)' : i === 4 ? 'translate(1px, 0px)' : 'translate(0px, -1px)';
-    return {
-      opacity: [0, 1, 0.85, 0],
-      transform: [start, outward, outward, 'translate(0px, 0px)'],
-      transition: { duration: 0.56, delay: 0.08 + i * 0.035, ease: [0.23, 1, 0.32, 1], times: [0, 0.28, 0.62, 1] },
-    };
+    scale: [1, 0.72, 1.18, 1],
+    transition: { duration: 0.6, delay: 0.2, ease: 'easeOut' },
   },
 };`,
     els: {
@@ -3629,12 +3604,6 @@ const archiveOpenLineVariants: Variants = {
       2: { v: 'archiveLayerVariants', custom: 1 },
       3: { v: 'archiveHandleVariants', style: `{ transformOrigin: '12px 16px' }` },
     },
-    extra: `
-          <motion.path d="M5.8 2.6L4.2 0.6" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={0} animate={controls} initial="normal" />
-          <motion.path d="M12 0.5V-2" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={1} animate={controls} initial="normal" />
-          <motion.path d="M18.2 2.6L19.8 0.6" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={2} animate={controls} initial="normal" />
-          <motion.path d="M1.2 11H-1.3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={3} animate={controls} initial="normal" />
-          <motion.path d="M22.8 11H25.3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.35" variants={archiveOpenLineVariants} custom={4} animate={controls} initial="normal" />`,
   },
   // ── curated growth batch: common product actions ────────────────────────────
   {
@@ -3688,12 +3657,12 @@ const circleVariants: Variants = {
   {
     export: 'Folder01Icon',
     defs: `
-// the folder lifts from the desk and settles back into place
+// the folder perks up from the desk, tips forward, and lands with weight
 const folderVariants: Variants = {
   normal: { transform: 'translateY(0px) rotate(0deg)' },
   animate: {
-    transform: ['translateY(0px) rotate(0deg)', 'translateY(-1.2px) rotate(-1deg)', 'translateY(0px) rotate(0deg)'],
-    transition: { duration: 0.46, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) rotate(0deg)', 'translateY(-2.2px) rotate(-3deg)', 'translateY(0.55px) rotate(1deg)', 'translateY(0px) rotate(0deg)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1], times: [0, 0.42, 0.72, 1] },
   },
 };`,
     els: { 0: { v: 'folderVariants', style: `{ transformOrigin: '12px 18px' }` } },
@@ -3701,20 +3670,20 @@ const folderVariants: Variants = {
   {
     export: 'FolderAddIcon',
     defs: `
-// the folder acknowledges the action before the plus locks into place
+// the folder leans into the action and the add mark snaps firmly into place
 const folderVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.8px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) rotate(0deg)', 'translateY(-1.7px) rotate(-2deg)', 'translateY(0.4px) rotate(0.7deg)', 'translateY(0px) rotate(0deg)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    transform: ['rotate(-10deg) scale(0.7)', 'rotate(2deg) scale(1.12)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.42, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(-18deg) scale(0.5)', 'rotate(5deg) scale(1.22)', 'rotate(-2deg) scale(0.97)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.5, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -3725,20 +3694,20 @@ const plusVariants: Variants = {
   {
     export: 'FileAddIcon',
     defs: `
-// a new sheet settles in as its add mark stamps into the corner
+// a new sheet drops into the stack while the add mark stamps the corner
 const fileVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.8px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(-1.8px) scaleY(1.02)', 'translateY(1px) scaleY(0.96)', 'translateY(-0.25px) scaleY(1.01)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.54, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(0.7)', 'scale(1.14)', 'scale(1)'],
-    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(-12deg) scale(0.5)', 'rotate(4deg) scale(1.22)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.48, delay: 0.07, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -3749,20 +3718,20 @@ const plusVariants: Variants = {
   {
     export: 'UserAdd01Icon',
     defs: `
-// the person rises in acknowledgement and the add mark follows
+// the profile gives a buoyant nod and the add mark answers beside it
 const personVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.8px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scale(1)', 'translateY(-1.5px) scale(1.03)', 'translateY(0.5px) scale(0.98)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    transform: ['rotate(-10deg) scale(0.72)', 'rotate(2deg) scale(1.12)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.42, delay: 0.05, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(-16deg) scale(0.5)', 'rotate(5deg) scale(1.2)', 'rotate(-2deg) scale(0.98)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.5, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -3774,20 +3743,20 @@ const plusVariants: Variants = {
   {
     export: 'UserRemove01Icon',
     defs: `
-// the profile recedes slightly as the remove mark closes decisively
+// the profile recoils from a decisive remove mark, then both settle cleanly
 const personVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(-0.7px)', 'translateX(0px)'],
-    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(0px) scale(1)', 'translateX(-1.5px) scale(0.97)', 'translateX(0.35px) scale(1.01)', 'translateX(0px) scale(1)'],
+    transition: { duration: 0.54, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const removeVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    transform: ['rotate(0deg) scale(0.76)', 'rotate(8deg) scale(1.1)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.42, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(-10deg) scale(0.58)', 'rotate(12deg) scale(1.2)', 'rotate(-3deg) scale(0.98)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.5, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -3799,20 +3768,20 @@ const removeVariants: Variants = {
   {
     export: 'MailOpenIcon',
     defs: `
-// the letter rises from the envelope while the folded edge gives way
+// the envelope dips as the letter springs up, pauses, and slips home
 const envelopeVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.5px)', 'translateY(0px)'],
-    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(0.9px) scaleY(0.96)', 'translateY(-0.2px) scaleY(1.01)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.62, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const letterVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-1.5px)', 'translateY(-0.2px)', 'translateY(0px)'],
-    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px)', 'translateY(-3.2px)', 'translateY(-3.2px)', 'translateY(0.45px)', 'translateY(0px)'],
+    transition: { duration: 0.68, ease: [0.77, 0, 0.175, 1], times: [0, 0.34, 0.54, 0.82, 1] },
   },
 };`,
     els: {
@@ -3825,20 +3794,20 @@ const letterVariants: Variants = {
   {
     export: 'MessageAdd01Icon',
     defs: `
-// the conversation rises as a new message action appears
+// the conversation inhales and the add mark pops into the open corner
 const messageVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.7px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scale(1)', 'translateY(0.7px) scale(0.96)', 'translateY(-1px) scale(1.025)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(0.7)', 'scale(1.13)', 'scale(1)'],
-    transition: { duration: 0.4, delay: 0.05, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(-14deg) scale(0.48)', 'rotate(5deg) scale(1.22)', 'rotate(-2deg) scale(0.98)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.5, delay: 0.07, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -3850,20 +3819,20 @@ const plusVariants: Variants = {
   {
     export: 'CallIncoming01Icon',
     defs: `
-// the arrow travels toward the handset to make the direction unmistakable
+// the incoming arrow gathers outside, drives toward the handset, and makes it answer
 const handsetVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(-2deg)', 'rotate(0deg)'],
-    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(0deg)', 'rotate(4deg)', 'rotate(-5deg)', 'rotate(1deg)', 'rotate(0deg)'],
+    transition: { duration: 0.56, delay: 0.1, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const incomingVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(-2px)', 'translateX(0px)'],
-    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(2.8px)', 'translateX(-2.5px)', 'translateX(0.45px)', 'translateX(0px)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.78, 1] },
   },
 };`,
     els: {
@@ -3874,20 +3843,20 @@ const incomingVariants: Variants = {
   {
     export: 'CallOutgoing01Icon',
     defs: `
-// the arrow leaves the handset to communicate an outgoing call
+// the handset kicks the outgoing arrow into motion and answers its departure
 const handsetVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(2deg)', 'rotate(0deg)'],
-    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(0deg)', 'rotate(-4deg)', 'rotate(5deg)', 'rotate(-1deg)', 'rotate(0deg)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const outgoingVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(2px)', 'translateX(0px)'],
-    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(-1.2px)', 'translateX(3.2px)', 'translateX(-0.35px)', 'translateX(0px)'],
+    transition: { duration: 0.56, delay: 0.05, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.78, 1] },
   },
 };`,
     els: {
@@ -3898,20 +3867,20 @@ const outgoingVariants: Variants = {
   {
     export: 'CalendarAdd01Icon',
     defs: `
-// the calendar settles like a turned page before the add mark lands
+// the calendar flips forward on its rings and the add mark stamps the new day
 const calendarVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.7px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(-1.2px) scaleY(0.96)', 'translateY(0.65px) scaleY(1.03)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    transform: ['rotate(-10deg) scale(0.72)', 'rotate(2deg) scale(1.12)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.42, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(-15deg) scale(0.5)', 'rotate(5deg) scale(1.22)', 'rotate(-2deg) scale(0.98)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.5, delay: 0.12, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -3924,20 +3893,20 @@ const plusVariants: Variants = {
   {
     export: 'LocationAdd01Icon',
     defs: `
-// the pin drops into place and the add mark confirms the destination
+// the pin hops, drops onto its point, and the add mark ripples from the landing
 const pinVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-1px)', 'translateY(0.5px)', 'translateY(0px)'],
-    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(-2.6px) scaleY(1.04)', 'translateY(1.1px) scaleY(0.93)', 'translateY(-0.35px) scaleY(1.02)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.68, ease: [0.23, 1, 0.32, 1], times: [0, 0.34, 0.58, 0.78, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(0.72)', 'scale(1.14)', 'scale(1)'],
-    transition: { duration: 0.4, delay: 0.05, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(0.5)', 'scale(1.24)', 'scale(0.94)', 'scale(1)'],
+    transition: { duration: 0.5, delay: 0.16, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -3948,20 +3917,20 @@ const plusVariants: Variants = {
   {
     export: 'CreditCardIcon',
     defs: `
-// the card slides through a reader and its details follow a fraction later
+// the card swipes through a reader; its stripe and details lag with inertia
 const cardVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(1.2px)', 'translateX(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(-2.2px) rotate(-2deg)', 'translateX(2.6px) rotate(1.5deg)', 'translateX(-0.35px) rotate(-0.3deg)', 'translateX(0px) rotate(0deg)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1], times: [0, 0.52, 0.8, 1] },
   },
 };
 
 const detailVariants: Variants = {
   normal: { transform: 'scaleX(1)' },
   animate: {
-    transform: ['scaleX(1)', 'scaleX(0.7)', 'scaleX(1)'],
-    transition: { duration: 0.38, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleX(1)', 'scaleX(0.48)', 'scaleX(1.08)', 'scaleX(1)'],
+    transition: { duration: 0.48, delay: 0.1, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -3974,53 +3943,53 @@ const detailVariants: Variants = {
   {
     export: 'Wallet01Icon',
     defs: `
-// the wallet steadies while its clasp opens and returns
+// the wallet compresses while its clasp retracts into its hinge and clicks shut
 const walletVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+  normal: { transform: 'scaleX(1)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.6px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleX(1)', 'scaleX(0.98)', 'scaleX(1.01)', 'scaleX(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const claspVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+  normal: { transform: 'scaleX(1)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(1.4px)', 'translateX(0px)'],
-    transition: { duration: 0.4, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleX(1)', 'scaleX(0.34)', 'scaleX(1.08)', 'scaleX(1)'],
+    transition: { duration: 0.52, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
       0: { v: 'walletVariants', style: `{ transformOrigin: '12px 7px' }` },
       1: { v: 'walletVariants', style: `{ transformOrigin: '12px 14px' }` },
-      2: { v: 'claspVariants', style: `{ transformOrigin: '19px 14px' }` },
+      2: { v: 'claspVariants', style: `{ transformOrigin: '21px 14px' }` },
     },
   },
   {
     export: 'ShoppingCartAdd01Icon',
     defs: `
-// the added item nudges the cart forward and the wheels answer underneath
+// the add mark drops weight into the cart, which rolls and rebounds on its wheels
 const wheelVariants: Variants = {
   normal: { transform: 'translateY(0px) scale(1)' },
   animate: {
-    transform: ['translateY(0px) scale(1)', 'translateY(-0.6px) scale(1.1)', 'translateY(0px) scale(1)'],
-    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scale(1)', 'translateY(-1px) scale(1.14)', 'translateY(0.45px) scale(0.96)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.54, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const cartVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(1.1px)', 'translateX(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(0px) rotate(0deg)', 'translateX(-0.8px) rotate(-1deg)', 'translateX(2.5px) rotate(1.5deg)', 'translateX(-0.35px) rotate(-0.3deg)', 'translateX(0px) rotate(0deg)'],
+    transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(0.72)', 'scale(1.13)', 'scale(1)'],
-    transition: { duration: 0.4, delay: 0.03, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(-1.5px) scale(0.5)', 'translateY(0.4px) scale(1.22)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.5, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -4033,20 +4002,20 @@ const plusVariants: Variants = {
   {
     export: 'ExternalLinkIcon',
     defs: `
-// the arrow exits the frame while the source window remains anchored
+// the arrow loads inside the frame, breaks free, and pulls the window after it
 const arrowVariants: Variants = {
   normal: { transform: 'translate(0px, 0px)' },
   animate: {
-    transform: ['translate(0px, 0px)', 'translate(1.5px, -1.5px)', 'translate(0px, 0px)'],
-    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translate(0px, 0px)', 'translate(-0.7px, 0.7px)', 'translate(3px, -3px)', 'translate(-0.35px, 0.35px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const windowVariants: Variants = {
-  normal: { opacity: 1 },
+  normal: { transform: 'scale(1)' },
   animate: {
-    opacity: [1, 0.72, 1],
-    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(0.95)', 'scale(1.025)', 'scale(1)'],
+    transition: { duration: 0.56, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -4057,12 +4026,12 @@ const windowVariants: Variants = {
   {
     export: 'FullScreenIcon',
     defs: `
-// all four corners expand away from the center and settle at full size
+// all four corners contract for leverage, burst outward, and settle together
 const fullScreenVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(1.09)', 'scale(1)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(0.86)', 'scale(1.18)', 'scale(0.98)', 'scale(1)'],
+    transition: { duration: 0.58, ease: [0.77, 0, 0.175, 1], times: [0, 0.18, 0.5, 0.78, 1] },
   },
 };`,
     els: { 0: { v: 'fullScreenVariants', style: `{ transformOrigin: '12px 12px' }` } },
@@ -4070,13 +4039,13 @@ const fullScreenVariants: Variants = {
   {
     export: 'DashboardSquare01Icon',
     defs: `
-// dashboard tiles populate in reading order rather than pulsing as one block
+// dashboard tiles assemble in reading order with a crisp diagonal ripple
 const tileVariants: Variants = {
   normal: { transform: 'scale(1)', opacity: 1 },
   animate: (i: number) => ({
-    transform: ['scale(0.88)', 'scale(1.04)', 'scale(1)'],
-    opacity: [0.55, 1, 1],
-    transition: { duration: 0.38, delay: i * 0.045, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(1.4px) scale(0.74)', 'translateY(-0.4px) scale(1.1)', 'translateY(0px) scale(1)'],
+    opacity: [0.4, 1, 1],
+    transition: { duration: 0.48, delay: i * 0.06, ease: [0.23, 1, 0.32, 1] },
   }),
 };`,
     els: {
@@ -4089,13 +4058,13 @@ const tileVariants: Variants = {
   {
     export: 'ListViewIcon',
     defs: `
-// rows settle from top to bottom to communicate ordered content
+// rows sweep in from the leading edge and align in a quick reading-order cascade
 const rowVariants: Variants = {
   normal: { transform: 'translateX(0px)', opacity: 1 },
   animate: (i: number) => ({
-    transform: ['translateX(-1.5px)', 'translateX(0.4px)', 'translateX(0px)'],
-    opacity: [0.55, 1, 1],
-    transition: { duration: 0.38, delay: i * 0.055, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(-3px) scaleX(0.86)', 'translateX(0.65px) scaleX(1.03)', 'translateX(0px) scaleX(1)'],
+    opacity: [0.4, 1, 1],
+    transition: { duration: 0.48, delay: i * 0.07, ease: [0.23, 1, 0.32, 1] },
   }),
 };`,
     els: {
@@ -4107,28 +4076,28 @@ const rowVariants: Variants = {
   {
     export: 'DocumentAttachmentIcon',
     defs: `
-// the document holds steady while the paperclip swings into attachment
+// the paperclip swings hard into the page and its text lines answer the impact
 const documentVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.5px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) rotate(0deg)', 'translateY(-0.8px) rotate(-1deg)', 'translateY(0.45px) rotate(0.5deg)', 'translateY(0px) rotate(0deg)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const lineVariants: Variants = {
   normal: { transform: 'scaleX(1)' },
   animate: {
-    transform: ['scaleX(0.68)', 'scaleX(1.04)', 'scaleX(1)'],
-    transition: { duration: 0.38, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleX(1)', 'scaleX(0.5)', 'scaleX(1.1)', 'scaleX(1)'],
+    transition: { duration: 0.48, delay: 0.12, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const clipVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(-8deg)', 'rotate(3deg)', 'rotate(0deg)'],
-    transition: { duration: 0.46, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(0deg) translateY(0px)', 'rotate(-22deg) translateY(-1px)', 'rotate(7deg) translateY(0.35px)', 'rotate(-2deg) translateY(0px)', 'rotate(0deg) translateY(0px)'],
+    transition: { duration: 0.62, ease: [0.77, 0, 0.175, 1] },
   },
 };`,
     els: {
@@ -4141,12 +4110,19 @@ const clipVariants: Variants = {
   {
     export: 'UndoIcon',
     defs: `
-// the history loop rewinds toward its arrowhead
+// a complete backward turn reads as undo; the wind-up makes direction immediate
 const undoVariants: Variants = {
-  normal: { transform: 'rotate(0deg)' },
+  normal: { transform: 'rotate(0deg) scale(1)', pathLength: 1 },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(-16deg)', 'rotate(0deg)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: [
+      'rotate(0deg) scale(1)',
+      'rotate(16deg) scale(0.97)',
+      'rotate(-360deg) scale(1)',
+      'rotate(-352deg) scale(1.01)',
+      'rotate(-360deg) scale(1)',
+    ],
+    pathLength: [1, 0.82, 1, 1, 1],
+    transition: { duration: 0.82, ease: [0.77, 0, 0.175, 1], times: [0, 0.1, 0.68, 0.84, 1] },
   },
 };`,
     els: { 0: { v: 'undoVariants', style: `{ transformOrigin: '12px 12px' }` } },
@@ -4154,12 +4130,19 @@ const undoVariants: Variants = {
   {
     export: 'RedoIcon',
     defs: `
-// the history loop advances toward its arrowhead
+// a complete forward turn mirrors undo and settles in the same visual state
 const redoVariants: Variants = {
-  normal: { transform: 'rotate(0deg)' },
+  normal: { transform: 'rotate(0deg) scale(1)', pathLength: 1 },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(16deg)', 'rotate(0deg)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: [
+      'rotate(0deg) scale(1)',
+      'rotate(-16deg) scale(0.97)',
+      'rotate(360deg) scale(1)',
+      'rotate(352deg) scale(1.01)',
+      'rotate(360deg) scale(1)',
+    ],
+    pathLength: [1, 0.82, 1, 1, 1],
+    transition: { duration: 0.82, ease: [0.77, 0, 0.175, 1], times: [0, 0.1, 0.68, 0.84, 1] },
   },
 };`,
     els: { 0: { v: 'redoVariants', style: `{ transformOrigin: '12px 12px' }` } },
@@ -4167,20 +4150,26 @@ const redoVariants: Variants = {
   {
     export: 'Scissor01Icon',
     defs: `
-// the blades close for one restrained snip inside their frame
+// the blades wind open, snap shut, and make the surrounding frame answer
 const frameVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.985)', 'scale(1)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(1.015)', 'scale(0.965)', 'scale(1)'],
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1], times: [0, 0.28, 0.55, 1] },
   },
 };
 
 const scissorVariants: Variants = {
   normal: { transform: 'rotate(0deg) scaleX(1)' },
   animate: {
-    transform: ['rotate(0deg) scaleX(1)', 'rotate(-3deg) scaleX(0.9)', 'rotate(0deg) scaleX(1)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: [
+      'rotate(0deg) scaleX(1)',
+      'rotate(5deg) scaleX(1.08)',
+      'rotate(-8deg) scaleX(0.72)',
+      'rotate(2deg) scaleX(1.03)',
+      'rotate(0deg) scaleX(1)',
+    ],
+    transition: { duration: 0.5, ease: [0.77, 0, 0.175, 1], times: [0, 0.25, 0.5, 0.76, 1] },
   },
 };`,
     els: {
@@ -4191,20 +4180,20 @@ const scissorVariants: Variants = {
   {
     export: 'ClipboardPasteIcon',
     defs: `
-// pasted content moves into the clipboard while the clip acknowledges it
+// the paste arrow drives into the board; the clip absorbs the impact
 const pasteVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(-1.2px)', 'translateX(0.8px)', 'translateX(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(-2.8px)', 'translateX(1.2px)', 'translateX(-0.35px)', 'translateX(0px)'],
+    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.76, 1] },
   },
 };
 
 const clipVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+  normal: { transform: 'translateY(0px) scaleX(1)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.5px)', 'translateY(0px)'],
-    transition: { duration: 0.26, delay: 0.02, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleX(1)', 'translateY(0.8px) scaleX(0.9)', 'translateY(-0.25px) scaleX(1.04)', 'translateY(0px) scaleX(1)'],
+    transition: { duration: 0.44, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -4216,20 +4205,20 @@ const clipVariants: Variants = {
   {
     export: 'FileDownloadIcon',
     defs: `
-// the download arrow enters the document and the page absorbs the motion
+// the download arrow falls decisively into the document and the page catches it
 const arrowVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(-1px)', 'translateY(1.2px)', 'translateY(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(-2.4px)', 'translateY(1.8px)', 'translateY(-0.35px)', 'translateY(0px)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.78, 1] },
   },
 };
 
 const fileVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.4px)', 'translateY(0px)'],
-    transition: { duration: 0.26, delay: 0.02, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(0px) scaleY(1)', 'translateY(0.7px) scaleY(0.96)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.42, 0.62, 1] },
   },
 };`,
     els: {
@@ -4240,20 +4229,20 @@ const fileVariants: Variants = {
   {
     export: 'FileUploadIcon',
     defs: `
-// the upload arrow leaves the document and the page recoils softly
+// the page loads the arrow like a spring and launches it cleanly upward
 const fileVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.4px)', 'translateY(0px)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(0.7px) scaleY(0.96)', 'translateY(-0.25px) scaleY(1.02)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.24, 0.58, 1] },
   },
 };
 
 const arrowVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(1px)', 'translateY(-1.2px)', 'translateY(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(1.5px)', 'translateY(1.5px)', 'translateY(-2.8px)', 'translateY(0px)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.22, 0.64, 1] },
   },
 };`,
     els: {
@@ -4264,20 +4253,20 @@ const arrowVariants: Variants = {
   {
     export: 'CloudDownloadIcon',
     defs: `
-// the cloud settles as the transfer arrow drops through it
+// the cloud compresses under a decisive downward transfer, then floats back
 const cloudVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.35px)', 'translateY(0px)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(-0.4px) scaleY(1.02)', 'translateY(0.8px) scaleY(0.96)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1], times: [0, 0.22, 0.58, 1] },
   },
 };
 
 const downloadVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(-1px)', 'translateY(1.3px)', 'translateY(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(-2.5px)', 'translateY(2.2px)', 'translateY(-0.4px)', 'translateY(0px)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.78, 1] },
   },
 };`,
     els: {
@@ -4288,20 +4277,20 @@ const downloadVariants: Variants = {
   {
     export: 'CloudUploadIcon',
     defs: `
-// the transfer arrow rises into the cloud and lifts it a fraction
+// the arrow loads beneath the cloud, surges upward, and gives it a buoyant lift
 const cloudVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.35px)', 'translateY(0px)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(0.45px) scaleY(0.98)', 'translateY(-1px) scaleY(1.03)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1], times: [0, 0.2, 0.56, 1] },
   },
 };
 
 const uploadVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(1px)', 'translateY(-1.3px)', 'translateY(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(2.4px)', 'translateY(-2.2px)', 'translateY(0.35px)', 'translateY(0px)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.78, 1] },
   },
 };`,
     els: {
@@ -4312,20 +4301,20 @@ const uploadVariants: Variants = {
   {
     export: 'InboxIcon',
     defs: `
-// the tray receives an item and settles under its weight
+// the tray rises to catch incoming weight, then the whole inbox settles
 const inboxVariants: Variants = {
   normal: { transform: 'scaleY(1)' },
   animate: {
-    transform: ['scaleY(1)', 'scaleY(0.98)', 'scaleY(1)'],
-    transition: { duration: 0.27, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleY(1)', 'scaleY(1.025)', 'scaleY(0.94)', 'scaleY(1)'],
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1], times: [0, 0.3, 0.58, 1] },
   },
 };
 
 const trayVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(-0.5px)', 'translateY(0.7px)', 'translateY(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(-1.6px)', 'translateY(1.15px)', 'translateY(-0.25px)', 'translateY(0px)'],
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.78, 1] },
   },
 };`,
     els: {
@@ -4336,28 +4325,29 @@ const trayVariants: Variants = {
   {
     export: 'NotificationOff01Icon',
     defs: `
-// the bell tries one muted shake before the slash quiets it
+// the bell gets one lively shake; the slash draws across and arrests it
 const clapperVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(-0.6px)', 'translateX(0.4px)', 'translateX(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(0px)', 'translateX(-1.3px)', 'translateX(1px)', 'translateX(-0.45px)', 'translateX(0px)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const slashVariants: Variants = {
-  normal: { transform: 'scaleX(1)' },
+  normal: { transform: 'scaleX(1)', pathLength: 1 },
   animate: {
-    transform: ['scaleX(0.84)', 'scaleX(1.04)', 'scaleX(1)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleX(0.72)', 'scaleX(1.06)', 'scaleX(1)'],
+    pathLength: [0.35, 1, 1],
+    transition: { duration: 0.46, delay: 0.12, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const bellVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(-2deg)', 'rotate(1deg)', 'rotate(0deg)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(0deg)', 'rotate(-10deg)', 'rotate(8deg)', 'rotate(-4deg)', 'rotate(0deg)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -4369,20 +4359,21 @@ const bellVariants: Variants = {
   {
     export: 'UserCheck01Icon',
     defs: `
-// the profile acknowledges selection before the check lands
+// the profile nods while the confirmation stroke draws and lands beside it
 const userVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.5px)', 'translateY(0px)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px)', 'translateY(-1.1px)', 'translateY(0.45px)', 'translateY(0px)'],
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const checkVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+  normal: { transform: 'scale(1)', pathLength: 1 },
   animate: {
-    transform: ['scale(0.78)', 'scale(1.08)', 'scale(1)'],
-    transition: { duration: 0.28, delay: 0.02, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(0.72)', 'scale(1.13)', 'scale(0.97)', 'scale(1)'],
+    pathLength: [0, 1, 1, 1],
+    transition: { duration: 0.5, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -4394,21 +4385,35 @@ const checkVariants: Variants = {
   {
     export: 'UserMultiple02Icon',
     defs: `
-// two profiles separate just enough to clarify the group
+// the cropped secondary profile completes into a whole person, then returns
 const primaryVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+  normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(-0.6px)', 'translateX(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(0.97)', 'scale(1.015)', 'scale(1)'],
+    transition: { duration: 0.68, ease: [0.23, 1, 0.32, 1], times: [0, 0.24, 0.64, 1] },
   },
 };
 
 const secondaryVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+  normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(0.7px)', 'translateX(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(1.02)', 'scale(0.985)', 'scale(1)'],
+    transition: { duration: 0.68, delay: 0.03, ease: [0.23, 1, 0.32, 1], times: [0, 0.24, 0.64, 1] },
   },
+};
+
+const completionVariants: Variants = {
+  normal: { pathLength: 0, opacity: 0 },
+  animate: (i: number) => ({
+    pathLength: [0, 1, 1, 0],
+    opacity: [0, 1, 1, 0],
+    transition: {
+      duration: 0.68,
+      delay: i * 0.035,
+      ease: [0.23, 1, 0.32, 1],
+      times: [0, 0.38, 0.72, 1],
+    },
+  }),
 };`,
     els: {
       0: { v: 'primaryVariants', style: `{ transformOrigin: '9px 7px' }` },
@@ -4416,24 +4421,47 @@ const secondaryVariants: Variants = {
       2: { v: 'primaryVariants', style: `{ transformOrigin: '9px 19px' }` },
       3: { v: 'secondaryVariants', style: `{ transformOrigin: '18px 19px' }` },
     },
+    extra: `
+          <motion.path
+            d="M15 3C12.7909 3 11 4.79086 11 7C11 9.20914 12.7909 11 15 11"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={completionVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M18.5 21H14C12.8954 21 12 20.1046 12 19C12 16.2386 14.2386 14 17 14"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={completionVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />`,
   },
   {
     export: 'SortByUp01Icon',
     defs: `
-// the direction arrow rises as the two values trade visual emphasis
+// the arrow pulls the ordering upward while the values trade visual weight
 const arrowVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0.8px)', 'translateY(-1px)', 'translateY(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(1.8px)', 'translateY(-2.2px)', 'translateY(0.35px)', 'translateY(0px)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.48, 0.78, 1] },
   },
 };
 
 const valueVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: (i: number) => ({
-    transform: ['scale(1)', i === 0 ? 'scale(0.94)' : 'scale(1.04)', 'scale(1)'],
-    transition: { duration: 0.26, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scale(1)', i === 0 ? 'translateY(0.7px) scale(0.9)' : 'translateY(-0.7px) scale(1.08)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.46, delay: i * 0.06, ease: [0.23, 1, 0.32, 1] },
   }),
 };`,
     els: {
@@ -4445,20 +4473,20 @@ const valueVariants: Variants = {
   {
     export: 'SortByDown01Icon',
     defs: `
-// the direction arrow drops as the two values trade visual emphasis
+// the arrow pulls the ordering downward while the values trade visual weight
 const arrowVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(-0.8px)', 'translateY(1px)', 'translateY(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(-1.8px)', 'translateY(2.2px)', 'translateY(-0.35px)', 'translateY(0px)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.48, 0.78, 1] },
   },
 };
 
 const valueVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: (i: number) => ({
-    transform: ['scale(1)', i === 0 ? 'scale(1.04)' : 'scale(0.94)', 'scale(1)'],
-    transition: { duration: 0.26, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scale(1)', i === 0 ? 'translateY(0.7px) scale(1.08)' : 'translateY(-0.7px) scale(0.9)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.46, delay: i * 0.06, ease: [0.23, 1, 0.32, 1] },
   }),
 };`,
     els: {
@@ -4470,13 +4498,13 @@ const valueVariants: Variants = {
   {
     export: 'GridViewIcon',
     defs: `
-// grid cells populate in reading order with a restrained stagger
+// the four cells wake in a diagonal ripple and overshoot into alignment
 const cellVariants: Variants = {
   normal: { transform: 'scale(1)', opacity: 1 },
   animate: (i: number) => ({
-    transform: ['scale(0.92)', 'scale(1.03)', 'scale(1)'],
-    opacity: [0.65, 1, 1],
-    transition: { duration: 0.24, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(0.72) rotate(-5deg)', 'scale(1.1) rotate(2deg)', 'scale(1) rotate(0deg)'],
+    opacity: [0.45, 1, 1],
+    transition: { duration: 0.46, delay: i * 0.055, ease: [0.23, 1, 0.32, 1] },
   }),
 };`,
     els: {
@@ -4489,20 +4517,20 @@ const cellVariants: Variants = {
   {
     export: 'PanelLeftIcon',
     defs: `
-// the sidebar divider opens the panel and returns to rest
+// the frame compresses as the sidebar opens wide, then both settle together
 const frameVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.99)', 'scale(1)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scaleX(0.97) scaleY(1.02)', 'scale(1)'],
+    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const dividerVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(1.2px)', 'translateX(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateX(0px)', 'translateX(-0.5px)', 'translateX(2.5px)', 'translateX(-0.3px)', 'translateX(0px)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -4513,20 +4541,20 @@ const dividerVariants: Variants = {
   {
     export: 'MaximizeScreenIcon',
     defs: `
-// the active window travels toward the available frame
+// the window gathers momentum and expands decisively toward the outer frame
 const arrowVariants: Variants = {
   normal: { transform: 'translate(0px, 0px)' },
   animate: {
-    transform: ['translate(0px, 0px)', 'translate(1px, -1px)', 'translate(0px, 0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translate(0px, 0px)', 'translate(-0.5px, 0.5px)', 'translate(2.2px, -2.2px)', 'translate(-0.25px, 0.25px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const windowVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(1.04)', 'scale(1)'],
-    transition: { duration: 0.27, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(0.94)', 'scale(1.12)', 'scale(0.99)', 'scale(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -4537,20 +4565,20 @@ const windowVariants: Variants = {
   {
     export: 'MinimizeScreenIcon',
     defs: `
-// the active window travels inward toward the smaller frame
+// the window yields inward toward the target frame, then clicks into place
 const arrowVariants: Variants = {
   normal: { transform: 'translate(0px, 0px)' },
   animate: {
-    transform: ['translate(0px, 0px)', 'translate(-1px, 1px)', 'translate(0px, 0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translate(0px, 0px)', 'translate(0.5px, -0.5px)', 'translate(-2.2px, 2.2px)', 'translate(0.25px, -0.25px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const windowVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.96)', 'scale(1)'],
-    transition: { duration: 0.27, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(1.06)', 'scale(0.86)', 'scale(1.01)', 'scale(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -4561,28 +4589,28 @@ const windowVariants: Variants = {
   {
     export: 'HistoryIcon',
     defs: `
-// time rewinds briefly while the clock hand follows behind
+// the history ring pulls backward while the clock hand races to catch up
 const historyVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(-10deg)', 'rotate(0deg)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(0deg)', 'rotate(7deg)', 'rotate(-22deg)', 'rotate(3deg)', 'rotate(0deg)'],
+    transition: { duration: 0.62, ease: [0.77, 0, 0.175, 1], times: [0, 0.12, 0.48, 0.76, 1] },
   },
 };
 
 const handVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(-24deg)', 'rotate(0deg)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(0deg)', 'rotate(-12deg)', 'rotate(-92deg)', 'rotate(8deg)', 'rotate(0deg)'],
+    transition: { duration: 0.62, ease: [0.77, 0, 0.175, 1], times: [0, 0.12, 0.48, 0.76, 1] },
   },
 };
 
 const arrowVariants: Variants = {
   normal: { transform: 'translate(0px, 0px)' },
   animate: {
-    transform: ['translate(0px, 0px)', 'translate(-0.5px, -0.4px)', 'translate(0px, 0px)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translate(0px, 0px)', 'translate(0.5px, 0.4px)', 'translate(-1.1px, -0.8px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1] },
   },
 };`,
     els: {
@@ -4594,16 +4622,17 @@ const arrowVariants: Variants = {
   {
     export: 'SlidersHorizontalIcon',
     defs: `
-// each control moves along its own track, one after another
+// each control snaps to a new setting in a quick three-beat mix
 const knobVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: (i: number) => ({
     transform: [
       'translateX(0px)',
-      i === 0 ? 'translateX(-1.6px)' : i === 1 ? 'translateX(1.7px)' : 'translateX(-1.2px)',
+      i === 0 ? 'translateX(-2.8px)' : i === 1 ? 'translateX(3px)' : 'translateX(-2.4px)',
+      i === 0 ? 'translateX(0.45px)' : i === 1 ? 'translateX(-0.45px)' : 'translateX(0.4px)',
       'translateX(0px)',
     ],
-    transition: { duration: 0.25, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
+    transition: { duration: 0.48, delay: i * 0.07, ease: [0.23, 1, 0.32, 1] },
   }),
 };`,
     els: {

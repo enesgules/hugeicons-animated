@@ -16,7 +16,6 @@ interface ArrowUp02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the head launches upward first; the shaft stretches after it and answers with a smaller echo
 const shaftVariants: Variants = {
   normal: { d: 'M12 5.5V19' },
   animate: {
@@ -44,6 +43,7 @@ const ArrowUp02Icon = forwardRef<ArrowUp02IconHandle, ArrowUp02IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

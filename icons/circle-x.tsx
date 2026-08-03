@@ -16,29 +16,20 @@ interface CircleXIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the cross clamps shut, and the ring takes the small rejection knock
 const ringVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+  normal: { scale: 1 },
   animate: {
-    transform: ['scale(1)', 'scale(1)', 'scale(0.98)', 'scale(1.02)', 'scale(1)'],
-    transition: {
-      duration: 0.4,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.42, 0.6, 0.8, 1],
-    },
+    scale: [1, 1.05, 1],
+    transition: { duration: 0.45, ease: 'easeOut' },
   },
 };
 
 const crossVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(1)' },
+  normal: { rotate: 0, scale: 1 },
   animate: {
-    transform: [
-      'rotate(0deg) scale(1)',
-      'rotate(-6deg) scale(0.72)',
-      'rotate(2deg) scale(1.1)',
-      'rotate(0deg) scale(1)',
-    ],
-    transition: { duration: 0.34, ease: [0.23, 1, 0.32, 1] },
+    rotate: [0, -10, 4, 0],
+    scale: [1, 0.82, 1.08, 1],
+    transition: { duration: 0.42, ease: 'easeOut' },
   },
 };
 

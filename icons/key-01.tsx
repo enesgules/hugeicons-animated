@@ -51,6 +51,7 @@ const Key01Icon = forwardRef<Key01IconHandle, Key01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

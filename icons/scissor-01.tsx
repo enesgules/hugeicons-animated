@@ -16,20 +16,26 @@ interface Scissor01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the blades close for one restrained snip inside their frame
+// the blades wind open, snap shut, and make the surrounding frame answer
 const frameVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.985)', 'scale(1)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(1.015)', 'scale(0.965)', 'scale(1)'],
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1], times: [0, 0.28, 0.55, 1] },
   },
 };
 
 const scissorVariants: Variants = {
   normal: { transform: 'rotate(0deg) scaleX(1)' },
   animate: {
-    transform: ['rotate(0deg) scaleX(1)', 'rotate(-3deg) scaleX(0.9)', 'rotate(0deg) scaleX(1)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: [
+      'rotate(0deg) scaleX(1)',
+      'rotate(5deg) scaleX(1.08)',
+      'rotate(-8deg) scaleX(0.72)',
+      'rotate(2deg) scaleX(1.03)',
+      'rotate(0deg) scaleX(1)',
+    ],
+    transition: { duration: 0.5, ease: [0.77, 0, 0.175, 1], times: [0, 0.25, 0.5, 0.76, 1] },
   },
 };
 
@@ -38,6 +44,7 @@ const Scissor01Icon = forwardRef<Scissor01IconHandle, Scissor01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

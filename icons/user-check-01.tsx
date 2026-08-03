@@ -16,20 +16,21 @@ interface UserCheck01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the profile acknowledges selection before the check lands
+// the profile nods while the confirmation stroke draws and lands beside it
 const userVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.5px)', 'translateY(0px)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px)', 'translateY(-1.1px)', 'translateY(0.45px)', 'translateY(0px)'],
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const checkVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+  normal: { transform: 'scale(1)', pathLength: 1 },
   animate: {
-    transform: ['scale(0.78)', 'scale(1.08)', 'scale(1)'],
-    transition: { duration: 0.28, delay: 0.02, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(0.72)', 'scale(1.13)', 'scale(0.97)', 'scale(1)'],
+    pathLength: [0, 1, 1, 1],
+    transition: { duration: 0.5, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +39,7 @@ const UserCheck01Icon = forwardRef<UserCheck01IconHandle, UserCheck01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

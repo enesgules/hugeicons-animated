@@ -40,6 +40,7 @@ const Calendar03Icon = forwardRef<Calendar03IconHandle, Calendar03IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

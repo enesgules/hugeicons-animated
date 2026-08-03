@@ -16,42 +16,29 @@ interface BatteryCharging01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// charge travels left to right; the bolt catches at the crest, then the
-// battery settles with the stored energy
-const bodyVariants: Variants = {
-  normal: { transform: 'translateY(0px) scaleY(1)' },
-  animate: {
-    transform: [
-      'translateY(0px) scaleY(1)',
-      'translateY(0.8px) scaleY(0.94)',
-      'translateY(-0.5px) scaleY(1.04)',
-      'translateY(0px) scaleY(1)',
-    ],
-    transition: { duration: 0.82, ease: [0.23, 1, 0.32, 1] },
-  },
-};
-
+// while you hover, it's plugged in — the bolt pulses with each surge and
+// drawn charge sparks float up off the terminal
 const boltVariants: Variants = {
-  normal: { opacity: 1, transform: 'translateY(0px) scale(1)' },
+  normal: { scale: 1, opacity: 1, transition: { duration: 0.3 } },
   animate: {
-    opacity: [0.4, 1, 1, 1],
-    transform: [
-      'translateY(2.4px) scale(0.76)',
-      'translateY(0px) scale(1.35)',
-      'translateY(0px) scale(1.35)',
-      'translateY(0px) scale(1)',
-    ],
-    transition: { duration: 0.82, ease: [0.23, 1, 0.32, 1], times: [0, 0.56, 0.74, 1] },
+    scale: [1, 1.2, 1],
+    opacity: [1, 0.55, 1],
+    transition: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
-const fillVariants: Variants = {
-  normal: { opacity: 0, transform: 'scaleX(0.08)' },
-  animate: {
-    opacity: [0, 0.14, 0.14, 0],
-    transform: ['scaleX(0.08)', 'scaleX(1)', 'scaleX(1)', 'scaleX(1)'],
-    transition: { duration: 0.82, ease: [0.23, 1, 0.32, 1], times: [0, 0.56, 0.74, 1] },
-  },
+const sparkVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.15 } },
+  animate: (i: number) => ({
+    opacity: [0, 1, 0],
+    translateY: [1.5, -2.5],
+    transition: {
+      duration: 1.1,
+      ease: 'easeOut',
+      repeat: Infinity,
+      delay: i * 0.45,
+    },
+  }),
 };
 
 const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCharging01IconProps>(
@@ -59,6 +46,7 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -71,30 +59,14 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <motion.svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
           viewBox="0 0 24 24"
           fill="none"
           overflow="visible"
-          variants={bodyVariants}
-          animate={controls}
-          initial="normal"
-          style={{ transformOrigin: '12px 12px' }}
         >
-          <motion.rect
-            x="3.6"
-            y="7.6"
-            width="14.2"
-            height="8.8"
-            rx="2.2"
-            fill="currentColor"
-            variants={fillVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '3.6px 12px' }}
-          />
           <path
             d="M2 12C2 9.17157 2 7.75736 2.87868 6.87868C3.75736 6 5.17157 6 8 6H13C15.8284 6 17.2426 6 18.1213 6.87868C19 7.75736 19 9.17157 19 12C19 14.8284 19 16.2426 18.1213 17.1213C17.2426 18 15.8284 18 13 18H8C5.17157 18 3.75736 18 2.87868 17.1213C2 16.2426 2 14.8284 2 12Z"
             stroke="currentColor"
@@ -118,7 +90,27 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             strokeLinecap="round"
             strokeWidth="1.5"
           />
-        </motion.svg>
+          <motion.path
+            d="M23 7.5V9.5M22 8.5H24"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={sparkVariants}
+            custom={0}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M23.5 12.5V14.5M22.5 13.5H24.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            variants={sparkVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+          />
+        </svg>
       </div>
     );
   }

@@ -16,20 +16,20 @@ interface FileUploadIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the upload arrow leaves the document and the page recoils softly
+// the page loads the arrow like a spring and launches it cleanly upward
 const fileVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0.4px)', 'translateY(0px)'],
-    transition: { duration: 0.26, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(0.7px) scaleY(0.96)', 'translateY(-0.25px) scaleY(1.02)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.24, 0.58, 1] },
   },
 };
 
 const arrowVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(1px)', 'translateY(-1.2px)', 'translateY(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(1.5px)', 'translateY(1.5px)', 'translateY(-2.8px)', 'translateY(0px)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.22, 0.64, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const FileUploadIcon = forwardRef<FileUploadIconHandle, FileUploadIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

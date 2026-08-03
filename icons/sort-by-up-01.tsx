@@ -16,20 +16,20 @@ interface SortByUp01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the direction arrow rises as the two values trade visual emphasis
+// the arrow pulls the ordering upward while the values trade visual weight
 const arrowVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0.8px)', 'translateY(-1px)', 'translateY(0px)'],
-    transition: { duration: 0.28, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(1.8px)', 'translateY(-2.2px)', 'translateY(0.35px)', 'translateY(0px)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.48, 0.78, 1] },
   },
 };
 
 const valueVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: (i: number) => ({
-    transform: ['scale(1)', i === 0 ? 'scale(0.94)' : 'scale(1.04)', 'scale(1)'],
-    transition: { duration: 0.26, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scale(1)', i === 0 ? 'translateY(0.7px) scale(0.9)' : 'translateY(-0.7px) scale(1.08)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.46, delay: i * 0.06, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 
@@ -38,6 +38,7 @@ const SortByUp01Icon = forwardRef<SortByUp01IconHandle, SortByUp01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

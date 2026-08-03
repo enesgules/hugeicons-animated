@@ -16,12 +16,12 @@ interface Folder01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the folder lifts from the desk and settles back into place
+// the folder perks up from the desk, tips forward, and lands with weight
 const folderVariants: Variants = {
   normal: { transform: 'translateY(0px) rotate(0deg)' },
   animate: {
-    transform: ['translateY(0px) rotate(0deg)', 'translateY(-1.2px) rotate(-1deg)', 'translateY(0px) rotate(0deg)'],
-    transition: { duration: 0.46, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) rotate(0deg)', 'translateY(-2.2px) rotate(-3deg)', 'translateY(0.55px) rotate(1deg)', 'translateY(0px) rotate(0deg)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1], times: [0, 0.42, 0.72, 1] },
   },
 };
 
@@ -30,6 +30,7 @@ const Folder01Icon = forwardRef<Folder01IconHandle, Folder01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

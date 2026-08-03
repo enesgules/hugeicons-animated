@@ -16,30 +16,11 @@ interface ChevronDownIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the arms pinch upward in anticipation, open into the descent, then softly close
-const leftArmVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg)' },
+const chevronVariants: Variants = {
+  normal: { translateY: 0 },
   animate: {
-    transform: [
-      'translateY(0px) rotate(0deg)',
-      'translateY(-0.35px) rotate(2.5deg)',
-      'translateY(1.15px) rotate(-1.5deg)',
-      'translateY(0px) rotate(0deg)',
-    ],
-    transition: { duration: 0.34, ease: [0.23, 1, 0.32, 1] },
-  },
-};
-
-const rightArmVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg)' },
-  animate: {
-    transform: [
-      'translateY(0px) rotate(0deg)',
-      'translateY(-0.35px) rotate(-2.5deg)',
-      'translateY(1.15px) rotate(1.5deg)',
-      'translateY(0px) rotate(0deg)',
-    ],
-    transition: { duration: 0.34, ease: [0.23, 1, 0.32, 1] },
+    translateY: [0, 1.75, -0.35, 0],
+    transition: { duration: 0.45, ease: 'easeOut' },
   },
 };
 
@@ -68,28 +49,12 @@ const ChevronDownIcon = forwardRef<ChevronDownIconHandle, ChevronDownIconProps>(
           fill="none"
           overflow="visible"
         >
-          <motion.path
-            d="M18 9.00005C18 9.00005 13.5811 15 12 15"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={rightArmVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 15px' }}
-          />
-          <motion.path
-            d="M12 15C10.4188 15 6 9 6 9"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={leftArmVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 15px' }}
-          />
+        <motion.path
+          d="M18 9.00005C18 9.00005 13.5811 15 12 15C10.4188 15 6 9 6 9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
+          variants={chevronVariants}
+          animate={controls}
+          initial="normal"
+        />
         </svg>
       </div>
     );

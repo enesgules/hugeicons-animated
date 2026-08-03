@@ -48,6 +48,7 @@ const BluetoothIcon = forwardRef<BluetoothIconHandle, BluetoothIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

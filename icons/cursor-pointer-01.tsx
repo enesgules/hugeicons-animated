@@ -41,6 +41,7 @@ const CursorPointer01Icon = forwardRef<CursorPointer01IconHandle, CursorPointer0
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

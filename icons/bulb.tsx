@@ -16,44 +16,35 @@ interface BulbIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the idea arrives physically: the bulb squashes, jumps, lands, and throws
-// seven hand-drawn rays past its silhouette
+// the light turns on: the filament draws itself, the bulb pops, and drawn
+// rays burst outward and hold their glow while you hover
 const svgVariants: Variants = {
-  normal: { transform: 'translateY(0px) scaleX(1) scaleY(1)' },
+  normal: { scale: 1, transition: { duration: 0.3 } },
   animate: {
-    transform: [
-      'translateY(0px) scaleX(1) scaleY(1)',
-      'translateY(1.2px) scaleX(1.13) scaleY(0.87)',
-      'translateY(-4.2px) scaleX(0.88) scaleY(1.16)',
-      'translateY(1px) scaleX(1.09) scaleY(0.92)',
-      'translateY(0px) scaleX(1) scaleY(1)',
-    ],
-    transition: { duration: 0.84, ease: [0.23, 1, 0.32, 1] },
+    scale: [1, 1.05, 1],
+    transition: { duration: 0.45, ease: 'easeOut' },
   },
 };
 
 const filamentVariants: Variants = {
-  normal: { transform: 'translateY(0px) scale(1)' },
+  normal: { pathLength: 1, transition: { duration: 0.3 } },
   animate: {
-    transform: [
-      'translateY(0px) scale(1)',
-      'translateY(-2px) scale(1.5)',
-      'translateY(0.5px) scale(0.92)',
-      'translateY(0px) scale(1)',
-    ],
-    transition: { duration: 0.68, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
+    pathLength: [0, 1],
+    transition: { duration: 0.35, ease: 'easeOut' },
   },
 };
 
+// rays scale up from the view center, so they read as bursting off the glass
 const rayVariants: Variants = {
-  normal: { opacity: 0, transform: 'scale(0.45)' },
+  normal: { opacity: 0, transition: { duration: 0.2 } },
   animate: (i: number) => ({
-    opacity: [0, 1, 0.7, 0],
-    transform: ['scale(0.45)', 'scale(1.25)', 'scale(1)', 'scale(0.9)'],
+    opacity: [0, 1, 0.75, 1],
+    scale: [0.4, 1.15, 1, 1],
     transition: {
-      duration: 0.72,
+      duration: 0.55,
       ease: 'easeOut',
-      delay: 0.1 + i * 0.035,
+      times: [0, 0.4, 0.7, 1],
+      delay: 0.12 + i * 0.05,
     },
   }),
 };
@@ -63,6 +54,7 @@ const BulbIcon = forwardRef<BulbIconHandle, BulbIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -170,28 +162,6 @@ const BulbIcon = forwardRef<BulbIconHandle, BulbIconProps>(
             strokeWidth="1.5"
             variants={rayVariants}
             custom={4}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 10px' }}
-          />
-          <motion.path
-            d="M6.2 15.2L4.1 17.3"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={rayVariants}
-            custom={5}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 10px' }}
-          />
-          <motion.path
-            d="M17.8 15.2L19.9 17.3"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={rayVariants}
-            custom={6}
             animate={controls}
             initial="normal"
             style={{ transformOrigin: '12px 10px' }}

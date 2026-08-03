@@ -43,6 +43,7 @@ const PartyIcon = forwardRef<PartyIconHandle, PartyIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

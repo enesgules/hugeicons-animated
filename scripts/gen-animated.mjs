@@ -41,19 +41,15 @@ const renderElement = ([tag, attrs], i, spec) => {
 const template = (spec, elements) => {
   const name = spec.export;
   const animationLoops = spec.defs.includes('repeat: Infinity');
-  const loopsOption = animationLoops ? '\n      loops: true,' : '';
   const svgTag = spec.svg ? 'motion.svg' : 'svg';
   const svgExtra = spec.svg
     ? `\n          variants={${spec.svg}}\n          animate={controls}\n          initial="normal"${
         spec.svgStyle ? `\n          style={${spec.svgStyle}}` : ''
       }`
     : '';
-  // before/extra: raw JSX for animation-only elements that sit behind/in
-  // front of the source geometry (fills, particles, sparks…).
-  const sourceBody = elements.map((e, i) => renderElement(e, i, spec)).join('\n');
+  // extra: raw JSX for elements the icon data doesn't have (particles, sparks…)
   const body =
-    (spec.before ? spec.before.replace(/^\n+|\s+$/g, '') + '\n' : '') +
-    sourceBody +
+    elements.map((e, i) => renderElement(e, i, spec)).join('\n') +
     (spec.extra ? '\n' + spec.extra.replace(/^\n+|\s+$/g, '') : '');
 
   return `'use client';
@@ -80,7 +76,8 @@ const ${name} = forwardRef<${name}Handle, ${name}Props>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
-      controls,${loopsOption}
+      controls,
+      loops: ${animationLoops},
       onMouseEnter,
       onMouseLeave,
       ref,

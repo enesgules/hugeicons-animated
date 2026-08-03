@@ -57,6 +57,7 @@ const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

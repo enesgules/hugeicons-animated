@@ -40,6 +40,7 @@ const Edit02Icon = forwardRef<Edit02IconHandle, Edit02IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

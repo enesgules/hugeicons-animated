@@ -42,6 +42,7 @@ const PuzzleIcon = forwardRef<PuzzleIconHandle, PuzzleIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,

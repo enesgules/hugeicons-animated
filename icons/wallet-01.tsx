@@ -16,20 +16,20 @@ interface Wallet01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the wallet steadies while its clasp opens and returns
+// the wallet compresses while its clasp retracts into its hinge and clicks shut
 const walletVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+  normal: { transform: 'scaleX(1)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-0.6px)', 'translateY(0px)'],
-    transition: { duration: 0.44, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleX(1)', 'scaleX(0.98)', 'scaleX(1.01)', 'scaleX(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const claspVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+  normal: { transform: 'scaleX(1)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(1.4px)', 'translateX(0px)'],
-    transition: { duration: 0.4, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleX(1)', 'scaleX(0.34)', 'scaleX(1.08)', 'scaleX(1)'],
+    transition: { duration: 0.52, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -38,6 +38,7 @@ const Wallet01Icon = forwardRef<Wallet01IconHandle, Wallet01IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -89,7 +90,7 @@ const Wallet01Icon = forwardRef<Wallet01IconHandle, Wallet01IconProps>(
             variants={claspVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '19px 14px' }}
+            style={{ transformOrigin: '21px 14px' }}
           />
         </svg>
       </div>
