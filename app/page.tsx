@@ -182,6 +182,7 @@ export default function Home() {
   const copyIconRef = useRef<IconHandle | null>(null);
   const favouriteIconRef = useRef<IconHandle | null>(null);
   const heroIconRefs = useRef<(IconHandle | null)[]>([]);
+  const heroFieldRef = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
   const logoRef = useRef<IconHandle | null>(null);
   const searchIconRef = useRef<IconHandle | null>(null);
@@ -246,14 +247,18 @@ export default function Home() {
   const previewSpecimen = (
     specimenIndex: number,
     name: string,
-    left: string,
-    top: string
+    specimen: HTMLButtonElement
   ) => {
     setHeroIconName(name);
     const hero = heroRef.current;
-    if (!hero) return;
-    hero.style.setProperty('--hero-spot-x', left);
-    hero.style.setProperty('--hero-spot-y', top);
+    const field = heroFieldRef.current;
+    if (!hero || !field) return;
+    const specimenRect = specimen.getBoundingClientRect();
+    const fieldRect = field.getBoundingClientRect();
+    const spotX = specimenRect.left + specimenRect.width / 2 - fieldRect.left;
+    const spotY = specimenRect.top + specimenRect.height / 2 - fieldRect.top;
+    hero.style.setProperty('--hero-spot-x', `${spotX}px`);
+    hero.style.setProperty('--hero-spot-y', `${spotY}px`);
     hero.dataset.specimenActive = 'true';
     if (!reduced) heroIconRefs.current[specimenIndex]?.startAnimation();
   };
@@ -360,7 +365,7 @@ export default function Home() {
             data-move-active="false"
             data-specimen-active="false"
           >
-            <div className="hero-random-field block">
+            <div ref={heroFieldRef} className="hero-random-field block">
               <div aria-hidden className="hero-random-glow" />
               {HERO_SPECIMENS.map(
                 (
@@ -397,13 +402,15 @@ export default function Home() {
                       }${mobile ? ' hero-specimen-mobile' : ''}`}
                       style={specimenStyle}
                       key={name}
-                      onClick={() => previewSpecimen(specimenIndex, name, left, top)}
-                      onPointerEnter={() =>
-                        previewSpecimen(specimenIndex, name, left, top)
+                      onClick={(event) =>
+                        previewSpecimen(specimenIndex, name, event.currentTarget)
+                      }
+                      onPointerEnter={(event) =>
+                        previewSpecimen(specimenIndex, name, event.currentTarget)
                       }
                       onPointerLeave={() => stopSpecimenPreview(specimenIndex)}
-                      onFocus={() =>
-                        previewSpecimen(specimenIndex, name, left, top)
+                      onFocus={(event) =>
+                        previewSpecimen(specimenIndex, name, event.currentTarget)
                       }
                       onBlur={() => stopSpecimenPreview(specimenIndex)}
                     >
