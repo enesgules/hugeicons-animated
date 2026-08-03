@@ -40,19 +40,41 @@ const textLink =
 
 const DEFAULT_HERO_ICON = 'notification-03';
 
-const HERO_SPECIMENS = [
-  { iconIndex: 3, top: '8%', left: '63%', size: 25, rotate: -8, moveX: -8, moveY: 6, moveRotate: -13 },
-  { iconIndex: 9, top: '10%', left: '82%', size: 30, rotate: 7, moveX: 7, moveY: -8, moveRotate: 12 },
-  { iconIndex: 14, top: '27%', left: '73%', size: 27, rotate: -5, moveX: -11, moveY: -3, moveRotate: -10 },
-  { iconIndex: 20, top: '24%', left: '93%', size: 24, rotate: 11, moveX: 8, moveY: 8, moveRotate: 17 },
-  { iconIndex: 27, top: '46%', left: '61%', size: 31, rotate: 6, moveX: -6, moveY: -9, moveRotate: 11 },
-  { iconIndex: 32, top: '43%', left: '84%', size: 26, rotate: -11, moveX: 12, moveY: 4, moveRotate: -17 },
-  { iconIndex: 38, top: '61%', left: '70%', size: 28, rotate: 9, moveX: -10, moveY: 9, moveRotate: 15 },
-  { iconIndex: 42, top: '62%', left: '94%', size: 25, rotate: -7, moveX: 7, moveY: -7, moveRotate: -12 },
-  { iconIndex: 46, top: '79%', left: '58%', size: 24, rotate: 13, moveX: -7, moveY: 7, moveRotate: 19 },
-  { iconIndex: 51, top: '82%', left: '80%', size: 30, rotate: -4, moveX: 9, moveY: 8, moveRotate: -9 },
-  { iconIndex: 57, top: '88%', left: '97%', size: 26, rotate: 8, moveX: 6, moveY: -8, moveRotate: 14 },
-].map((specimen) => ({
+type HeroSpecimenPlacement = {
+  iconIndex: number;
+  top: string;
+  left: string;
+  size: number;
+  rotate: number;
+  moveX: number;
+  moveY: number;
+  moveRotate: number;
+  mediumHidden?: boolean;
+};
+
+const HERO_SPECIMEN_PLACEMENTS: HeroSpecimenPlacement[] = [
+  { iconIndex: 3, top: '7%', left: '12%', size: 22, rotate: -10, moveX: -7, moveY: 6, moveRotate: -15 },
+  { iconIndex: 9, top: '11%', left: '38%', size: 28, rotate: 7, moveX: 8, moveY: -7, moveRotate: 13 },
+  { iconIndex: 14, top: '9%', left: '69%', size: 25, rotate: -5, moveX: -10, moveY: -3, moveRotate: -10 },
+  { iconIndex: 20, top: '15%', left: '91%', size: 23, rotate: 11, moveX: 8, moveY: 8, moveRotate: 17 },
+  { iconIndex: 27, top: '28%', left: '55%', size: 30, rotate: 6, moveX: -6, moveY: -9, moveRotate: 11, mediumHidden: true },
+  { iconIndex: 32, top: '32%', left: '82%', size: 25, rotate: -11, moveX: 11, moveY: 4, moveRotate: -17 },
+  { iconIndex: 38, top: '40%', left: '97%', size: 23, rotate: 9, moveX: -9, moveY: 8, moveRotate: 15 },
+  { iconIndex: 42, top: '47%', left: '3%', size: 24, rotate: -7, moveX: 7, moveY: -7, moveRotate: -12, mediumHidden: true },
+  { iconIndex: 46, top: '53%', left: '68%', size: 27, rotate: 13, moveX: -7, moveY: 7, moveRotate: 19 },
+  { iconIndex: 51, top: '57%', left: '91%', size: 29, rotate: -4, moveX: 9, moveY: 8, moveRotate: -9 },
+  { iconIndex: 57, top: '76%', left: '29%', size: 23, rotate: 8, moveX: 6, moveY: -8, moveRotate: 14 },
+  { iconIndex: 63, top: '70%', left: '54%', size: 26, rotate: -9, moveX: -8, moveY: 5, moveRotate: -15, mediumHidden: true },
+  { iconIndex: 69, top: '72%', left: '80%', size: 22, rotate: 5, moveX: 7, moveY: -6, moveRotate: 10 },
+  { iconIndex: 76, top: '82%', left: '6%', size: 27, rotate: -12, moveX: -6, moveY: 7, moveRotate: -18 },
+  { iconIndex: 84, top: '85%', left: '37%', size: 23, rotate: 10, moveX: 8, moveY: -6, moveRotate: 16 },
+  { iconIndex: 92, top: '84%', left: '63%', size: 28, rotate: -5, moveX: -8, moveY: 8, moveRotate: -11 },
+  { iconIndex: 104, top: '89%', left: '94%', size: 24, rotate: 9, moveX: 7, moveY: -7, moveRotate: 15 },
+  { iconIndex: 115, top: '96%', left: '18%', size: 22, rotate: -8, moveX: -7, moveY: 6, moveRotate: -14 },
+  { iconIndex: 127, top: '96%', left: '72%', size: 25, rotate: 6, moveX: 8, moveY: -6, moveRotate: 12 },
+];
+
+const HERO_SPECIMENS = HERO_SPECIMEN_PLACEMENTS.map((specimen) => ({
   ...specimen,
   icon: ICONS[specimen.iconIndex % ICONS.length],
 }));
@@ -269,7 +291,7 @@ export default function Home() {
     >
       <div
         id="top"
-        className="relative flex min-h-screen w-full flex-col bg-white text-[#141812]"
+        className="relative flex min-h-screen w-full flex-col overflow-x-clip bg-white text-[#141812]"
       >
         {/* scroll sentinel for the header material */}
         <div ref={sentinelRef} aria-hidden className="absolute top-0 h-px w-px" />
@@ -336,7 +358,7 @@ export default function Home() {
             data-move-active="false"
             data-specimen-active="false"
           >
-            <div className="hero-random-field hidden md:block">
+            <div className="hero-random-field hidden lg:block">
               <div aria-hidden className="hero-random-glow" />
               {HERO_SPECIMENS.map(
                 (
@@ -349,6 +371,7 @@ export default function Home() {
                     moveX,
                     moveY,
                     moveRotate,
+                    mediumHidden,
                   },
                   specimenIndex
                 ) => {
@@ -364,7 +387,9 @@ export default function Home() {
                     <button
                       type="button"
                       aria-label={`Use ${name} in the install command`}
-                      className="hero-specimen"
+                      className={`hero-specimen${
+                        mediumHidden ? ' hero-specimen-medium-hidden' : ''
+                      }`}
                       style={specimenStyle}
                       key={name}
                       onClick={() => previewSpecimen(specimenIndex, name, left, top)}

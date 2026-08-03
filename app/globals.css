@@ -48,15 +48,24 @@ body {
 .hero-random-field {
   position: absolute;
   z-index: 0;
-  inset: -1rem -2rem -7rem 0;
+  top: -4rem;
+  bottom: -10rem;
+  left: 50%;
+  width: 100vw;
+  overflow: clip;
   pointer-events: none;
+  transform: translateX(-50%);
   user-select: none;
+  background:
+    radial-gradient(circle at 8% 72%, rgb(175 230 127 / 5%), transparent 25%),
+    radial-gradient(circle at 91% 24%, rgb(175 230 127 / 5%), transparent 28%);
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    black 9%,
-    black 70%,
-    rgb(0 0 0 / 76%) 82%,
+    black 8%,
+    black 68%,
+    rgb(0 0 0 / 78%) 82%,
+    rgb(0 0 0 / 38%) 93%,
     transparent 100%
   );
 }
@@ -124,6 +133,12 @@ body {
       calc(-50% + var(--specimen-move-y))
     )
     rotate(var(--specimen-move-rotate)) scale(1.04);
+}
+
+@media (max-width: 1100px) {
+  .hero-random-field .hero-specimen-medium-hidden {
+    display: none;
+  }
 }
 
 .hero-move-trigger {
