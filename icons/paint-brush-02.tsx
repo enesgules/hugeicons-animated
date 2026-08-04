@@ -16,28 +16,28 @@ interface PaintBrush02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the brush swipes from the wrist and leaves a drawn stroke of paint
-// behind on the ground it just crossed
+// the brush tip loads paint, then lays a short stroke directly from the tip
 const svgVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0.3 } },
+  normal: { transform: 'rotate(0deg)' },
   animate: {
-    rotate: [0, -12, 8, -4, 0],
-    transition: {
-      duration: 1.1,
-      ease: 'easeInOut',
-      times: [0, 0.25, 0.55, 0.8, 1],
-    },
+    transform: ['rotate(0deg)', 'rotate(-8deg)', 'rotate(5deg)', 'rotate(-1deg)', 'rotate(0deg)'],
+    transition: { duration: 0.58, ease: [0.77, 0, 0.175, 1] },
   },
 };
 
 const strokeVariants: Variants = {
-  normal: { pathLength: 0, opacity: 0, transition: { duration: 0.3 } },
+  normal: { pathLength: 0, opacity: 0 },
   animate: {
     pathLength: [0, 1],
-    opacity: [0, 1],
-    transition: { duration: 0.8, ease: 'easeOut', delay: 0.15 },
+    opacity: [0, 1, 1],
+    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1], delay: 0.1 },
   },
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const PaintBrush02Icon = forwardRef<PaintBrush02IconHandle, PaintBrush02IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -88,8 +88,13 @@ const PaintBrush02Icon = forwardRef<PaintBrush02IconHandle, PaintBrush02IconProp
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path
-            d="M5.5 23.8C8.5 22.6 15.5 22.6 18.5 23.8"
+            d="M14.5 21.5C16.2 21 18.1 20.8 20 21.4"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
@@ -97,6 +102,7 @@ const PaintBrush02Icon = forwardRef<PaintBrush02IconHandle, PaintBrush02IconProp
             animate={controls}
             initial="normal"
           />
+          </motion.g>
         </motion.svg>
       </div>
     );

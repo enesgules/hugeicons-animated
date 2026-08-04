@@ -16,25 +16,19 @@ interface PlayIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// anticipation, release, and a small motion trail make playback feel immediate
+// the play shape compresses, releases forward, and settles without decoration
 const playVariants: Variants = {
-  normal: { translateX: 0, scaleX: 1, scaleY: 1, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
+  normal: { transform: 'translateX(0px) scaleX(1) scaleY(1)' },
   animate: {
-    translateX: [0, -1, 2.2, 0],
-    scaleX: [1, 0.88, 1.12, 1],
-    scaleY: [1, 1.05, 0.96, 1],
-    transition: { duration: 0.7, times: [0, 0.22, 0.55, 1], ease: 'easeOut' },
+    transform: [
+      'translateX(0px) scaleX(1) scaleY(1)',
+      'translateX(-0.8px) scaleX(0.9) scaleY(1.04)',
+      'translateX(2px) scaleX(1.1) scaleY(0.97)',
+      'translateX(-0.2px) scaleX(0.99) scaleY(1.005)',
+      'translateX(0px) scaleX(1) scaleY(1)',
+    ],
+    transition: { duration: 0.52, times: [0, 0.2, 0.52, 0.78, 1], ease: [0.23, 1, 0.32, 1] },
   },
-};
-
-const playTrailVariants: Variants = {
-  normal: { opacity: 0, translateX: 0, pathLength: 0 },
-  animate: (i: number) => ({
-    opacity: [0, 0.65, 0],
-    translateX: [-1, 2.5],
-    pathLength: [0, 1],
-    transition: { duration: 0.42, delay: 0.25 + i * 0.07, ease: 'easeOut' },
-  }),
 };
 
 const PlayIcon = forwardRef<PlayIconHandle, PlayIconProps>(
@@ -73,9 +67,6 @@ const PlayIcon = forwardRef<PlayIconHandle, PlayIconProps>(
             initial="normal"
             style={{ transformOrigin: '10px 12px' }}
           />
-          <motion.path d="M1.5 9H3.4" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" variants={playTrailVariants} custom={0} animate={controls} initial="normal" />
-          <motion.path d="M0.8 12H3.4" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" variants={playTrailVariants} custom={1} animate={controls} initial="normal" />
-          <motion.path d="M1.5 15H3.4" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" variants={playTrailVariants} custom={2} animate={controls} initial="normal" />
         </svg>
       </div>
     );

@@ -61,6 +61,11 @@ const speedVariants: Variants = {
     },
   }),
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const ShoppingCart01Icon = forwardRef<ShoppingCart01IconHandle, ShoppingCart01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -123,6 +128,11 @@ const ShoppingCart01Icon = forwardRef<ShoppingCart01IconHandle, ShoppingCart01Ic
             animate={controls}
             initial="normal"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path
             d="M-2 9.5H0.8"
             stroke="currentColor"
@@ -143,6 +153,7 @@ const ShoppingCart01Icon = forwardRef<ShoppingCart01IconHandle, ShoppingCart01Ic
             animate={controls}
             initial="normal"
           />
+          </motion.g>
         </motion.svg>
       </div>
     );

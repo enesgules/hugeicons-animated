@@ -16,32 +16,21 @@ interface Shield02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the shield absorbs an impact and its center sends back a calm scan
+// the shield itself absorbs the impact and passes the force into its core
 const shieldVariants: Variants = {
-  normal: { scale: 1, translateY: 0, transition: { type: 'spring', duration: 0.5, bounce: 0 } },
+  normal: { transform: 'translateY(0px) scale(1)' },
   animate: {
-    scale: [1, 0.94, 1.055, 1],
-    translateY: [0, 0.7, -0.35, 0],
-    transition: { duration: 0.8, times: [0, 0.22, 0.6, 1], ease: 'easeOut' },
+    transform: ['translateY(0px) scale(1)', 'translateY(0.7px) scale(0.94)', 'translateY(-0.25px) scale(1.05)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.54, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const shieldCoreVariants: Variants = {
-  normal: { scale: 1, opacity: 1 },
+  normal: { transform: 'scale(1)' },
   animate: {
-    scale: [1, 0.65, 1.3, 1],
-    opacity: [1, 0.35, 0.8, 1],
-    transition: { duration: 0.75, ease: 'easeOut' },
+    transform: ['scale(1)', 'scale(0.72)', 'scale(1.2)', 'scale(1)'],
+    transition: { duration: 0.5, delay: 0.05, ease: [0.23, 1, 0.32, 1] },
   },
-};
-
-const shieldScanVariants: Variants = {
-  normal: { opacity: 0, scale: 0.4 },
-  animate: (i: number) => ({
-    opacity: [0, 0.55, 0],
-    scale: [0.4, 1.65 + i * 0.35],
-    transition: { duration: 0.75, delay: 0.16 + i * 0.08, ease: 'easeOut' },
-  }),
 };
 
 const Shield02Icon = forwardRef<Shield02IconHandle, Shield02IconProps>(
@@ -92,8 +81,6 @@ const Shield02Icon = forwardRef<Shield02IconHandle, Shield02IconProps>(
             initial="normal"
             style={{ transformOrigin: '12px 11px' }}
           />
-          <motion.circle cx="12" cy="11" r="3" stroke="currentColor" strokeWidth="0.9" variants={shieldScanVariants} custom={0} animate={controls} initial="normal" style={{ transformOrigin: '12px 11px' }} />
-          <motion.circle cx="12" cy="11" r="4.5" stroke="currentColor" strokeWidth="0.7" variants={shieldScanVariants} custom={1} animate={controls} initial="normal" style={{ transformOrigin: '12px 11px' }} />
         </svg>
       </div>
     );

@@ -35,6 +35,11 @@ const glintVariants: Variants = {
     transition: { duration: 0.45, delay: 0.18 + i * 0.16, ease: 'easeOut' },
   }),
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const SparklesIcon = forwardRef<SparklesIconHandle, SparklesIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -84,8 +89,14 @@ const SparklesIcon = forwardRef<SparklesIconHandle, SparklesIconProps>(
             initial="normal"
             style={{ transformOrigin: '7px 17px' }}
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path d="M5 4V2.4M4.2 3.2H5.8" stroke="currentColor" strokeLinecap="round" strokeWidth="1.1" variants={glintVariants} custom={0} animate={controls} initial="normal" style={{ transformOrigin: '5px 3.2px' }} />
           <motion.path d="M19.5 19.5V17.9M18.7 18.7H20.3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.1" variants={glintVariants} custom={1} animate={controls} initial="normal" style={{ transformOrigin: '19.5px 18.7px' }} />
+          </motion.g>
         </svg>
       </div>
     );

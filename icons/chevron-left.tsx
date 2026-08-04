@@ -17,10 +17,10 @@ interface ChevronLeftIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const chevronVariants: Variants = {
-  normal: { translateX: 0 },
+  normal: { transform: 'translateX(0px) scaleY(1)' },
   animate: {
-    translateX: [0, -1.75, 0.35, 0],
-    transition: { duration: 0.45, ease: 'easeOut' },
+    transform: ['translateX(0px) scaleY(1)', 'translateX(-2.4px) scaleY(0.9)', 'translateX(0.45px) scaleY(1.04)', 'translateX(-0.8px) scaleY(0.97)', 'translateX(0px) scaleY(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -54,6 +54,7 @@ const ChevronLeftIcon = forwardRef<ChevronLeftIconHandle, ChevronLeftIconProps>(
           variants={chevronVariants}
           animate={controls}
           initial="normal"
+          style={{ transformOrigin: '12px 12px' }}
         />
         </svg>
       </div>

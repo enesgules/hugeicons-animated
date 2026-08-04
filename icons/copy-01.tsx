@@ -16,23 +16,21 @@ interface Copy01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the front sheet stamps onto the back one — squashing slightly on contact
+// the front sheet stays anchored while the rear copy redraws behind it
 const frontVariants: Variants = {
-  normal: { translateX: 0, translateY: 0, scale: 1 },
+  normal: { transform: 'scale(1)' },
   animate: {
-    translateX: [0, -2.5, 0],
-    translateY: [0, -2.5, 0],
-    scale: [1, 0.96, 1],
-    transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.4, 1] },
+    transform: ['scale(1)', 'scale(0.975)', 'scale(1.01)', 'scale(1)'],
+    transition: { duration: 0.46, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const backVariants: Variants = {
-  normal: { translateX: 0, translateY: 0 },
+  normal: { pathLength: 1, opacity: 1 },
   animate: {
-    translateX: [0, 1, 0],
-    translateY: [0, 1, 0],
-    transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.4, 1] },
+    pathLength: [0.15, 1],
+    opacity: [0.35, 1],
+    transition: { duration: 0.48, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
   },
 };
 

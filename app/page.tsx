@@ -14,6 +14,7 @@ import { GITHUB_URL } from '@/lib/site';
 import { Cancel01Icon } from '@/icons/cancel-01';
 import { Copy01Icon } from '@/icons/copy-01';
 import { FavouriteIcon } from '@/icons/favourite';
+import { GithubIcon } from '@/icons/github';
 import { Notification03Icon } from '@/icons/notification-03';
 import { Search01Icon } from '@/icons/search-01';
 import { Tick02Icon } from '@/icons/tick-02';
@@ -40,6 +41,8 @@ const textLink =
   'rounded-sm text-[#141812] no-underline decoration-[#79BD3E] decoration-2 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]';
 
 const DEFAULT_HERO_ICON = 'notification-03';
+const SPECIMEN_REPLAY_DELAY = 1100;
+const MOVE_STAGGER_DELAY = 45;
 
 type HeroSpecimenPlacement = {
   iconIndex: number;
@@ -165,14 +168,6 @@ function RollingIconName({
   );
 }
 
-function GitHubMark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden className={className} fill="currentColor">
-      <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.55v-2.11c-3.2.69-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.38 2.9-.39.98.01 1.97.13 2.9.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.66.41.36.78 1.05.78 2.13v3.16c0 .31.21.66.8.55A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
-    </svg>
-  );
-}
-
 export default function Home() {
   const [copied, setCopied] = useState<string | null>(null);
   const [copiedCommandName, setCopiedCommandName] = useState<string | null>(null);
@@ -182,6 +177,7 @@ export default function Home() {
   const refs = useRef<(IconHandle | null)[]>([]);
   const copyIconRef = useRef<IconHandle | null>(null);
   const favouriteIconRef = useRef<IconHandle | null>(null);
+  const githubIconRef = useRef<IconHandle | null>(null);
   const heroIconRefs = useRef<(IconHandle | null)[]>([]);
   const heroFieldRef = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
@@ -189,6 +185,10 @@ export default function Home() {
   const searchCancelIconRef = useRef<IconHandle | null>(null);
   const searchIconRef = useRef<IconHandle | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const specimenReplayTimersRef = useRef<
+    Array<ReturnType<typeof setTimeout> | undefined>
+  >([]);
+  const moveTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   const tickIconRef = useRef<IconHandle | null>(null);
   const reduced = useReducedMotion();
@@ -231,6 +231,14 @@ export default function Home() {
     return () => io.disconnect();
   }, []);
 
+  useEffect(
+    () => () => {
+      specimenReplayTimersRef.current.forEach((timer) => clearTimeout(timer));
+      moveTimersRef.current.forEach(clearTimeout);
+    },
+    []
+  );
+
   const copy = (name: string, id: string) => {
     navigator.clipboard.writeText(installCommand(name));
     setCopied(id);
@@ -255,7 +263,8 @@ export default function Home() {
   const previewSpecimen = (
     specimenIndex: number,
     name: string,
-    specimen: HTMLButtonElement
+    specimen: HTMLButtonElement,
+    replay: boolean
   ) => {
     setHeroIconName(name);
     const hero = heroRef.current;
@@ -268,10 +277,28 @@ export default function Home() {
     hero.style.setProperty('--hero-spot-x', `${spotX}px`);
     hero.style.setProperty('--hero-spot-y', `${spotY}px`);
     hero.dataset.specimenActive = 'true';
-    if (!reduced) heroIconRefs.current[specimenIndex]?.startAnimation();
+    if (reduced) return;
+
+    if (replay) {
+      clearTimeout(specimenReplayTimersRef.current[specimenIndex]);
+    }
+
+    const play = () => {
+      heroIconRefs.current[specimenIndex]?.startAnimation();
+      if (replay) {
+        specimenReplayTimersRef.current[specimenIndex] = setTimeout(
+          play,
+          SPECIMEN_REPLAY_DELAY
+        );
+      }
+    };
+
+    play();
   };
 
   const stopSpecimenPreview = (specimenIndex: number) => {
+    clearTimeout(specimenReplayTimersRef.current[specimenIndex]);
+    specimenReplayTimersRef.current[specimenIndex] = undefined;
     if (heroRef.current) heroRef.current.dataset.specimenActive = 'false';
     heroIconRefs.current[specimenIndex]?.stopAnimation();
   };
@@ -292,11 +319,17 @@ export default function Home() {
     if (heroRef.current) {
       heroRef.current.dataset.moveActive = active ? 'true' : 'false';
     }
+    moveTimersRef.current.forEach(clearTimeout);
+    moveTimersRef.current = [];
     if (reduced) return;
-    heroIconRefs.current.forEach((handle) => {
-      if (active) handle?.startAnimation();
-      else handle?.stopAnimation();
-    });
+    if (!active) {
+      heroIconRefs.current.forEach((handle) => handle?.stopAnimation());
+      return;
+    }
+
+    moveTimersRef.current = heroIconRefs.current.map((handle, index) =>
+      setTimeout(() => handle?.startAnimation(), index * MOVE_STAGGER_DELAY)
+    );
   };
 
   return (
@@ -342,6 +375,7 @@ export default function Home() {
                 <Notification03Icon
                   size={17}
                   aria-hidden
+                  className="[&_path]:[stroke-width:1.8]"
                   ref={(h: IconHandle | null) => {
                     logoRef.current = h;
                   }}
@@ -357,9 +391,24 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="View hugeicons-animated on GitHub"
+              onPointerEnter={() => {
+                if (!reduced) githubIconRef.current?.startAnimation();
+              }}
+              onPointerLeave={() => stopCommandIcon(githubIconRef.current)}
+              onFocus={() => {
+                if (!reduced) githubIconRef.current?.startAnimation();
+              }}
+              onBlur={() => stopCommandIcon(githubIconRef.current)}
               className="flex size-10 items-center justify-center gap-2 rounded-lg bg-white text-sm font-bold text-[#141812] shadow-[0_0_0_1px_rgba(20,24,18,0.1),0_1px_2px_rgba(20,24,18,0.08)] transition-[background-color,box-shadow,scale] duration-150 hover:bg-[#F7F7F5] hover:shadow-[0_0_0_1px_rgba(20,24,18,0.14),0_2px_4px_rgba(20,24,18,0.08)] active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22] sm:w-auto sm:px-3.5"
             >
-              <GitHubMark className="size-4" />
+              <GithubIcon
+                size={18}
+                aria-hidden
+                className="pointer-events-none shrink-0 [&_path]:[stroke-width:1.65]"
+                ref={(handle: IconHandle | null) => {
+                  githubIconRef.current = handle;
+                }}
+              />
               <span className="hidden sm:inline">GitHub</span>
             </a>
           </nav>
@@ -411,14 +460,29 @@ export default function Home() {
                       style={specimenStyle}
                       key={name}
                       onClick={(event) =>
-                        previewSpecimen(specimenIndex, name, event.currentTarget)
+                        previewSpecimen(
+                          specimenIndex,
+                          name,
+                          event.currentTarget,
+                          false
+                        )
                       }
                       onPointerEnter={(event) =>
-                        previewSpecimen(specimenIndex, name, event.currentTarget)
+                        previewSpecimen(
+                          specimenIndex,
+                          name,
+                          event.currentTarget,
+                          true
+                        )
                       }
                       onPointerLeave={() => stopSpecimenPreview(specimenIndex)}
                       onFocus={(event) =>
-                        previewSpecimen(specimenIndex, name, event.currentTarget)
+                        previewSpecimen(
+                          specimenIndex,
+                          name,
+                          event.currentTarget,
+                          true
+                        )
                       }
                       onBlur={() => stopSpecimenPreview(specimenIndex)}
                     >
@@ -662,7 +726,7 @@ export default function Home() {
                       onPointerLeave={() => refs.current[idx]?.stopAnimation()}
                       onFocus={() => refs.current[idx]?.startAnimation()}
                       onBlur={() => refs.current[idx]?.stopAnimation()}
-                      className="tile-enter group relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border transition-[transform,background-color,border-color] duration-200 [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+                      className="tile-enter group relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border transition-[background-color,border-color,box-shadow] duration-200 [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:shadow-[0_8px_24px_rgba(20,24,18,0.08)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
                       style={{
                         backgroundColor: isCopied ? COPIED_TINT.bg : '#F5F5F4',
                         borderColor: isCopied

@@ -118,6 +118,44 @@
       ]
     },
     {
+      "name": "arrow-down-left-01",
+      "type": "registry:ui",
+      "title": "arrow-down-left-01",
+      "description": "Animated arrow down left icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-down-left-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "arrow-down-right-01",
+      "type": "registry:ui",
+      "title": "arrow-down-right-01",
+      "description": "Animated arrow down right icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-down-right-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "arrow-left-02",
       "type": "registry:ui",
       "title": "arrow-left-02",
@@ -166,6 +204,25 @@
       "files": [
         {
           "path": "icons/arrow-up-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "arrow-up-left-01",
+      "type": "registry:ui",
+      "title": "arrow-up-left-01",
+      "description": "Animated arrow up left icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-up-left-01.tsx",
           "type": "registry:ui"
         },
         {

@@ -39,6 +39,11 @@ const lightVariants: Variants = {
     transition: { duration: 0.6, ease: 'easeInOut', repeat: Infinity },
   },
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const PrinterIcon = forwardRef<PrinterIconHandle, PrinterIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -100,6 +105,13 @@ const PrinterIcon = forwardRef<PrinterIconHandle, PrinterIconProps>(
             animate={controls}
             initial="normal"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+          <path d="M7 14H17" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5" />
+          </motion.g>
         </svg>
       </div>
     );

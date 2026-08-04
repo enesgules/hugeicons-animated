@@ -16,8 +16,7 @@ interface Target01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the dart pulls back along its own line, strikes home, and the rings
-// flinch outward from the impact — a drawn shockwave carries it
+// the dart strikes and the inner target ring expands into the next ring
 const dartVariants: Variants = {
   normal: { translateX: 0, translateY: 0, transition: { duration: 0.3 } },
   animate: {
@@ -32,20 +31,13 @@ const dartVariants: Variants = {
 };
 
 const ringVariants: Variants = {
-  normal: { scale: 1, transition: { duration: 0.3 } },
+  normal: { transform: 'scale(1)' },
   animate: (i: number) => ({
-    scale: [1, 1, i === 0 ? 1.05 : 1.1, 1],
-    transition: { duration: 1, times: [0, 0.58, 0.72, 0.95], ease: 'easeOut' },
+    transform: i === 0
+      ? ['scale(1)', 'scale(1)', 'scale(1.06)', 'scale(1)']
+      : ['scale(1)', 'scale(1)', 'scale(1.58)', 'scale(1)'],
+    transition: { duration: 0.86, times: [0, 0.58, 0.76, 1], ease: [0.23, 1, 0.32, 1] },
   }),
-};
-
-const shockVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.2 } },
-  animate: {
-    opacity: [0, 0, 0.7, 0],
-    scale: [0.5, 0.5, 1.6, 2.3],
-    transition: { duration: 1, times: [0, 0.56, 0.75, 1], ease: 'easeOut' },
-  },
 };
 
 const Target01Icon = forwardRef<Target01IconHandle, Target01IconProps>(
@@ -105,17 +97,6 @@ const Target01Icon = forwardRef<Target01IconHandle, Target01IconProps>(
             variants={dartVariants}
             animate={controls}
             initial="normal"
-          />
-          <motion.circle
-            cx="12"
-            cy="12"
-            r="2"
-            stroke="currentColor"
-            strokeWidth="1"
-            variants={shockVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
           />
         </svg>
       </div>

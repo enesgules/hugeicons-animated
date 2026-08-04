@@ -16,14 +16,13 @@ interface SleepingIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// deep sleep — the big Z drifts off and is reborn, a drawn little z
-// trails higher, and the mouth puffs with each snore
+// the Z marks drift farther from the face so they never crowd its outline
 const zVariants: Variants = {
   normal: { opacity: 1, translateX: 0, translateY: 0, transition: { duration: 0.3 } },
   animate: {
     opacity: [1, 1, 0, 0, 1],
-    translateY: [0, -2, -3.2, 0, 0],
-    translateX: [0, 0.8, 1.4, 0, 0],
+    translateY: [0, -3.2, -4.8, 0, 0],
+    translateX: [0, 1.6, 2.6, 0, 0],
     transition: {
       duration: 2,
       ease: 'easeInOut',
@@ -37,8 +36,8 @@ const littleZVariants: Variants = {
   normal: { opacity: 0, transition: { duration: 0.15 } },
   animate: {
     opacity: [0, 1, 0],
-    translateY: [1.5, -2.5],
-    translateX: [0, 1],
+    translateY: [0, -4],
+    translateX: [1, 3],
     transition: { duration: 2, ease: 'easeInOut', repeat: Infinity, delay: 0.6 },
   },
 };
@@ -50,6 +49,11 @@ const snoreVariants: Variants = {
     transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
   },
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const SleepingIcon = forwardRef<SleepingIconHandle, SleepingIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -114,8 +118,13 @@ const SleepingIcon = forwardRef<SleepingIconHandle, SleepingIconProps>(
             animate={controls}
             initial="normal"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path
-            d="M13 0.5H15.2L13 2.7H15.2"
+            d="M16 -0.5H18.2L16 1.7H18.2"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -124,6 +133,7 @@ const SleepingIcon = forwardRef<SleepingIconHandle, SleepingIconProps>(
             animate={controls}
             initial="normal"
           />
+          </motion.g>
         </svg>
       </div>
     );

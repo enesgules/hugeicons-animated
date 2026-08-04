@@ -16,16 +16,27 @@ interface Clock01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a mechanical sweep: the hands tick around the dial, each jump overshooting
-// its stop like a real escapement
+// the hour hand stays planted while only the minute hand advances
+const CLOCK_REST = 'M12 8V12L14 14';
+
 const handsVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0 } },
+  normal: { d: CLOCK_REST },
   animate: {
-    rotate: [0, 97, 90, 187, 180, 277, 270, 360],
+    d: [
+      CLOCK_REST,
+      'M12 8V12L12 14.828',
+      'M12 8V12L10 14',
+      'M12 8V12L9.172 12',
+      'M12 8V12L10 10',
+      'M12 8V12L12 9.172',
+      'M12 8V12L14 10',
+      'M12 8V12L14.828 12',
+      CLOCK_REST,
+    ],
     transition: {
-      duration: 1.5,
-      ease: 'easeInOut',
-      times: [0, 0.13, 0.2, 0.38, 0.45, 0.63, 0.7, 1],
+      duration: 0.92,
+      ease: 'linear',
+      times: [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1],
     },
   },
 };
@@ -72,7 +83,6 @@ const Clock01Icon = forwardRef<Clock01IconHandle, Clock01IconProps>(
             variants={handsVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
           />
         </svg>
       </div>

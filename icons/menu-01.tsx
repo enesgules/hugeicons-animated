@@ -16,53 +16,18 @@ interface Menu01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// three shared strokes make the state change legible: the outer bars become
-// the X while the unused middle bar collapses to an invisible center line
-const topLineVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg)' },
-  animate: {
+// the three rows reflow like a menu being scanned, without turning into another icon
+const menuLineVariants: Variants = {
+  normal: { transform: 'translateX(0px) scaleX(1)' },
+  animate: (i: number) => ({
     transform: [
-      'translateY(0px) rotate(0deg)',
-      'translateY(7px) rotate(45deg)',
-      'translateY(7px) rotate(45deg)',
-      'translateY(0px) rotate(0deg)',
+      'translateX(0px) scaleX(1)',
+      i === 1 ? 'translateX(-0.9px) scaleX(1.08)' : 'translateX(0.9px) scaleX(0.9)',
+      i === 1 ? 'translateX(0.25px) scaleX(0.98)' : 'translateX(-0.2px) scaleX(1.025)',
+      'translateX(0px) scaleX(1)',
     ],
-    transition: {
-      duration: 0.72,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.36, 0.64, 1],
-    },
-  },
-};
-
-const bottomLineVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg)' },
-  animate: {
-    transform: [
-      'translateY(0px) rotate(0deg)',
-      'translateY(-7px) rotate(-45deg)',
-      'translateY(-7px) rotate(-45deg)',
-      'translateY(0px) rotate(0deg)',
-    ],
-    transition: {
-      duration: 0.72,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.36, 0.64, 1],
-    },
-  },
-};
-
-const midLineVariants: Variants = {
-  normal: { opacity: 1, transform: 'scaleX(1)' },
-  animate: {
-    opacity: [1, 0, 0, 1],
-    transform: ['scaleX(1)', 'scaleX(0.001)', 'scaleX(0.001)', 'scaleX(1)'],
-    transition: {
-      duration: 0.72,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.3, 0.7, 1],
-    },
-  },
+    transition: { duration: 0.46, delay: i * 0.055, ease: [0.23, 1, 0.32, 1] },
+  }),
 };
 
 const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
@@ -97,10 +62,11 @@ const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={topLineVariants}
+            variants={menuLineVariants}
+            custom={0}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '12px 5px' }}
+            style={{ transformOrigin: '12px 5px' }}
           />
           <motion.path
             d="M4 12L20 12"
@@ -108,10 +74,11 @@ const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={midLineVariants}
+            variants={menuLineVariants}
+            custom={1}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
+            style={{ transformOrigin: '12px 12px' }}
           />
           <motion.path
             d="M4 19L20 19"
@@ -119,10 +86,11 @@ const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={bottomLineVariants}
+            variants={menuLineVariants}
+            custom={2}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '12px 19px' }}
+            style={{ transformOrigin: '12px 19px' }}
           />
         </svg>
       </div>

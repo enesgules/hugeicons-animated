@@ -16,56 +16,21 @@ interface FlashIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, the storm keeps striking. The strike fires the moment
-// you enter — instant response — and the bolt only re-draws during the dark
-// beat, where the cut is invisible. One shared 1.9s timeline keeps every
-// element in sync.
+// the bolt stores tension, discharges through its own outline, and settles
 const svgVariants: Variants = {
-  normal: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.3, ease: 'easeOut' },
-  },
+  normal: { transform: 'translateY(0px) scale(1)' },
   animate: {
-    //        strike──flash──strike──hold      dark      redraw    settle
-    opacity: [1, 0.25, 1, 0.2, 1, 1, 0.3, 0.3, 1],
-    scale: [1, 1.1, 1.02, 1.08, 1, 1, 0.97, 0.97, 1],
-    transition: {
-      duration: 1.9,
-      ease: 'easeOut',
-      times: [0, 0.05, 0.12, 0.18, 0.26, 0.55, 0.66, 0.78, 0.92],
-      repeat: Infinity,
-    },
+    transform: ['translateY(0px) scale(1)', 'translateY(-0.8px) scale(0.94)', 'translateY(0.45px) scale(1.12)', 'translateY(-0.12px) scale(0.99)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
-// drawn through the strike; vanishes and re-draws inside the dark beat
 const boltVariants: Variants = {
-  normal: { pathLength: 1, transition: { duration: 0.2 } },
+  normal: { pathLength: 1 },
   animate: {
-    pathLength: [1, 1, 0, 0, 1, 1],
-    transition: {
-      duration: 1.9,
-      times: [0, 0.64, 0.66, 0.7, 0.85, 1],
-      ease: 'easeOut',
-      repeat: Infinity,
-    },
+    pathLength: [0.2, 1, 1],
+    transition: { duration: 0.45, ease: [0.23, 1, 0.32, 1] },
   },
-};
-
-// sparks pop off the tip at the moment of impact, then vanish
-const sparkVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.15 } },
-  animate: (i: number) => ({
-    opacity: [0, 1, 0.8, 0, 0],
-    transition: {
-      duration: 1.9,
-      times: [0, 0.06, 0.14, 0.24, 1],
-      ease: 'easeOut',
-      repeat: Infinity,
-      delay: i * 0.04,
-    },
-  }),
 };
 
 const FlashIcon = forwardRef<FlashIconHandle, FlashIconProps>(
@@ -73,7 +38,7 @@ const FlashIcon = forwardRef<FlashIconHandle, FlashIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
-      loops: true,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -104,36 +69,6 @@ const FlashIcon = forwardRef<FlashIconHandle, FlashIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
             variants={boltVariants}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M7.6 20.4L6.2 21.6"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={sparkVariants}
-            custom={0}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M14.4 20.6L15.8 21.6"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={sparkVariants}
-            custom={1}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M11.4 23L11.1 24.2"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={sparkVariants}
-            custom={2}
             animate={controls}
             initial="normal"
           />

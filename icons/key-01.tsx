@@ -16,33 +16,17 @@ interface Key01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the key turns in an unseen lock, holds against the pins, and springs
-// back — drawn click ticks flash at the moment it gives
+// the bow, tooth, and keyhole move as one rigid key during insertion
 const keyVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0.3 } },
+  normal: { transform: 'translate(0px, 0px) rotate(0deg)' },
   animate: {
-    rotate: [0, -40, -40, 6, 0],
-    transition: {
-      duration: 0.9,
-      ease: 'easeInOut',
-      times: [0, 0.3, 0.5, 0.78, 1],
-    },
-  },
-};
-
-const glintVariants: Variants = {
-  normal: { opacity: 1, transition: { duration: 0.3 } },
-  animate: {
-    opacity: [1, 0.2, 0.2, 1],
-    transition: { duration: 0.9, times: [0, 0.3, 0.6, 0.85] },
-  },
-};
-
-const clickVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.15 } },
-  animate: {
-    opacity: [0, 0, 1, 0],
-    transition: { duration: 0.9, times: [0, 0.5, 0.62, 0.85], ease: 'easeOut' },
+    transform: [
+      'translate(0px, 0px) rotate(0deg)',
+      'translate(1.2px, -1.2px) rotate(-8deg)',
+      'translate(-0.35px, 0.35px) rotate(3deg)',
+      'translate(0px, 0px) rotate(0deg)',
+    ],
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -64,54 +48,33 @@ const Key01Icon = forwardRef<Key01IconHandle, Key01IconProps>(
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <svg
+        <motion.svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
           viewBox="0 0 24 24"
           fill="none"
           overflow="visible"
+          variants={keyVariants}
+          animate={controls}
+          initial="normal"
+          style={{ transformOrigin: '15.5px 8.5px' }}
         >
-          <motion.path
+          <path
             d="M15.5 14.5C18.8137 14.5 21.5 11.8137 21.5 8.5C21.5 5.18629 18.8137 2.5 15.5 2.5C12.1863 2.5 9.5 5.18629 9.5 8.5C9.5 9.38041 9.68962 10.2165 10.0303 10.9697L2.5 18.5V21.5H5.5V19.5H7.5V17.5H9.5L13.0303 13.9697C13.7835 14.3104 14.6196 14.5 15.5 14.5Z"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={keyVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '6px 19.5px' }}
           />
-          <motion.path
+          <path
             d="M17.5 6.5L16.5 7.5"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={glintVariants}
-            animate={controls}
-            initial="normal"
           />
-          <motion.path
-            d="M22.6 4.6L23.6 3.6"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={clickVariants}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M23.2 8.5H24.6"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={clickVariants}
-            animate={controls}
-            initial="normal"
-          />
-        </svg>
+        </motion.svg>
       </div>
     );
   }

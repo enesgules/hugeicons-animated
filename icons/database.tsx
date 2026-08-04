@@ -16,30 +16,21 @@ interface DatabaseIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a write travels through the stack from the top platter to the bottom
+// a write compresses each platter in order, travelling down the stack
 const platterVariants: Variants = {
-  normal: { translateY: 0, opacity: 1 },
+  normal: { transform: 'scaleX(1)', pathLength: 1 },
   animate: (i: number) => ({
-    translateY: [0, i % 2 === 0 ? 0.7 : -0.45, 0],
-    opacity: [1, 0.45, 1],
-    transition: { duration: 0.65, delay: i * 0.09, ease: 'easeInOut' },
+    transform: ['scaleX(1)', 'scaleX(0.72)', 'scaleX(1.08)', 'scaleX(1)'],
+    pathLength: [1, 0.35, 1, 1],
+    transition: { duration: 0.42, delay: i * 0.1, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 
 const databaseShellVariants: Variants = {
-  normal: { scaleY: 1, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
+  normal: { transform: 'scaleY(1)' },
   animate: {
-    scaleY: [1, 0.96, 1.02, 1],
-    transition: { duration: 0.8, ease: 'easeOut' },
-  },
-};
-
-const dataDotVariants: Variants = {
-  normal: { opacity: 0, translateY: -4 },
-  animate: {
-    opacity: [0, 1, 1, 0],
-    translateY: [-4, 0, 4],
-    transition: { duration: 0.8, ease: 'easeInOut' },
+    transform: ['scaleY(1)', 'scaleY(0.96)', 'scaleY(1.025)', 'scaleY(1)'],
+    transition: { duration: 0.62, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -119,7 +110,6 @@ const DatabaseIcon = forwardRef<DatabaseIconHandle, DatabaseIconProps>(
             initial="normal"
             style={{ transformOrigin: '12px 13px' }}
           />
-          <motion.circle cx="12" cy="8.5" r="0.7" fill="currentColor" variants={dataDotVariants} animate={controls} initial="normal" />
         </svg>
       </div>
     );

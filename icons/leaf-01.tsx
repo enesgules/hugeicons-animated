@@ -39,6 +39,11 @@ const windVariants: Variants = {
     },
   }),
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const Leaf01Icon = forwardRef<Leaf01IconHandle, Leaf01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -83,6 +88,11 @@ const Leaf01Icon = forwardRef<Leaf01IconHandle, Leaf01IconProps>(
             strokeLinecap="round"
             strokeWidth="1.5"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path
             d="M2 3H6"
             stroke="currentColor"
@@ -103,6 +113,7 @@ const Leaf01Icon = forwardRef<Leaf01IconHandle, Leaf01IconProps>(
             animate={controls}
             initial="normal"
           />
+          </motion.g>
         </motion.svg>
       </div>
     );

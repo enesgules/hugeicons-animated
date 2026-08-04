@@ -16,23 +16,20 @@ interface Bookmark01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// tucked in — the ribbon dips past the binding line, which pinches as it
-// slides through, then the ribbon settles back proud
+// the ribbon catches at the binding and lands with a visible saved-state fold
 const svgVariants: Variants = {
-  normal: { translateY: 0, rotate: 0 },
+  normal: { transform: 'translateY(0px) scaleY(1)' },
   animate: {
-    translateY: [0, 2.2, -0.8, 0],
-    rotate: [0, 3, -1, 0],
-    transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.4, 0.72, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(2.4px) scaleY(0.9)', 'translateY(-0.8px) scaleY(1.05)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const foldVariants: Variants = {
-  normal: { scaleX: 1, translateY: 0 },
+  normal: { transform: 'translateY(0px)' },
   animate: {
-    scaleX: [1, 0.82, 1],
-    translateY: [0, 0.8, 0],
-    transition: { duration: 0.5, ease: 'easeInOut', times: [0, 0.5, 1], delay: 0.12 },
+    transform: ['translateY(0px)', 'translateY(1.4px)', 'translateY(-0.2px)', 'translateY(0px)'],
+    transition: { duration: 0.48, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
   },
 };
 

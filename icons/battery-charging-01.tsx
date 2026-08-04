@@ -16,37 +16,93 @@ interface BatteryCharging01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, it's plugged in — the bolt pulses with each surge and
-// drawn charge sparks float up off the terminal
-const boltVariants: Variants = {
-  normal: { scale: 1, opacity: 1, transition: { duration: 0.3 } },
-  animate: {
-    scale: [1, 1.2, 1],
-    opacity: [1, 0.55, 1],
-    transition: { duration: 0.9, ease: 'easeInOut', repeat: Infinity },
-  },
-};
+// five cells build to a shared full-charge surge, then hand the energy back to the bolt
+type ChargeCell = { start: number; done: number };
 
-const sparkVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.15 } },
-  animate: (i: number) => ({
-    opacity: [0, 1, 0],
-    translateY: [1.5, -2.5],
+const chargeCellVariants: Variants = {
+  normal: { opacity: 0, transform: 'scaleY(0.08)' },
+  animate: ({ start, done }: ChargeCell) => ({
+    opacity: [0, 0, 1, 1, 1, 1, 0, 0],
+    transform: [
+      'scaleY(0.08)',
+      'scaleY(0.08)',
+      'scaleY(1)',
+      'scaleY(1)',
+      'scaleY(1.18)',
+      'scaleY(0.94)',
+      'scaleY(0.12)',
+      'scaleY(0.12)',
+    ],
     transition: {
-      duration: 1.1,
-      ease: 'easeOut',
-      repeat: Infinity,
-      delay: i * 0.45,
+      duration: 1.18,
+      ease: [0.23, 1, 0.32, 1],
+      times: [0, start, done, 0.64, 0.7, 0.76, 0.86, 1],
     },
   }),
 };
+
+const chargedBatteryVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: {
+    transform: [
+      'scale(1)',
+      'scale(1)',
+      'scale(1.055)',
+      'scale(0.985)',
+      'scale(1)',
+      'scale(1)',
+    ],
+    transition: {
+      duration: 1.18,
+      ease: [0.23, 1, 0.32, 1],
+      times: [0, 0.64, 0.7, 0.77, 0.86, 1],
+    },
+  },
+};
+
+const chargeBoltVariants: Variants = {
+  normal: { opacity: 1, transform: 'scale(1)', filter: 'blur(0px)' },
+  animate: {
+    opacity: [1, 1, 0, 0, 0, 0, 1, 1],
+    transform: [
+      'scale(1)',
+      'scale(1)',
+      'scale(1)',
+      'scale(0.25)',
+      'scale(0.25)',
+      'scale(0.25)',
+      'scale(1.14)',
+      'scale(1)',
+    ],
+    filter: [
+      'blur(0px)',
+      'blur(0px)',
+      'blur(4px)',
+      'blur(4px)',
+      'blur(4px)',
+      'blur(4px)',
+      'blur(0px)',
+      'blur(0px)',
+    ],
+    transition: {
+      duration: 1.18,
+      ease: [0.23, 1, 0.32, 1],
+      times: [0, 0.03, 0.15, 0.64, 0.76, 0.82, 0.93, 1],
+    },
+  },
+};
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCharging01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
-      loops: true,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -59,14 +115,79 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <svg
+        <motion.svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
           viewBox="0 0 24 24"
           fill="none"
           overflow="visible"
+          variants={chargedBatteryVariants}
+          animate={controls}
+          initial="normal"
+          style={{ transformOrigin: '11px 12px' }}
         >
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+          <motion.path
+            d="M4 15V9"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2.2"
+            variants={chargeCellVariants}
+            custom={{ start: 0.05, done: 0.28 }}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '4px 15px' }}
+          />
+          <motion.path
+            d="M7.1 15V9"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2.2"
+            variants={chargeCellVariants}
+            custom={{ start: 0.14, done: 0.37 }}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '7.1px 15px' }}
+          />
+          <motion.path
+            d="M10.2 15V9"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2.2"
+            variants={chargeCellVariants}
+            custom={{ start: 0.23, done: 0.46 }}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '10.2px 15px' }}
+          />
+          <motion.path
+            d="M13.3 15V9"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2.2"
+            variants={chargeCellVariants}
+            custom={{ start: 0.32, done: 0.55 }}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '13.3px 15px' }}
+          />
+          <motion.path
+            d="M16.4 15V9"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeWidth="2.2"
+            variants={chargeCellVariants}
+            custom={{ start: 0.41, done: 0.64 }}
+            animate={controls}
+            initial="normal"
+            style={{ transformOrigin: '16.4px 15px' }}
+          />
+          </motion.g>
           <path
             d="M2 12C2 9.17157 2 7.75736 2.87868 6.87868C3.75736 6 5.17157 6 8 6H13C15.8284 6 17.2426 6 18.1213 6.87868C19 7.75736 19 9.17157 19 12C19 14.8284 19 16.2426 18.1213 17.1213C17.2426 18 15.8284 18 13 18H8C5.17157 18 3.75736 18 2.87868 17.1213C2 16.2426 2 14.8284 2 12Z"
             stroke="currentColor"
@@ -79,7 +200,7 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={boltVariants}
+            variants={chargeBoltVariants}
             animate={controls}
             initial="normal"
             style={{ transformOrigin: '10.2px 12px' }}
@@ -90,27 +211,7 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             strokeLinecap="round"
             strokeWidth="1.5"
           />
-          <motion.path
-            d="M23 7.5V9.5M22 8.5H24"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={sparkVariants}
-            custom={0}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M23.5 12.5V14.5M22.5 13.5H24.5"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={sparkVariants}
-            custom={1}
-            animate={controls}
-            initial="normal"
-          />
-        </svg>
+        </motion.svg>
       </div>
     );
   }

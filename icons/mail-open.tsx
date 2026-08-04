@@ -16,22 +16,32 @@ interface MailOpenIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the envelope dips as the letter springs up, pauses, and slips home
+// the letter rises behind the envelope lip so every crossing is naturally occluded
 const envelopeVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px) scaleY(1)', 'translateY(0.9px) scaleY(0.96)', 'translateY(-0.2px) scaleY(1.01)', 'translateY(0px) scaleY(1)'],
-    transition: { duration: 0.62, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(0.45px) scaleY(0.98)', 'translateY(-0.1px) scaleY(1.01)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const letterVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px)', 'translateY(-3.2px)', 'translateY(-3.2px)', 'translateY(0.45px)', 'translateY(0px)'],
-    transition: { duration: 0.68, ease: [0.77, 0, 0.175, 1], times: [0, 0.34, 0.54, 0.82, 1] },
+    transform: ['translateY(0px)', 'translateY(-2.1px)', 'translateY(-2.1px)', 'translateY(0.2px)', 'translateY(0px)'],
+    transition: { duration: 0.62, ease: [0.23, 1, 0.32, 1], times: [0, 0.34, 0.56, 0.84, 1] },
   },
 };
+
+const sourceLetterVariants: Variants = {
+  normal: { opacity: 1, transition: { duration: 0.08 } },
+  animate: { opacity: 0, transition: { duration: 0.08 } },
+};
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const MailOpenIcon = forwardRef<MailOpenIconHandle, MailOpenIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -59,6 +69,14 @@ const MailOpenIcon = forwardRef<MailOpenIconHandle, MailOpenIconProps>(
           fill="none"
           overflow="visible"
         >
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+          <motion.path d="M4.99998 12V6C4.99998 4.11438 4.99998 3.17157 5.58577 2.58579C6.17156 2 7.11437 2 8.99998 2H15C16.8856 2 17.8284 2 18.4142 2.58579C19 3.17157 19 4.11438 19 6V12" stroke="currentColor" strokeWidth="1.5" variants={letterVariants} animate={controls} initial="normal" />
+          <motion.path d="M10 10H14M10 6H14" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={letterVariants} animate={controls} initial="normal" />
+          </motion.g>
           <motion.path
             d="M5.00035 7L3.78154 7.81253C2.90783 8.39501 2.47097 8.68625 2.23422 9.13041C1.99747 9.57457 1.99923 10.0966 2.00273 11.1406C2.00696 12.3975 2.01864 13.6782 2.05099 14.9741C2.12773 18.0487 2.16611 19.586 3.29651 20.7164C4.42691 21.8469 5.98497 21.8858 9.10108 21.9637C11.0397 22.0121 12.9611 22.0121 14.8996 21.9637C18.0158 21.8858 19.5738 21.8469 20.7042 20.7164C21.8346 19.586 21.873 18.0487 21.9497 14.9741C21.9821 13.6782 21.9937 12.3975 21.998 11.1406C22.0015 10.0966 22.0032 9.57456 21.7665 9.13041C21.5297 8.68625 21.0929 8.39501 20.2191 7.81253L19.0003 7"
             stroke="currentColor"
@@ -83,10 +101,9 @@ const MailOpenIcon = forwardRef<MailOpenIconHandle, MailOpenIconProps>(
             d="M4.99998 12V6C4.99998 4.11438 4.99998 3.17157 5.58577 2.58579C6.17156 2 7.11437 2 8.99998 2H15C16.8856 2 17.8284 2 18.4142 2.58579C19 3.17157 19 4.11438 19 6V12"
             stroke="currentColor"
             strokeWidth="1.5"
-            variants={letterVariants}
+            variants={sourceLetterVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
           />
           <motion.path
             d="M10 10H14M10 6H14"
@@ -94,10 +111,9 @@ const MailOpenIcon = forwardRef<MailOpenIconHandle, MailOpenIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={letterVariants}
+            variants={sourceLetterVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 8px' }}
           />
         </svg>
       </div>

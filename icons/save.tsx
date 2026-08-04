@@ -16,32 +16,22 @@ interface SaveIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the disk presses into place, then a drawn check confirms the write
+// the disk presses into place while its own slots write in without crossing the shell
 const saveBodyVariants: Variants = {
-  normal: { scale: 1, translateY: 0, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
+  normal: { transform: 'translateY(0px) scale(1)' },
   animate: {
-    scale: [1, 0.97, 1.025, 1],
-    translateY: [0, 0.5, 0],
-    transition: { duration: 0.7, ease: 'easeOut' },
+    transform: ['translateY(0px) scale(1)', 'translateY(0.45px) scale(0.98)', 'translateY(-0.15px) scale(1.015)', 'translateY(0px) scale(1)'],
+    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const saveSlotVariants: Variants = {
-  normal: { translateY: 0 },
-  animate: {
-    translateY: [0, 1.2, 0],
-    transition: { duration: 0.55, ease: 'easeOut' },
-  },
-};
-
-const saveCheckVariants: Variants = {
-  normal: { opacity: 0, pathLength: 0, scale: 0.5 },
-  animate: {
-    opacity: [0, 0, 1],
-    pathLength: [0, 0, 1],
-    scale: [0.5, 0.5, 1],
-    transition: { duration: 0.75, times: [0, 0.48, 1], ease: 'easeOut' },
-  },
+  normal: { pathLength: 1, transform: 'scaleX(1)' },
+  animate: (i: number) => ({
+    pathLength: [0.25, 1],
+    transform: ['scaleX(0.82)', 'scaleX(1.035)', 'scaleX(1)'],
+    transition: { duration: 0.42, delay: 0.04 + i * 0.08, ease: [0.23, 1, 0.32, 1] },
+  }),
 };
 
 const SaveIcon = forwardRef<SaveIconHandle, SaveIconProps>(
@@ -88,8 +78,10 @@ const SaveIcon = forwardRef<SaveIconHandle, SaveIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
             variants={saveSlotVariants}
+            custom={0}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '12px 6px' }}
           />
           <motion.path
             d="M17 20.5V17C17 15.1144 17 14.1716 16.4142 13.5858C15.8284 13 14.8856 13 13 13H11C9.11438 13 8.17157 13 7.58579 13.5858C7 14.1716 7 15.1144 7 17V20.5"
@@ -98,10 +90,11 @@ const SaveIcon = forwardRef<SaveIconHandle, SaveIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
             variants={saveSlotVariants}
+            custom={1}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '12px 17px' }}
           />
-          <motion.path d="M9.4 16.8L11.1 18.3L14.8 15" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" variants={saveCheckVariants} animate={controls} initial="normal" style={{ transformOrigin: '12px 17px' }} />
         </motion.svg>
       </div>
     );

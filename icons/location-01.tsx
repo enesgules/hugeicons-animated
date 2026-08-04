@@ -38,6 +38,11 @@ const rippleVariants: Variants = {
     transition: { duration: 0.55, ease: 'easeOut', delay: 0.48 },
   },
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const Location01Icon = forwardRef<Location01IconHandle, Location01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -78,6 +83,11 @@ const Location01Icon = forwardRef<Location01IconHandle, Location01IconProps>(
             stroke="currentColor"
             strokeWidth="1.5"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.ellipse
             cx="12"
             cy="21.7"
@@ -90,6 +100,7 @@ const Location01Icon = forwardRef<Location01IconHandle, Location01IconProps>(
             initial="normal"
             style={{ transformOrigin: '12px 21.7px' }}
           />
+          </motion.g>
         </motion.svg>
       </div>
     );

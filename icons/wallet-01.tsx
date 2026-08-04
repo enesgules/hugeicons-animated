@@ -16,7 +16,7 @@ interface Wallet01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the wallet compresses while its clasp retracts into its hinge and clicks shut
+// a banknote rises through the opening while the wallet and clasp stay coherent
 const walletVariants: Variants = {
   normal: { transform: 'scaleX(1)' },
   animate: {
@@ -32,6 +32,19 @@ const claspVariants: Variants = {
     transition: { duration: 0.52, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
   },
 };
+
+const banknoteVariants: Variants = {
+  normal: { transform: 'translateY(0px)' },
+  animate: {
+    transform: ['translateY(0px)', 'translateY(-3.8px)', 'translateY(-3.8px)', 'translateY(0.25px)', 'translateY(0px)'],
+    transition: { duration: 0.68, ease: [0.23, 1, 0.32, 1], times: [0, 0.34, 0.56, 0.84, 1] },
+  },
+};
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const Wallet01Icon = forwardRef<Wallet01IconHandle, Wallet01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -59,6 +72,13 @@ const Wallet01Icon = forwardRef<Wallet01IconHandle, Wallet01IconProps>(
           fill="none"
           overflow="visible"
         >
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+          <motion.path d="M7.5 7V5.4C7.5 4.85 7.95 4.4 8.5 4.4H15.5C16.05 4.4 16.5 4.85 16.5 5.4V7M10.5 5.7H13.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" variants={banknoteVariants} animate={controls} initial="normal" />
+          </motion.g>
           <motion.path
             d="M14 3H5C3.89543 3 3 3.89543 3 5C3 6.10457 3.89543 7 5 7H18C18 6.07003 18 5.60504 17.8978 5.22354C17.6204 4.18827 16.8117 3.37962 15.7765 3.10222C15.395 3 14.93 3 14 3Z"
             stroke="currentColor"

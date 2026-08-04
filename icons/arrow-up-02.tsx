@@ -21,20 +21,20 @@ const shaftVariants: Variants = {
   animate: {
     d: [
       'M12 5.5V19',
-      'M12 5.5V14.5',
+      'M12 3.5V14.5',
       'M12 5.5V19',
-      'M12 5.5V16.5',
+      'M12 4.7V16.5',
       'M12 5.5V19',
     ],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
+    transition: { duration: 0.64, ease: [0.23, 1, 0.32, 1], times: [0, 0.3, 0.58, 0.78, 1] },
   },
 };
 
 const headVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { transform: 'translateY(0px)' },
   animate: {
-    translateY: [0, -4, 0, -1.8, 0],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
+    transform: ['translateY(0px)', 'translateY(-2px)', 'translateY(0px)', 'translateY(-0.8px)', 'translateY(0px)'],
+    transition: { duration: 0.64, ease: [0.23, 1, 0.32, 1], times: [0, 0.28, 0.58, 0.78, 1] },
   },
 };
 

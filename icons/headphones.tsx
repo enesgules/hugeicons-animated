@@ -16,7 +16,7 @@ interface HeadphonesIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a bass hit flexes the band and drives alternating ear-cup pulses
+// a bass hit stays inside the headphones: the band flexes and both cups answer
 const bandVariants: Variants = {
   normal: { scaleY: 1, translateY: 0, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
   animate: {
@@ -33,16 +33,6 @@ const cupVariants: Variants = {
     rotate: [0, direction * 3, 0, direction * -2, 0],
     transition: { duration: 0.85, ease: 'easeInOut' },
   }),
-};
-
-const musicNoteVariants: Variants = {
-  normal: { opacity: 0, translateY: 1, scale: 0.5 },
-  animate: {
-    opacity: [0, 0.8, 0],
-    translateY: [1, -3],
-    scale: [0.5, 1],
-    transition: { duration: 0.9, delay: 0.18, ease: 'easeOut' },
-  },
 };
 
 const HeadphonesIcon = forwardRef<HeadphonesIconHandle, HeadphonesIconProps>(
@@ -106,7 +96,6 @@ const HeadphonesIcon = forwardRef<HeadphonesIconHandle, HeadphonesIconProps>(
             initial="normal"
             style={{ transformOrigin: '17.5px 17.5px' }}
           />
-          <motion.path d="M21 11V7.8L23 7.2V10.2M21 10.2C20.1 10.2 19.7 10.6 19.7 11.1C19.7 11.6 20.1 12 20.7 12C21.3 12 21.7 11.6 21.7 11.1" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" variants={musicNoteVariants} animate={controls} initial="normal" />
         </svg>
       </div>
     );

@@ -21,20 +21,20 @@ const shaftVariants: Variants = {
   animate: {
     d: [
       'M5.5 12.002H19',
-      'M5.5 12.002H14.5',
+      'M3.5 12.002H14.5',
       'M5.5 12.002H19',
-      'M5.5 12.002H16.5',
+      'M4.7 12.002H16.5',
       'M5.5 12.002H19',
     ],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.28, 0.55, 0.75, 1], delay: 0.04 },
+    transition: { duration: 0.64, ease: [0.23, 1, 0.32, 1], times: [0, 0.3, 0.58, 0.78, 1] },
   },
 };
 
 const headVariants: Variants = {
-  normal: { translateX: 0 },
+  normal: { transform: 'translateX(0px)' },
   animate: {
-    translateX: [0, -4, 0, -1.8, 0],
-    transition: { duration: 0.8, ease: 'easeInOut', times: [0, 0.25, 0.55, 0.75, 1] },
+    transform: ['translateX(0px)', 'translateX(-2px)', 'translateX(0px)', 'translateX(-0.8px)', 'translateX(0px)'],
+    transition: { duration: 0.64, ease: [0.23, 1, 0.32, 1], times: [0, 0.28, 0.58, 0.78, 1] },
   },
 };
 

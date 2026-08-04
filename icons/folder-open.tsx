@@ -16,30 +16,59 @@ interface FolderOpenIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the folder rocks open and the top sheet rises into view
+// the front flap hinges toward the viewer, revealing the contents before closing
 const folderBackVariants: Variants = {
-  normal: { translateY: 0, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
+  normal: { transform: 'translateY(0px)', transition: { type: 'spring', duration: 0.45, bounce: 0 } },
   animate: {
-    translateY: [0, -0.7, 0],
-    transition: { duration: 0.65, ease: 'easeOut' },
+    transform: [
+      'translateY(0px)',
+      'translateY(-0.2px)',
+      'translateY(-0.55px)',
+      'translateY(-0.7px)',
+      'translateY(-0.55px)',
+      'translateY(-0.2px)',
+      'translateY(0px)',
+    ],
+    transition: { duration: 0.84, ease: [0.77, 0, 0.175, 1], times: [0, 0.14, 0.34, 0.5, 0.66, 0.86, 1] },
   },
 };
 
 const folderFlapVariants: Variants = {
-  normal: { rotate: 0, translateY: 0, transition: { type: 'spring', duration: 0.55, bounce: 0 } },
+  normal: {
+    originX: 0.5,
+    originY: 1,
+    transform: 'perspective(70px) translateY(0px) rotateX(0deg) scaleY(1)',
+    transition: { type: 'spring', duration: 0.55, bounce: 0 },
+  },
   animate: {
-    rotate: [0, -5, 2, 0],
-    translateY: [0, 1.2, 0.6, 0],
-    transition: { duration: 0.8, times: [0, 0.32, 0.68, 1], ease: 'easeInOut' },
+    originX: 0.5,
+    originY: 1,
+    transform: [
+      'perspective(70px) translateY(0px) rotateX(0deg) scaleY(1)',
+      'perspective(70px) translateY(0.25px) rotateX(-10deg) scaleY(0.99)',
+      'perspective(70px) translateY(0.9px) rotateX(-28deg) scaleY(0.94)',
+      'perspective(70px) translateY(1.25px) rotateX(-36deg) scaleY(0.9)',
+      'perspective(70px) translateY(0.9px) rotateX(-28deg) scaleY(0.94)',
+      'perspective(70px) translateY(0.25px) rotateX(-10deg) scaleY(0.99)',
+      'perspective(70px) translateY(0px) rotateX(0deg) scaleY(1)',
+    ],
+    transition: { duration: 0.84, ease: [0.77, 0, 0.175, 1], times: [0, 0.14, 0.34, 0.5, 0.66, 0.86, 1] },
   },
 };
 
 const paperRiseVariants: Variants = {
-  normal: { translateY: 0, opacity: 1 },
+  normal: { transform: 'translateY(0px)' },
   animate: {
-    translateY: [0, -2, -2, 0],
-    opacity: [1, 0.35, 1, 1],
-    transition: { duration: 0.8, times: [0, 0.35, 0.58, 1], ease: 'easeOut' },
+    transform: [
+      'translateY(0px)',
+      'translateY(-0.25px)',
+      'translateY(-0.9px)',
+      'translateY(-1.35px)',
+      'translateY(-0.9px)',
+      'translateY(-0.25px)',
+      'translateY(0px)',
+    ],
+    transition: { duration: 0.84, ease: [0.77, 0, 0.175, 1], times: [0, 0.14, 0.34, 0.5, 0.66, 0.86, 1] },
   },
 };
 
@@ -86,7 +115,7 @@ const FolderOpenIcon = forwardRef<FolderOpenIconHandle, FolderOpenIconProps>(
             variants={folderFlapVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 20px' }}
+            style={{ transformBox: 'fill-box', transformStyle: 'preserve-3d' }}
           />
           <motion.path
             d="M11.5 4.51456C12.4151 3.28409 13.6662 2.55594 15.5125 2.50161C16.1155 2.48386 16.7152 2.61395 17.2682 2.85544C18.5748 3.42601 19.4185 4.15644 20 5.5L21.5 3"

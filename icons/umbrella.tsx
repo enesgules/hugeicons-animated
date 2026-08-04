@@ -16,8 +16,7 @@ interface UmbrellaIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, it rains. Drawn drops fall from above and die on the
-// canopy; the umbrella sways gently under them.
+// drops reach the canopy and make a small connected splash at contact
 const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
@@ -30,7 +29,7 @@ const dropVariants: Variants = {
   normal: { opacity: 0, transition: { duration: 0.15 } },
   animate: (i: number) => ({
     opacity: [0, 1, 1, 0],
-    translateY: [0, 3, 6.5, 8.5],
+    translateY: [0, 5, 10.5, 14],
     transition: {
       duration: 0.9,
       ease: 'easeIn',
@@ -40,6 +39,20 @@ const dropVariants: Variants = {
     },
   }),
 };
+
+const impactVariants: Variants = {
+  normal: { opacity: 0, transform: 'scale(0.3)' },
+  animate: (i: number) => ({
+    opacity: [0, 0, 0.9, 0],
+    transform: ['scale(0.3)', 'scale(0.3)', 'scale(1)', 'scale(1.25)'],
+    transition: { duration: 0.9, delay: i * 0.3, times: [0, 0.78, 0.88, 1], ease: [0.23, 1, 0.32, 1], repeat: Infinity },
+  }),
+};
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const UmbrellaIcon = forwardRef<UmbrellaIconHandle, UmbrellaIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -92,6 +105,11 @@ const UmbrellaIcon = forwardRef<UmbrellaIconHandle, UmbrellaIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path
             d="M5.5 -2.5V-0.5"
             stroke="currentColor"
@@ -122,6 +140,10 @@ const UmbrellaIcon = forwardRef<UmbrellaIconHandle, UmbrellaIconProps>(
             animate={controls}
             initial="normal"
           />
+          <motion.path d="M4.5 11.7L5.5 10.9L6.5 11.7" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" variants={impactVariants} custom={0} animate={controls} initial="normal" style={{ transformOrigin: '5.5px 11.5px' }} />
+          <motion.path d="M11 12.8L12 12L13 12.8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" variants={impactVariants} custom={1} animate={controls} initial="normal" style={{ transformOrigin: '12px 12.5px' }} />
+          <motion.path d="M17.5 11.7L18.5 10.9L19.5 11.7" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" variants={impactVariants} custom={2} animate={controls} initial="normal" style={{ transformOrigin: '18.5px 11.5px' }} />
+          </motion.g>
         </motion.svg>
       </div>
     );

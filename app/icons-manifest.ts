@@ -5,9 +5,12 @@ import { AlarmClockIcon } from '@/icons/alarm-clock';
 import { AlertCircleIcon } from '@/icons/alert-circle';
 import { Archive02Icon } from '@/icons/archive-02';
 import { ArrowDown02Icon } from '@/icons/arrow-down-02';
+import { ArrowDownLeft01Icon } from '@/icons/arrow-down-left-01';
+import { ArrowDownRight01Icon } from '@/icons/arrow-down-right-01';
 import { ArrowLeft02Icon } from '@/icons/arrow-left-02';
 import { ArrowRight02Icon } from '@/icons/arrow-right-02';
 import { ArrowUp02Icon } from '@/icons/arrow-up-02';
+import { ArrowUpLeft01Icon } from '@/icons/arrow-up-left-01';
 import { ArrowUpRight01Icon } from '@/icons/arrow-up-right-01';
 import { AttachmentIcon } from '@/icons/attachment';
 import { BatteryCharging01Icon } from '@/icons/battery-charging-01';
@@ -167,9 +170,12 @@ export const ICON_LIST = [
   { name: 'alert-circle', Icon: AlertCircleIcon },
   { name: 'archive-02', Icon: Archive02Icon },
   { name: 'arrow-down-02', Icon: ArrowDown02Icon },
+  { name: 'arrow-down-left-01', Icon: ArrowDownLeft01Icon },
+  { name: 'arrow-down-right-01', Icon: ArrowDownRight01Icon },
   { name: 'arrow-left-02', Icon: ArrowLeft02Icon },
   { name: 'arrow-right-02', Icon: ArrowRight02Icon },
   { name: 'arrow-up-02', Icon: ArrowUp02Icon },
+  { name: 'arrow-up-left-01', Icon: ArrowUpLeft01Icon },
   { name: 'arrow-up-right-01', Icon: ArrowUpRight01Icon },
   { name: 'attachment', Icon: AttachmentIcon },
   { name: 'battery-charging-01', Icon: BatteryCharging01Icon },

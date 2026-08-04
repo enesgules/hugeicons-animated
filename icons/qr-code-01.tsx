@@ -42,6 +42,11 @@ const scannerVariants: Variants = {
     transition: { duration: 1, times: [0, 0.12, 0.88, 1], ease: 'easeInOut' },
   },
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const QrCode01Icon = forwardRef<QrCode01IconHandle, QrCode01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -137,7 +142,13 @@ const QrCode01Icon = forwardRef<QrCode01IconHandle, QrCode01IconProps>(
             initial="normal"
             style={{ transformOrigin: '12px 12px' }}
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path d="M4 12H20" stroke="currentColor" strokeLinecap="round" strokeWidth="1" variants={scannerVariants} animate={controls} initial="normal" />
+          </motion.g>
         </svg>
       </div>
     );

@@ -51,6 +51,11 @@ const exhaustVariants: Variants = {
     },
   }),
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -127,6 +132,11 @@ const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
             animate={controls}
             initial="normal"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.circle
             cx="6.3"
             cy="17.7"
@@ -147,6 +157,7 @@ const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
             animate={controls}
             initial="normal"
           />
+          </motion.g>
         </svg>
       </div>
     );

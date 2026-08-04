@@ -16,33 +16,18 @@ interface EarthIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a gentle globe turn with a satellite tracing the near orbit
+// the globe turns around its own axis; no detached orbit is added
 const earthVariants: Variants = {
-  normal: { rotate: 0, scale: 1, transition: { type: 'spring', duration: 0.55, bounce: 0 } },
+  normal: { transform: 'perspective(100px) rotateY(0deg) scale(1)' },
   animate: {
-    rotate: [0, -5, 4, 0],
-    scale: [1, 1.025, 1],
-    transition: { duration: 1.5, times: [0, 0.32, 0.75, 1], ease: 'easeInOut' },
-  },
-};
-
-const orbitVariants: Variants = {
-  normal: { opacity: 0, pathLength: 0.2, rotate: 0 },
-  animate: {
-    opacity: [0, 0.55, 0],
-    pathLength: [0.2, 1],
-    rotate: [0, 18],
-    transition: { duration: 1.25, ease: 'easeInOut' },
-  },
-};
-
-const satelliteVariants: Variants = {
-  normal: { opacity: 0, translateX: -5, translateY: 2 },
-  animate: {
-    opacity: [0, 1, 1, 0],
-    translateX: [-5, 0, 5],
-    translateY: [2, -2, 1],
-    transition: { duration: 1.25, ease: 'easeInOut' },
+    transform: [
+      'perspective(100px) rotateY(0deg) scale(1)',
+      'perspective(100px) rotateY(70deg) scale(1.035)',
+      'perspective(100px) rotateY(180deg) scale(0.98)',
+      'perspective(100px) rotateY(290deg) scale(1.025)',
+      'perspective(100px) rotateY(360deg) scale(1)',
+    ],
+    transition: { duration: 0.95, times: [0, 0.22, 0.5, 0.78, 1], ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -82,8 +67,6 @@ const EarthIcon = forwardRef<EarthIconHandle, EarthIconProps>(
             initial="normal"
             style={{ transformOrigin: '12px 12px' }}
           />
-          <motion.ellipse cx="12" cy="12" rx="11" ry="5.5" stroke="currentColor" strokeWidth="0.9" variants={orbitVariants} animate={controls} initial="normal" style={{ transformOrigin: '12px 12px' }} />
-          <motion.circle cx="12" cy="6.5" r="0.8" fill="currentColor" variants={satelliteVariants} animate={controls} initial="normal" />
         </svg>
       </div>
     );

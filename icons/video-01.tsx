@@ -16,31 +16,29 @@ interface Video01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the camera eases into record, the lens blinks, and the side gate opens
+// the camera stays anchored while its side lens opens away from the body
 const cameraBodyVariants: Variants = {
-  normal: { translateX: 0, scale: 1, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
+  normal: { transform: 'scale(1)' },
   animate: {
-    translateX: [0, -0.7, 0.4, 0],
-    scale: [1, 0.98, 1.02, 1],
-    transition: { duration: 0.75, ease: 'easeOut' },
+    transform: ['scale(1)', 'scale(0.985)', 'scale(1.015)', 'scale(1)'],
+    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const cameraWingVariants: Variants = {
-  normal: { rotate: 0, scaleX: 1, transition: { type: 'spring', duration: 0.5, bounce: 0 } },
+  normal: { transform: 'translateX(0px) scaleX(1)' },
   animate: {
-    rotate: [0, 7, -2, 0],
-    scaleX: [1, 1.08, 1],
-    transition: { duration: 0.8, ease: 'easeInOut' },
+    transform: ['translateX(0px) scaleX(1)', 'translateX(0.8px) scaleX(1.08)', 'translateX(-0.12px) scaleX(0.99)', 'translateX(0px) scaleX(1)'],
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const recordDotVariants: Variants = {
   normal: { scale: 1, opacity: 1 },
   animate: {
-    scale: [1, 0.45, 1.25, 1],
-    opacity: [1, 0.3, 1, 1],
-    transition: { duration: 0.7, ease: 'easeOut' },
+    scale: [1, 0.72, 1.16, 1],
+    opacity: [1, 0.65, 1, 1],
+    transition: { duration: 0.45, ease: [0.23, 1, 0.32, 1] },
   },
 };
 

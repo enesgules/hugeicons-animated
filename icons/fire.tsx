@@ -60,6 +60,11 @@ const emberVariants: Variants = {
     },
   }),
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const FireIcon = forwardRef<FireIconHandle, FireIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -101,6 +106,11 @@ const FireIcon = forwardRef<FireIconHandle, FireIconProps>(
             animate={controls}
             initial="normal"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.circle
             cx="8.5"
             cy="7"
@@ -131,6 +141,7 @@ const FireIcon = forwardRef<FireIconHandle, FireIconProps>(
             animate={controls}
             initial="normal"
           />
+          </motion.g>
         </motion.svg>
       </div>
     );

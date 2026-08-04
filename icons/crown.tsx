@@ -54,6 +54,11 @@ const glintVariants: Variants = {
     },
   }),
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const CrownIcon = forwardRef<CrownIconHandle, CrownIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -110,6 +115,11 @@ const CrownIcon = forwardRef<CrownIconHandle, CrownIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path
             d="M5.5 0.2V2M4.6 1.1H6.4"
             stroke="currentColor"
@@ -132,6 +142,7 @@ const CrownIcon = forwardRef<CrownIconHandle, CrownIconProps>(
             initial="normal"
             style={{ transformOrigin: '18.5px 0.4px' }}
           />
+          </motion.g>
         </motion.svg>
       </div>
     );

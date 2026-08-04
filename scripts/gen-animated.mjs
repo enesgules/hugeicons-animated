@@ -41,16 +41,39 @@ const renderElement = ([tag, attrs], i, spec) => {
 const template = (spec, elements) => {
   const name = spec.export;
   const animationLoops = spec.defs.includes('repeat: Infinity');
+  const hasAddedGeometry = Boolean(spec.before || spec.extra);
   const svgTag = spec.svg ? 'motion.svg' : 'svg';
   const svgExtra = spec.svg
     ? `\n          variants={${spec.svg}}\n          animate={controls}\n          initial="normal"${
         spec.svgStyle ? `\n          style={${spec.svgStyle}}` : ''
       }`
     : '';
-  // extra: raw JSX for elements the icon data doesn't have (particles, sparks…)
+  // Custom geometry is an animated layer, never part of the resting icon.
+  // Keeping the layer hidden in `normal` guarantees that every generated icon
+  // falls back to the untouched Hugeicons source artwork at rest.
+  const addedGeometryDefs = hasAddedGeometry
+    ? `
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+`
+    : '';
+  const renderAddedGeometry = (geometry) =>
+    geometry
+      ? `          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+${geometry.replace(/^\n+|\s+$/g, '')}
+          </motion.g>`
+      : '';
+  // before/extra: raw JSX for animated geometry behind or in front of the source icon
   const body =
+    (spec.before ? renderAddedGeometry(spec.before) + '\n' : '') +
     elements.map((e, i) => renderElement(e, i, spec)).join('\n') +
-    (spec.extra ? '\n' + spec.extra.replace(/^\n+|\s+$/g, '') : '');
+    (spec.extra ? '\n' + renderAddedGeometry(spec.extra) : '');
 
   return `'use client';
 
@@ -70,7 +93,7 @@ interface ${name}Props extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-${spec.defs.trim()}
+${spec.defs.trim()}${addedGeometryDefs}
 
 const ${name} = forwardRef<${name}Handle, ${name}Props>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -96,7 +119,7 @@ const ${name} = forwardRef<${name}Handle, ${name}Props>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
-          overflow="visible"${svgExtra}
+          overflow="${spec.overflow ?? 'visible'}"${svgExtra}
         >
 ${body}
         </${svgTag}>

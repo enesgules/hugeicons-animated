@@ -16,28 +16,59 @@ interface Coffee02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, the cup stays hot. The icon's own steam is one path
-// with three lockstep subpaths, so on hover it hands off to three
-// independent wisps that each rise on their own clock.
+// preserve Hugeicons' three small resting steam strokes, then hand off to
+// three independent S-trails that draw, rise, evaporate, and reset invisibly
 const steamBaseVariants: Variants = {
-  normal: { opacity: 1, transition: { duration: 0.3, delay: 0.1 } },
-  animate: { opacity: 0, transition: { duration: 0.15 } },
+  normal: { opacity: 1, transition: { duration: 0.08 } },
+  animate: { opacity: 0 },
 };
 
-const steamVariants: Variants = {
-  normal: { opacity: 0, translateY: 0, transition: { duration: 0.2 } },
-  animate: (i: number) => ({
-    opacity: [0, 1, 1, 0],
-    translateY: [0.8, -0.5, i === 1 ? -2.2 : -1.6, i === 1 ? -3.6 : -2.6],
-    transition: {
-      duration: 1.3 + i * 0.25,
-      ease: 'easeOut',
-      times: [0, 0.25, 0.7, 1],
-      repeat: Infinity,
-      delay: i * 0.3,
-    },
-  }),
+const steamFlowVariants: Variants = {
+  normal: {
+    pathLength: 0,
+    pathOffset: 0,
+    opacity: 0,
+    transform: 'translateY(0px)',
+    transition: { duration: 0.16, ease: [0.23, 1, 0.32, 1] },
+  },
+  animate: (i: number) => {
+    const duration = i === 0 ? 1.36 : i === 1 ? 1.74 : 1.52;
+    const delay = i === 0 ? 0 : i === 1 ? -0.57 : -0.23;
+    const rise = i === 0 ? 1.8 : i === 1 ? 2.2 : 1.6;
+    const times =
+      i === 0
+        ? [0, 0.24, 0.38, 0.72, 0.84, 1]
+        : i === 1
+          ? [0, 0.3, 0.48, 0.76, 0.9, 1]
+          : [0, 0.2, 0.34, 0.66, 0.8, 1];
+
+    return {
+      pathLength: [0, 1, 1, 0.18, 0, 0],
+      pathOffset: [0, 0, 0, 0.82, 1, 0],
+      opacity: [0, 1, 0.9, 0.68, 0, 0],
+      transform: [
+        'translateY(0px)',
+        'translateY(0px)',
+        'translateY(' + -rise * 0.12 + 'px)',
+        'translateY(' + -rise * 0.72 + 'px)',
+        'translateY(' + -rise + 'px)',
+        'translateY(0px)',
+      ],
+      transition: {
+        duration,
+        delay,
+        ease: 'linear',
+        times,
+        repeat: Infinity,
+      },
+    };
+  },
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const Coffee02Icon = forwardRef<Coffee02IconHandle, Coffee02IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -87,39 +118,45 @@ const Coffee02Icon = forwardRef<Coffee02IconHandle, Coffee02IconProps>(
             animate={controls}
             initial="normal"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path
-            d="M7.53971 4C7.53971 4 7 4.5 7 5.5"
+            d="M5.8 6.35C4.1 5.75 4.2 4.65 5.95 4.15C7.5 3.7 7.45 2.55 5.85 2.05C4.45 1.6 4.55 0.75 5.85 0.25"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={steamVariants}
+            variants={steamFlowVariants}
             custom={0}
             animate={controls}
             initial="normal"
           />
           <motion.path
-            d="M11.3089 2.5C10.7622 2.83861 10.0012 4 10.0012 5.5"
+            d="M10.3 6.45C8.2 5.75 8.35 4.55 10.45 3.95C12.35 3.4 12.2 2.1 10.25 1.55C8.55 1.05 8.7 0.05 10.4 -0.45"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={steamVariants}
+            variants={steamFlowVariants}
             custom={1}
             animate={controls}
             initial="normal"
           />
           <motion.path
-            d="M14.0012 4C13.7279 4.1693 13.5 5 13.5 5.5"
+            d="M14.8 6.35C16.5 5.75 16.4 4.65 14.65 4.15C13.1 3.7 13.15 2.55 14.75 2.05C16.15 1.6 16.05 0.75 14.75 0.25"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={steamVariants}
+            variants={steamFlowVariants}
             custom={2}
             animate={controls}
             initial="normal"
           />
+          </motion.g>
         </svg>
       </div>
     );

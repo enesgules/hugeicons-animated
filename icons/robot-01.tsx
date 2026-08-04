@@ -50,6 +50,11 @@ const robotSmileVariants: Variants = {
     transition: { duration: 0.35, delay: 0.35, ease: 'easeOut' },
   },
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const Robot01Icon = forwardRef<Robot01IconHandle, Robot01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -130,7 +135,13 @@ const Robot01Icon = forwardRef<Robot01IconHandle, Robot01IconProps>(
             initial="normal"
             style={{ transformOrigin: '12px 9px' }}
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path d="M9.5 11C10.2 11.7 11 12 12 12C13 12 13.8 11.7 14.5 11" stroke="currentColor" strokeLinecap="round" strokeWidth="1.1" variants={robotSmileVariants} animate={controls} initial="normal" />
+          </motion.g>
         </svg>
       </div>
     );

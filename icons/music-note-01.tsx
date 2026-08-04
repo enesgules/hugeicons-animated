@@ -92,6 +92,11 @@ const floatNoteVariants: Variants = {
     },
   }),
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const MusicNote01Icon = forwardRef<MusicNote01IconHandle, MusicNote01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -170,6 +175,11 @@ const MusicNote01Icon = forwardRef<MusicNote01IconHandle, MusicNote01IconProps>(
             strokeWidth="1.5"
           />
           <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+          <motion.g
             variants={floatNoteVariants}
             custom={0}
             animate={controls}
@@ -186,6 +196,7 @@ const MusicNote01Icon = forwardRef<MusicNote01IconHandle, MusicNote01IconProps>(
           >
             <circle cx="18.8" cy="3.2" r="0.65" fill="currentColor" />
             <path d="M19.45 3.2V1" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" />
+          </motion.g>
           </motion.g>
         </motion.svg>
       </div>

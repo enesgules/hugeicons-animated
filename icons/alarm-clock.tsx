@@ -16,25 +16,32 @@ interface AlarmClockIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, the alarm is going off — the whole clock rattles on its
-// feet and drawn ring ticks flash beside the bells
+// the clock rattles while its two existing alarm bells sweep through a broad mirrored arc;
+// no additional ringing marks are introduced
 const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
-    rotate: [0, -7, 6, -5, 4, -2, 0],
-    transition: { duration: 0.6, ease: 'easeInOut', repeat: Infinity },
+    rotate: [0, -5, 4, -3, 2, -1, 0],
+    transition: { duration: 0.62, ease: [0.77, 0, 0.175, 1], repeat: Infinity },
   },
 };
 
-const tickVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.15 } },
-  animate: (i: number) => ({
-    opacity: [0, 1, 0],
+const bellVariants: Variants = {
+  normal: { transform: 'translate(0px, 0px) rotate(0deg)', transition: { duration: 0.16 } },
+  animate: (direction: number) => ({
+    transform: [
+      'translate(0px, 0px) rotate(0deg)',
+      'translate(' + direction * 2.6 + 'px, 0.9px) rotate(' + direction * -9 + 'deg)',
+      'translate(' + direction * -0.45 + 'px, -0.25px) rotate(' + direction * 4 + 'deg)',
+      'translate(' + direction * 2.1 + 'px, 0.65px) rotate(' + direction * -6 + 'deg)',
+      'translate(' + direction * 0.35 + 'px, 0.1px) rotate(' + direction * -1 + 'deg)',
+      'translate(0px, 0px) rotate(0deg)',
+    ],
     transition: {
-      duration: 0.6,
-      ease: 'easeOut',
+      duration: 0.68,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.2, 0.42, 0.64, 0.82, 1],
       repeat: Infinity,
-      delay: i * 0.15,
     },
   }),
 };
@@ -90,19 +97,29 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
-          <path
+          <motion.path
             d="M5 3L2 6"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={bellVariants}
+            custom={1}
+            animate={controls}
+            initial="normal"
+            style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}
           />
-          <path
+          <motion.path
             d="M22 6L19 3"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={bellVariants}
+            custom={-1}
+            animate={controls}
+            initial="normal"
+            style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}
           />
           <path
             d="M12 8V12.5L14 14.5"
@@ -110,46 +127,6 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-          />
-          <motion.path
-            d="M1.5 3.5L0.3 2.9"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={tickVariants}
-            custom={0}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M22.5 3.5L23.7 2.9"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={tickVariants}
-            custom={0}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M3.4 0.8L2.5 -0.2"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={tickVariants}
-            custom={1}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M20.6 0.8L21.5 -0.2"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={tickVariants}
-            custom={1}
-            animate={controls}
-            initial="normal"
           />
         </motion.svg>
       </div>

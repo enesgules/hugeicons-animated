@@ -16,24 +16,33 @@ interface Calendar03IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the binder rings dip like a page turning, and the days scroll/flicker
-// past underneath on the same beat
+// the binder responds once, then each date appears in reading order
 const ringsVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { transform: 'translateY(0px)' },
   animate: {
-    translateY: [0, -1.6, 0.4, 0],
-    transition: { duration: 0.55, ease: 'easeInOut', times: [0, 0.35, 0.7, 1] },
+    transform: ['translateY(0px)', 'translateY(-1.1px)', 'translateY(0.25px)', 'translateY(0px)'],
+    transition: { duration: 0.46, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
-const daysVariants: Variants = {
-  normal: { opacity: 1, translateY: 0 },
-  animate: {
-    opacity: [1, 0.25, 1],
-    translateY: [0, 1.2, 0],
-    transition: { duration: 0.5, ease: 'easeInOut', delay: 0.1, times: [0, 0.45, 1] },
-  },
+const sourceDaysVariants: Variants = {
+  normal: { opacity: 1 },
+  animate: { opacity: 0, transition: { duration: 0.08 } },
 };
+
+const dayVariants: Variants = {
+  normal: { opacity: 0, transform: 'scale(0.9)' },
+  animate: (i: number) => ({
+    opacity: [0, 1, 1],
+    transform: ['scale(0.9)', 'scale(1.16)', 'scale(1)'],
+    transition: { duration: 0.3, delay: 0.08 + i * 0.065, ease: [0.23, 1, 0.32, 1] },
+  }),
+};
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const Calendar03Icon = forwardRef<Calendar03IconHandle, Calendar03IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -91,10 +100,21 @@ const Calendar03Icon = forwardRef<Calendar03IconHandle, Calendar03IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={daysVariants}
+            variants={sourceDaysVariants}
             animate={controls}
             initial="normal"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+          <motion.circle cx="7.5" cy="14" r="0.72" fill="currentColor" variants={dayVariants} custom={0} animate={controls} initial="normal" style={{ transformOrigin: '7.5px 14px' }} />
+          <motion.circle cx="12" cy="14" r="0.72" fill="currentColor" variants={dayVariants} custom={1} animate={controls} initial="normal" style={{ transformOrigin: '12px 14px' }} />
+          <motion.circle cx="16.5" cy="14" r="0.72" fill="currentColor" variants={dayVariants} custom={2} animate={controls} initial="normal" style={{ transformOrigin: '16.5px 14px' }} />
+          <motion.circle cx="7.5" cy="18" r="0.72" fill="currentColor" variants={dayVariants} custom={3} animate={controls} initial="normal" style={{ transformOrigin: '7.5px 18px' }} />
+          <motion.circle cx="12" cy="18" r="0.72" fill="currentColor" variants={dayVariants} custom={4} animate={controls} initial="normal" style={{ transformOrigin: '12px 18px' }} />
+          </motion.g>
         </svg>
       </div>
     );

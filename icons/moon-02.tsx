@@ -39,6 +39,11 @@ const starVariants: Variants = {
     },
   }),
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const Moon02Icon = forwardRef<Moon02IconHandle, Moon02IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -77,6 +82,11 @@ const Moon02Icon = forwardRef<Moon02IconHandle, Moon02IconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path
             d="M17.5 4.2V6.2M16.5 5.2H18.5"
             stroke="currentColor"
@@ -99,6 +109,7 @@ const Moon02Icon = forwardRef<Moon02IconHandle, Moon02IconProps>(
             initial="normal"
             style={{ transformOrigin: '14.5px 8.5px' }}
           />
+          </motion.g>
         </motion.svg>
       </div>
     );

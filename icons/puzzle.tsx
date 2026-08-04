@@ -16,7 +16,7 @@ interface PuzzleIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the piece tests its fit, clicks down, and sends a tiny confirmation spark
+// the piece tests its fit while neighboring pieces briefly approach its open sides
 const puzzleVariants: Variants = {
   normal: { translateX: 0, translateY: 0, rotate: 0, scale: 1, transition: { type: 'spring', duration: 0.5, bounce: 0 } },
   animate: {
@@ -28,14 +28,20 @@ const puzzleVariants: Variants = {
   },
 };
 
-const fitSparkVariants: Variants = {
+const neighborPieceVariants: Variants = {
   normal: { opacity: 0, scale: 0.25 },
   animate: (i: number) => ({
-    opacity: [0, 0, 0.9, 0],
-    scale: [0.25, 0.25, 1, 1.35],
-    transition: { duration: 0.85, times: [0, 0.58, 0.75, 1], delay: i * 0.04, ease: 'easeOut' },
+    opacity: [0, 0.8, 0.8, 0],
+    scale: [0.55, 1, 1, 0.8],
+    translateX: i === 0 ? [1.5, 0, 0, 1.5] : [-1.5, 0, 0, -1.5],
+    transition: { duration: 0.74, times: [0, 0.3, 0.68, 1], delay: i * 0.05, ease: [0.23, 1, 0.32, 1] },
   }),
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const PuzzleIcon = forwardRef<PuzzleIconHandle, PuzzleIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -73,8 +79,14 @@ const PuzzleIcon = forwardRef<PuzzleIconHandle, PuzzleIconProps>(
             initial="normal"
             style={{ transformOrigin: '12px 12px' }}
           />
-          <motion.path d="M19.5 6V3.8M18.4 4.9H20.6" stroke="currentColor" strokeLinecap="round" strokeWidth="1.1" variants={fitSparkVariants} custom={0} animate={controls} initial="normal" style={{ transformOrigin: '19.5px 4.9px' }} />
-          <motion.path d="M4 20V18.4M3.2 19.2H4.8" stroke="currentColor" strokeLinecap="round" strokeWidth="1.1" variants={fitSparkVariants} custom={1} animate={controls} initial="normal" style={{ transformOrigin: '4px 19.2px' }} />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+          <motion.path d="M18.5 5H21V7.5C20.7 7.4 20.4 7.35 20.1 7.35C19.25 7.35 18.55 8.05 18.55 8.9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" variants={neighborPieceVariants} custom={0} animate={controls} initial="normal" style={{ transformOrigin: '19.75px 6.8px' }} />
+          <motion.path d="M5.5 19H3V16.5C3.3 16.6 3.6 16.65 3.9 16.65C4.75 16.65 5.45 15.95 5.45 15.1" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" variants={neighborPieceVariants} custom={1} animate={controls} initial="normal" style={{ transformOrigin: '4.25px 17.2px' }} />
+          </motion.g>
         </svg>
       </div>
     );

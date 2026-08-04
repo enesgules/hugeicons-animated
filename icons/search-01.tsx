@@ -16,22 +16,18 @@ interface Search01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the lens sweeps, pauses on a find, and quietly zooms in
+// the magnifier sweeps as one rigid tool, keeping the handle joined to the lens
 const svgVariants: Variants = {
-  normal: { translateX: 0, translateY: 0, rotate: 0 },
+  normal: { transform: 'translate(0px, 0px) rotate(0deg)' },
   animate: {
-    translateX: [0, -2, -2, 2, 0],
-    translateY: [0, 2, 2, -1.5, 0],
-    rotate: [0, -4, -4, 4, 0],
-    transition: { duration: 0.9, ease: 'easeInOut', times: [0, 0.25, 0.45, 0.7, 1] },
-  },
-};
-
-const lensVariants: Variants = {
-  normal: { scale: 1 },
-  animate: {
-    scale: [1, 1, 1.14, 1.14, 1],
-    transition: { duration: 0.9, ease: 'easeInOut', times: [0, 0.25, 0.35, 0.45, 1] },
+    transform: [
+      'translate(0px, 0px) rotate(0deg)',
+      'translate(-1.4px, 1px) rotate(-7deg)',
+      'translate(1.2px, -0.8px) rotate(5deg)',
+      'translate(-0.25px, 0.15px) rotate(-1deg)',
+      'translate(0px, 0px) rotate(0deg)',
+    ],
+    transition: { duration: 0.62, ease: [0.77, 0, 0.175, 1], times: [0, 0.26, 0.56, 0.8, 1] },
   },
 };
 
@@ -63,6 +59,7 @@ const Search01Icon = forwardRef<Search01IconHandle, Search01IconProps>(
           variants={svgVariants}
           animate={controls}
           initial="normal"
+          style={{ transformOrigin: '11px 11px' }}
         >
           <path
             d="M17 17L21 21"
@@ -71,16 +68,12 @@ const Search01Icon = forwardRef<Search01IconHandle, Search01IconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
-          <motion.path
+          <path
             d="M19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11Z"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={lensVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
           />
         </motion.svg>
       </div>

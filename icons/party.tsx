@@ -16,7 +16,7 @@ interface PartyIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the popper recoils while each piece of confetti gets its own trajectory
+// the popper recoils and the existing confetti emerges from inside its cone
 const popperVariants: Variants = {
   normal: { translateX: 0, translateY: 0, rotate: 0, transition: { type: 'spring', duration: 0.5, bounce: 0 } },
   animate: {
@@ -28,13 +28,15 @@ const popperVariants: Variants = {
 };
 
 const confettiVariants: Variants = {
-  normal: { opacity: 1, translateX: 0, translateY: 0, rotate: 0 },
+  normal: { opacity: 1, transform: 'translate(0px, 0px) rotate(0deg) scale(1)' },
   animate: (i: number) => ({
-    opacity: [1, 1, 0, 1],
-    translateX: [0, 0.6 + (i % 2) * 0.8, 0],
-    translateY: [0, -1.5 - (i % 3) * 0.5, 0],
-    rotate: [0, (i % 2 === 0 ? 1 : -1) * (16 + i * 3), 0],
-    transition: { duration: 0.9, delay: i * 0.025, ease: 'easeOut' },
+    opacity: [0, 1, 1],
+    transform: [
+      'translate(-7px, 7px) rotate(0deg) scale(0.2)',
+      'translate(' + (0.7 + (i % 2) * 0.7) + 'px, ' + (-1.2 - (i % 3) * 0.45) + 'px) rotate(' + ((i % 2 === 0 ? 1 : -1) * (14 + i * 2)) + 'deg) scale(1.05)',
+      'translate(0px, 0px) rotate(0deg) scale(1)',
+    ],
+    transition: { duration: 0.62, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 

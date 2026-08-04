@@ -53,6 +53,11 @@ const sparkleVariants: Variants = {
     },
   }),
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const MagicWand01Icon = forwardRef<MagicWand01IconHandle, MagicWand01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -113,6 +118,11 @@ const MagicWand01Icon = forwardRef<MagicWand01IconHandle, MagicWand01IconProps>(
             initial="normal"
             style={{ transformOrigin: '6px 7px' }}
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path
             d="M3.5 15.5V17.5M2.5 16.5H4.5"
             stroke="currentColor"
@@ -135,6 +145,7 @@ const MagicWand01Icon = forwardRef<MagicWand01IconHandle, MagicWand01IconProps>(
             initial="normal"
             style={{ transformOrigin: '21px 11.5px' }}
           />
+          </motion.g>
         </svg>
       </div>
     );

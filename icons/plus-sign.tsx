@@ -46,6 +46,11 @@ const armVariants: Variants = {
     },
   },
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const PlusSignIcon = forwardRef<PlusSignIconHandle, PlusSignIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -83,6 +88,11 @@ const PlusSignIcon = forwardRef<PlusSignIconHandle, PlusSignIconProps>(
             animate={controls}
             initial="normal"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path
             d="M12 4V20"
             stroke="currentColor"
@@ -103,6 +113,7 @@ const PlusSignIcon = forwardRef<PlusSignIconHandle, PlusSignIconProps>(
             animate={controls}
             initial="normal"
           />
+          </motion.g>
         </svg>
       </div>
     );

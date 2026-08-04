@@ -16,28 +16,21 @@ interface Diamond02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// brilliance — the stone rocks to catch the light and drawn glints
-// flash off its corners in turn
+// the gem opens wide enough to read, then its center facet catches up
 const svgVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0.3 } },
+  normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    rotate: [0, -4, 4, 0],
-    transition: { duration: 1.6, ease: 'easeInOut', repeat: Infinity },
+    transform: ['rotate(0deg) scale(1)', 'rotate(-5deg) scale(1.13)', 'rotate(3deg) scale(0.985)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.62, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
-const glintVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.15 } },
-  animate: (i: number) => ({
-    opacity: [0, 1, 0],
-    scale: [0.4, 1.05, 0.5],
-    transition: {
-      duration: 1.6,
-      ease: 'easeOut',
-      repeat: Infinity,
-      delay: i * 0.55,
-    },
-  }),
+const facetVariants: Variants = {
+  normal: { transform: 'scaleX(1)' },
+  animate: {
+    transform: ['scaleX(1)', 'scaleX(0.55)', 'scaleX(1.28)', 'scaleX(1)'],
+    transition: { duration: 0.5, delay: 0.07, ease: [0.23, 1, 0.32, 1] },
+  },
 };
 
 const Diamond02Icon = forwardRef<Diamond02IconHandle, Diamond02IconProps>(
@@ -45,7 +38,7 @@ const Diamond02Icon = forwardRef<Diamond02IconHandle, Diamond02IconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
-      loops: true,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -75,45 +68,16 @@ const Diamond02Icon = forwardRef<Diamond02IconHandle, Diamond02IconProps>(
             stroke="currentColor"
             strokeWidth="1.5"
           />
-          <path
+          <motion.path
             d="M10 8.5H14"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-          />
-          <motion.path
-            d="M3.4 4.5V6.5M2.4 5.5H4.4"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={glintVariants}
-            custom={0}
+            variants={facetVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '3.4px 5.5px' }}
-          />
-          <motion.path
-            d="M21 11.5V13.5M20 12.5H22"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={glintVariants}
-            custom={1}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '21px 12.5px' }}
-          />
-          <motion.path
-            d="M6.5 20V21.6M5.7 20.8H7.3"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={glintVariants}
-            custom={2}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '6.5px 20.8px' }}
+            style={{ transformOrigin: '12px 8.5px' }}
           />
         </motion.svg>
       </div>

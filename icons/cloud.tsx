@@ -16,21 +16,17 @@ interface CloudIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, the cloud simply floats — two drift frequencies so the
-// path never feels scripted
+// the cloud floats and gently changes volume instead of only translating
 const svgVariants: Variants = {
-  normal: {
-    translateX: 0,
-    translateY: 0,
-    transition: { duration: 0.4, ease: 'easeOut' },
-  },
+  normal: { transform: 'translate(0px, 0px) scaleX(1) scaleY(1)' },
   animate: {
-    translateX: [0, 2.6, 0, -2.6, 0],
-    translateY: [0, -1.1, 0],
-    transition: {
-      translateX: { duration: 3.6, ease: 'easeInOut', repeat: Infinity },
-      translateY: { duration: 1.9, ease: 'easeInOut', repeat: Infinity },
-    },
+    transform: [
+      'translate(0px, 0px) scaleX(1) scaleY(1)',
+      'translate(1.5px, -1px) scaleX(1.04) scaleY(0.98)',
+      'translate(-1.2px, 0.2px) scaleX(0.985) scaleY(1.025)',
+      'translate(0px, 0px) scaleX(1) scaleY(1)',
+    ],
+    transition: { duration: 1.7, ease: 'easeInOut', repeat: Infinity },
   },
 };
 
@@ -62,6 +58,7 @@ const CloudIcon = forwardRef<CloudIconHandle, CloudIconProps>(
           variants={svgVariants}
           animate={controls}
           initial="normal"
+          style={{ transformOrigin: '12px 14px' }}
         >
           <path
             d="M17.4776 10.0001C17.485 10 17.4925 10 17.5 10C19.9853 10 22 12.0147 22 14.5C22 16.9853 19.9853 19 17.5 19H7C4.23858 19 2 16.7614 2 14C2 11.4003 3.98398 9.26407 6.52042 9.0227M17.4776 10.0001C17.4924 9.83536 17.5 9.66856 17.5 9.5C17.5 6.46243 15.0376 4 12 4C9.12324 4 6.76233 6.20862 6.52042 9.0227M17.4776 10.0001C17.3753 11.1345 16.9286 12.1696 16.2428 13M6.52042 9.0227C6.67826 9.00768 6.83823 9 7 9C8.12582 9 9.16474 9.37209 10.0005 10"

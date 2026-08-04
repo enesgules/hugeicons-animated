@@ -44,6 +44,11 @@ const flashRayVariants: Variants = {
     transition: { duration: 0.3, delay: 0.22 + i * 0.04, ease: 'easeOut' },
   }),
 };
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const CloudLightningIcon = forwardRef<CloudLightningIconHandle, CloudLightningIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -93,8 +98,14 @@ const CloudLightningIcon = forwardRef<CloudLightningIconHandle, CloudLightningIc
             initial="normal"
             style={{ transformOrigin: '12px 17px' }}
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
           <motion.path d="M7.6 18.2L6.3 19" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" variants={flashRayVariants} custom={0} animate={controls} initial="normal" style={{ transformOrigin: '12px 17px' }} />
           <motion.path d="M16.4 18.2L17.7 19" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" variants={flashRayVariants} custom={1} animate={controls} initial="normal" style={{ transformOrigin: '12px 17px' }} />
+          </motion.g>
         </svg>
       </div>
     );
