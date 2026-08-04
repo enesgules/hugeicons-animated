@@ -5,7 +5,6 @@ This is the current review list. Each entry stays here until it is approved, the
 ## Direction and interaction
 
 - [ ] `bluetooth` — orbit the two side nodes around the fixed mark so they exchange positions without crossing its strokes.
-- [ ] `history` — keep the history frame fixed; move one hand only.
 - [ ] `loading-03` — rotate the complete loader instead of chasing opacity.
 - [ ] `menu-01` — replace the menu-to-X morph with a compact row response.
 - [ ] `mouse-left-click-01` — make the left shell visibly depress.
@@ -44,7 +43,6 @@ This is the current review list. Each entry stays here until it is approved, the
 ## Nature, energy, and media
 
 - [ ] `cloud` — add a fuller buoyant cloud cycle.
-- [ ] `earth` — remove the equator and rotate through drawn longitude frames.
 - [ ] `favourite` — make the heart response more noticeable.
 - [ ] `fire` — animate drawn flame frames instead of moving a rigid outline.
 - [ ] `flash` — remove the bottom lines and redesign the energy discharge.
