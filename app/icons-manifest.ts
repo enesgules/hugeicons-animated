@@ -74,6 +74,7 @@ import { GhostIcon } from '@/icons/ghost';
 import { GiftIcon } from '@/icons/gift';
 import { GithubIcon } from '@/icons/github';
 import { GridViewIcon } from '@/icons/grid-view';
+import { HeadphoneOffIcon } from '@/icons/headphone-off';
 import { HeadphonesIcon } from '@/icons/headphones';
 import { HelpCircleIcon } from '@/icons/help-circle';
 import { HistoryIcon } from '@/icons/history';
@@ -239,6 +240,7 @@ export const ICON_LIST = [
   { name: 'gift', Icon: GiftIcon },
   { name: 'github', Icon: GithubIcon },
   { name: 'grid-view', Icon: GridViewIcon },
+  { name: 'headphone-off', Icon: HeadphoneOffIcon },
   { name: 'headphones', Icon: HeadphonesIcon },
   { name: 'help-circle', Icon: HelpCircleIcon },
   { name: 'history', Icon: HistoryIcon },

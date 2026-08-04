@@ -1429,6 +1429,25 @@
       ]
     },
     {
+      "name": "headphone-off",
+      "type": "registry:ui",
+      "title": "headphone-off",
+      "description": "Animated headphone off icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/headphone-off.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "headphones",
       "type": "registry:ui",
       "title": "headphones",

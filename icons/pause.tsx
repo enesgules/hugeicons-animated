@@ -16,14 +16,33 @@ interface PauseIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the two bars settle like damped audio meters
+const PAUSE_DURATION = 0.52;
+const PAUSE_TIMES = [0, 0.22, 0.5, 0.76, 1];
+
+// The pair compresses toward the center, releases outward, and settles as one control.
 const pauseBarVariants: Variants = {
-  normal: { scaleY: 1, translateY: 0, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
-  animate: (i: number) => ({
-    scaleY: [1, i === 0 ? 0.72 : 0.88, i === 0 ? 0.92 : 0.68, 1],
-    translateY: [0, i === 0 ? 2 : 1, i === 0 ? 0.7 : 2.4, 0],
-    transition: { duration: 0.8, times: [0, 0.28, 0.58, 1], ease: 'easeInOut' },
-  }),
+  normal: {
+    transform: 'translate(0px, 0px) scaleY(1)',
+    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
+  },
+  animate: (i: number) => {
+    const direction = i === 0 ? 1 : -1;
+
+    return {
+      transform: [
+        'translate(0px, 0px) scaleY(1)',
+        `translate(${direction * 0.8}px, 0.65px) scaleY(0.91)`,
+        `translate(${direction * -0.55}px, -0.35px) scaleY(1.045)`,
+        `translate(${direction * 0.14}px, 0px) scaleY(0.99)`,
+        'translate(0px, 0px) scaleY(1)',
+      ],
+      transition: {
+        duration: PAUSE_DURATION,
+        times: PAUSE_TIMES,
+        ease: [0.77, 0, 0.175, 1],
+      },
+    };
+  },
 };
 
 const PauseIcon = forwardRef<PauseIconHandle, PauseIconProps>(

@@ -7,25 +7,19 @@ import { forwardRef } from 'react';
 import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
-export interface NotificationOff01IconHandle {
+export interface HeadphoneOffIconHandle {
   startAnimation: () => void;
   stopAnimation: () => void;
 }
 
-interface NotificationOff01IconProps extends HTMLAttributes<HTMLDivElement> {
+interface HeadphoneOffIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// rest-parity: split-source-path
-
-const NOTIFICATION_OFF_TOP_RIGHT =
-  'M21 16.2311C21 15.762 20.8136 15.3121 20.4819 14.9803L19.8787 14.3771C19.3161 13.8145 19 13.0514 19 12.2558V9.5C19 5.634 15.866 2.5 12 2.5C10.4497 2.5 9.01706 3.00399 7.85707 3.85707';
-const NOTIFICATION_OFF_BOTTOM_LEFT =
-  'M4.76887 18C3.79195 18 3 17.208 3 16.2311C3 15.762 3.18636 15.3121 3.51809 14.9803L4.12132 14.3771C4.68393 13.8145 5 13.0514 5 12.2558V9.5C5 8.20839 5.34981 6.99849 5.95987 5.95987';
-const NOTIFICATION_TOP_CONTINUATION =
-  'M5.95987 5.95987C6.441 5.031 7.077 4.325 7.85707 3.85707';
-const NOTIFICATION_RIGHT_CONTINUATION =
-  'M21 16.2311C21 17.208 20.208 18 19.2311 18H18';
+const HEADBAND_CONTINUATION =
+  'M5.63604 5.63579C6.302 4.969 7.084 4.402 7.95702 3.95678';
+const RIGHT_EARCUP_CONTINUATION =
+  'M16.2065 16.2068L16.7614 14.6127C16.9466 14.1466 17.5383 13.9131 18.0251 14.0297C19.5356 14.5333 20.3538 16.1718 19.8526 17.6895L19.4146 19.0158C19.385 19.121 19.348 19.217 19.3028 19.3031';
 
 const OFF_DURATION = 1.12;
 const OFF_TIMES = [
@@ -114,7 +108,7 @@ const generatedGeometryVariants: Variants = {
   animate: { opacity: 1, transition: { duration: 0 } },
 };
 
-const NotificationOff01Icon = forwardRef<NotificationOff01IconHandle, NotificationOff01IconProps>(
+const HeadphoneOffIcon = forwardRef<HeadphoneOffIconHandle, HeadphoneOffIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
@@ -141,14 +135,14 @@ const NotificationOff01Icon = forwardRef<NotificationOff01IconHandle, Notificati
           overflow="hidden"
         >
           <path
-            d="M15.5 18C15.5 19.933 13.933 21.5 12 21.5C10.067 21.5 8.5 19.933 8.5 18"
+            d="M8.97651 19.6041L7.23857 14.6125C7.05341 14.1464 6.4617 13.9128 5.97493 14.0295C4.46441 14.533 3.6462 16.1716 4.14742 17.6892L4.58543 19.0155C5.08664 20.5332 6.71747 21.3552 8.22799 20.8516C8.68896 20.6553 9.10449 20.0895 8.97651 19.6041Z"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
           <motion.path
-            d="M2 2L22 22"
+            d="M3 2.99976L21 20.9998"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -158,31 +152,14 @@ const NotificationOff01Icon = forwardRef<NotificationOff01IconHandle, Notificati
             initial="normal"
           />
           <path
-            d={NOTIFICATION_OFF_TOP_RIGHT}
+            d="M16.2065 16.2068L15.0235 19.6046C14.8955 20.09 15.311 20.6558 15.772 20.8522C17.1843 21.323 18.7018 20.635 19.3028 19.3031"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
           <path
-            d={NOTIFICATION_OFF_BOTTOM_LEFT}
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-          />
-          <motion.path
-            d="M5.95987 5.95987L18 18"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={departingSlashVariants}
-            animate={controls}
-            initial="normal"
-          />
-          <path
-            d="M18 18H4.76887"
+            d="M3.91512 16.9998C3.41512 15.4998 3 13.4366 3 11.9998C3 9.51447 4.00736 7.26447 5.63604 5.63579M7.95702 3.95678C9.17263 3.34453 10.546 2.99976 12 2.99976C16.9706 2.99976 21 7.02919 21 11.9998C21 13.2238 20.6987 14.9024 20.3004 16.3001"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -194,7 +171,7 @@ const NotificationOff01Icon = forwardRef<NotificationOff01IconHandle, Notificati
             initial="normal"
           >
             <motion.path
-              d={NOTIFICATION_TOP_CONTINUATION}
+              d={HEADBAND_CONTINUATION}
               stroke="currentColor"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -204,7 +181,7 @@ const NotificationOff01Icon = forwardRef<NotificationOff01IconHandle, Notificati
               initial="normal"
             />
             <motion.path
-              d={NOTIFICATION_RIGHT_CONTINUATION}
+              d={RIGHT_EARCUP_CONTINUATION}
               stroke="currentColor"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -214,17 +191,7 @@ const NotificationOff01Icon = forwardRef<NotificationOff01IconHandle, Notificati
               initial="normal"
             />
             <motion.path
-              d="M2 2L22 22"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              variants={arrivingSlashVariants}
-              animate={controls}
-              initial="normal"
-            />
-            <motion.path
-              d="M5.95987 5.95987L18 18"
+              d="M3 2.99976L21 20.9998"
               stroke="currentColor"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -240,6 +207,6 @@ const NotificationOff01Icon = forwardRef<NotificationOff01IconHandle, Notificati
   }
 );
 
-NotificationOff01Icon.displayName = 'NotificationOff01Icon';
+HeadphoneOffIcon.displayName = 'HeadphoneOffIcon';
 
-export { NotificationOff01Icon };
+export { HeadphoneOffIcon };
