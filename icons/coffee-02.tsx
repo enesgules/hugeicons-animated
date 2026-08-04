@@ -16,59 +16,65 @@ interface Coffee02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// preserve Hugeicons' three small resting steam strokes, then hand off to
-// three independent S-trails that draw, rise, evaporate, and reset invisibly
-const steamBaseVariants: Variants = {
-  normal: { opacity: 1, transition: { duration: 0.08 } },
-  animate: { opacity: 0 },
-};
+interface SteamMotion {
+  duration: number;
+  delay: number;
+}
 
-const steamFlowVariants: Variants = {
+const createSteamVariants = ({
+  duration,
+  delay,
+}: SteamMotion): Variants => ({
   normal: {
-    pathLength: 0,
+    opacity: 1,
+    pathLength: 1,
     pathOffset: 0,
-    opacity: 0,
     transform: 'translateY(0px)',
-    transition: { duration: 0.16, ease: [0.23, 1, 0.32, 1] },
+    transition: { duration: 0.14, ease: [0.23, 1, 0.32, 1] },
   },
-  animate: (i: number) => {
-    const duration = i === 0 ? 1.36 : i === 1 ? 1.74 : 1.52;
-    const delay = i === 0 ? 0 : i === 1 ? -0.57 : -0.23;
-    const rise = i === 0 ? 1.8 : i === 1 ? 2.2 : 1.6;
-    const times =
-      i === 0
-        ? [0, 0.24, 0.38, 0.72, 0.84, 1]
-        : i === 1
-          ? [0, 0.3, 0.48, 0.76, 0.9, 1]
-          : [0, 0.2, 0.34, 0.66, 0.8, 1];
-
-    return {
-      pathLength: [0, 1, 1, 0.18, 0, 0],
-      pathOffset: [0, 0, 0, 0.82, 1, 0],
-      opacity: [0, 1, 0.9, 0.68, 0, 0],
-      transform: [
-        'translateY(0px)',
-        'translateY(0px)',
-        'translateY(' + -rise * 0.12 + 'px)',
-        'translateY(' + -rise * 0.72 + 'px)',
-        'translateY(' + -rise + 'px)',
-        'translateY(0px)',
-      ],
-      transition: {
-        duration,
-        delay,
-        ease: 'linear',
-        times,
-        repeat: Infinity,
-      },
-    };
+  animate: {
+    pathLength: [1, 0.58, 0.22, 0, 0.14, 0.14, 0.34, 0.6, 1],
+    pathOffset: [0, 0, 0, 0, 0.86, 0.86, 0.54, 0.2, 0],
+    opacity: [1, 1, 0.72, 0, 0, 1, 1, 1, 1],
+    transform: [
+      'translateY(0px)',
+      'translateY(-0.35px)',
+      'translateY(-0.9px)',
+      'translateY(-1.4px)',
+      'translateY(0px)',
+      'translateY(0px)',
+      'translateY(0px)',
+      'translateY(0px)',
+      'translateY(0px)',
+    ],
+    transition: {
+      duration,
+      delay,
+      ease: 'linear',
+      times: [0, 0.18, 0.32, 0.42, 0.48, 0.54, 0.68, 0.82, 1],
+      repeat: Infinity,
+    },
   },
-};
-const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
-};
+});
 
+// rest-parity: split-source-path
+// The original combined Hugeicons steam path is split into its three exact
+// subpaths so each full resting stroke can rise and taper toward the top,
+// evaporate, reappear small at the cup, and grow into the full stroke again.
+const leftSteamVariants = createSteamVariants({
+  duration: 1.08,
+  delay: 0,
+});
+
+const centerSteamVariants = createSteamVariants({
+  duration: 1.2,
+  delay: 0.08,
+});
+
+const rightSteamVariants = createSteamVariants({
+  duration: 1.12,
+  delay: 0.16,
+});
 
 const Coffee02Icon = forwardRef<Coffee02IconHandle, Coffee02IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -109,54 +115,35 @@ const Coffee02Icon = forwardRef<Coffee02IconHandle, Coffee02IconProps>(
             strokeWidth="1.5"
           />
           <motion.path
-            d="M11.3089 2.5C10.7622 2.83861 10.0012 4 10.0012 5.5M7.53971 4C7.53971 4 7 4.5 7 5.5M14.0012 4C13.7279 4.1693 13.5 5 13.5 5.5"
+            d="M7.53971 4C7.53971 4 7.47974 4.05556 7.39979 4.16667C7.31983 4.27778 7.21988 4.44444 7.13992 4.66667C7.05997 4.88889 7 5.16667 7 5.5"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={steamBaseVariants}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.g
-            variants={generatedGeometryVariants}
-            animate={controls}
-            initial="normal"
-          >
-          <motion.path
-            d="M5.8 6.35C4.1 5.75 4.2 4.65 5.95 4.15C7.5 3.7 7.45 2.55 5.85 2.05C4.45 1.6 4.55 0.75 5.85 0.25"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={steamFlowVariants}
-            custom={0}
+            variants={leftSteamVariants}
             animate={controls}
             initial="normal"
           />
           <motion.path
-            d="M10.3 6.45C8.2 5.75 8.35 4.55 10.45 3.95C12.35 3.4 12.2 2.1 10.25 1.55C8.55 1.05 8.7 0.05 10.4 -0.45"
+            d="M11.3089 2.5C11.12667 2.61287 10.92062 2.81716 10.72689 3.09494C10.53316 3.37272 10.35173 3.72398 10.21874 4.1308C10.08576 4.53762 10.0012 5 10.0012 5.5"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={steamFlowVariants}
-            custom={1}
+            variants={centerSteamVariants}
             animate={controls}
             initial="normal"
           />
           <motion.path
-            d="M14.8 6.35C16.5 5.75 16.4 4.65 14.65 4.15C13.1 3.7 13.15 2.55 14.75 2.05C16.15 1.6 16.05 0.75 14.75 0.25"
+            d="M14.0012 4C13.9101 4.05643 13.82404 4.18636 13.74979 4.35302C13.67554 4.51969 13.61309 4.7231 13.56921 4.92651C13.52532 5.12992 13.5 5.33333 13.5 5.5"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={steamFlowVariants}
-            custom={2}
+            variants={rightSteamVariants}
             animate={controls}
             initial="normal"
           />
-          </motion.g>
         </svg>
       </div>
     );

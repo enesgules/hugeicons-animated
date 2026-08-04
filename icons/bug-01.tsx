@@ -16,8 +16,8 @@ interface Bug01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// mirrored left and right leg groups move in opposite physical directions while
-// the shell shifts its weight over each planted side
+// six deliberately mismatched leg cycles drift in and out of phase while the
+// shell makes a small irregular weight shift
 const bugVariants: Variants = {
   normal: {
     transform: 'translate(0px, 0px) rotate(0deg)',
@@ -26,55 +26,85 @@ const bugVariants: Variants = {
   animate: {
     transform: [
       'translate(0px, 0px) rotate(0deg)',
-      'translate(0.45px, -0.4px) rotate(-1.2deg)',
-      'translate(0px, 0px) rotate(0deg)',
-      'translate(-0.45px, -0.4px) rotate(1.2deg)',
+      'translate(0.42px, -0.45px) rotate(-0.9deg)',
+      'translate(-0.28px, -0.12px) rotate(0.65deg)',
+      'translate(0.55px, 0.08px) rotate(-1.15deg)',
+      'translate(-0.4px, -0.36px) rotate(1deg)',
+      'translate(0.18px, -0.52px) rotate(-0.4deg)',
       'translate(0px, 0px) rotate(0deg)',
     ],
     transition: {
-      duration: 0.86,
+      duration: 1.12,
       ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.25, 0.5, 0.75, 1],
+      times: [0, 0.13, 0.31, 0.46, 0.68, 0.82, 1],
       repeat: Infinity,
     },
   },
 };
 
-const antennaVariants: Variants = {
-  normal: { transform: 'rotate(0deg)' },
-  animate: (phase: -1 | 1) => ({
-    transform: [
-      'rotate(0deg)',
-      'rotate(' + phase * 9 + 'deg)',
-      'rotate(0deg)',
-      'rotate(' + phase * -9 + 'deg)',
-      'rotate(0deg)',
-    ],
-    transition: {
-      duration: 0.86,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.25, 0.5, 0.75, 1],
-      repeat: Infinity,
-    },
-  }),
+interface LegMotion {
+  angles: number[];
+  delay: number;
+  duration: number;
+  times: number[];
+}
+
+const DEFAULT_LEG_MOTION: LegMotion = {
+  angles: [0, 18, -7, 25, -15, 9, -22, 0],
+  delay: 0,
+  duration: 0.83,
+  times: [0, 0.11, 0.24, 0.39, 0.55, 0.7, 0.86, 1],
 };
 
-const legVariants: Variants = {
+const LEG_MOTIONS: readonly LegMotion[] = [
+  DEFAULT_LEG_MOTION,
+  {
+    angles: [0, -12, 23, -19, 8, -25, 14, 0],
+    delay: 0.05,
+    duration: 0.91,
+    times: [0, 0.16, 0.29, 0.43, 0.6, 0.76, 0.9, 1],
+  },
+  {
+    angles: [0, 21, -16, 7, -24, 18, -9, 0],
+    delay: 0.11,
+    duration: 0.84,
+    times: [0, 0.09, 0.22, 0.38, 0.57, 0.71, 0.89, 1],
+  },
+  {
+    angles: [0, -22, 11, -17, 24, -6, 15, 0],
+    delay: 0.02,
+    duration: 1.03,
+    times: [0, 0.14, 0.31, 0.45, 0.62, 0.78, 0.91, 1],
+  },
+  {
+    angles: [0, 14, -20, 9, -16, 22, -7, 0],
+    delay: 0.14,
+    duration: 0.88,
+    times: [0, 0.12, 0.26, 0.47, 0.59, 0.74, 0.87, 1],
+  },
+  {
+    angles: [0, -18, 8, -22, 16, -10, 20, 0],
+    delay: 0.08,
+    duration: 0.96,
+    times: [0, 0.18, 0.33, 0.48, 0.64, 0.79, 0.92, 1],
+  },
+];
+
+const randomLegVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
-  animate: {
-    transform: [
-      'rotate(0deg)',
-      'rotate(28deg)',
-      'rotate(0deg)',
-      'rotate(-28deg)',
-      'rotate(0deg)',
-    ],
-    transition: {
-      duration: 0.86,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.25, 0.5, 0.75, 1],
-      repeat: Infinity,
-    },
+  animate: (legIndex: number) => {
+    const legMotion = LEG_MOTIONS[legIndex] ?? DEFAULT_LEG_MOTION;
+
+    return {
+      transform: legMotion.angles.map((angle) => `rotate(${angle}deg)`),
+      transition: {
+        delay: legMotion.delay,
+        duration: legMotion.duration,
+        ease: 'linear',
+        times: legMotion.times,
+        repeat: Infinity,
+      },
+    };
   },
 };
 
@@ -113,8 +143,8 @@ const Bug01Icon = forwardRef<Bug01IconHandle, Bug01IconProps>(
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={antennaVariants}
-            custom={-1}
+            variants={randomLegVariants}
+            custom={0}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 6.5 / 24, originY: 8.4 / 24 }}
@@ -124,7 +154,7 @@ const Bug01Icon = forwardRef<Bug01IconHandle, Bug01IconProps>(
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={antennaVariants}
+            variants={randomLegVariants}
             custom={1}
             animate={controls}
             initial="normal"
@@ -135,7 +165,8 @@ const Bug01Icon = forwardRef<Bug01IconHandle, Bug01IconProps>(
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={legVariants}
+            variants={randomLegVariants}
+            custom={2}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 17.6 / 24, originY: 17.4 / 24 }}
@@ -145,7 +176,8 @@ const Bug01Icon = forwardRef<Bug01IconHandle, Bug01IconProps>(
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={legVariants}
+            variants={randomLegVariants}
+            custom={3}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 6.45 / 24, originY: 17.47 / 24 }}
@@ -160,7 +192,8 @@ const Bug01Icon = forwardRef<Bug01IconHandle, Bug01IconProps>(
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={legVariants}
+            variants={randomLegVariants}
+            custom={4}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 5.95 / 24, originY: 12.9 / 24 }}
@@ -170,7 +203,8 @@ const Bug01Icon = forwardRef<Bug01IconHandle, Bug01IconProps>(
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={legVariants}
+            variants={randomLegVariants}
+            custom={5}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 18.12 / 24, originY: 12.9 / 24 }}

@@ -16,27 +16,32 @@ interface Clock01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the hour hand stays planted while only the minute hand advances
-const CLOCK_REST = 'M12 8V12L14 14';
+// a playful fast-forward: the long hand completes two circuits while the short
+// hand completes one, both winding up and settling back into the source shape
+const CLOCK_REST = 'M12 8L12 12L14 14';
 
 const handsVariants: Variants = {
   normal: { d: CLOCK_REST },
   animate: {
     d: [
       CLOCK_REST,
-      'M12 8V12L12 14.828',
-      'M12 8V12L10 14',
-      'M12 8V12L9.172 12',
-      'M12 8V12L10 10',
-      'M12 8V12L12 9.172',
-      'M12 8V12L14 10',
-      'M12 8V12L14.828 12',
+      'M15.464 10L12 12L12.732 14.732',
+      'M15.464 14L12 12L11.268 14.732',
+      'M12 16L12 12L10 14',
+      'M8.536 14L12 12L9.268 12.732',
+      'M8.536 10L12 12L9.268 11.268',
+      'M12 8L12 12L10 10',
+      'M15.464 10L12 12L11.268 9.268',
+      'M15.464 14L12 12L12.732 9.268',
+      'M12 16L12 12L14 10',
+      'M8.536 14L12 12L14.732 11.268',
+      'M8.536 10L12 12L14.732 12.732',
       CLOCK_REST,
     ],
     transition: {
-      duration: 0.92,
+      duration: 1.04,
       ease: 'linear',
-      times: [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1],
+      times: [0, 0.12, 0.22, 0.3, 0.37, 0.43, 0.49, 0.55, 0.61, 0.68, 0.76, 0.86, 1],
     },
   },
 };

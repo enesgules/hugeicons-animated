@@ -16,33 +16,46 @@ interface Location01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the pin lifts, drops back onto the map, and the landing draws a ripple
-const svgVariants: Variants = {
-  normal: { translateY: 0, transition: { duration: 0.3 } },
+// Match location-add's quick hop and carry the landing ring with the pin.
+const pinVariants: Variants = {
+  normal: { transform: 'translateY(0px) scaleY(1)' },
   animate: {
-    translateY: [0, -5, 0, -1.6, 0],
+    transform: [
+      'translateY(0px) scaleY(1)',
+      'translateY(-2.6px) scaleY(1.04)',
+      'translateY(1.1px) scaleY(0.93)',
+      'translateY(-0.35px) scaleY(1.02)',
+      'translateY(0px) scaleY(1)',
+    ],
     transition: {
-      duration: 0.85,
-      times: [0, 0.32, 0.6, 0.8, 1],
-      ease: ['easeOut', 'easeIn', 'easeOut', 'easeIn'],
+      duration: 0.68,
+      ease: [0.23, 1, 0.32, 1],
+      times: [0, 0.34, 0.58, 0.78, 1],
     },
   },
 };
 
-// drawn landing ring — invisible at rest, spreads at the moment of touchdown
+// The ring travels with the pin, then expands when the pin lands.
 const rippleVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.2 } },
+  normal: {
+    opacity: 0,
+    transform: 'scale(0.55)',
+    transition: { duration: 0.15, ease: [0.23, 1, 0.32, 1] },
+  },
   animate: {
-    opacity: [0, 0.5, 0],
-    scale: [0.4, 1.2, 1.7],
-    transition: { duration: 0.55, ease: 'easeOut', delay: 0.48 },
+    opacity: [0, 0, 0.62, 0],
+    transform: ['scale(0.55)', 'scale(0.55)', 'scale(1)', 'scale(1.55)'],
+    transition: {
+      duration: 0.68,
+      ease: [0.23, 1, 0.32, 1],
+      times: [0, 0.48, 0.62, 1],
+    },
   },
 };
 const generatedGeometryVariants: Variants = {
   normal: { opacity: 0, transition: { duration: 0.08 } },
   animate: { opacity: 1, transition: { duration: 0.08 } },
 };
-
 
 const Location01Icon = forwardRef<Location01IconHandle, Location01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -62,46 +75,50 @@ const Location01Icon = forwardRef<Location01IconHandle, Location01IconProps>(
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <motion.svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
           viewBox="0 0 24 24"
           fill="none"
           overflow="visible"
-          variants={svgVariants}
-          animate={controls}
-          initial="normal"
         >
-          <path
-            d="M13.6177 21.367C13.1841 21.773 12.6044 22 12.0011 22C11.3978 22 10.8182 21.773 10.3845 21.367C6.41302 17.626 1.09076 13.4469 3.68627 7.37966C5.08963 4.09916 8.45834 2 12.0011 2C15.5439 2 18.9126 4.09916 20.316 7.37966C22.9082 13.4393 17.599 17.6389 13.6177 21.367Z"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          />
-          <path
-            d="M15.5 11C15.5 12.933 13.933 14.5 12 14.5C10.067 14.5 8.5 12.933 8.5 11C8.5 9.067 10.067 7.5 12 7.5C13.933 7.5 15.5 9.067 15.5 11Z"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          />
           <motion.g
-            variants={generatedGeometryVariants}
+            variants={pinVariants}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '12px 22px' }}
           >
-          <motion.ellipse
-            cx="12"
-            cy="21.7"
-            rx="3.5"
-            ry="1"
-            stroke="currentColor"
-            strokeWidth="1"
-            variants={rippleVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 21.7px' }}
-          />
+            <path
+              d="M13.6177 21.367C13.1841 21.773 12.6044 22 12.0011 22C11.3978 22 10.8182 21.773 10.3845 21.367C6.41302 17.626 1.09076 13.4469 3.68627 7.37966C5.08963 4.09916 8.45834 2 12.0011 2C15.5439 2 18.9126 4.09916 20.316 7.37966C22.9082 13.4393 17.599 17.6389 13.6177 21.367Z"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M15.5 11C15.5 12.933 13.933 14.5 12 14.5C10.067 14.5 8.5 12.933 8.5 11C8.5 9.067 10.067 7.5 12 7.5C13.933 7.5 15.5 9.067 15.5 11Z"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            />
+            <motion.g
+              variants={generatedGeometryVariants}
+              animate={controls}
+              initial="normal"
+            >
+              <motion.ellipse
+                cx="12"
+                cy="21.7"
+                rx="3.5"
+                ry="1"
+                stroke="currentColor"
+                strokeWidth="1"
+                variants={rippleVariants}
+                animate={controls}
+                initial="normal"
+                style={{ transformOrigin: '12px 21.7px' }}
+              />
+            </motion.g>
           </motion.g>
-        </motion.svg>
+        </svg>
       </div>
     );
   }

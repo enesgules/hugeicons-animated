@@ -20,8 +20,8 @@ interface AddCircleIconProps extends HTMLAttributes<HTMLDivElement> {
 const circleVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.97)', 'scale(1.075)', 'scale(0.995)', 'scale(1)'],
-    transition: { duration: 0.82, ease: [0.23, 1, 0.32, 1], times: [0, 0.18, 0.48, 0.74, 1] },
+    transform: ['scale(1)', 'scale(0.96)', 'scale(1.025)', 'scale(1)'],
+    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -30,12 +30,11 @@ const plusVariants: Variants = {
   animate: {
     transform: [
       'rotate(0deg) scale(1)',
-      'rotate(-18deg) scale(0.64)',
-      'rotate(5deg) scale(1.18)',
-      'rotate(-1.5deg) scale(0.98)',
+      'rotate(-10deg) scale(0.82)',
+      'rotate(3deg) scale(1.08)',
       'rotate(0deg) scale(1)',
     ],
-    transition: { duration: 0.86, delay: 0.03, ease: [0.23, 1, 0.32, 1], times: [0, 0.2, 0.5, 0.74, 1] },
+    transition: { duration: 0.42, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
   },
 };
 

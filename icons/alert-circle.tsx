@@ -19,24 +19,47 @@ interface AlertCircleIconProps extends HTMLAttributes<HTMLDivElement> {
 const circleVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.96)', 'scale(1.025)', 'scale(1)'],
-    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
+    transform: [
+      'scale(1)',
+      'scale(0.99)',
+      'scale(0.975)',
+      'scale(0.988)',
+      'scale(1.012)',
+      'scale(0.998)',
+      'scale(1)',
+    ],
+    transition: {
+      duration: 0.5,
+      ease: [0.23, 1, 0.32, 1],
+      times: [0, 0.12, 0.28, 0.48, 0.68, 0.86, 1],
+    },
   },
 };
 
 const stemVariants: Variants = {
-  normal: { d: 'M12 8V12' },
+  normal: { pathLength: 1 },
   animate: {
-    d: ['M12 12V12', 'M12 7.4V12.4', 'M12 8V12'],
-    transition: { duration: 0.42, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+    pathLength: [0, 0.16, 0.38, 0.64, 0.86, 1],
+    transition: {
+      duration: 0.42,
+      delay: 0.03,
+      ease: 'linear',
+      times: [0, 0.14, 0.32, 0.54, 0.76, 1],
+    },
   },
 };
 
 const dotVariants: Variants = {
-  normal: { transform: 'translateY(0px) scale(1)' },
+  normal: { transform: 'scale(1)', opacity: 1 },
   animate: {
-    transform: ['translateY(-0.7px) scale(0.92)', 'translateY(0.15px) scale(1.12)', 'translateY(0px) scale(1)'],
-    transition: { duration: 0.36, delay: 0.12, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(0.8)', 'scale(0.92)', 'scale(1.06)', 'scale(1)'],
+    opacity: [0, 0.5, 1, 1],
+    transition: {
+      duration: 0.18,
+      delay: 0.31,
+      ease: [0.23, 1, 0.32, 1],
+      times: [0, 0.28, 0.68, 1],
+    },
   },
 };
 
@@ -68,6 +91,7 @@ const AlertCircleIcon = forwardRef<AlertCircleIconHandle, AlertCircleIconProps>(
         <motion.circle
           cx="12" cy="12" r="10" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
           variants={circleVariants}
+          style={{ transformOrigin: '12px 12px' }}
           animate={controls}
           initial="normal"
         />

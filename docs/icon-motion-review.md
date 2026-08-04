@@ -5,8 +5,6 @@ This is the current review list. Each entry stays here until it is approved, the
 ## Direction and interaction
 
 - [ ] `bluetooth` — orbit the two side nodes around the fixed mark so they exchange positions without crossing its strokes.
-- [ ] `chevron-up`, `chevron-down`, `chevron-left`, `chevron-right` — add a clearer two-beat directional response.
-- [ ] `clock-01` — keep the frame and hour hand fixed; sweep the minute hand through a clearly readable full circuit.
 - [ ] `history` — keep the history frame fixed; move one hand only.
 - [ ] `loading-03` — rotate the complete loader instead of chasing opacity.
 - [ ] `menu-01` — replace the menu-to-X morph with a compact row response.
@@ -16,8 +14,6 @@ This is the current review list. Each entry stays here until it is approved, the
 
 ## Status and system
 
-- [ ] `archive-02` — use a slightly faster drawer cycle, keep the document lift contained, extrude it from the bottom drawer's moving top seam, and mask the back rail only while the sheet crosses it.
-- [ ] `bug-01` — show a readable two-step walk with the left and right leg groups moving in opposite directions from their body attachment points while the shell shifts over each planted side.
 - [ ] `database` — show a write moving through the database stack.
 - [ ] `help-circle` — draw the question mark as one continuous gesture.
 - [ ] `information-circle` — make the information mark form as a single symbol.
@@ -47,15 +43,12 @@ This is the current review list. Each entry stays here until it is approved, the
 
 ## Nature, energy, and media
 
-- [ ] `airplane-take-off-01` — keep both planes fully opaque, let the departing plane completely clear the clipped frame, bring the landing plane smoothly into the runway slot without a unit-change snap, and use passing runway lights for forward motion.
 - [ ] `cloud` — add a fuller buoyant cloud cycle.
-- [ ] `coffee-02` — preserve the three default Hugeicons steam strokes at rest, then hand off to three widely spaced S-shaped wisps that rise farther and evaporate on independent cadences.
 - [ ] `earth` — remove the equator and rotate through drawn longitude frames.
 - [ ] `favourite` — make the heart response more noticeable.
 - [ ] `fire` — animate drawn flame frames instead of moving a rigid outline.
 - [ ] `flash` — remove the bottom lines and redesign the energy discharge.
 - [ ] `headphones` — replace the detached music-note particle with a response in the cups.
-- [ ] `party` — originate confetti inside the cone and let it emerge naturally.
 - [ ] `rocket-01` — leave exhaust behind as the rocket advances.
 - [ ] `sleeping` — move the Z marks farther from the head.
 - [ ] `snow` — keep every arm connected and return the flake cleanly to rest.
