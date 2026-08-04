@@ -70,9 +70,19 @@ export function IconCommandMenu({
             restoreFocusRef.current = event.currentTarget;
             setOpen(true);
           }}
-          className="absolute right-2 top-1/2 flex min-h-8 min-w-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-lg bg-[#F7F7F5] px-2 font-mono text-[10px] font-semibold text-[#696D6E] shadow-[0_0_0_1px_rgba(20,24,18,0.08)] transition-[background-color,color,scale] duration-150 hover:bg-[#EDF8DF] hover:text-[#2C4A0F] active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+          className="group absolute right-1 top-1/2 grid h-10 w-12 -translate-y-1/2 cursor-pointer place-items-center rounded-[10px] transition-[background-color,scale] duration-150 hover:bg-[#EDF8DF]/70 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
         >
-          <span aria-hidden>⌘K</span>
+          <kbd
+            aria-hidden
+            className="pointer-events-none inline-flex h-7 overflow-hidden rounded-[7px] bg-white text-[#696D6E] shadow-[0_0_0_1px_rgba(20,24,18,0.1),0_1px_1px_rgba(20,24,18,0.08),0_2px_0_rgba(20,24,18,0.05)] transition-[color,box-shadow,translate] duration-150 group-hover:text-[#2C4A0F] group-hover:shadow-[0_0_0_1px_rgba(121,189,62,0.45),0_1px_1px_rgba(44,74,15,0.08),0_2px_0_rgba(121,189,62,0.18)] group-active:translate-y-px"
+          >
+            <span className="grid w-6 place-items-center border-r border-[#141812]/6 [font-family:ui-sans-serif,system-ui,sans-serif] text-[13px] leading-none">
+              ⌘
+            </span>
+            <span className="grid w-5 place-items-center font-mono text-[10px] font-semibold leading-none">
+              K
+            </span>
+          </kbd>
         </button>
       ) : null}
 
