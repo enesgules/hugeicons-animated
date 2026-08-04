@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Quicksand } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import {
   GITHUB_URL,
   SITE_DESCRIPTION,
@@ -96,7 +97,7 @@ export default function RootLayout({
           }}
         />
         <AnimatedFavicon />
-        {children}
+        <NuqsAdapter>{children}</NuqsAdapter>
       </body>
     </html>
   );

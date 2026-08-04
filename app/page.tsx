@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import {
   AnimatePresence,
@@ -8,6 +8,8 @@ import {
   MotionConfig,
   useReducedMotion,
 } from 'motion/react';
+import { useQueryState } from 'nuqs';
+import { IconCommandMenu } from '@/app/icon-command-menu';
 import { ICON_LIST } from '@/app/icons-manifest';
 import type { AnimatedIconHandle as IconHandle } from '@/lib/use-icon-animation';
 import { GITHUB_URL } from '@/lib/site';
@@ -168,11 +170,15 @@ function RollingIconName({
   );
 }
 
-export default function Home() {
+type HomeContentProps = {
+  query: string;
+  onQueryChange: (query: string) => void;
+};
+
+function HomeContent({ query, onQueryChange }: HomeContentProps) {
   const [copied, setCopied] = useState<string | null>(null);
   const [copiedCommandName, setCopiedCommandName] = useState<string | null>(null);
   const [heroIconName, setHeroIconName] = useState(DEFAULT_HERO_ICON);
-  const [query, setQuery] = useState('');
   const [scrolled, setScrolled] = useState(false);
   const refs = useRef<(IconHandle | null)[]>([]);
   const copyIconRef = useRef<IconHandle | null>(null);
@@ -256,7 +262,7 @@ export default function Home() {
   const filtered = matches(query);
 
   const clearSearch = () => {
-    setQuery('');
+    onQueryChange('');
     searchInputRef.current?.focus();
   };
 
@@ -650,9 +656,9 @@ export default function Home() {
                   ref={searchInputRef}
                   type="search"
                   value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={(event) => onQueryChange(event.target.value)}
                   placeholder={`Search ${ICONS.length} icons…`}
-                  className="w-full rounded-xl border border-[#E5E5E3] bg-white py-3 pl-10 pr-12 text-[15px] font-medium text-[#141812] shadow-[0_1px_2px_rgba(20,24,18,0.04)] transition-[background-color,border-color,box-shadow] duration-150 placeholder:text-[#BFC2BD] hover:border-[#AFE67F] hover:bg-[#FBFCFA] hover:shadow-[0_2px_6px_rgba(20,24,18,0.06)] focus:outline-none focus-visible:border-[#79BD3E] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22] [&::-webkit-search-cancel-button]:hidden"
+                  className="w-full rounded-xl border border-[#E5E5E3] bg-white py-3 pl-10 pr-16 text-[15px] font-medium text-[#141812] shadow-[0_1px_2px_rgba(20,24,18,0.04)] transition-[background-color,border-color,box-shadow] duration-150 placeholder:text-[#BFC2BD] hover:border-[#AFE67F] hover:bg-[#FBFCFA] hover:shadow-[0_2px_6px_rgba(20,24,18,0.06)] focus:outline-none focus-visible:border-[#79BD3E] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22] [&::-webkit-search-cancel-button]:hidden"
                 />
                 {query ? (
                   <button
@@ -692,6 +698,12 @@ export default function Home() {
                     />
                   </button>
                 ) : null}
+                <IconCommandMenu
+                  query={query}
+                  onQueryChange={onQueryChange}
+                  onSelectIcon={(name) => copy(name, name)}
+                  showTrigger={!query}
+                />
               </div>
             </div>
 
@@ -842,5 +854,31 @@ export default function Home() {
         </footer>
       </div>
     </MotionConfig>
+  );
+}
+
+function UrlSyncedHome() {
+  const [query, setQuery] = useQueryState('q', {
+    defaultValue: '',
+    history: 'replace',
+    shallow: true,
+    clearOnDefault: true,
+  });
+
+  return (
+    <HomeContent
+      query={query}
+      onQueryChange={(nextQuery) => {
+        void setQuery(nextQuery);
+      }}
+    />
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<HomeContent query="" onQueryChange={() => {}} />}>
+      <UrlSyncedHome />
+    </Suspense>
   );
 }
