@@ -7,6 +7,10 @@
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 /* wordmark links to #top — glide there unless the user prefers stillness */
 @media (prefers-reduced-motion: no-preference) {
   html {

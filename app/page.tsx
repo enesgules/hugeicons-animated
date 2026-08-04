@@ -11,6 +11,7 @@ import {
 import { ICON_LIST } from '@/app/icons-manifest';
 import type { AnimatedIconHandle as IconHandle } from '@/lib/use-icon-animation';
 import { GITHUB_URL } from '@/lib/site';
+import { Cancel01Icon } from '@/icons/cancel-01';
 import { Copy01Icon } from '@/icons/copy-01';
 import { FavouriteIcon } from '@/icons/favourite';
 import { Notification03Icon } from '@/icons/notification-03';
@@ -34,9 +35,9 @@ const matches = (query: string) => {
 const installCommand = (name: string) =>
   `npx shadcn add @hugeicons-animated/${name}`;
 
-// shared link treatment for footer / header text links
+// shared treatment for links embedded in page copy
 const textLink =
-  'rounded-sm text-[#696D6E] underline-offset-4 decoration-[#AFE67F] decoration-2 transition-colors hover:text-[#141812] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]';
+  'rounded-sm text-[#141812] no-underline decoration-[#79BD3E] decoration-2 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]';
 
 const DEFAULT_HERO_ICON = 'notification-03';
 
@@ -185,7 +186,9 @@ export default function Home() {
   const heroFieldRef = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
   const logoRef = useRef<IconHandle | null>(null);
+  const searchCancelIconRef = useRef<IconHandle | null>(null);
   const searchIconRef = useRef<IconHandle | null>(null);
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   const tickIconRef = useRef<IconHandle | null>(null);
   const reduced = useReducedMotion();
@@ -243,6 +246,11 @@ export default function Home() {
   };
 
   const filtered = matches(query);
+
+  const clearSearch = () => {
+    setQuery('');
+    searchInputRef.current?.focus();
+  };
 
   const previewSpecimen = (
     specimenIndex: number,
@@ -451,7 +459,7 @@ export default function Home() {
                 href="https://hugeicons.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#141812] underline decoration-[#AFE67F] decoration-2 underline-offset-4"
+                className={textLink}
               >
                 Hugeicons
               </a>
@@ -548,7 +556,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <label
+              <div
                 className="group relative w-full"
                 onPointerEnter={() =>
                   previewCommandIcon('search-01', searchIconRef.current)
@@ -559,7 +567,9 @@ export default function Home() {
                 }
                 onBlurCapture={() => stopCommandIcon(searchIconRef.current)}
               >
-                <span className="sr-only">Search icons</span>
+                <label className="sr-only" htmlFor="icon-search">
+                  Search icons
+                </label>
                 <span
                   className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#79BD3E] transition-colors duration-150 group-hover:text-[#4C7A22] group-focus-within:text-[#1D3208]"
                 >
@@ -572,13 +582,53 @@ export default function Home() {
                   />
                 </span>
                 <input
+                  id="icon-search"
+                  ref={searchInputRef}
                   type="search"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder={`Search ${ICONS.length} icons…`}
-                  className="w-full rounded-xl border border-[#E5E5E3] bg-white py-3 pl-10 pr-4 text-[15px] font-medium text-[#141812] shadow-[0_1px_2px_rgba(20,24,18,0.04)] transition-[background-color,border-color,box-shadow] duration-150 placeholder:text-[#BFC2BD] hover:border-[#AFE67F] hover:bg-[#FBFCFA] hover:shadow-[0_2px_6px_rgba(20,24,18,0.06)] focus:outline-none focus-visible:border-[#79BD3E] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+                  className="w-full rounded-xl border border-[#E5E5E3] bg-white py-3 pl-10 pr-12 text-[15px] font-medium text-[#141812] shadow-[0_1px_2px_rgba(20,24,18,0.04)] transition-[background-color,border-color,box-shadow] duration-150 placeholder:text-[#BFC2BD] hover:border-[#AFE67F] hover:bg-[#FBFCFA] hover:shadow-[0_2px_6px_rgba(20,24,18,0.06)] focus:outline-none focus-visible:border-[#79BD3E] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22] [&::-webkit-search-cancel-button]:hidden"
                 />
-              </label>
+                {query ? (
+                  <button
+                    type="button"
+                    aria-label="Clear search"
+                    onClick={() => {
+                      clearSearch();
+                      setHeroIconName('cancel-01');
+                    }}
+                    onPointerEnter={() =>
+                      previewCommandIcon(
+                        'cancel-01',
+                        searchCancelIconRef.current
+                      )
+                    }
+                    onPointerLeave={() =>
+                      stopCommandIcon(searchCancelIconRef.current)
+                    }
+                    onFocus={() =>
+                      previewCommandIcon(
+                        'cancel-01',
+                        searchCancelIconRef.current
+                      )
+                    }
+                    onBlur={() =>
+                      stopCommandIcon(searchCancelIconRef.current)
+                    }
+                    className="absolute right-2 top-1/2 grid size-8 -translate-y-1/2 cursor-pointer place-items-center rounded-lg text-[#9DA19B] transition-[background-color,color,scale] duration-150 hover:bg-[#EDF8DF] hover:text-[#2C4A0F] active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+                  >
+                    <Cancel01Icon
+                      size={17}
+                      aria-hidden
+                      className="pointer-events-none"
+                      ref={(handle: IconHandle | null) => {
+                        searchCancelIconRef.current = handle;
+                      }}
+                    />
+                  </button>
+                ) : null}
+              </div>
             </div>
 
             <div
@@ -593,7 +643,7 @@ export default function Home() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => setQuery('')}
+                  onClick={clearSearch}
                   className="min-h-10 cursor-pointer rounded-[10px] border border-[#E5E5E3] px-4 py-2 text-sm font-bold text-[#696D6E] transition-[color,border-color,scale] hover:border-[#79BD3E] hover:text-[#141812] active:scale-[0.96]"
                 >
                   Clear search
