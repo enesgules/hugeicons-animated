@@ -11,7 +11,6 @@ import {
 import { useQueryState } from 'nuqs';
 import { IconCommandMenu } from '@/app/icon-command-menu';
 import { ICON_LIST } from '@/app/icons-manifest';
-import { DEFAULT_DISAPPROVED_ICON_NAMES } from '@/lib/icon-approval';
 import type { AnimatedIconHandle as IconHandle } from '@/lib/use-icon-animation';
 import { GITHUB_URL } from '@/lib/site';
 import { Cancel01Icon } from '@/icons/cancel-01';
@@ -25,7 +24,6 @@ import { Tick02Icon } from '@/icons/tick-02';
 // hugeicons.com palette — white ground, ink, one green
 const GREEN = { bg: '#AFE67F', border: '#79BD3E', deep: '#1D3208' };
 const COPIED_TINT = { bg: '#EDF8DF', border: '#AFE67F', ink: '#2C4A0F' };
-const PENDING_TINT = { bg: '#FFF1F2', border: '#FECDD3', ink: '#881337' };
 
 const ICONS = ICON_LIST.map((icon, i) => ({
   ...icon,
@@ -581,16 +579,6 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
                       ? `${ICONS.length} icons`
                       : `${filtered.length} of ${ICONS.length}`}
                   </span>
-                  <a
-                    href="/review"
-                    className="inline-flex min-h-8 items-center gap-1.5 rounded-md px-1.5 font-mono text-[10px] font-medium text-[#9F1239] underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9F1239]"
-                  >
-                    <span
-                      aria-hidden
-                      className="size-2 rounded-[2px] bg-[#FFF1F2] ring-1 ring-[#FECDD3]"
-                    />
-                    awaiting approval
-                  </a>
                 </div>
                 <p className="mt-1 text-pretty text-sm font-medium text-[#9DA19B]">
                   Hover to preview. Click any icon to copy its install command.
@@ -700,17 +688,10 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
               <div className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-4 sm:gap-3 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8">
                 {filtered.map(({ name, Icon, idx }, pos) => {
                   const isCopied = copied === name;
-                  const isPendingApproval =
-                    DEFAULT_DISAPPROVED_ICON_NAMES.has(name);
                   return (
                     <button
                       key={name}
                       type="button"
-                      aria-label={`Copy the ${name} install command${
-                        isPendingApproval
-                          ? '; animation awaiting approval'
-                          : ''
-                      }`}
                       onClick={() => copy(name, name)}
                       onPointerEnter={() => refs.current[idx]?.startAnimation()}
                       onPointerLeave={() => refs.current[idx]?.stopAnimation()}
@@ -718,21 +699,11 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
                       onBlur={() => refs.current[idx]?.stopAnimation()}
                       className="tile-enter group relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border transition-[background-color,border-color,box-shadow] duration-200 [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:shadow-[0_8px_24px_rgba(20,24,18,0.08)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
                       style={{
-                        backgroundColor: isCopied
-                          ? COPIED_TINT.bg
-                          : isPendingApproval
-                            ? PENDING_TINT.bg
-                            : '#F5F5F4',
+                        backgroundColor: isCopied ? COPIED_TINT.bg : '#F5F5F4',
                         borderColor: isCopied
                           ? COPIED_TINT.border
-                          : isPendingApproval
-                            ? PENDING_TINT.border
-                            : 'transparent',
-                        color: isCopied
-                          ? COPIED_TINT.ink
-                          : isPendingApproval
-                            ? PENDING_TINT.ink
-                            : '#141812',
+                          : 'transparent',
+                        color: isCopied ? COPIED_TINT.ink : '#141812',
                         // cap the cascade so late rows don't feel laggy
                         ['--tile-delay' as string]: `${Math.min(pos * 22, 360)}ms`,
                       }}

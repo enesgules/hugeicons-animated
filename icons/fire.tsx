@@ -45,10 +45,9 @@ const flameVariants: Variants = {
 
 // embers: born at the flame's shoulder, they wander up, shrink, and wink out
 const emberVariants: Variants = {
-  normal: { opacity: 0, visibility: 'hidden', translateY: 0, translateX: 0, scale: 1, transition: { duration: 0.2 } },
+  normal: { opacity: 0, translateY: 0, translateX: 0, scale: 1, transition: { duration: 0.2 } },
   animate: (i: number) => ({
     opacity: [0, 1, 0],
-    visibility: ['hidden', 'visible', 'hidden'],
     translateY: [0.5, -4.5],
     translateX: [0, i % 2 === 0 ? -0.9 : 0.9],
     scale: [1, 0.65],
@@ -62,8 +61,8 @@ const emberVariants: Variants = {
   }),
 };
 const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
-  animate: { visibility: 'visible', transition: { duration: 0.08 } },
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
 };
 
 

@@ -18,9 +18,9 @@ interface SleepingIconProps extends HTMLAttributes<HTMLDivElement> {
 
 // the Z marks drift farther from the face so they never crowd its outline
 const zVariants: Variants = {
-  normal: { visibility: 'visible', translateX: 0, translateY: 0, transition: { duration: 0.3 } },
+  normal: { opacity: 1, translateX: 0, translateY: 0, transition: { duration: 0.3 } },
   animate: {
-    visibility: ['visible', 'visible', 'hidden', 'hidden', 'visible'],
+    opacity: [1, 1, 0, 0, 1],
     translateY: [0, -3.2, -4.8, 0, 0],
     translateX: [0, 1.6, 2.6, 0, 0],
     transition: {
@@ -33,9 +33,9 @@ const zVariants: Variants = {
 };
 
 const littleZVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0.15 } },
+  normal: { opacity: 0, transition: { duration: 0.15 } },
   animate: {
-    visibility: ['hidden', 'visible', 'hidden'],
+    opacity: [0, 1, 0],
     translateY: [0, -4],
     translateX: [1, 3],
     transition: { duration: 2, ease: 'easeInOut', repeat: Infinity, delay: 0.6 },
@@ -50,8 +50,8 @@ const snoreVariants: Variants = {
   },
 };
 const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
-  animate: { visibility: 'visible', transition: { duration: 0.08 } },
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
 };
 
 

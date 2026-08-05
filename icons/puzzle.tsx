@@ -16,31 +16,32 @@ interface PuzzleIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const puzzleTimes = [0, 0.18, 0.34, 0.56, 0.7, 0.84, 1];
-
-// Lift the whole piece, align it over its slot, then seat it with a tactile click.
+// the piece tests its fit while neighboring pieces briefly approach its open sides
 const puzzleVariants: Variants = {
-  normal: {
-    transform: 'none',
-    transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
-  },
+  normal: { translateX: 0, translateY: 0, rotate: 0, scale: 1, transition: { type: 'spring', duration: 0.5, bounce: 0 } },
   animate: {
-    transform: [
-      'translate3d(0px, 0px, 0px) rotate(0deg) scale(1)',
-      'translate3d(1.2px, -1.55px, 0px) rotate(7deg) scale(0.985)',
-      'translate3d(1.65px, -1.9px, 0px) rotate(10deg) scale(0.98)',
-      'translate3d(0.35px, -0.3px, 0px) rotate(1.5deg) scale(1.01)',
-      'translate3d(-0.16px, 0.22px, 0px) rotate(-0.8deg) scale(0.985)',
-      'translate3d(0px, -0.08px, 0px) rotate(0deg) scale(1.018)',
-      'translate3d(0px, 0px, 0px) rotate(0deg) scale(1)',
-    ],
-    transition: {
-      duration: 0.78,
-      ease: [0.65, 0, 0.35, 1],
-      times: puzzleTimes,
-    },
+    translateX: [0, 1.1, -0.45, 0],
+    translateY: [0, -1.2, 0.45, 0],
+    rotate: [0, 4, -2, 0],
+    scale: [1, 0.96, 1.04, 1],
+    transition: { duration: 0.85, times: [0, 0.3, 0.66, 1], ease: 'easeInOut' },
   },
 };
+
+const neighborPieceVariants: Variants = {
+  normal: { opacity: 0, scale: 0.25 },
+  animate: (i: number) => ({
+    opacity: [0, 0.8, 0.8, 0],
+    scale: [0.55, 1, 1, 0.8],
+    translateX: i === 0 ? [1.5, 0, 0, 1.5] : [-1.5, 0, 0, -1.5],
+    transition: { duration: 0.74, times: [0, 0.3, 0.68, 1], delay: i * 0.05, ease: [0.23, 1, 0.32, 1] },
+  }),
+};
+const generatedGeometryVariants: Variants = {
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
+};
+
 
 const PuzzleIcon = forwardRef<PuzzleIconHandle, PuzzleIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -76,8 +77,16 @@ const PuzzleIcon = forwardRef<PuzzleIconHandle, PuzzleIconProps>(
             variants={puzzleVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
+            style={{ transformOrigin: '12px 12px' }}
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+          <motion.path d="M18.5 5H21V7.5C20.7 7.4 20.4 7.35 20.1 7.35C19.25 7.35 18.55 8.05 18.55 8.9" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" variants={neighborPieceVariants} custom={0} animate={controls} initial="normal" style={{ transformOrigin: '19.75px 6.8px' }} />
+          <motion.path d="M5.5 19H3V16.5C3.3 16.6 3.6 16.65 3.9 16.65C4.75 16.65 5.45 15.95 5.45 15.1" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" variants={neighborPieceVariants} custom={1} animate={controls} initial="normal" style={{ transformOrigin: '4.25px 17.2px' }} />
+          </motion.g>
         </svg>
       </div>
     );

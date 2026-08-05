@@ -16,23 +16,18 @@ interface Search01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The complete magnifier moves closer to the subject, holds the zoom, and returns.
+// the magnifier sweeps as one rigid tool, keeping the handle joined to the lens
 const svgVariants: Variants = {
   normal: { transform: 'translate(0px, 0px) rotate(0deg)' },
   animate: {
     transform: [
-      'translate(0px, 0px) rotate(0deg) scale(1)',
-      'translate(-0.4px, -0.4px) rotate(-2deg) scale(0.97)',
-      'translate(0.6px, 0.6px) rotate(2deg) scale(1.12)',
-      'translate(0.75px, 0.75px) rotate(1deg) scale(1.12)',
-      'translate(-0.15px, -0.15px) rotate(-0.5deg) scale(1.04)',
-      'translate(0px, 0px) rotate(0deg) scale(1)',
+      'translate(0px, 0px) rotate(0deg)',
+      'translate(-1.4px, 1px) rotate(-7deg)',
+      'translate(1.2px, -0.8px) rotate(5deg)',
+      'translate(-0.25px, 0.15px) rotate(-1deg)',
+      'translate(0px, 0px) rotate(0deg)',
     ],
-    transition: {
-      duration: 0.66,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.16, 0.38, 0.55, 0.72, 1],
-    },
+    transition: { duration: 0.62, ease: [0.77, 0, 0.175, 1], times: [0, 0.26, 0.56, 0.8, 1] },
   },
 };
 

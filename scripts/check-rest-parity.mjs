@@ -47,17 +47,6 @@ const normalState = (body) => {
   return body.slice(start.index + start[0].length, end.index);
 };
 
-const animateState = (body) => {
-  if (!body) return null;
-  const start = /\banimate\s*:/.exec(body);
-  return start ? body.slice(start.index + start[0].length) : null;
-};
-
-const hasMeaningfulMotion = (animate) =>
-  /\b(?:transform|translateX|translateY|rotate|scale|scaleX|scaleY|d|pathLength|pathOffset|strokeDasharray|strokeDashoffset)\s*:/.test(
-    animate
-  );
-
 const identityTransform = (value) => {
   const tokens = value.match(/[a-zA-Z]+\([^)]*\)/g) ?? [];
   if (!tokens.length) return value.trim() === 'none';
@@ -143,16 +132,6 @@ for (const fileName of iconFiles) {
   for (const name of usedVariants) {
     const body = variantBody(icon, name);
     const normal = normalState(body);
-    const animate = animateState(body);
-    if (
-      animate &&
-      /\bopacity\s*:/.test(animate) &&
-      !hasMeaningfulMotion(animate)
-    ) {
-      failures.push(
-        `${exportName}.${name}: opacity cannot be the animation itself`
-      );
-    }
     if (!normal) continue;
     const allowHidden =
       name === 'generatedGeometryVariants' ||

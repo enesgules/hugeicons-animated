@@ -16,24 +16,17 @@ interface Menu01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const MENU_LINES = ['M4 5L20 5', 'M4 12L20 12', 'M4 19L20 19'];
-const MENU_SCAN_LINES = ['M4 5L17.2 5', 'M4 12L15.8 12', 'M4 19L17.2 19'];
-const MENU_OVERSHOOT_LINES = ['M4 5L20.35 5', 'M4 12L20.35 12', 'M4 19L20.35 19'];
-
-// The right edge scans downward while every row stays attached to the same left rail.
+// the three rows reflow like a menu being scanned, without turning into another icon
 const menuLineVariants: Variants = {
-  normal: (i: number) => ({
-    d: MENU_LINES[i],
-    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-  }),
+  normal: { transform: 'translateX(0px) scaleX(1)' },
   animate: (i: number) => ({
-    d: [MENU_LINES[i], MENU_SCAN_LINES[i], MENU_OVERSHOOT_LINES[i], MENU_LINES[i]],
-    transition: {
-      duration: 0.32,
-      delay: i * 0.075,
-      times: [0, 0.42, 0.76, 1],
-      ease: [0.23, 1, 0.32, 1],
-    },
+    transform: [
+      'translateX(0px) scaleX(1)',
+      i === 1 ? 'translateX(-0.9px) scaleX(1.08)' : 'translateX(0.9px) scaleX(0.9)',
+      i === 1 ? 'translateX(0.25px) scaleX(0.98)' : 'translateX(-0.2px) scaleX(1.025)',
+      'translateX(0px) scaleX(1)',
+    ],
+    transition: { duration: 0.46, delay: i * 0.055, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 
@@ -64,7 +57,7 @@ const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
           overflow="visible"
         >
           <motion.path
-            d={MENU_LINES[0]}
+            d="M4 5L20 5"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -73,9 +66,10 @@ const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
             custom={0}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '12px 5px' }}
           />
           <motion.path
-            d={MENU_LINES[1]}
+            d="M4 12L20 12"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -84,9 +78,10 @@ const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
             custom={1}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '12px 12px' }}
           />
           <motion.path
-            d={MENU_LINES[2]}
+            d="M4 19L20 19"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -95,6 +90,7 @@ const Menu01Icon = forwardRef<Menu01IconHandle, Menu01IconProps>(
             custom={2}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '12px 19px' }}
           />
         </svg>
       </div>

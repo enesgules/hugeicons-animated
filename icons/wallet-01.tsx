@@ -41,8 +41,8 @@ const banknoteVariants: Variants = {
   },
 };
 const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
-  animate: { visibility: 'visible', transition: { duration: 0.08 } },
+  normal: { opacity: 0, transition: { duration: 0.08 } },
+  animate: { opacity: 1, transition: { duration: 0.08 } },
 };
 
 
