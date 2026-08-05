@@ -20,9 +20,9 @@ interface BatteryCharging01IconProps extends HTMLAttributes<HTMLDivElement> {
 type ChargeCell = { start: number; done: number };
 
 const chargeCellVariants: Variants = {
-  normal: { opacity: 0, transform: 'scaleY(0.08)' },
+  normal: { visibility: 'hidden', transform: 'scaleY(0.08)' },
   animate: ({ start, done }: ChargeCell) => ({
-    opacity: [0, 0, 1, 1, 1, 1, 0, 0],
+    visibility: ['hidden', 'hidden', 'visible', 'visible', 'visible', 'visible', 'hidden', 'hidden'],
     transform: [
       'scaleY(0.08)',
       'scaleY(0.08)',
@@ -61,9 +61,9 @@ const chargedBatteryVariants: Variants = {
 };
 
 const chargeBoltVariants: Variants = {
-  normal: { opacity: 1, transform: 'scale(1)', filter: 'blur(0px)' },
+  normal: { visibility: 'visible', transform: 'scale(1)', filter: 'blur(0px)' },
   animate: {
-    opacity: [1, 1, 0, 0, 0, 0, 1, 1],
+    visibility: ['visible', 'visible', 'hidden', 'hidden', 'hidden', 'hidden', 'visible', 'visible'],
     transform: [
       'scale(1)',
       'scale(1)',
@@ -92,8 +92,8 @@ const chargeBoltVariants: Variants = {
   },
 };
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 

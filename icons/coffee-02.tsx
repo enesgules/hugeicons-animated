@@ -26,7 +26,7 @@ const createSteamVariants = ({
   delay,
 }: SteamMotion): Variants => ({
   normal: {
-    opacity: 1,
+    visibility: 'visible',
     pathLength: 1,
     pathOffset: 0,
     transform: 'translateY(0px)',
@@ -35,7 +35,7 @@ const createSteamVariants = ({
   animate: {
     pathLength: [1, 0.58, 0.22, 0, 0.14, 0.14, 0.34, 0.6, 1],
     pathOffset: [0, 0, 0, 0, 0.86, 0.86, 0.54, 0.2, 0],
-    opacity: [1, 1, 0.72, 0, 0, 1, 1, 1, 1],
+    visibility: ['visible', 'visible', 'visible', 'hidden', 'hidden', 'visible', 'visible', 'visible', 'visible'],
     transform: [
       'translateY(0px)',
       'translateY(-0.35px)',

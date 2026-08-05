@@ -26,10 +26,10 @@ const svgVariants: Variants = {
 };
 
 const pathVariants: Variants = {
-  normal: { pathLength: 1, opacity: 1 },
+  normal: { pathLength: 1, visibility: 'visible' },
   animate: {
     pathLength: [0, 1],
-    opacity: 1,
+    visibility: 'visible',
     transition: { duration: 0.35, ease: 'easeOut' },
   },
 };

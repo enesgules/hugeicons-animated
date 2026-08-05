@@ -16,21 +16,68 @@ interface Diamond02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the gem opens wide enough to read, then its center facet catches up
+// The gem pops into the light, its center facet flashes, and a large glint
+// catches its upper edge before everything settles cleanly.
 const svgVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(1)' },
+  normal: {
+    translateY: 0,
+    rotate: 0,
+    scale: 1,
+    transition: { type: 'spring', duration: 0.3, bounce: 0 },
+  },
   animate: {
-    transform: ['rotate(0deg) scale(1)', 'rotate(-5deg) scale(1.13)', 'rotate(3deg) scale(0.985)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.62, ease: [0.23, 1, 0.32, 1] },
+    translateY: [0, -1.1, 0.2, -0.35, 0],
+    rotate: [0, -4.5, 2.5, -0.75, 0],
+    scale: [1, 1.15, 0.985, 1.045, 1],
+    transition: {
+      duration: 0.85,
+      ease: 'easeInOut',
+      times: [0, 0.3, 0.5, 0.72, 1],
+    },
   },
 };
 
 const facetVariants: Variants = {
-  normal: { transform: 'scaleX(1)' },
-  animate: {
-    transform: ['scaleX(1)', 'scaleX(0.55)', 'scaleX(1.28)', 'scaleX(1)'],
-    transition: { duration: 0.5, delay: 0.07, ease: [0.23, 1, 0.32, 1] },
+  normal: {
+    visibility: 'visible',
+    scaleX: 1,
+    transition: { duration: 0.18, ease: 'easeOut' },
   },
+  animate: {
+    visibility: ['visible', 'visible', 'visible', 'visible', 'visible'],
+    scaleX: [1, 0.55, 1.55, 0.82, 1],
+    transition: {
+      duration: 0.72,
+      delay: 0.05,
+      ease: 'easeInOut',
+      times: [0, 0.24, 0.48, 0.72, 1],
+    },
+  },
+};
+
+const glintVariants: Variants = {
+  normal: {
+    visibility: 'hidden',
+    scale: 0.2,
+    rotate: -18,
+    transition: { duration: 0.16, ease: 'easeOut' },
+  },
+  animate: {
+    visibility: ['hidden', 'visible', 'visible', 'hidden'],
+    scale: [0.2, 1.35, 1.05, 0.45],
+    rotate: [-18, 0, 14, 26],
+    transition: {
+      duration: 0.68,
+      delay: 0.08,
+      ease: 'easeInOut',
+      times: [0, 0.34, 0.62, 1],
+    },
+  },
+};
+
+const generatedGeometryVariants: Variants = {
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 const Diamond02Icon = forwardRef<Diamond02IconHandle, Diamond02IconProps>(
@@ -79,6 +126,22 @@ const Diamond02Icon = forwardRef<Diamond02IconHandle, Diamond02IconProps>(
             initial="normal"
             style={{ transformOrigin: '12px 8.5px' }}
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+            <motion.path
+              d="M19.1 1.9V6.7M16.7 4.3H21.5"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth="1.5"
+              variants={glintVariants}
+              animate={controls}
+              initial="normal"
+              style={{ transformOrigin: '19.1px 4.3px' }}
+            />
+          </motion.g>
         </motion.svg>
       </div>
     );

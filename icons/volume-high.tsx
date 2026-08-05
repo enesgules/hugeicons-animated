@@ -26,9 +26,9 @@ const speakerVariants: Variants = {
 };
 
 const waveVariants: Variants = {
-  normal: { opacity: 1, transform: 'translateX(0px) scale(1)', transition: { duration: 0.22 } },
+  normal: { visibility: 'visible', transform: 'translateX(0px) scale(1)', transition: { duration: 0.22 } },
   animate: (i: number) => ({
-    opacity: [0.2, 1, 0.4],
+    visibility: ['visible', 'visible', 'visible'],
     transform: [
       'translateX(-0.6px) scale(0.82)',
       'translateX(0px) scale(1.06)',

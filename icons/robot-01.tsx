@@ -16,7 +16,7 @@ interface Robot01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the antenna tunes in, the face tilts, and the eyes blink in response
+// the antenna tunes in, the face tilts, and a segmented status display responds
 const robotHeadVariants: Variants = {
   normal: { rotate: 0, translateY: 0, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
   animate: {
@@ -42,19 +42,29 @@ const antennaVariants: Variants = {
   },
 };
 
-const robotSmileVariants: Variants = {
-  normal: { opacity: 0, pathLength: 0 },
+const robotDisplayVariants: Variants = {
+  normal: { pathLength: 0 },
   animate: {
-    opacity: [0, 1],
-    pathLength: [0, 1],
-    transition: { duration: 0.35, delay: 0.35, ease: 'easeOut' },
+    pathLength: [0, 0, 1, 1, 0],
+    transition: {
+      duration: 1,
+      times: [0, 0.2, 0.38, 0.86, 1],
+      ease: [0.23, 1, 0.32, 1],
+    },
   },
 };
-const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
-};
 
+const generatedGeometryVariants: Variants = {
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: {
+    visibility: ['hidden', 'hidden', 'visible', 'visible', 'hidden'],
+    transition: {
+      duration: 1,
+      times: [0, 0.2, 0.24, 0.86, 1],
+      ease: 'easeInOut',
+    },
+  },
+};
 
 const Robot01Icon = forwardRef<Robot01IconHandle, Robot01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -140,7 +150,15 @@ const Robot01Icon = forwardRef<Robot01IconHandle, Robot01IconProps>(
             animate={controls}
             initial="normal"
           >
-          <motion.path d="M9.5 11C10.2 11.7 11 12 12 12C13 12 13.8 11.7 14.5 11" stroke="currentColor" strokeLinecap="round" strokeWidth="1.1" variants={robotSmileVariants} animate={controls} initial="normal" />
+            <motion.path
+              d="M9 11.5H10.5M11.25 11.5H12.75M13.5 11.5H15"
+              stroke="currentColor"
+              strokeLinecap="butt"
+              strokeWidth="1.6"
+              variants={robotDisplayVariants}
+              animate={controls}
+              initial="normal"
+            />
           </motion.g>
         </svg>
       </div>

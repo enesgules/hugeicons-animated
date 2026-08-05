@@ -16,12 +16,20 @@ interface Folder01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the folder perks up from the desk, tips forward, and lands with weight
+// match the compact lift, lean, and weighted settle of the sibling folders
 const folderVariants: Variants = {
   normal: { transform: 'translateY(0px) rotate(0deg)' },
   animate: {
-    transform: ['translateY(0px) rotate(0deg)', 'translateY(-2.2px) rotate(-3deg)', 'translateY(0.55px) rotate(1deg)', 'translateY(0px) rotate(0deg)'],
-    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1], times: [0, 0.42, 0.72, 1] },
+    transform: [
+      'translateY(0px) rotate(0deg)',
+      'translateY(-1.7px) rotate(-2deg)',
+      'translateY(0.4px) rotate(0.7deg)',
+      'translateY(0px) rotate(0deg)',
+    ],
+    transition: {
+      duration: 0.56,
+      ease: [0.23, 1, 0.32, 1],
+    },
   },
 };
 

@@ -28,10 +28,10 @@ const pointerVariants: Variants = {
 };
 
 const clickRingVariants: Variants = {
-  normal: { opacity: 1, scale: 1 },
+  normal: { visibility: 'visible', scale: 1 },
   animate: (i: number) => ({
-    opacity: [1, 0.2, 0.85, 0],
-    scale: [1, 0.72, 1.08 + i * 0.08, 1.18 + i * 0.1],
+    visibility: ['visible', 'visible', 'visible', 'visible'],
+    scale: [1, 0.72, 1.08 + i * 0.08, 1],
     transition: { duration: 0.75, times: [0, 0.32, 0.55, 1], ease: 'easeOut' },
   }),
 };

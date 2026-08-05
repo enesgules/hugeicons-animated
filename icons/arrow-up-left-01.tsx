@@ -18,19 +18,17 @@ interface ArrowUpLeft01IconProps extends HTMLAttributes<HTMLDivElement> {
 
 // rest-parity: split-source-path
 
-const shaftVariants: Variants = {
-  normal: { d: 'M7.5 7.5L17.5 17.5' },
+const arrowVariants: Variants = {
+  normal: { transform: 'translate(0px, 0px) scale(1)' },
   animate: {
-    d: ['M7.5 7.5L17.5 17.5', 'M5.5 5.5L13 13', 'M7.5 7.5L17.5 17.5', 'M6.7 6.7L15.9 15.9', 'M7.5 7.5L17.5 17.5'],
-    transition: { duration: 0.64, ease: [0.23, 1, 0.32, 1], times: [0, 0.3, 0.58, 0.78, 1] },
-  },
-};
-
-const headVariants: Variants = {
-  normal: { transform: 'translate(0px, 0px)' },
-  animate: {
-    transform: ['translate(0px, 0px)', 'translate(-2px, -2px)', 'translate(0px, 0px)', 'translate(-0.8px, -0.8px)', 'translate(0px, 0px)'],
-    transition: { duration: 0.64, ease: [0.23, 1, 0.32, 1], times: [0, 0.28, 0.58, 0.78, 1] },
+    transform: [
+      'translate(0px, 0px) scale(1)',
+      'translate(-1.5px, -1.5px) scale(0.97)',
+      'translate(0.2px, 0.2px) scale(1.01)',
+      'translate(-0.3px, -0.3px) scale(0.995)',
+      'translate(0px, 0px) scale(1)',
+    ],
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -42,8 +40,10 @@ const ArrowUpLeft01Icon = forwardRef<ArrowUpLeft01IconHandle, ArrowUpLeft01IconP
     return (
       <div className={cn(className)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} {...props}>
         <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" overflow="visible">
-          <motion.path d="M7.5 7.5L17.5 17.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={shaftVariants} animate={controls} initial="normal" />
-          <motion.path d="M15 6.65032C15 6.65032 8.06166 6.10759 7.08461 7.08463C6.10755 8.06167 6.65037 15 6.65037 15" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={headVariants} animate={controls} initial="normal" />
+          <motion.g variants={arrowVariants} animate={controls} initial="normal" style={{ transformOrigin: '12px 12px' }}>
+            <path d="M7.5 7.5L17.5 17.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+            <path d="M15 6.65032C15 6.65032 8.06166 6.10759 7.08461 7.08463C6.10755 8.06167 6.65037 15 6.65037 15" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+          </motion.g>
         </svg>
       </div>
     );

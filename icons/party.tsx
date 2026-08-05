@@ -28,9 +28,9 @@ const popperVariants: Variants = {
 };
 
 const confettiVariants: Variants = {
-  normal: { opacity: 1, transform: 'translate(0px, 0px) rotate(0deg) scale(1)' },
+  normal: { visibility: 'visible', transform: 'translate(0px, 0px) rotate(0deg) scale(1)' },
   animate: (i: number) => ({
-    opacity: [0, 1, 1],
+    visibility: ['hidden', 'visible', 'visible'],
     transform: [
       'translate(-7px, 7px) rotate(0deg) scale(0.2)',
       'translate(' + (0.7 + (i % 2) * 0.7) + 'px, ' + (-1.2 - (i % 3) * 0.45) + 'px) rotate(' + ((i % 2 === 0 ? 1 : -1) * (14 + i * 2)) + 'deg) scale(1.05)',

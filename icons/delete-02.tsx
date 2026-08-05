@@ -16,29 +16,42 @@ interface Delete02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the hinged lid lifts and tilts; when it lands the bin takes the knock
+// the hinged lid opens, then the bin absorbs the weight as it closes
 const lidVariants: Variants = {
-  normal: { translateY: 0, rotate: 0 },
+  normal: { transform: 'translateY(0px) rotate(0deg)' },
   animate: {
-    translateY: [0, -2, -2, 0],
-    rotate: [0, -7, -7, 0],
-    transition: { duration: 0.7, ease: 'easeInOut', times: [0, 0.25, 0.6, 1] },
+    transform: [
+      'translateY(0px) rotate(0deg)',
+      'translateY(0.2px) rotate(1deg)',
+      'translateY(-2.4px) rotate(-9deg)',
+      'translateY(-2.2px) rotate(-8deg)',
+      'translateY(0.18px) rotate(1deg)',
+      'translateY(-0.08px) rotate(-0.4deg)',
+      'translateY(0px) rotate(0deg)',
+    ],
+    transition: {
+      duration: 0.82,
+      times: [0, 0.1, 0.34, 0.52, 0.78, 0.9, 1],
+      ease: [0.77, 0, 0.175, 1],
+    },
   },
 };
 
 const binVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { transform: 'translateY(0px) scaleY(1)' },
   animate: {
-    translateY: [0, 0.6, 0],
-    transition: { duration: 0.2, ease: 'easeOut', delay: 0.66 },
-  },
-};
-
-const lineVariants: Variants = {
-  normal: { translateY: 0 },
-  animate: {
-    translateY: [0, -0.8, 0],
-    transition: { duration: 0.55, ease: 'easeInOut', delay: 0.12 },
+    transform: [
+      'translateY(0px) scaleY(1)',
+      'translateY(0px) scaleY(1)',
+      'translateY(0.35px) scaleY(0.97)',
+      'translateY(-0.14px) scaleY(1.012)',
+      'translateY(0px) scaleY(1)',
+    ],
+    transition: {
+      duration: 0.82,
+      times: [0, 0.7, 0.8, 0.91, 1],
+      ease: [0.23, 1, 0.32, 1],
+    },
   },
 };
 
@@ -76,6 +89,7 @@ const Delete02Icon = forwardRef<Delete02IconHandle, Delete02IconProps>(
             variants={binVariants}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '12px 22px' }}
           />
           <motion.path
             d="M3 5.5H21M16.0557 5.5L15.3731 4.09173C14.9196 3.15626 14.6928 2.68852 14.3017 2.39681C14.215 2.3321 14.1231 2.27454 14.027 2.2247C13.5939 2 13.0741 2 12.0345 2C10.9688 2 10.436 2 9.99568 2.23412C9.8981 2.28601 9.80498 2.3459 9.71729 2.41317C9.32164 2.7167 9.10063 3.20155 8.65861 4.17126L8.05292 5.5"
@@ -85,24 +99,27 @@ const Delete02Icon = forwardRef<Delete02IconHandle, Delete02IconProps>(
             variants={lidVariants}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '18px 5.5px' }}
           />
           <motion.path
             d="M9.5 16.5L9.5 10.5"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={lineVariants}
+            variants={binVariants}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '12px 22px' }}
           />
           <motion.path
             d="M14.5 16.5L14.5 10.5"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={lineVariants}
+            variants={binVariants}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '12px 22px' }}
           />
         </svg>
       </div>

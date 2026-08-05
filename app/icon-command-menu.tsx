@@ -70,11 +70,11 @@ export function IconCommandMenu({
             restoreFocusRef.current = event.currentTarget;
             setOpen(true);
           }}
-          className="group absolute right-1 top-1/2 grid h-10 w-12 -translate-y-1/2 cursor-pointer place-items-center rounded-[10px] transition-[background-color,scale] duration-150 hover:bg-[#EDF8DF]/70 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+          className="group absolute right-2.5 top-1/2 grid h-10 w-11 -translate-y-1/2 cursor-pointer place-items-center rounded-[10px] transition-transform duration-150 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
         >
           <kbd
             aria-hidden
-            className="pointer-events-none inline-flex h-7 overflow-hidden rounded-[7px] bg-white text-[#696D6E] shadow-[0_0_0_1px_rgba(20,24,18,0.1),0_1px_1px_rgba(20,24,18,0.08),0_2px_0_rgba(20,24,18,0.05)] transition-[color,box-shadow,translate] duration-150 group-hover:text-[#2C4A0F] group-hover:shadow-[0_0_0_1px_rgba(121,189,62,0.45),0_1px_1px_rgba(44,74,15,0.08),0_2px_0_rgba(121,189,62,0.18)] group-active:translate-y-px"
+            className="pointer-events-none inline-flex h-7 overflow-hidden rounded-[7px] bg-white text-[#696D6E] shadow-[0_0_0_1px_rgba(20,24,18,0.1),0_1px_1px_rgba(20,24,18,0.08),0_2px_0_rgba(20,24,18,0.05)] transition-[background-color,color,box-shadow] duration-150 group-hover:bg-[#FBFCFA] group-hover:text-[#2C4A0F] group-hover:shadow-[0_0_0_1px_rgba(121,189,62,0.36),0_2px_4px_rgba(44,74,15,0.08)]"
           >
             <span className="grid w-6 place-items-center border-r border-[#141812]/6 [font-family:ui-sans-serif,system-ui,sans-serif] text-[13px] leading-none">
               ⌘

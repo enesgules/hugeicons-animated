@@ -26,21 +26,21 @@ const ringsVariants: Variants = {
 };
 
 const sourceDaysVariants: Variants = {
-  normal: { opacity: 1 },
-  animate: { opacity: 0, transition: { duration: 0.08 } },
+  normal: { visibility: 'visible' },
+  animate: { visibility: 'hidden', transition: { duration: 0.08 } },
 };
 
 const dayVariants: Variants = {
-  normal: { opacity: 0, transform: 'scale(0.9)' },
+  normal: { visibility: 'hidden', transform: 'scale(0.9)' },
   animate: (i: number) => ({
-    opacity: [0, 1, 1],
+    visibility: ['hidden', 'visible', 'visible'],
     transform: ['scale(0.9)', 'scale(1.16)', 'scale(1)'],
     transition: { duration: 0.3, delay: 0.08 + i * 0.065, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 

@@ -26,10 +26,10 @@ const svgVariants: Variants = {
 };
 
 const smileVariants: Variants = {
-  normal: { pathLength: 1, opacity: 1 },
+  normal: { pathLength: 1, visibility: 'visible' },
   animate: {
     pathLength: [0, 1],
-    opacity: [0, 1],
+    visibility: ['hidden', 'visible'],
     transition: { duration: 0.4, ease: 'easeOut', delay: 0.2 },
   },
 };

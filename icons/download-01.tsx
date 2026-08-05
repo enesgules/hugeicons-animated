@@ -19,10 +19,10 @@ interface Download01IconProps extends HTMLAttributes<HTMLDivElement> {
 // a conveyor: the arrow falls through, fades, and a new one drops in from
 // above — the tray dips as each delivery lands
 const arrowVariants: Variants = {
-  normal: { translateY: 0, opacity: 1 },
+  normal: { translateY: 0, visibility: 'visible' },
   animate: {
     translateY: [0, 5, -5, 0],
-    opacity: [1, 0, 0, 1],
+    visibility: ['visible', 'hidden', 'hidden', 'visible'],
     transition: {
       duration: 0.7,
       times: [0, 0.42, 0.5, 1],

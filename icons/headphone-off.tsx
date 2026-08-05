@@ -104,8 +104,8 @@ const arrivingSlashVariants: Variants = {
 };
 
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0 } },
-  animate: { opacity: 1, transition: { duration: 0 } },
+  normal: { visibility: 'hidden', transition: { duration: 0 } },
+  animate: { visibility: 'visible', transition: { duration: 0 } },
 };
 
 const HeadphoneOffIcon = forwardRef<HeadphoneOffIconHandle, HeadphoneOffIconProps>(

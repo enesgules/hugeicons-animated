@@ -33,20 +33,20 @@ const glassVariants: Variants = {
 };
 
 const filamentVariants: Variants = {
-  normal: { pathLength: 1, opacity: 1, transform: 'scaleX(1)' },
+  normal: { pathLength: 1, visibility: 'visible', transform: 'scaleX(1)' },
   animate: {
     pathLength: [1, 0.35, 1, 1],
-    opacity: [1, 0.45, 1, 1],
+    visibility: ['visible', 'visible', 'visible', 'visible'],
     transform: ['scaleX(1)', 'scaleX(0.78)', 'scaleX(1.14)', 'scaleX(1)'],
     transition: { duration: 0.5, delay: 0.05, ease: [0.23, 1, 0.32, 1], times: [0, 0.22, 0.62, 1] },
   },
 };
 
 const currentVariants: Variants = {
-  normal: { pathLength: 1, opacity: 1 },
+  normal: { pathLength: 1, visibility: 'visible' },
   animate: {
     pathLength: [1, 0.12, 1, 1],
-    opacity: [1, 0.3, 1, 1],
+    visibility: ['visible', 'visible', 'visible', 'visible'],
     transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1], times: [0, 0.2, 0.7, 1] },
   },
 };
@@ -55,12 +55,12 @@ type LightRay = { x: number; y: number; delay: number };
 
 const rayVariants: Variants = {
   normal: ({ x, y }: LightRay) => ({
-    opacity: 0,
+    visibility: 'hidden',
     pathLength: 0,
     transform: 'translate(' + -x + 'px, ' + -y + 'px)',
   }),
   animate: ({ x, y, delay }: LightRay) => ({
-    opacity: [0, 1, 1],
+    visibility: ['hidden', 'visible', 'visible'],
     pathLength: [0, 1, 1],
     transform: [
       'translate(' + -x + 'px, ' + -y + 'px)',
@@ -76,8 +76,8 @@ const rayVariants: Variants = {
   }),
 };
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 

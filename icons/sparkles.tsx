@@ -18,26 +18,25 @@ interface SparklesIconProps extends HTMLAttributes<HTMLDivElement> {
 
 // two stars trade brightness so the twinkle feels continuous, not simultaneous
 const sparkleVariants: Variants = {
-  normal: { scale: 1, rotate: 0, opacity: 1, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
+  normal: { scale: 1, rotate: 0, visibility: 'visible', transition: { type: 'spring', duration: 0.45, bounce: 0 } },
   animate: (i: number) => ({
     scale: [1, i === 0 ? 1.18 : 0.72, i === 0 ? 0.78 : 1.2, 1],
     rotate: [0, i === 0 ? 8 : -10, 0],
-    opacity: [1, i === 0 ? 1 : 0.45, i === 0 ? 0.5 : 1, 1],
     transition: { duration: 1, times: [0, 0.32, 0.7, 1], ease: 'easeInOut' },
   }),
 };
 
 const glintVariants: Variants = {
-  normal: { opacity: 0, scale: 0.25 },
+  normal: { visibility: 'hidden', scale: 0.25 },
   animate: (i: number) => ({
-    opacity: [0, 1, 0],
+    visibility: ['hidden', 'visible', 'hidden'],
     scale: [0.25, 1.1],
     transition: { duration: 0.45, delay: 0.18 + i * 0.16, ease: 'easeOut' },
   }),
 };
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 

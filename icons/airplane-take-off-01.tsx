@@ -20,12 +20,12 @@ interface AirplaneTakeOff01IconProps extends HTMLAttributes<HTMLDivElement> {
 // and decelerates into the same runway slot
 const departingPlaneVariants: Variants = {
   normal: {
-    opacity: 1,
+    visibility: 'visible',
     transform: 'translate(0%, 0%) rotate(0deg)',
     transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
   },
   animate: {
-    opacity: 1,
+    visibility: 'visible',
     transform: [
       'translate(0%, 0%) rotate(0deg)',
       'translate(3%, -1%) rotate(-0.5deg)',
@@ -47,12 +47,12 @@ const departingPlaneVariants: Variants = {
 
 const arrivingPlaneVariants: Variants = {
   normal: {
-    opacity: 1,
+    visibility: 'visible',
     transform: 'translate(-122%, -70%) rotate(7deg)',
     transition: { duration: 0.16, ease: [0.23, 1, 0.32, 1] },
   },
   animate: {
-    opacity: 1,
+    visibility: 'visible',
     transform: [
       'translate(-122%, -70%) rotate(7deg)',
       'translate(-122%, -70%) rotate(7deg)',
@@ -73,9 +73,9 @@ const arrivingPlaneVariants: Variants = {
 };
 
 const groundTreeVariants: Variants = {
-  normal: { opacity: 1, transform: 'translateX(15px)' },
+  normal: { visibility: 'visible', transform: 'translateX(15px)' },
   animate: {
-    opacity: 1,
+    visibility: 'visible',
     transform: [
       'translateX(15px)',
       'translateX(13px)',
@@ -89,8 +89,8 @@ const groundTreeVariants: Variants = {
   },
 };
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 const AirplaneTakeOff01Icon = forwardRef<AirplaneTakeOff01IconHandle, AirplaneTakeOff01IconProps>(

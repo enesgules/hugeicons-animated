@@ -18,12 +18,12 @@ interface Moon02IconProps extends HTMLAttributes<HTMLDivElement> {
 
 const starVariants: Variants = {
   normal: {
-    opacity: 0,
+    visibility: 'hidden',
     transform: 'scale(0.55)',
     transition: { duration: 0.12, ease: [0.23, 1, 0.32, 1] },
   },
   animate: (i: number) => ({
-    opacity: [0, 1, 0.35, 1, 0],
+    visibility: ['hidden', 'visible', 'visible', 'visible', 'hidden'],
     transform: [
       'scale(0.55)',
       'scale(1)',
@@ -40,8 +40,8 @@ const starVariants: Variants = {
   }),
 };
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 const Moon02Icon = forwardRef<Moon02IconHandle, Moon02IconProps>(

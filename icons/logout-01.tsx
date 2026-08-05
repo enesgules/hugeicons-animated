@@ -17,7 +17,7 @@ interface Logout01IconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const pathVariants: Variants = {
-  normal: { opacity: 1, transform: 'translateX(0)' },
+  normal: { visibility: 'visible', transform: 'translateX(0)' },
   animate: (i: number) =>
     i === 0
       ? {

@@ -18,9 +18,9 @@ interface QrCode01IconProps extends HTMLAttributes<HTMLDivElement> {
 
 // a scanner line travels down while the code cells answer in sequence
 const qrCellVariants: Variants = {
-  normal: { opacity: 1, scale: 1 },
+  normal: { visibility: 'visible', scale: 1 },
   animate: (i: number) => ({
-    opacity: [1, 0.3, 1],
+    visibility: ['visible', 'visible', 'visible'],
     scale: [1, 0.82, 1],
     transition: { duration: 0.42, delay: 0.12 + i * 0.07, ease: 'easeOut' },
   }),
@@ -35,16 +35,16 @@ const qrFrameVariants: Variants = {
 };
 
 const scannerVariants: Variants = {
-  normal: { opacity: 0, translateY: -7 },
+  normal: { visibility: 'hidden', translateY: -7 },
   animate: {
-    opacity: [0, 0.85, 0.85, 0],
+    visibility: ['hidden', 'visible', 'visible', 'hidden'],
     translateY: [-7, 7],
     transition: { duration: 1, times: [0, 0.12, 0.88, 1], ease: 'easeInOut' },
   },
 };
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 

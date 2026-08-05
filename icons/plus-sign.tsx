@@ -19,36 +19,36 @@ interface PlusSignIconProps extends HTMLAttributes<HTMLDivElement> {
 // a mark stamping into place: the combined glyph hands off to two
 // hand-drawn strokes that each overshoot long, pinch short, and settle
 const plusBaseVariants: Variants = {
-  normal: { opacity: 1, transition: { duration: 0.2, delay: 0.05 } },
-  animate: { opacity: 0, transition: { duration: 0.08 } },
+  normal: { visibility: 'visible', transition: { duration: 0.2, delay: 0.05 } },
+  animate: { visibility: 'hidden', transition: { duration: 0.08 } },
 };
 
 const stemVariants: Variants = {
-  normal: { d: 'M12 4V20', opacity: 0, transition: { duration: 0.15 } },
+  normal: { d: 'M12 4V20', visibility: 'hidden', transition: { duration: 0.15 } },
   animate: {
     d: ['M12 4V20', 'M12 2.6V21.4', 'M12 4.6V19.4', 'M12 4V20'],
-    opacity: 1,
+    visibility: 'visible',
     transition: {
-      opacity: { duration: 0.08 },
+
       d: { duration: 0.5, ease: 'easeInOut', times: [0, 0.32, 0.68, 1] },
     },
   },
 };
 
 const armVariants: Variants = {
-  normal: { d: 'M20 12H4', opacity: 0, transition: { duration: 0.15 } },
+  normal: { d: 'M20 12H4', visibility: 'hidden', transition: { duration: 0.15 } },
   animate: {
     d: ['M20 12H4', 'M21.4 12H2.6', 'M19.4 12H4.6', 'M20 12H4'],
-    opacity: 1,
+    visibility: 'visible',
     transition: {
-      opacity: { duration: 0.08 },
+
       d: { duration: 0.5, ease: 'easeInOut', times: [0, 0.32, 0.68, 1], delay: 0.05 },
     },
   },
 };
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 

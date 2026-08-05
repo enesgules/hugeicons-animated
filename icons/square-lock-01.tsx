@@ -36,9 +36,9 @@ const bodyVariants: Variants = {
 };
 
 const keyholeVariants: Variants = {
-  normal: { opacity: 1 },
+  normal: { visibility: 'visible' },
   animate: {
-    opacity: [1, 0.2, 1],
+    visibility: ['visible', 'visible', 'visible'],
     transition: { duration: 0.3, ease: 'easeInOut', delay: 0.72 },
   },
 };

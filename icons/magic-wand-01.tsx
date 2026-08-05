@@ -41,9 +41,9 @@ const starVariants: Variants = {
 };
 
 const sparkleVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.15 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.15 } },
   animate: (i: number) => ({
-    opacity: [0, 1, 0],
+    visibility: ['hidden', 'visible', 'hidden'],
     scale: [0.4, 1, 0.6],
     transition: {
       duration: 1.1,
@@ -54,8 +54,8 @@ const sparkleVariants: Variants = {
   }),
 };
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 

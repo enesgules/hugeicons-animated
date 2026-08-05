@@ -17,19 +17,19 @@ interface CircleCheckIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const ringVariants: Variants = {
-  normal: { scale: 1 },
+  normal: { transform: 'scale(1)' },
   animate: {
-    scale: [1, 1.05, 1],
-    transition: { duration: 0.45, ease: 'easeOut' },
+    transform: ['scale(1)', 'scale(0.96)', 'scale(1.025)', 'scale(1)'],
+    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const checkVariants: Variants = {
-  normal: { pathLength: 1, opacity: 1 },
+  normal: { pathLength: 1, visibility: 'visible' },
   animate: {
     pathLength: [0, 1],
-    opacity: [0.2, 1],
-    transition: { duration: 0.35, ease: 'easeOut', delay: 0.08 },
+    visibility: ['visible', 'visible'],
+    transition: { duration: 0.35, ease: [0.23, 1, 0.32, 1], delay: 0.08 },
   },
 };
 

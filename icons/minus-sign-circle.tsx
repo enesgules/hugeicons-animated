@@ -28,8 +28,8 @@ const minusVariants: Variants = {
 const circleVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.96)', 'scale(1)'],
-    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(0.96)', 'scale(1.025)', 'scale(1)'],
+    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
   },
 };
 

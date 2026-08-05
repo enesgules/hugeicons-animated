@@ -21,15 +21,15 @@ interface Mic01IconProps extends HTMLAttributes<HTMLDivElement> {
 // path, two lockstep bars) hides during hover and hands off to two
 // independently clocked bars, so the meter doesn't blink as one flat unit.
 const grilleBaseVariants: Variants = {
-  normal: { opacity: 1, transition: { duration: 0.3, delay: 0.1 } },
-  animate: { opacity: 0, transition: { duration: 0.15 } },
+  normal: { visibility: 'visible', transition: { duration: 0.3, delay: 0.1 } },
+  animate: { visibility: 'hidden', transition: { duration: 0.15 } },
 };
 
 // pathLength retract from the mic-body edge, like a VU bar
 const grilleBarVariants: Variants = {
-  normal: { pathLength: 1, opacity: 0, transition: { duration: 0.15 } },
+  normal: { pathLength: 1, visibility: 'hidden', transition: { duration: 0.15 } },
   animate: (i: number) => ({
-    opacity: 1,
+    visibility: 'visible',
     pathLength: [1, 0.3, 1],
     transition: {
       duration: 1 + i * 0.2,
@@ -42,9 +42,9 @@ const grilleBarVariants: Variants = {
 
 // custom: [direction, delay] — arcs drift outward as they fade
 const waveVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.15 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.15 } },
   animate: (c: [number, number]) => ({
-    opacity: [0, 1, 0],
+    visibility: ['hidden', 'visible', 'hidden'],
     translateX: [0, c[0] * 1.6],
     transition: {
       duration: 1.2,
@@ -55,8 +55,8 @@ const waveVariants: Variants = {
   }),
 };
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 

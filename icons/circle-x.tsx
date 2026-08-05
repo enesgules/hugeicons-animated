@@ -17,19 +17,23 @@ interface CircleXIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const ringVariants: Variants = {
-  normal: { scale: 1 },
+  normal: { transform: 'scale(1)' },
   animate: {
-    scale: [1, 1.05, 1],
-    transition: { duration: 0.45, ease: 'easeOut' },
+    transform: ['scale(1)', 'scale(0.96)', 'scale(1.025)', 'scale(1)'],
+    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const crossVariants: Variants = {
-  normal: { rotate: 0, scale: 1 },
+  normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    rotate: [0, -10, 4, 0],
-    scale: [1, 0.82, 1.08, 1],
-    transition: { duration: 0.42, ease: 'easeOut' },
+    transform: [
+      'rotate(0deg) scale(1)',
+      'rotate(-10deg) scale(0.82)',
+      'rotate(4deg) scale(1.08)',
+      'rotate(0deg) scale(1)',
+    ],
+    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
   },
 };
 

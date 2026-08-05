@@ -42,7 +42,7 @@ const raysVariants: Variants = {
       'rotate(-2deg) scale(1.04)',
       'rotate(0deg) scale(1)',
     ],
-    opacity: [1, 0.62, 1, 0.9, 1],
+    visibility: ['visible', 'visible', 'visible', 'visible', 'visible'],
     transition: {
       duration: 1.15,
       ease: [0.77, 0, 0.175, 1],

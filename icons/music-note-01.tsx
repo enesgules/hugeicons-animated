@@ -78,9 +78,9 @@ const smallNoteVariants: Variants = {
 
 // tiny notes escape the tune, float up, and dissolve — one per bar
 const floatNoteVariants: Variants = {
-  normal: { opacity: 0, translateY: 0, rotate: 0, transition: { duration: 0.2 } },
+  normal: { visibility: 'hidden', translateY: 0, rotate: 0, transition: { duration: 0.2 } },
   animate: (i: number) => ({
-    opacity: [0, 1, 0],
+    visibility: ['hidden', 'visible', 'hidden'],
     translateY: [1.5, -3.5],
     rotate: [0, i === 0 ? -12 : 12],
     transition: {
@@ -93,8 +93,8 @@ const floatNoteVariants: Variants = {
   }),
 };
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 

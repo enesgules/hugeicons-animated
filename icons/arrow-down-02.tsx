@@ -16,25 +16,17 @@ interface ArrowDown02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const shaftVariants: Variants = {
-  normal: { d: 'M12 18.502V5.00195' },
+const arrowVariants: Variants = {
+  normal: { transform: 'translateY(0px) scaleX(1)' },
   animate: {
-    d: [
-      'M12 18.502V5.00195',
-      'M12 20.502V9.5',
-      'M12 18.502V5.00195',
-      'M12 19.302V7.5',
-      'M12 18.502V5.00195',
+    transform: [
+      'translateY(0px) scaleX(1)',
+      'translateY(1.8px) scaleX(0.94)',
+      'translateY(-0.25px) scaleX(1.02)',
+      'translateY(0.35px) scaleX(0.99)',
+      'translateY(0px) scaleX(1)',
     ],
-    transition: { duration: 0.64, ease: [0.23, 1, 0.32, 1], times: [0, 0.3, 0.58, 0.78, 1] },
-  },
-};
-
-const headVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
-  animate: {
-    transform: ['translateY(0px)', 'translateY(2px)', 'translateY(0px)', 'translateY(0.8px)', 'translateY(0px)'],
-    transition: { duration: 0.64, ease: [0.23, 1, 0.32, 1], times: [0, 0.28, 0.58, 0.78, 1] },
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -64,26 +56,15 @@ const ArrowDown02Icon = forwardRef<ArrowDown02IconHandle, ArrowDown02IconProps>(
           fill="none"
           overflow="visible"
         >
-          <motion.path
-            d="M12 18.502V5.00195"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={shaftVariants}
+          <motion.g
+            variants={arrowVariants}
             animate={controls}
             initial="normal"
-          />
-          <motion.path
-            d="M18 13.002C18 13.002 13.5811 19.0019 12 19.002C10.4188 19.002 6 13.002 6 13.002"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={headVariants}
-            animate={controls}
-            initial="normal"
-          />
+            style={{ transformOrigin: '12px 12px' }}
+          >
+            <path d="M12 18.502V5.00195" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+            <path d="M18 13.002C18 13.002 13.5811 19.0019 12 19.002C10.4188 19.002 6 13.002 6 13.002" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+          </motion.g>
         </svg>
       </div>
     );

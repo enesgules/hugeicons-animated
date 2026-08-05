@@ -16,22 +16,71 @@ interface CodeXmlIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the brackets breathe apart to make room while the slash writes through
-const slashVariants: Variants = {
-  normal: { pathLength: 1, translateY: 0 },
+const CODE_DURATION = 1.12;
+const CODE_TIMES = [
+  0, 0.05, 0.1, 0.16, 0.24, 0.34, 0.44, 0.56, 0.68, 0.76, 0.82, 0.87,
+  0.92, 0.97, 1,
+];
+
+// The source slash clears toward the bottom left, like the established off icons.
+const departingSlashVariants: Variants = {
+  normal: {
+    transform: 'translate(0px, 0px)',
+    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
+  },
   animate: {
-    pathLength: [0, 1],
-    translateY: [-1, 0],
-    transition: { duration: 0.5, ease: 'easeOut' },
+    transform: [
+      'translate(0px, 0px)',
+      'translate(-0.4px, 0.4px)',
+      'translate(-1.4px, 1.4px)',
+      'translate(-5px, 5px)',
+      'translate(-24px, 24px)',
+      'translate(-24px, 24px)',
+      'translate(-24px, 24px)',
+      'translate(-24px, 24px)',
+      'translate(-24px, 24px)',
+      'translate(-24px, 24px)',
+      'translate(-24px, 24px)',
+      'translate(-24px, 24px)',
+      'translate(-24px, 24px)',
+      'translate(-24px, 24px)',
+      'translate(-24px, 24px)',
+    ],
+    transition: { duration: CODE_DURATION, ease: 'linear', times: CODE_TIMES },
   },
 };
 
-const bracketVariants: Variants = {
-  normal: { translateX: 0, transition: { type: 'spring', duration: 0.4, bounce: 0 } },
-  animate: (direction: number) => ({
-    translateX: [0, direction * 1.5, direction * 1.5, 0],
-    transition: { duration: 0.75, times: [0, 0.22, 0.62, 1], ease: 'easeInOut' },
-  }),
+// A replacement slash returns from the top right while the brackets stay anchored.
+const arrivingSlashVariants: Variants = {
+  normal: {
+    transform: 'translate(24px, -24px)',
+    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
+  },
+  animate: {
+    transform: [
+      'translate(24px, -24px)',
+      'translate(24px, -24px)',
+      'translate(24px, -24px)',
+      'translate(24px, -24px)',
+      'translate(24px, -24px)',
+      'translate(24px, -24px)',
+      'translate(24px, -24px)',
+      'translate(24px, -24px)',
+      'translate(24px, -24px)',
+      'translate(24px, -24px)',
+      'translate(18px, -18px)',
+      'translate(8px, -8px)',
+      'translate(1.6px, -1.6px)',
+      'translate(-0.65px, 0.65px)',
+      'translate(0px, 0px)',
+    ],
+    transition: { duration: CODE_DURATION, ease: 'linear', times: CODE_TIMES },
+  },
+};
+
+const generatedGeometryVariants: Variants = {
+  normal: { visibility: 'hidden', transition: { duration: 0 } },
+  animate: { visibility: 'visible', transition: { duration: 0 } },
 };
 
 const CodeXmlIcon = forwardRef<CodeXmlIconHandle, CodeXmlIconProps>(
@@ -58,7 +107,7 @@ const CodeXmlIcon = forwardRef<CodeXmlIconHandle, CodeXmlIconProps>(
           height={size}
           viewBox="0 0 24 24"
           fill="none"
-          overflow="visible"
+          overflow="hidden"
         >
           <motion.path
             d="M15 4L9 20"
@@ -66,32 +115,40 @@ const CodeXmlIcon = forwardRef<CodeXmlIconHandle, CodeXmlIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={slashVariants}
+            variants={departingSlashVariants}
             animate={controls}
             initial="normal"
           />
-          <motion.path
+          <path
             d="M5.99997 16C5.99997 16 2.00001 13.054 2 12C1.99999 10.9459 6 8 6 8"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={bracketVariants}
-            custom={-1}
-            animate={controls}
-            initial="normal"
           />
-          <motion.path
+          <path
             d="M18 8C18 8 22 10.946 22 12C22 13.0541 18 16 18 16"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={bracketVariants}
-            custom={1}
+          />
+          <motion.g
+            variants={generatedGeometryVariants}
             animate={controls}
             initial="normal"
-          />
+          >
+            <motion.path
+              d="M15 4L9 20"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+              variants={arrivingSlashVariants}
+              animate={controls}
+              initial="normal"
+            />
+          </motion.g>
         </svg>
       </div>
     );

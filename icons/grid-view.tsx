@@ -18,10 +18,10 @@ interface GridViewIconProps extends HTMLAttributes<HTMLDivElement> {
 
 // the four cells wake in a diagonal ripple and overshoot into alignment
 const cellVariants: Variants = {
-  normal: { transform: 'scale(1)', opacity: 1 },
+  normal: { transform: 'scale(1)', visibility: 'visible' },
   animate: (i: number) => ({
     transform: ['scale(0.72) rotate(-5deg)', 'scale(1.1) rotate(2deg)', 'scale(1) rotate(0deg)'],
-    opacity: [0.45, 1, 1],
+    visibility: ['visible', 'visible', 'visible'],
     transition: { duration: 0.46, delay: i * 0.055, ease: [0.23, 1, 0.32, 1] },
   }),
 };

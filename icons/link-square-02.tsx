@@ -17,7 +17,7 @@ interface LinkSquare02IconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const pathVariants: Variants = {
-  normal: { pathLength: 1, opacity: 1, transform: 'translate(0, 0)' },
+  normal: { pathLength: 1, visibility: 'visible', transform: 'translate(0, 0)' },
   animate: (i: number) =>
     i === 0
       ? {

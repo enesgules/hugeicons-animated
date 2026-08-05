@@ -16,26 +16,38 @@ interface CloudRainIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// while you hover, the shower keeps falling — each drop accelerates,
-// dies low, and is reborn above; the cloud drifts on the updraft
 const cloudVariants: Variants = {
-  normal: { translateY: 0, transition: { duration: 0.3 } },
+  normal: {
+    translateY: 0,
+    transition: { duration: 0.24, ease: [0.23, 1, 0.32, 1] },
+  },
   animate: {
-    translateY: [0, -0.7, 0],
-    transition: { duration: 1.8, ease: 'easeInOut', repeat: Infinity },
+    translateY: [0, -1, 0],
+    transition: {
+      duration: 1.6,
+      ease: 'easeInOut',
+      repeat: Infinity,
+    },
   },
 };
 
-const dropVariants: Variants = {
-  normal: { opacity: 1, translateY: 0, transition: { duration: 0.3 } },
+const rainVariants: Variants = {
+  normal: {
+    pathLength: 1,
+    pathOffset: 0,
+    visibility: 'visible',
+    transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] },
+  },
   animate: (i: number) => ({
-    opacity: [0, 1, 0],
-    translateY: [-1.5, 1, 3.5],
+    pathLength: [1, 1, 0.18, 0, 0, 1, 1],
+    pathOffset: [0, 0, 0.82, 1, 0, 0, 0],
+    visibility: ['visible', 'visible', 'visible', 'hidden', 'hidden', 'visible', 'visible'],
     transition: {
-      duration: 0.9,
-      ease: 'easeIn',
+      duration: 1.2,
+      delay: i * 0.18,
+      ease: 'linear',
+      times: [0, 0.18, 0.46, 0.58, 0.64, 0.88, 1],
       repeat: Infinity,
-      delay: i * 0.28,
     },
   }),
 };
@@ -82,7 +94,7 @@ const CloudRainIcon = forwardRef<CloudRainIconHandle, CloudRainIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={dropVariants}
+            variants={rainVariants}
             custom={0}
             animate={controls}
             initial="normal"
@@ -93,7 +105,7 @@ const CloudRainIcon = forwardRef<CloudRainIconHandle, CloudRainIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={dropVariants}
+            variants={rainVariants}
             custom={1}
             animate={controls}
             initial="normal"
@@ -104,7 +116,7 @@ const CloudRainIcon = forwardRef<CloudRainIconHandle, CloudRainIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={dropVariants}
+            variants={rainVariants}
             custom={2}
             animate={controls}
             initial="normal"

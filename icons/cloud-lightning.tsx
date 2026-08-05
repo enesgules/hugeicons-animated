@@ -16,39 +16,39 @@ interface CloudLightningIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// pressure gathers in the cloud before a bright, double-hit strike
-const stormCloudVariants: Variants = {
-  normal: { translateY: 0, scale: 1, transition: { duration: 0.35, ease: 'easeOut' } },
+const cloudVariants: Variants = {
+  normal: {
+    translateY: 0,
+    transition: { duration: 0.24, ease: [0.23, 1, 0.32, 1] },
+  },
   animate: {
-    translateY: [0, -0.7, 0.25, 0],
-    scale: [1, 1.025, 0.99, 1],
-    transition: { duration: 1.2, times: [0, 0.35, 0.72, 1], ease: 'easeInOut' },
+    translateY: [0, -1.1, 0.4, 0],
+    transition: {
+      duration: 1,
+      ease: 'easeInOut',
+      times: [0, 0.34, 0.56, 1],
+    },
   },
 };
 
 const boltVariants: Variants = {
-  normal: { opacity: 1, pathLength: 1, scale: 1 },
+  normal: {
+    pathLength: 1,
+    pathOffset: 0,
+    visibility: 'visible',
+    transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] },
+  },
   animate: {
-    opacity: [1, 0.15, 1, 0.2, 1],
-    pathLength: [1, 0.1, 1, 0.35, 1],
-    scale: [1, 0.9, 1.12, 0.95, 1],
-    transition: { duration: 0.85, times: [0, 0.18, 0.3, 0.55, 0.7], ease: 'easeOut' },
+    pathLength: [1, 1, 0.18, 0, 0, 1, 1],
+    pathOffset: [0, 0, 0.82, 1, 0, 0, 0],
+    visibility: ['visible', 'visible', 'visible', 'hidden', 'hidden', 'visible', 'visible'],
+    transition: {
+      duration: 1,
+      ease: 'linear',
+      times: [0, 0.12, 0.38, 0.48, 0.54, 0.82, 1],
+    },
   },
 };
-
-const flashRayVariants: Variants = {
-  normal: { opacity: 0, scale: 0.4 },
-  animate: (i: number) => ({
-    opacity: [0, 0.9, 0],
-    scale: [0.4, 1],
-    transition: { duration: 0.3, delay: 0.22 + i * 0.04, ease: 'easeOut' },
-  }),
-};
-const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
-};
-
 
 const CloudLightningIcon = forwardRef<CloudLightningIconHandle, CloudLightningIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -82,10 +82,9 @@ const CloudLightningIcon = forwardRef<CloudLightningIconHandle, CloudLightningIc
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={stormCloudVariants}
+            variants={cloudVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 10px' }}
           />
           <motion.path
             d="M12.9994 13L11.1994 15.4C10.6758 16.0981 10.414 16.4472 10.5522 16.7236C10.6904 17 11.1267 17 11.9994 17C12.8721 17 13.3084 17 13.4466 17.2764C13.5848 17.5528 13.323 17.9019 12.7994 18.6L10.9994 21"
@@ -96,16 +95,7 @@ const CloudLightningIcon = forwardRef<CloudLightningIconHandle, CloudLightningIc
             variants={boltVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 17px' }}
           />
-          <motion.g
-            variants={generatedGeometryVariants}
-            animate={controls}
-            initial="normal"
-          >
-          <motion.path d="M7.6 18.2L6.3 19" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" variants={flashRayVariants} custom={0} animate={controls} initial="normal" style={{ transformOrigin: '12px 17px' }} />
-          <motion.path d="M16.4 18.2L17.7 19" stroke="currentColor" strokeLinecap="round" strokeWidth="1.2" variants={flashRayVariants} custom={1} animate={controls} initial="normal" style={{ transformOrigin: '12px 17px' }} />
-          </motion.g>
         </svg>
       </div>
     );

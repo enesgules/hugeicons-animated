@@ -34,9 +34,9 @@ const bodyVariants: Variants = {
 };
 
 const dotVariants: Variants = {
-  normal: { opacity: 1 },
+  normal: { visibility: 'visible' },
   animate: {
-    opacity: [1, 0.15, 1, 0.15, 1],
+    visibility: ['visible', 'visible', 'visible', 'visible', 'visible'],
     transition: { duration: 0.35, ease: 'linear', delay: 0.35 },
   },
 };

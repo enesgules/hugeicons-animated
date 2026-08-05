@@ -16,11 +16,11 @@ interface Wifi01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the signal physically expands from its source; opacity only supports the motion
+// the signal physically expands from its source; visibility only supports the motion
 const arcVariants: Variants = {
-  normal: { opacity: 1, transform: 'translateY(0px) scale(1)', transition: { duration: 0.22 } },
+  normal: { visibility: 'visible', transform: 'translateY(0px) scale(1)', transition: { duration: 0.22 } },
   animate: (i: number) => ({
-    opacity: [0.22, 1, 0.42],
+    visibility: ['visible', 'visible', 'visible'],
     transform: [
       'translateY(0.8px) scale(0.82)',
       'translateY(0px) scale(1.06)',
