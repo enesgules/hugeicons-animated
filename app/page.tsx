@@ -83,16 +83,6 @@ const HERO_SPECIMENS = HERO_SPECIMEN_PLACEMENTS.map((specimen) => ({
   icon: ICONS[specimen.iconIndex % ICONS.length],
 }));
 
-type HeroFieldStyle = CSSProperties & {
-  '--hero-spot-x': string;
-  '--hero-spot-y': string;
-};
-
-const HERO_FIELD_STYLE: HeroFieldStyle = {
-  '--hero-spot-x': '78%',
-  '--hero-spot-y': '40%',
-};
-
 type SpecimenStyle = CSSProperties & {
   '--specimen-top': string;
   '--specimen-left': string;
@@ -185,7 +175,6 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
   const favouriteIconRef = useRef<IconHandle | null>(null);
   const githubIconRef = useRef<IconHandle | null>(null);
   const heroIconRefs = useRef<(IconHandle | null)[]>([]);
-  const heroFieldRef = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
   const logoRef = useRef<IconHandle | null>(null);
   const searchCancelIconRef = useRef<IconHandle | null>(null);
@@ -269,20 +258,9 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
   const previewSpecimen = (
     specimenIndex: number,
     name: string,
-    specimen: HTMLButtonElement,
     replay: boolean
   ) => {
     setHeroIconName(name);
-    const hero = heroRef.current;
-    const field = heroFieldRef.current;
-    if (!hero || !field) return;
-    const specimenRect = specimen.getBoundingClientRect();
-    const fieldRect = field.getBoundingClientRect();
-    const spotX = specimenRect.left + specimenRect.width / 2 - fieldRect.left;
-    const spotY = specimenRect.top + specimenRect.height / 2 - fieldRect.top;
-    hero.style.setProperty('--hero-spot-x', `${spotX}px`);
-    hero.style.setProperty('--hero-spot-y', `${spotY}px`);
-    hero.dataset.specimenActive = 'true';
     if (reduced) return;
 
     if (replay) {
@@ -305,7 +283,6 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
   const stopSpecimenPreview = (specimenIndex: number) => {
     clearTimeout(specimenReplayTimersRef.current[specimenIndex]);
     specimenReplayTimersRef.current[specimenIndex] = undefined;
-    if (heroRef.current) heroRef.current.dataset.specimenActive = 'false';
     heroIconRefs.current[specimenIndex]?.stopAnimation();
   };
 
@@ -424,12 +401,9 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
           <section
             ref={heroRef}
             className="hero-random-hero relative pt-12 pb-20 sm:pt-20 lg:pb-14"
-            style={HERO_FIELD_STYLE}
             data-move-active="false"
-            data-specimen-active="false"
           >
-            <div ref={heroFieldRef} className="hero-random-field block">
-              <div aria-hidden className="hero-random-glow" />
+            <div className="hero-random-field block">
               {HERO_SPECIMENS.map(
                 (
                   {
@@ -465,30 +439,15 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
                       }${mobile ? ' hero-specimen-mobile' : ''}`}
                       style={specimenStyle}
                       key={name}
-                      onClick={(event) =>
-                        previewSpecimen(
-                          specimenIndex,
-                          name,
-                          event.currentTarget,
-                          false
-                        )
+                      onClick={() =>
+                        previewSpecimen(specimenIndex, name, false)
                       }
-                      onPointerEnter={(event) =>
-                        previewSpecimen(
-                          specimenIndex,
-                          name,
-                          event.currentTarget,
-                          true
-                        )
+                      onPointerEnter={() =>
+                        previewSpecimen(specimenIndex, name, true)
                       }
                       onPointerLeave={() => stopSpecimenPreview(specimenIndex)}
-                      onFocus={(event) =>
-                        previewSpecimen(
-                          specimenIndex,
-                          name,
-                          event.currentTarget,
-                          true
-                        )
+                      onFocus={() =>
+                        previewSpecimen(specimenIndex, name, true)
                       }
                       onBlur={() => stopSpecimenPreview(specimenIndex)}
                     >
