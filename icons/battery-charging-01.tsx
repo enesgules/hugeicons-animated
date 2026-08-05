@@ -61,39 +61,62 @@ const chargedBatteryVariants: Variants = {
 };
 
 const chargeBoltVariants: Variants = {
-  normal: { visibility: 'visible', transform: 'scale(1)', filter: 'blur(0px)' },
+  normal: { visibility: 'visible', transform: 'scale(1)' },
   animate: {
-    visibility: ['visible', 'visible', 'hidden', 'hidden', 'hidden', 'hidden', 'visible', 'visible'],
+    visibility: [
+      'visible',
+      'visible',
+      'visible',
+      'visible',
+      'hidden',
+      'hidden',
+      'hidden',
+      'visible',
+      'visible',
+      'visible',
+    ],
     transform: [
       'scale(1)',
       'scale(1)',
-      'scale(1)',
-      'scale(0.25)',
-      'scale(0.25)',
-      'scale(0.25)',
+      'scale(0.72)',
+      'scale(0)',
+      'scale(0)',
+      'scale(0)',
+      'scale(0)',
+      'scale(0)',
       'scale(1.14)',
       'scale(1)',
-    ],
-    filter: [
-      'blur(0px)',
-      'blur(0px)',
-      'blur(4px)',
-      'blur(4px)',
-      'blur(4px)',
-      'blur(4px)',
-      'blur(0px)',
-      'blur(0px)',
     ],
     transition: {
       duration: 1.18,
       ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.03, 0.15, 0.64, 0.76, 0.82, 0.93, 1],
+      times: [0, 0.03, 0.08, 0.14, 0.141, 0.76, 0.819, 0.82, 0.92, 1],
     },
   },
 };
 const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
-  animate: { visibility: 'visible', transition: { duration: 0.08 } },
+  normal: {
+    visibility: 'hidden',
+    transform: 'scaleX(1)',
+    transition: { duration: 0.08 },
+  },
+  animate: {
+    visibility: 'visible',
+    transform: [
+      'scaleX(1)',
+      'scaleX(1)',
+      'scaleX(1)',
+      'scaleX(0.58)',
+      'scaleX(0.08)',
+      'scaleX(0.08)',
+      'scaleX(1)',
+    ],
+    transition: {
+      duration: 1.18,
+      ease: [0.23, 1, 0.32, 1],
+      times: [0, 0.64, 0.76, 0.82, 0.87, 0.92, 1],
+    },
+  },
 };
 
 
@@ -131,9 +154,10 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             variants={generatedGeometryVariants}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '10.4px 12px' }}
           >
           <motion.path
-            d="M4 15V9"
+            d="M4.4 15V9"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="2.2"
@@ -141,10 +165,10 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             custom={{ start: 0.05, done: 0.28 }}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '4px 15px' }}
+            style={{ transformOrigin: '4.4px 15px' }}
           />
           <motion.path
-            d="M7.1 15V9"
+            d="M7.4 15V9"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="2.2"
@@ -152,10 +176,10 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             custom={{ start: 0.14, done: 0.37 }}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '7.1px 15px' }}
+            style={{ transformOrigin: '7.4px 15px' }}
           />
           <motion.path
-            d="M10.2 15V9"
+            d="M10.4 15V9"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="2.2"
@@ -163,10 +187,10 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             custom={{ start: 0.23, done: 0.46 }}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '10.2px 15px' }}
+            style={{ transformOrigin: '10.4px 15px' }}
           />
           <motion.path
-            d="M13.3 15V9"
+            d="M13.4 15V9"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="2.2"
@@ -174,7 +198,7 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             custom={{ start: 0.32, done: 0.55 }}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '13.3px 15px' }}
+            style={{ transformOrigin: '13.4px 15px' }}
           />
           <motion.path
             d="M16.4 15V9"
