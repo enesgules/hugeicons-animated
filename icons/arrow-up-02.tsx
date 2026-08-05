@@ -21,7 +21,7 @@ const arrowVariants: Variants = {
   animate: {
     transform: [
       'translateY(0px) scaleX(1)',
-      'translateY(-2.2px) scaleX(0.94)',
+      'translateY(-2.6px) scaleX(0.94)',
       'translateY(0.3px) scaleX(1.02)',
       'translateY(-0.45px) scaleX(0.99)',
       'translateY(0px) scaleX(1)',
