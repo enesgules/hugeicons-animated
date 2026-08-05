@@ -1,20 +1,10 @@
-// Verifies that every animated icon returns to the untouched Hugeicons artwork
-// in its normal state. Custom before/extra geometry is hidden by the generator;
-// source elements may only use visually neutral normal-state values.
+// Verifies that every hand-tuned icon returns to the untouched Hugeicons
+// artwork in its normal state. Source elements may only use visually neutral
+// normal-state values, and animation-only geometry must stay hidden at rest.
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
-import { SPECS } from './icon-specs.mjs';
 
 const ROOT = path.join(import.meta.dirname, '..');
-
-const kebab = (exportName) =>
-  exportName
-    .replace(/Icon$/, '')
-    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
-    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
-    .replace(/([a-zA-Z])([0-9])/g, '$1-$2')
-    .replace(/([0-9])([A-Za-z])/g, '$1-$2')
-    .toLowerCase();
 
 const extractObject = (source, start) => {
   let depth = 0;
@@ -57,6 +47,17 @@ const normalState = (body) => {
   return body.slice(start.index + start[0].length, end.index);
 };
 
+const animateState = (body) => {
+  if (!body) return null;
+  const start = /\banimate\s*:/.exec(body);
+  return start ? body.slice(start.index + start[0].length) : null;
+};
+
+const hasMeaningfulMotion = (animate) =>
+  /\b(?:transform|translateX|translateY|rotate|scale|scaleX|scaleY|d|pathLength|pathOffset|strokeDasharray|strokeDashoffset)\s*:/.test(
+    animate
+  );
+
 const identityTransform = (value) => {
   const tokens = value.match(/[a-zA-Z]+\([^)]*\)/g) ?? [];
   if (!tokens.length) return value.trim() === 'none';
@@ -72,11 +73,17 @@ const identityTransform = (value) => {
   });
 };
 
+const hiddenInNormalState = (normal) =>
+  /opacity\s*:\s*0(?:\D|$)/.test(normal) ||
+  /visibility\s*:\s*['"]hidden['"]/.test(normal);
+
 const validateNormalState = ({ icon, name, normal, allowHidden = false }) => {
-  if (!allowHidden && /opacity\s*:\s*0(?:\D|$)/.test(normal)) {
+  if (allowHidden) return;
+
+  if (hiddenInNormalState(normal)) {
     failures.push(`${icon}.${name}: source geometry is hidden in normal state`);
   }
-  if (!allowHidden && /pathLength\s*:\s*0(?:\D|$)/.test(normal)) {
+  if (/pathLength\s*:\s*0(?:\D|$)/.test(normal)) {
     failures.push(`${icon}.${name}: source geometry has zero path length in normal state`);
   }
 
@@ -101,73 +108,76 @@ const validateNormalState = ({ icon, name, normal, allowHidden = false }) => {
 };
 
 const failures = [];
-const specFiles = new Set();
-
-for (const spec of SPECS) {
-  const fileName = `${spec.file ?? kebab(spec.export)}.tsx`;
-  specFiles.add(fileName);
-  const generatedPath = path.join(
-    ROOT,
-    'icons',
-    fileName
-  );
-  const generated = await readFile(generatedPath, 'utf8');
-
-  if (spec.before || spec.extra) {
-    const expectedLayers = Number(Boolean(spec.before)) + Number(Boolean(spec.extra));
-    const actualLayers = generated.match(/variants=\{generatedGeometryVariants\}/g)?.length ?? 0;
-    if (actualLayers !== expectedLayers) {
-      failures.push(
-        `${spec.export}: expected ${expectedLayers} hidden custom geometry layer(s), found ${actualLayers}`
-      );
-    }
-  }
-
-  const sourceVariants = new Set([
-    spec.svg,
-    ...Object.values(spec.els ?? {}).map((element) => element.v),
-  ].filter(Boolean));
-
-  for (const name of sourceVariants) {
-    const normal = normalState(variantBody(spec.defs, name));
-    if (!normal) continue;
-
-    validateNormalState({ icon: spec.export, name, normal });
-  }
-}
 
 const iconFiles = (await readdir(path.join(ROOT, 'icons'))).filter((file) =>
   file.endsWith('.tsx')
 );
 
 for (const fileName of iconFiles) {
-  if (specFiles.has(fileName)) continue;
-
-  const generated = await readFile(path.join(ROOT, 'icons', fileName), 'utf8');
-  const exportName = /export interface (\w+)Handle/.exec(generated)?.[1];
+  const icon = await readFile(path.join(ROOT, 'icons', fileName), 'utf8');
+  const exportName = /export interface (\w+)Handle/.exec(icon)?.[1];
   if (!exportName) {
     failures.push(`${fileName}: could not identify its Hugeicons export`);
     continue;
   }
 
-  const hiddenAddition = generated.includes('rest-parity: hidden-added-geometry');
-  const splitSourcePath = generated.includes('rest-parity: split-source-path');
+  const generatedGeometryGroups = [
+    ...icon.matchAll(
+      /<motion\.g\b(?=[^>]*variants=\{generatedGeometryVariants\})[^>]*>([\s\S]*?)<\/motion\.g>/g
+    ),
+  ].map((match) => match[1]);
+  const generatedGeometryVariants = new Set(
+    generatedGeometryGroups.flatMap((group) =>
+      [...group.matchAll(/variants=\{(\w+)\}/g)].map((match) => match[1])
+    )
+  );
+  const markedHiddenAddition = icon.includes(
+    'rest-parity: hidden-added-geometry'
+  );
+  const hiddenAddition =
+    markedHiddenAddition || generatedGeometryGroups.length > 0;
+  const splitSourcePath = icon.includes('rest-parity: split-source-path');
   const usedVariants = new Set(
-    [...generated.matchAll(/variants=\{(\w+)\}/g)].map((match) => match[1])
+    [...icon.matchAll(/variants=\{(\w+)\}/g)].map((match) => match[1])
   );
   for (const name of usedVariants) {
-    const normal = normalState(variantBody(generated, name));
+    const body = variantBody(icon, name);
+    const normal = normalState(body);
+    const animate = animateState(body);
+    if (
+      animate &&
+      /\bopacity\s*:/.test(animate) &&
+      !hasMeaningfulMotion(animate)
+    ) {
+      failures.push(
+        `${exportName}.${name}: opacity cannot be the animation itself`
+      );
+    }
     if (!normal) continue;
     const allowHidden =
-      hiddenAddition && /opacity\s*:\s*0(?:\D|$)/.test(normal);
+      name === 'generatedGeometryVariants' ||
+      generatedGeometryVariants.has(name) ||
+      (markedHiddenAddition && hiddenInNormalState(normal));
     validateNormalState({ icon: exportName, name, normal, allowHidden });
+  }
+
+  if (generatedGeometryGroups.length > 0) {
+    const generatedGeometryNormal = normalState(
+      variantBody(icon, 'generatedGeometryVariants')
+    );
+    if (
+      !generatedGeometryNormal ||
+      !hiddenInNormalState(generatedGeometryNormal)
+    ) {
+      failures.push(`${exportName}: animation-only geometry is visible at rest`);
+    }
   }
 
   const { default: sourceElements } = await import(
     `@hugeicons/core-free-icons/dist/esm/${exportName}`
   );
   const generatedElements =
-    generated.match(/<(?:motion\.)?(?:path|circle|rect|ellipse|line|polyline|polygon)\b/g)
+    icon.match(/<(?:motion\.)?(?:path|circle|rect|ellipse|line|polyline|polygon)\b/g)
       ?.length ?? 0;
   if (
     generatedElements !== sourceElements.length &&
@@ -178,7 +188,11 @@ for (const fileName of iconFiles) {
       `${exportName}: expected ${sourceElements.length} source element(s), found ${generatedElements}`
     );
   }
-  if (generatedElements !== sourceElements.length && hiddenAddition && !/opacity\s*:\s*0/.test(generated)) {
+  if (
+    generatedElements !== sourceElements.length &&
+    markedHiddenAddition &&
+    !/(?:opacity\s*:\s*0|visibility\s*:\s*['"]hidden['"])/.test(icon)
+  ) {
     failures.push(`${exportName}: added rest geometry is not hidden`);
   }
 }

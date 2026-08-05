@@ -43,22 +43,21 @@ the native primitives needed by each icon instead.
 
 ## Adding a new icon
 
-1. Add an animation spec to `scripts/icon-specs.mjs` — the spec holds the
-   hand-crafted `Variants` (svg-level and/or per-element). Export names come
-   from [`@hugeicons/core-free-icons`](https://www.npmjs.com/package/@hugeicons/core-free-icons).
+1. Add the component directly to `icons/`. Use the matching geometry from
+   [`@hugeicons/core-free-icons`](https://www.npmjs.com/package/@hugeicons/core-free-icons),
+   then hand-tune its Motion variants in that component.
 
-2. Generate the component (and regenerate the site manifest + registry):
+2. Regenerate the site manifest and installable registry:
 
    ```bash
-   node scripts/gen-animated.mjs NewIconName
    pnpm registry:build
    ```
 
    The grid in `app/page.tsx` picks up new icons automatically via
    `app/icons-manifest.ts`.
 
-   (`pnpm icon:gen <Name>` still exists for a quick skeleton with a default
-   draw-on animation, if you'd rather tune the file directly.)
+The components in `icons/` are the animation source of truth.
+`pnpm registry:build` reads them but never writes to that directory.
 
 ## Development
 

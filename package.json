@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "registry:build": "node scripts/check-rest-parity.mjs && node scripts/build-registry.mjs && node scripts/gen-manifest.mjs && shadcn build",
-    "icons:check-rest": "node scripts/check-rest-parity.mjs",
-    "icon:gen": "node scripts/generate-icon.mjs"
+    "icons:check-rest": "node scripts/check-rest-parity.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
