@@ -11,6 +11,7 @@ import {
 import { useQueryState } from 'nuqs';
 import { IconCommandMenu } from '@/app/icon-command-menu';
 import { ICON_LIST } from '@/app/icons-manifest';
+import { DISAPPROVED_ICON_NAMES } from '@/lib/icon-approval';
 import type { AnimatedIconHandle as IconHandle } from '@/lib/use-icon-animation';
 import { GITHUB_URL } from '@/lib/site';
 import { Cancel01Icon } from '@/icons/cancel-01';
@@ -25,9 +26,11 @@ import { Tick02Icon } from '@/icons/tick-02';
 const GREEN = { bg: '#AFE67F', border: '#79BD3E', deep: '#1D3208' };
 const COPIED_TINT = { bg: '#EDF8DF', border: '#AFE67F', ink: '#2C4A0F' };
 
-const ICONS = ICON_LIST.map((icon, i) => ({
+const ICONS = ICON_LIST.filter(
+  ({ name }) => !DISAPPROVED_ICON_NAMES.has(name)
+).map((icon, i) => ({
   ...icon,
-  idx: i, // stable ref slot — survives filtering
+  idx: i, // stable ref slot — survives search filtering
 }));
 
 const matches = (query: string) => {
@@ -692,6 +695,7 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
                     <button
                       key={name}
                       type="button"
+                      aria-label={`Copy the ${name} install command`}
                       onClick={() => copy(name, name)}
                       onPointerEnter={() => refs.current[idx]?.startAnimation()}
                       onPointerLeave={() => refs.current[idx]?.stopAnimation()}

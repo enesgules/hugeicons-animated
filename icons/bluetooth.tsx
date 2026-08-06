@@ -16,24 +16,26 @@ interface BluetoothIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the two connection nodes orbit the fixed mark and exchange sides at mid-cycle
-const BLUETOOTH_ORBIT_TIMES = [0, 0.12, 0.25, 0.38, 0.5, 0.62, 0.75, 0.88, 1];
+// The two nodes swap sides once: one takes the upper half-arc and the other
+// takes a slightly shallower lower half-arc with its own acceleration.
+const LEFT_HALF_ORBIT_TIMES = [0, 0.07, 0.16, 0.28, 0.43, 0.59, 0.73, 0.88, 1];
+const RIGHT_HALF_ORBIT_TIMES = [0, 0.1, 0.22, 0.34, 0.49, 0.63, 0.77, 0.9, 1];
 
 const leftNodeVariants: Variants = {
   normal: { transform: 'translate(0px, 0px)' },
   animate: {
     transform: [
       'translate(0px, 0px)',
-      'translate(0.75px, -6.8px)',
-      'translate(6.75px, -10.2px)',
-      'translate(12.75px, -6.8px)',
+      'translate(0.6px, -3.7px)',
+      'translate(2.4px, -6.9px)',
+      'translate(4.7px, -9.1px)',
+      'translate(6.8px, -10.2px)',
+      'translate(9px, -9.5px)',
+      'translate(11.2px, -7px)',
+      'translate(12.9px, -3.5px)',
       'translate(13.5px, 0px)',
-      'translate(12.75px, 6.8px)',
-      'translate(6.75px, 10.2px)',
-      'translate(0.75px, 6.8px)',
-      'translate(0px, 0px)',
     ],
-    transition: { duration: 0.84, ease: 'linear', times: BLUETOOTH_ORBIT_TIMES },
+    transition: { duration: 0.72, ease: 'linear', times: LEFT_HALF_ORBIT_TIMES },
   },
 };
 
@@ -42,28 +44,27 @@ const rightNodeVariants: Variants = {
   animate: {
     transform: [
       'translate(0px, 0px)',
-      'translate(-0.75px, 6.8px)',
-      'translate(-6.75px, 10.2px)',
-      'translate(-12.75px, 6.8px)',
+      'translate(-0.4px, 3.4px)',
+      'translate(-2px, 6.5px)',
+      'translate(-4.3px, 8.8px)',
+      'translate(-6.5px, 9.8px)',
+      'translate(-8.8px, 9.1px)',
+      'translate(-11px, 6.7px)',
+      'translate(-12.7px, 3.2px)',
       'translate(-13.5px, 0px)',
-      'translate(-12.75px, -6.8px)',
-      'translate(-6.75px, -10.2px)',
-      'translate(-0.75px, -6.8px)',
-      'translate(0px, 0px)',
     ],
-    transition: { duration: 0.84, ease: 'linear', times: BLUETOOTH_ORBIT_TIMES },
+    transition: { duration: 0.76, ease: 'linear', times: RIGHT_HALF_ORBIT_TIMES },
   },
 };
 
 const nodeSourceVariants: Variants = {
-  normal: { opacity: 1, transition: { duration: 0.08 } },
-  animate: { opacity: 0, transition: { duration: 0.08 } },
+  normal: { visibility: 'visible', transition: { duration: 0.08 } },
+  animate: { visibility: 'hidden', transition: { duration: 0.08 } },
 };
 const generatedGeometryVariants: Variants = {
-  normal: { opacity: 0, transition: { duration: 0.08 } },
-  animate: { opacity: 1, transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
-
 
 const BluetoothIcon = forwardRef<BluetoothIconHandle, BluetoothIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {

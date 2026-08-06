@@ -34,10 +34,10 @@ const cameraWingVariants: Variants = {
 };
 
 const recordDotVariants: Variants = {
-  normal: { scale: 1, opacity: 1 },
+  normal: { scale: 1, visibility: 'visible' },
   animate: {
     scale: [1, 0.72, 1.16, 1],
-    opacity: [1, 0.65, 1, 1],
+    visibility: ['visible', 'visible', 'visible', 'visible'],
     transition: { duration: 0.45, ease: [0.23, 1, 0.32, 1] },
   },
 };

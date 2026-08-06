@@ -3,9 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import { ICON_LIST } from '@/app/icons-manifest';
+import { DISAPPROVED_ICON_NAMES } from '@/lib/icon-approval';
 import { Copy01Icon } from '@/icons/copy-01';
 import { Search01Icon } from '@/icons/search-01';
 import type { AnimatedIconHandle as IconHandle } from '@/lib/use-icon-animation';
+
+const PUBLISHED_ICONS = ICON_LIST.filter(
+  ({ name }) => !DISAPPROVED_ICON_NAMES.has(name)
+);
 
 type IconCommandMenuProps = {
   query: string;
@@ -104,7 +109,7 @@ export function IconCommandMenu({
             value={query}
             onValueChange={onQueryChange}
             aria-label="Search animated icons"
-            placeholder={`Search ${ICON_LIST.length} icons…`}
+            placeholder={`Search ${PUBLISHED_ICONS.length} icons…`}
             className="h-14 min-w-0 flex-1 bg-transparent text-base font-medium outline-none placeholder:text-[#BFC2BD]"
           />
           <kbd className="hidden rounded-md bg-[#F7F7F5] px-2 py-1 font-mono text-[10px] font-semibold text-[#9DA19B] shadow-[0_0_0_1px_rgba(20,24,18,0.08)] sm:block">
@@ -123,7 +128,7 @@ export function IconCommandMenu({
             heading="Icons"
             className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:pb-1.5 [&_[cmdk-group-heading]]:pt-1 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[10px] [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-[0.14em] [&_[cmdk-group-heading]]:text-[#9DA19B]"
           >
-            {ICON_LIST.map(({ name, Icon }, index) => (
+            {PUBLISHED_ICONS.map(({ name, Icon }, index) => (
               <Command.Item
                 key={name}
                 value={name}
