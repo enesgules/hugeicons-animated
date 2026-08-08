@@ -41,6 +41,7 @@ import { CloudUploadIcon } from '@/icons/cloud-upload';
 import { CloudIcon } from '@/icons/cloud';
 import { CodeXmlIcon } from '@/icons/code-xml';
 import { Coffee02Icon } from '@/icons/coffee-02';
+import { CommandIcon } from '@/icons/command';
 import { CompassIcon } from '@/icons/compass';
 import { Copy01Icon } from '@/icons/copy-01';
 import { CreditCardIcon } from '@/icons/credit-card';
@@ -207,6 +208,7 @@ export const ICON_LIST = [
   { name: 'cloud', Icon: CloudIcon },
   { name: 'code-xml', Icon: CodeXmlIcon },
   { name: 'coffee-02', Icon: Coffee02Icon },
+  { name: 'command', Icon: CommandIcon },
   { name: 'compass', Icon: CompassIcon },
   { name: 'copy-01', Icon: Copy01Icon },
   { name: 'credit-card', Icon: CreditCardIcon },

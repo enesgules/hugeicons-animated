@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Command } from 'cmdk';
 import { ICON_LIST } from '@/app/icons-manifest';
 import { DISAPPROVED_ICON_NAMES } from '@/lib/icon-approval';
+import { CommandIcon } from '@/icons/command';
 import { Copy01Icon } from '@/icons/copy-01';
 import { Search01Icon } from '@/icons/search-01';
 import type { AnimatedIconHandle as IconHandle } from '@/lib/use-icon-animation';
@@ -26,6 +27,7 @@ export function IconCommandMenu({
   showTrigger,
 }: IconCommandMenuProps) {
   const [open, setOpen] = useState(false);
+  const commandIconRef = useRef<IconHandle | null>(null);
   const iconRefs = useRef<(IconHandle | null)[]>([]);
   const restoreFocusRef = useRef<HTMLElement | null>(null);
 
@@ -75,14 +77,22 @@ export function IconCommandMenu({
             restoreFocusRef.current = event.currentTarget;
             setOpen(true);
           }}
+          onPointerEnter={() => commandIconRef.current?.startAnimation()}
+          onPointerLeave={() => commandIconRef.current?.stopAnimation()}
           className="group absolute right-2.5 top-1/2 grid h-10 w-11 -translate-y-1/2 cursor-pointer place-items-center rounded-[10px] transition-transform duration-150 active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
         >
           <kbd
             aria-hidden
             className="pointer-events-none inline-flex h-7 overflow-hidden rounded-[7px] bg-white text-[#696D6E] shadow-[0_0_0_1px_rgba(20,24,18,0.1),0_1px_1px_rgba(20,24,18,0.08),0_2px_0_rgba(20,24,18,0.05)] transition-[background-color,color,box-shadow] duration-150 group-hover:bg-[#FBFCFA] group-hover:text-[#2C4A0F] group-hover:shadow-[0_0_0_1px_rgba(121,189,62,0.36),0_2px_4px_rgba(44,74,15,0.08)]"
           >
-            <span className="grid w-6 place-items-center border-r border-[#141812]/6 [font-family:ui-sans-serif,system-ui,sans-serif] text-[13px] leading-none">
-              ⌘
+            <span className="grid w-6 place-items-center border-r border-[#141812]/6">
+              <CommandIcon
+                ref={(handle: IconHandle | null) => {
+                  commandIconRef.current = handle;
+                }}
+                size={13}
+                aria-hidden
+              />
             </span>
             <span className="grid w-5 place-items-center font-mono text-[10px] font-semibold leading-none">
               K

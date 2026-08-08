@@ -50,7 +50,7 @@ const SPECIMEN_REPLAY_DELAY = 1100;
 const MOVE_STAGGER_DELAY = 45;
 
 type HeroSpecimenPlacement = {
-  iconIndex: number;
+  iconName: string;
   top: string;
   left: string;
   size: number;
@@ -66,25 +66,25 @@ type HeroSpecimenPlacement = {
 };
 
 const HERO_SPECIMEN_PLACEMENTS: HeroSpecimenPlacement[] = [
-  { iconIndex: 3, top: '22%', left: '74%', size: 22, rotate: -10, moveX: -7, moveY: 6, moveRotate: -15, mobile: { bottom: '10rem', left: '18%' } },
-  { iconIndex: 9, top: '11%', left: '38%', size: 28, rotate: 7, moveX: 8, moveY: -7, moveRotate: 13 },
-  { iconIndex: 14, top: '9%', left: '69%', size: 25, rotate: -5, moveX: -10, moveY: -3, moveRotate: -10 },
-  { iconIndex: 20, top: '15%', left: '91%', size: 23, rotate: 11, moveX: 8, moveY: 8, moveRotate: 17 },
-  { iconIndex: 27, top: '28%', left: '55%', size: 30, rotate: 6, moveX: -6, moveY: -9, moveRotate: 11, mediumHidden: true },
-  { iconIndex: 32, top: '32%', left: '82%', size: 25, rotate: -11, moveX: 11, moveY: 4, moveRotate: -17 },
-  { iconIndex: 38, top: '40%', left: '97%', size: 23, rotate: 9, moveX: -9, moveY: 8, moveRotate: 15 },
-  { iconIndex: 42, top: '47%', left: '3%', size: 24, rotate: -7, moveX: 7, moveY: -7, moveRotate: -12, mediumHidden: true },
-  { iconIndex: 46, top: '53%', left: '68%', size: 27, rotate: 13, moveX: -7, moveY: 7, moveRotate: 19 },
-  { iconIndex: 51, top: '57%', left: '91%', size: 29, rotate: -4, moveX: 9, moveY: 8, moveRotate: -9 },
-  { iconIndex: 57, top: '76%', left: '29%', size: 23, rotate: 8, moveX: 6, moveY: -8, moveRotate: 14, mobile: { bottom: '9.75rem', left: '50%' } },
-  { iconIndex: 63, top: '70%', left: '54%', size: 26, rotate: -9, moveX: -8, moveY: 5, moveRotate: -15, mediumHidden: true },
-  { iconIndex: 69, top: '72%', left: '80%', size: 22, rotate: 5, moveX: 7, moveY: -6, moveRotate: 10, mobile: { bottom: '10.125rem', left: '82%' } },
+  { iconName: 'alert-circle', top: '22%', left: '74%', size: 22, rotate: -10, moveX: -7, moveY: 6, moveRotate: -15, mobile: { bottom: '10rem', left: '18%' } },
+  { iconName: 'arrow-right-02', top: '11%', left: '38%', size: 28, rotate: 7, moveX: 8, moveY: -7, moveRotate: 13 },
+  { iconName: 'bookmark-01', top: '9%', left: '69%', size: 25, rotate: -5, moveX: -10, moveY: -3, moveRotate: -10 },
+  { iconName: 'chevron-right', top: '15%', left: '91%', size: 23, rotate: 11, moveX: 8, moveY: 8, moveRotate: 17 },
+  { iconName: 'cloud-rain', top: '28%', left: '55%', size: 30, rotate: 6, moveX: -6, moveY: -9, moveRotate: 11, mediumHidden: true },
+  { iconName: 'cursor-pointer-01', top: '32%', left: '82%', size: 25, rotate: -11, moveX: 11, moveY: 4, moveRotate: -17 },
+  { iconName: 'eye-off', top: '40%', left: '97%', size: 23, rotate: 9, moveX: -9, moveY: 8, moveRotate: 15 },
+  { iconName: 'full-screen', top: '47%', left: '3%', size: 24, rotate: -7, moveX: 7, moveY: -7, moveRotate: -12, mediumHidden: true },
+  { iconName: 'location-add-01', top: '53%', left: '68%', size: 27, rotate: 13, moveX: -7, moveY: 7, moveRotate: 19 },
+  { iconName: 'mail-open', top: '57%', left: '91%', size: 29, rotate: -4, moveX: 9, moveY: 8, moveRotate: -9 },
+  { iconName: 'notification-03', top: '76%', left: '29%', size: 23, rotate: 8, moveX: 6, moveY: -8, moveRotate: 14, mobile: { bottom: '9.75rem', left: '50%' } },
+  { iconName: 'printer', top: '70%', left: '54%', size: 26, rotate: -9, moveX: -8, moveY: 5, moveRotate: -15, mediumHidden: true },
+  { iconName: 'settings-01', top: '72%', left: '80%', size: 22, rotate: 5, moveX: 7, moveY: -6, moveRotate: 10, mobile: { bottom: '10.125rem', left: '82%' } },
 ];
 
-const HERO_SPECIMENS = HERO_SPECIMEN_PLACEMENTS.map((specimen) => ({
-  ...specimen,
-  icon: ICONS[specimen.iconIndex % ICONS.length],
-}));
+const HERO_SPECIMENS = HERO_SPECIMEN_PLACEMENTS.flatMap((specimen) => {
+  const icon = ICONS.find(({ name }) => name === specimen.iconName);
+  return icon ? [{ ...specimen, icon }] : [];
+});
 
 type SpecimenStyle = CSSProperties & {
   '--specimen-top': string;

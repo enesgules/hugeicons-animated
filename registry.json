@@ -802,6 +802,25 @@
       ]
     },
     {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "command",
+      "description": "Animated command icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/command.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "compass",
       "type": "registry:ui",
       "title": "compass",
