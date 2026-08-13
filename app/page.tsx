@@ -66,7 +66,7 @@ type HeroSpecimenPlacement = {
 };
 
 const HERO_SPECIMEN_PLACEMENTS: HeroSpecimenPlacement[] = [
-  { iconName: 'alert-circle', top: '22%', left: '74%', size: 22, rotate: -10, moveX: -7, moveY: 6, moveRotate: -15, mobile: { bottom: '10rem', left: '18%' } },
+  { iconName: 'alert-circle', top: '24%', left: '9%', size: 22, rotate: -10, moveX: -7, moveY: 6, moveRotate: -15, mobile: { bottom: '16rem', left: '18%' } },
   { iconName: 'arrow-right-02', top: '11%', left: '38%', size: 28, rotate: 7, moveX: 8, moveY: -7, moveRotate: 13 },
   { iconName: 'bookmark-01', top: '9%', left: '69%', size: 25, rotate: -5, moveX: -10, moveY: -3, moveRotate: -10 },
   { iconName: 'chevron-right', top: '15%', left: '91%', size: 23, rotate: 11, moveX: 8, moveY: 8, moveRotate: 17 },
@@ -74,11 +74,13 @@ const HERO_SPECIMEN_PLACEMENTS: HeroSpecimenPlacement[] = [
   { iconName: 'cursor-pointer-01', top: '32%', left: '82%', size: 25, rotate: -11, moveX: 11, moveY: 4, moveRotate: -17 },
   { iconName: 'eye-off', top: '40%', left: '97%', size: 23, rotate: 9, moveX: -9, moveY: 8, moveRotate: 15 },
   { iconName: 'full-screen', top: '47%', left: '3%', size: 24, rotate: -7, moveX: 7, moveY: -7, moveRotate: -12, mediumHidden: true },
-  { iconName: 'location-add-01', top: '53%', left: '68%', size: 27, rotate: 13, moveX: -7, moveY: 7, moveRotate: 19 },
+  { iconName: 'location-add-01', top: '56%', left: '13%', size: 27, rotate: 13, moveX: -7, moveY: 7, moveRotate: 19 },
   { iconName: 'mail-open', top: '57%', left: '91%', size: 29, rotate: -4, moveX: 9, moveY: 8, moveRotate: -9 },
-  { iconName: 'notification-03', top: '76%', left: '29%', size: 23, rotate: 8, moveX: 6, moveY: -8, moveRotate: 14, mobile: { bottom: '9.75rem', left: '50%' } },
+  { iconName: 'notification-03', top: '76%', left: '24%', size: 23, rotate: 8, moveX: 6, moveY: -8, moveRotate: 14, mobile: { bottom: '15.75rem', left: '50%' } },
   { iconName: 'printer', top: '70%', left: '54%', size: 26, rotate: -9, moveX: -8, moveY: 5, moveRotate: -15, mediumHidden: true },
-  { iconName: 'settings-01', top: '72%', left: '80%', size: 22, rotate: 5, moveX: 7, moveY: -6, moveRotate: 10, mobile: { bottom: '10.125rem', left: '82%' } },
+  { iconName: 'settings-01', top: '72%', left: '80%', size: 22, rotate: 5, moveX: 7, moveY: -6, moveRotate: 10, mobile: { bottom: '16.125rem', left: '82%' } },
+  { iconName: 'coffee-02', top: '86%', left: '8%', size: 25, rotate: -8, moveX: 8, moveY: -6, moveRotate: -13 },
+  { iconName: 'diamond-02', top: '89%', left: '93%', size: 24, rotate: 9, moveX: -7, moveY: 7, moveRotate: 15 },
 ];
 
 const HERO_SPECIMENS = HERO_SPECIMEN_PLACEMENTS.flatMap((specimen) => {
@@ -745,35 +747,35 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
             aria-hidden
             className="mx-auto h-px max-w-6xl bg-gradient-to-r from-transparent via-[#E5E5E3] to-transparent"
           />
-          <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 py-10 sm:flex-row sm:items-end sm:justify-between sm:px-8">
-            <div className="max-w-sm space-y-3 text-sm font-medium leading-relaxed text-[#696D6E]">
-              <p>
-                Base icons come from{' '}
-                <a
-                  href="https://hugeicons.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={textLink}
-                >
-                  Hugeicons
-                </a>
-                &apos;{' '}
-                <a
-                  href="https://www.npmjs.com/package/@hugeicons/core-free-icons"
-                  className={textLink}
-                >
-                  core-free-icons package
-                </a>
-                . Animations use{' '}
-                <a href="https://motion.dev" className={textLink}>
-                  motion
-                </a>
-                . The{' '}
-                <a href="https://ui.shadcn.com/docs/cli" className={textLink}>
-                  shadcn CLI
-                </a>{' '}
-                installs each icon as source.
-              </p>
+          <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-5 py-10 sm:px-8">
+            <p className="w-full text-sm font-medium leading-relaxed text-[#696D6E]">
+              Base icons come from{' '}
+              <a
+                href="https://hugeicons.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={textLink}
+              >
+                Hugeicons
+              </a>
+              &apos;{' '}
+              <a
+                href="https://www.npmjs.com/package/@hugeicons/core-free-icons"
+                className={textLink}
+              >
+                core-free-icons package
+              </a>
+              . Animations use{' '}
+              <a href="https://motion.dev" className={textLink}>
+                motion
+              </a>
+              . The{' '}
+              <a href="https://ui.shadcn.com/docs/cli" className={textLink}>
+                shadcn CLI
+              </a>{' '}
+              installs each icon as source.
+            </p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <button
                 type="button"
                 onPointerEnter={() =>
@@ -798,21 +800,21 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
                   Every icon on this page is hoverable. Even this one.
                 </span>
               </button>
+              <nav aria-label="Footer">
+                <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium">
+                  <li>
+                    <a href={GITHUB_URL} className={textLink}>
+                      GitHub
+                    </a>
+                  </li>
+                  <li>
+                    <a href={`${GITHUB_URL}/blob/main/README.md`} className={textLink}>
+                      MIT license
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
-            <nav aria-label="Footer">
-              <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium">
-                <li>
-                  <a href={GITHUB_URL} className={textLink}>
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <a href={`${GITHUB_URL}/blob/main/README.md`} className={textLink}>
-                    MIT license
-                  </a>
-                </li>
-              </ul>
-            </nav>
           </div>
         </footer>
       </div>

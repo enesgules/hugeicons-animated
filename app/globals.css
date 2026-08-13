@@ -38,7 +38,7 @@ body {
   position: absolute;
   z-index: 0;
   top: -4rem;
-  bottom: -10rem;
+  bottom: -16rem;
   left: 50%;
   width: 100vw;
   overflow: clip;
@@ -52,9 +52,9 @@ body {
     to bottom,
     transparent 0%,
     black 8%,
-    black 68%,
-    rgb(0 0 0 / 78%) 82%,
-    rgb(0 0 0 / 38%) 93%,
+    black 72%,
+    rgb(0 0 0 / 72%) 85%,
+    rgb(0 0 0 / 34%) 94%,
     transparent 100%
   );
 }
