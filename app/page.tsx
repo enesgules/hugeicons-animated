@@ -374,31 +374,39 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
               </span>
             </a>
 
-            <a
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="View hugeicons-animated on GitHub"
-              onPointerEnter={() => {
-                if (!reduced) githubIconRef.current?.startAnimation();
-              }}
-              onPointerLeave={() => stopCommandIcon(githubIconRef.current)}
-              onFocus={() => {
-                if (!reduced) githubIconRef.current?.startAnimation();
-              }}
-              onBlur={() => stopCommandIcon(githubIconRef.current)}
-              className="flex size-10 items-center justify-center gap-2 rounded-lg bg-white text-sm font-bold text-[#141812] shadow-[0_0_0_1px_rgba(20,24,18,0.1),0_1px_2px_rgba(20,24,18,0.08)] transition-[background-color,box-shadow,scale] duration-150 hover:bg-[#F7F7F5] hover:shadow-[0_0_0_1px_rgba(20,24,18,0.14),0_2px_4px_rgba(20,24,18,0.08)] active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22] sm:w-auto sm:px-3.5"
-            >
-              <GithubIcon
-                size={18}
-                aria-hidden
-                className="pointer-events-none shrink-0 [&_path]:[stroke-width:1.65]"
-                ref={(handle: IconHandle | null) => {
-                  githubIconRef.current = handle;
+            <div className="flex shrink-0 items-center gap-2">
+              <a
+                href="/docs"
+                className="flex min-h-10 items-center rounded-lg px-2 text-sm font-bold text-[#696D6E] transition-[background-color,color,scale] duration-150 hover:bg-[#F7F7F5] hover:text-[#141812] active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22] sm:px-3"
+              >
+                Docs
+              </a>
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View hugeicons-animated on GitHub"
+                onPointerEnter={() => {
+                  if (!reduced) githubIconRef.current?.startAnimation();
                 }}
-              />
-              <span className="hidden sm:inline">GitHub</span>
-            </a>
+                onPointerLeave={() => stopCommandIcon(githubIconRef.current)}
+                onFocus={() => {
+                  if (!reduced) githubIconRef.current?.startAnimation();
+                }}
+                onBlur={() => stopCommandIcon(githubIconRef.current)}
+                className="flex size-10 items-center justify-center gap-2 rounded-lg bg-white text-sm font-bold text-[#141812] shadow-[0_0_0_1px_rgba(20,24,18,0.1),0_1px_2px_rgba(20,24,18,0.08)] transition-[background-color,box-shadow,scale] duration-150 hover:bg-[#F7F7F5] hover:shadow-[0_0_0_1px_rgba(20,24,18,0.14),0_2px_4px_rgba(20,24,18,0.08)] active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22] sm:w-auto sm:px-3.5"
+              >
+                <GithubIcon
+                  size={18}
+                  aria-hidden
+                  className="pointer-events-none shrink-0 [&_path]:[stroke-width:1.65]"
+                  ref={(handle: IconHandle | null) => {
+                    githubIconRef.current = handle;
+                  }}
+                />
+                <span className="hidden sm:inline">GitHub</span>
+              </a>
+            </div>
           </nav>
         </header>
 

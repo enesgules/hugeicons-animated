@@ -3,8 +3,11 @@
   "theme": "mint",
   "name": "Hugeicons Animated",
   "colors": {
-    "primary": "#4C7A22"
+    "primary": "#4C7A22",
+    "light": "#AFE67F",
+    "dark": "#1D3208"
   },
+  "favicon": "/favicon.svg",
   "navbar": {
     "links": [
       {
