@@ -1,0 +1,28 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Hugeicons Animated",
+  "colors": {
+    "primary": "#4C7A22"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Icon gallery",
+        "href": "https://hugeicons-animated.com"
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/enesgules/hugeicons-animated"
+      }
+    ]
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get started",
+        "pages": ["index", "usage"]
+      }
+    ]
+  }
+}

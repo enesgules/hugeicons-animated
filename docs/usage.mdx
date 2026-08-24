@@ -1,0 +1,28 @@
+---
+title: "Install and use an icon"
+description: "Add an animated icon to a React project with the shadcn CLI."
+---
+
+## Install
+
+Choose an icon from the [icon gallery](https://hugeicons-animated.com), then run its install command.
+
+```bash
+npx shadcn@latest add @hugeicons-animated/notification-03
+```
+
+The command adds the icon, its animation helper, and the required Motion dependency to your project.
+
+## Use
+
+Import the installed component and render it in your React code.
+
+```tsx
+import { Notification03Icon } from '@/components/ui/notification-03';
+
+export function NotificationsButton() {
+  return <Notification03Icon size={28} />;
+}
+```
+
+The icon animates on hover. It accepts standard `div` attributes and an optional `size` prop.
