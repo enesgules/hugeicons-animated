@@ -1,0 +1,38 @@
+{
+  "name": "launch-video",
+  "version": "1.0.0",
+  "description": "Launch video for hugeicons-animated.com",
+  "repository": {},
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@hugeicons/core-free-icons": "4.2.2",
+    "@hugeicons/react": "1.1.9",
+    "@remotion/cli": "4.0.509",
+    "@remotion/transitions": "4.0.509",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.509"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.509",
+    "@types/react": "19.2.7",
+    "@types/web": "0.0.166",
+    "eslint": "9.19.0",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
+  },
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion bundle",
+    "lint": "eslint src && tsc",
+    "render": "remotion render HugeiconsAnimatedLaunch out/hugeicons-animated-launch.mp4 --codec=h264 --crf=18",
+    "render:bands": "remotion render HugeiconsAnimatedBands out/hugeicons-animated-bands.mp4 --codec=h264 --crf=18",
+    "render:spotlight": "remotion render HugeiconsAnimatedSpotlight out/hugeicons-animated-spotlight.mp4 --codec=h264 --crf=18",
+    "render:all": "npm run render && npm run render:bands && npm run render:spotlight",
+    "upgrade": "remotion upgrade"
+  },
+  "sideEffects": [
+    "*.css"
+  ]
+}

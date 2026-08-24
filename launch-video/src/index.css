@@ -1,0 +1,19 @@
+@font-face {
+  font-family: "Quicksand";
+  src: url("../public/fonts/quicksand-700.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #141812;
+  font-family: "Quicksand", ui-rounded, system-ui, sans-serif;
+}
