@@ -1,0 +1,28 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/docs",
+      "destination": "https://enesgules-hugeicons-animated.docs7.io/docs"
+    },
+    {
+      "source": "/docs/:match*",
+      "destination": "https://enesgules-hugeicons-animated.docs7.io/docs/:match*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/docs/:match*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store, max-age=0"
+        },
+        {
+          "key": "x-vercel-enable-rewrite-caching",
+          "value": "0"
+        }
+      ]
+    }
+  ]
+}
