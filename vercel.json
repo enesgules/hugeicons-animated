@@ -8,10 +8,6 @@
     {
       "source": "/docs/:match*",
       "destination": "https://enesgules-hugeicons-animated.docs7.io/docs/:match*"
-    },
-    {
-      "source": "/docs.txt",
-      "destination": "https://enesgules-hugeicons-animated.docs7.io/docs.txt"
     }
   ],
   "headers": [
