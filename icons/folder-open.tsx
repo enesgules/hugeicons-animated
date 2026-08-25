@@ -27,17 +27,17 @@ const folderFlapVariants: Variants = {
     originY: '100%',
     transform: [
       'translate(0px, 0px) rotate(0deg) scaleY(1)',
-      'translate(0px, 0px) rotate(0deg) scaleY(1)',
-      'translate(0px, 0.3px) rotate(-0.5deg) scaleY(0.98)',
-      'translate(0px, 0.9px) rotate(-1.5deg) scaleY(0.9)',
-      'translate(0px, 0.9px) rotate(-1.5deg) scaleY(0.9)',
-      'translate(0px, 0.25px) rotate(-0.5deg) scaleY(0.98)',
+      'translate(0px, 0px) rotate(1deg) scaleY(1)',
+      'translate(0px, -0.15px) rotate(6deg) scaleY(0.98)',
+      'translate(0px, -0.3px) rotate(11deg) scaleY(0.93)',
+      'translate(0px, -0.25px) rotate(7deg) scaleY(0.97)',
+      'translate(0px, -0.08px) rotate(2deg) scaleY(0.99)',
       'translate(0px, 0px) rotate(0deg) scaleY(1)',
     ],
     transition: {
-      duration: 0.88,
+      duration: 0.9,
       ease: [0.65, 0, 0.35, 1],
-      times: [0, 0.22, 0.34, 0.48, 0.62, 0.8, 1],
+      times: [0, 0.16, 0.34, 0.54, 0.78, 0.9, 1],
     },
   },
 };
@@ -51,11 +51,18 @@ const folderArrowVariants: Variants = {
   animate: {
     originX: '0%',
     originY: '100%',
-    transform: ['rotate(0deg)', 'rotate(0deg)', 'rotate(-10deg)', 'rotate(-22deg)', 'rotate(-8deg)', 'rotate(0deg)'],
+    transform: [
+      'rotate(0deg)',
+      'rotate(1deg)',
+      'rotate(4deg)',
+      'rotate(7deg)',
+      'rotate(4deg)',
+      'rotate(0deg)',
+    ],
     transition: {
-      duration: 0.88,
+      duration: 0.9,
       ease: [0.65, 0, 0.35, 1],
-      times: [0, 0.12, 0.34, 0.5, 0.78, 1],
+      times: [0, 0.16, 0.34, 0.54, 0.78, 1],
     },
   },
 };
