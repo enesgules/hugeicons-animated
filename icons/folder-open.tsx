@@ -16,7 +16,6 @@ interface FolderOpenIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the front flap lifts from its bottom edge, revealing the contents before closing
 const folderFlapVariants: Variants = {
   normal: {
     originX: '50%',
@@ -28,35 +27,35 @@ const folderFlapVariants: Variants = {
     originY: '100%',
     transform: [
       'translate(0px, 0px) rotate(0deg) scaleY(1)',
-      'translate(0px, 0.35px) rotate(-1deg) scaleY(0.94)',
-      'translate(0px, 1.35px) rotate(-2.5deg) scaleY(0.8)',
-      'translate(0px, 1.35px) rotate(-2.5deg) scaleY(0.8)',
-      'translate(0px, 0.35px) rotate(-1deg) scaleY(0.94)',
+      'translate(0px, 0px) rotate(0deg) scaleY(1)',
+      'translate(0px, 0.3px) rotate(-0.5deg) scaleY(0.98)',
+      'translate(0px, 0.9px) rotate(-1.5deg) scaleY(0.9)',
+      'translate(0px, 0.9px) rotate(-1.5deg) scaleY(0.9)',
+      'translate(0px, 0.25px) rotate(-0.5deg) scaleY(0.98)',
       'translate(0px, 0px) rotate(0deg) scaleY(1)',
     ],
     transition: {
-      duration: 0.82,
+      duration: 0.88,
       ease: [0.65, 0, 0.35, 1],
-      times: [0, 0.16, 0.38, 0.56, 0.82, 1],
+      times: [0, 0.22, 0.34, 0.48, 0.62, 0.8, 1],
     },
   },
 };
 
-const paperRiseVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+const folderArrowVariants: Variants = {
+  normal: {
+    originX: '0%',
+    originY: '100%',
+    transform: 'rotate(0deg)',
+  },
   animate: {
-    transform: [
-      'translateY(0px)',
-      'translateY(-0.25px)',
-      'translateY(-1.25px)',
-      'translateY(-1.25px)',
-      'translateY(-0.25px)',
-      'translateY(0px)',
-    ],
+    originX: '0%',
+    originY: '100%',
+    transform: ['rotate(0deg)', 'rotate(0deg)', 'rotate(-10deg)', 'rotate(-22deg)', 'rotate(-8deg)', 'rotate(0deg)'],
     transition: {
-      duration: 0.82,
+      duration: 0.88,
       ease: [0.65, 0, 0.35, 1],
-      times: [0, 0.16, 0.38, 0.56, 0.82, 1],
+      times: [0, 0.12, 0.34, 0.5, 0.78, 1],
     },
   },
 };
@@ -109,9 +108,10 @@ const FolderOpenIcon = forwardRef<FolderOpenIconHandle, FolderOpenIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={paperRiseVariants}
+            variants={folderArrowVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'fill-box', transformOrigin: '0% 100%' }}
           />
         </svg>
       </div>
