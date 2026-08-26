@@ -24,7 +24,15 @@
     "groups": [
       {
         "group": "Get started",
-        "pages": ["index", "usage"]
+        "pages": ["index", "installation", "usage"]
+      },
+      {
+        "group": "Guides",
+        "pages": ["animation-control", "icons", "accessibility"]
+      },
+      {
+        "group": "Reference",
+        "pages": ["component-api"]
       }
     ]
   }

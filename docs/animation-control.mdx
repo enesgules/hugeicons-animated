@@ -1,0 +1,63 @@
+---
+title: "Control animations"
+description: "Start and stop an icon animation from another React control."
+---
+
+Pass a ref when the animation must follow a parent button, menu item, or application state. A controlled icon does not start its own hover animation.
+
+```tsx
+'use client';
+
+import { useRef } from 'react';
+import {
+  RefreshIcon,
+  type RefreshIconHandle,
+} from '@/components/ui/refresh';
+
+export function RefreshButton() {
+  const iconRef = useRef<RefreshIconHandle>(null);
+
+  return (
+    <button
+      type="button"
+      onPointerEnter={() => iconRef.current?.startAnimation()}
+      onPointerLeave={() => iconRef.current?.stopAnimation()}
+      onFocus={() => iconRef.current?.startAnimation()}
+      onBlur={() => iconRef.current?.stopAnimation()}
+    >
+      <RefreshIcon ref={iconRef} aria-hidden />
+      Refresh
+    </button>
+  );
+}
+```
+
+## Finite and looping gestures
+
+<Tabs>
+  <Tab title="Finite gestures" icon="play">
+    A finite gesture completes its beat after `startAnimation()` runs. Calling `stopAnimation()` does not cut it off halfway through.
+  </Tab>
+
+  <Tab title="Looping gestures" icon="repeat">
+    A looping gesture continues while it is active. Calling `stopAnimation()` ends the loop and returns the icon to its normal pose.
+  </Tab>
+</Tabs>
+
+## Keep control accessible
+
+Pointer events are not enough for a controlled icon. Start the animation on focus and stop it on blur so keyboard users get the same feedback.
+
+<AccordionGroup>
+  <Accordion title="Why does hover stop when I pass a ref?">
+    The ref marks the icon as controlled. This prevents the icon wrapper and the parent control from starting the same animation twice.
+  </Accordion>
+
+  <Accordion title="Can I start the animation after an async action?">
+    Yes. Call `startAnimation()` after the action succeeds. The icon will still follow the device's reduced-motion preference.
+  </Accordion>
+
+  <Accordion title="Can I stop a finite animation early?">
+    No. Finite gestures finish their current beat. This keeps the motion clear and prevents an icon from stopping between poses.
+  </Accordion>
+</AccordionGroup>

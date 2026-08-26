@@ -1,0 +1,54 @@
+---
+title: "Installation"
+description: "Add an animated icon to your React project with the shadcn CLI."
+---
+
+Each icon installs as source code. You can inspect it, edit it, and keep it with the rest of your components.
+
+<Steps>
+  <Step title="Choose an icon">
+    Find an animation in the [icon gallery](https://hugeicons-animated.com). The gallery gives you the install command for each icon.
+  </Step>
+
+  <Step title="Run the install command">
+    Run the command from the root of your React project.
+
+    ```bash
+    npx shadcn@latest add @hugeicons-animated/notification-03
+    ```
+
+    The CLI adds the icon, the shared animation helper, and Motion when your project does not have it.
+  </Step>
+
+  <Step title="Import the component">
+    Import the generated file from your local component directory.
+
+    ```tsx
+    import { Notification03Icon } from '@/components/ui/notification-03';
+    ```
+  </Step>
+
+  <Step title="Render the icon">
+    Set its size and let it inherit the current text color.
+
+    ```tsx
+    <Notification03Icon size={28} className="text-emerald-700" />
+    ```
+  </Step>
+</Steps>
+
+<Note>
+  The exact import path follows your shadcn component aliases. The default path is `@/components/ui`.
+</Note>
+
+## What the command adds
+
+```text
+components/
+└── ui/
+    └── notification-03.tsx
+lib/
+└── use-icon-animation.ts
+```
+
+The icon component is yours after installation. There is no runtime dependency on the Hugeicons Animated site.

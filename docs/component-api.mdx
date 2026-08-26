@@ -1,0 +1,47 @@
+---
+title: "Component API"
+description: "Shared props and ref methods for every animated icon."
+---
+
+All generated icon components use the same wrapper contract.
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `number` | `28` | Sets the SVG width and height in pixels. |
+| `className` | `string` | | Adds classes to the wrapper `div`. |
+| `ref` | `IconHandle` | | Enables direct animation control. |
+| `...props` | `HTMLAttributes<HTMLDivElement>` | | Passes standard `div` attributes to the wrapper. |
+
+The SVG uses `currentColor`. Set `color` or a text-color class on the wrapper to change the stroke color.
+
+## Ref methods
+
+```ts
+interface Notification03IconHandle {
+  startAnimation: () => void;
+  stopAnimation: () => void;
+}
+```
+
+| Method | Behavior |
+| --- | --- |
+| `startAnimation()` | Starts the icon's animation unless reduced motion is active or the animation is already running. |
+| `stopAnimation()` | Stops looping gestures and returns them to rest. Finite gestures finish their current beat. |
+
+<Note>
+  Each icon exports its own handle type, such as `Notification03IconHandle` or `RefreshIconHandle`.
+</Note>
+
+## Event handlers
+
+The icon preserves `onMouseEnter` and `onMouseLeave` handlers that you pass to it. Its automatic animation runs after your handler.
+
+```tsx
+<Notification03Icon
+  onMouseEnter={() => track('notification-icon-hovered')}
+/>
+```
+
+When you pass a ref, the component treats the icon as controlled and disables its automatic hover behavior.

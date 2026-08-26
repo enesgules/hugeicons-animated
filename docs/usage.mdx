@@ -1,19 +1,9 @@
 ---
-title: "Install and use an icon"
-description: "Add an animated icon to a React project with the shadcn CLI."
+title: "Use an icon"
+description: "Render an animated icon with automatic hover or direct control."
 ---
 
-## Install
-
-Choose an icon from the [icon gallery](https://hugeicons-animated.com), then run its install command.
-
-```bash
-npx shadcn@latest add @hugeicons-animated/notification-03
-```
-
-The command adds the icon, its animation helper, and the required Motion dependency to your project.
-
-## Use
+## Basic use
 
 Import the installed component and render it in your React code.
 
@@ -21,8 +11,70 @@ Import the installed component and render it in your React code.
 import { Notification03Icon } from '@/components/ui/notification-03';
 
 export function NotificationsButton() {
-  return <Notification03Icon size={28} />;
+  return (
+    <button type="button">
+      <Notification03Icon size={28} aria-hidden />
+      Notifications
+    </button>
+  );
 }
 ```
 
-The icon animates on hover. It accepts standard `div` attributes and an optional `size` prop.
+The icon starts its animation when the pointer enters its wrapper. Finite gestures finish their current animation when the pointer leaves. Looping gestures stop and return to rest.
+
+## Choose an interaction
+
+<Tabs>
+  <Tab title="Automatic hover" icon="hand-pointer">
+    Render the icon without a ref. The component handles pointer entry and exit.
+
+    ```tsx
+    <Notification03Icon size={28} />
+    ```
+  </Tab>
+
+  <Tab title="Controlled" icon="sliders">
+    Pass a ref when another element must start or stop the animation.
+
+    ```tsx
+    'use client';
+
+    import { useRef } from 'react';
+    import {
+      Notification03Icon,
+      type Notification03IconHandle,
+    } from '@/components/ui/notification-03';
+
+    export function NotificationsButton() {
+      const iconRef = useRef<Notification03IconHandle>(null);
+
+      return (
+        <button
+          onPointerEnter={() => iconRef.current?.startAnimation()}
+          onFocus={() => iconRef.current?.startAnimation()}
+        >
+          <Notification03Icon ref={iconRef} aria-hidden />
+          Notifications
+        </button>
+      );
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Style the wrapper
+
+Each icon accepts standard `div` attributes. `className`, event handlers, and accessibility attributes apply to the wrapper.
+
+```tsx
+<Notification03Icon
+  size={24}
+  className="text-slate-700 transition-colors hover:text-slate-950"
+  role="img"
+  aria-label="New notifications"
+/>
+```
+
+<Tip>
+  The SVG uses `currentColor`, so the icon follows the text color on its wrapper.
+</Tip>

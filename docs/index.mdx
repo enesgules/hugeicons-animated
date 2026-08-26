@@ -3,12 +3,33 @@ title: "Hugeicons Animated"
 description: "Hand-animated Hugeicons for React, installed as source code."
 ---
 
+<Frame width={180}>
+  <img src="/favicon.svg" alt="Hugeicons Animated bell mark" />
+</Frame>
+
 Hugeicons Animated is a collection of hand-animated icons for React. Each icon uses Motion and installs as source code through the shadcn CLI.
 
 ```bash
 npx shadcn@latest add @hugeicons-animated/notification-03
 ```
 
-The installed icon animates when you hover over it and follows the reduced-motion setting on the device.
+The installed icon animates when you hover over it. You can also control the animation with a React ref. Every icon follows the reduced-motion setting on the device.
 
-[Install and use an icon](/usage)
+<CardGroup cols={2}>
+  <Card title="Install an icon" icon="download" href="/installation">
+    Add one icon and its animation helper to your project.
+  </Card>
+  <Card title="Use the component" icon="code" href="/usage">
+    Render an icon with automatic hover or direct control.
+  </Card>
+  <Card title="Browse icons" icon="icons" href="/icons">
+    Start with a useful set of animated interface icons.
+  </Card>
+  <Card title="Component API" icon="braces" href="/component-api">
+    Check the shared props and ref methods.
+  </Card>
+</CardGroup>
+
+<Tip>
+  Open the [full icon gallery](https://hugeicons-animated.com) to preview each animation before you install it.
+</Tip>

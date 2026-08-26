@@ -1,0 +1,56 @@
+---
+title: "Accessibility"
+description: "Use animated icons without making motion or meaning a barrier."
+---
+
+Hugeicons Animated respects the device's reduced-motion setting. The shared animation helper does not start motion when `prefers-reduced-motion` is enabled.
+
+<Check>
+  Reduced-motion support is automatic for every installed icon.
+</Check>
+
+## Give the icon a purpose
+
+Use an accessible label when an icon carries meaning by itself.
+
+```tsx
+<Notification03Icon role="img" aria-label="Notifications" />
+```
+
+Hide the icon from assistive technology when visible text already gives the control its name.
+
+```tsx
+<button type="button">
+  <Notification03Icon aria-hidden />
+  Notifications
+</button>
+```
+
+## Do not use motion as the only signal
+
+Keep a text, color, or shape change when animation communicates a state. A success icon can animate, but the interface must also show a clear success label.
+
+## Support keyboard interaction
+
+Automatic icons respond to pointer hover. If you control an icon from a parent element, run the same animation on focus.
+
+```tsx
+<button
+  type="button"
+  onPointerEnter={() => iconRef.current?.startAnimation()}
+  onFocus={() => iconRef.current?.startAnimation()}
+>
+  <Notification03Icon ref={iconRef} aria-hidden />
+  Notifications
+</button>
+```
+
+<AccordionGroup>
+  <Accordion title="Should a decorative icon have a label?">
+    No. Use `aria-hidden` when nearby text already explains the control or content.
+  </Accordion>
+
+  <Accordion title="Does reduced motion remove the icon?">
+    No. The original static Hugeicon remains visible. Only the animation is skipped.
+  </Accordion>
+</AccordionGroup>
