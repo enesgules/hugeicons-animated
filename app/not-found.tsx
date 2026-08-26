@@ -45,8 +45,8 @@ export default function NotFound() {
               aria-hidden
               className="absolute inset-[-1.5rem] rounded-full bg-[#EDF8DF] blur-2xl"
             />
-            <div className="relative grid size-28 place-items-center rounded-[2rem] border border-[#DDECCF] bg-[#EDF8DF] text-[#4C7A22] shadow-[0_12px_32px_rgba(44,74,15,0.1)]">
-              <GhostIcon size={54} aria-hidden />
+            <div className="relative grid size-28 place-items-center rounded-[2rem] border border-[#DDECCF] bg-[#EDF8DF] shadow-[0_12px_32px_rgba(44,74,15,0.1)]">
+              <GhostIcon size={54} aria-hidden className="text-[#141812]" />
             </div>
           </div>
 
