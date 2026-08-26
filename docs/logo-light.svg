@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 24" role="img" aria-label="Hugeicons Animated">
+  <rect width="24" height="24" rx="6.75" fill="#AFE67F"/>
+  <rect x="0.5625" y="0.5625" width="22.875" height="22.875" rx="6.1875" fill="none" stroke="#79BD3E" stroke-width="1.125"/>
+  <g fill="none" stroke="#1D3208" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(3 3) scale(.75)">
+    <path d="M20 18.5011L18.349 7.93407C17.8603 4.80601 15.166 2.5 12 2.5C8.83398 2.5 6.13971 4.80601 5.65098 7.93407L4 18.5011"/>
+    <path d="M20 18.5C20 16.8431 16.4183 15.5 12 15.5C7.58172 15.5 4 16.8431 4 18.5C4 20.1569 7.58172 21.5 12 21.5C16.4183 21.5 20 20.1569 20 18.5Z"/>
+    <path d="M13 18.5H11"/>
+  </g>
+  <text x="31" y="10" fill="#18181B" font-family="ui-rounded, 'SF Pro Rounded', system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="-.25">hugeicons</text>
+  <text x="31" y="21" fill="#696D6E" font-family="ui-rounded, 'SF Pro Rounded', system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="-.25">animated</text>
+</svg>
