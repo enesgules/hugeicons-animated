@@ -16,28 +16,48 @@ interface Target01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the dart strikes and the inner target ring expands into the next ring
+// the dart recoils into the target, then the existing inner ring absorbs the impact
 const dartVariants: Variants = {
-  normal: { translateX: 0, translateY: 0, transition: { duration: 0.3 } },
+  normal: { transform: 'translate(0px, 0px)' },
   animate: {
-    translateX: [0, 2.4, 2.4, 0],
-    translateY: [0, -2.4, -2.4, 0],
+    transform: [
+      'translate(0px, 0px)',
+      'translate(2.25px, -2.25px)',
+      'translate(2.25px, -2.25px)',
+      'translate(-0.45px, 0.45px)',
+      'translate(0px, 0px)',
+    ],
     transition: {
-      duration: 1,
-      times: [0, 0.3, 0.45, 0.58],
-      ease: ['easeOut', 'linear', 'easeIn'],
+      duration: 0.88,
+      times: [0, 0.22, 0.38, 0.62, 1],
+      ease: [0.65, 0, 0.35, 1],
     },
   },
 };
 
-const ringVariants: Variants = {
+const outerRingVariants: Variants = {
   normal: { transform: 'scale(1)' },
-  animate: (i: number) => ({
-    transform: i === 0
-      ? ['scale(1)', 'scale(1)', 'scale(1.06)', 'scale(1)']
-      : ['scale(1)', 'scale(1)', 'scale(1.58)', 'scale(1)'],
-    transition: { duration: 0.86, times: [0, 0.58, 0.76, 1], ease: [0.23, 1, 0.32, 1] },
-  }),
+  animate: {
+    transform: ['scale(1)', 'scale(1)', 'scale(1.035)', 'scale(1)'],
+    transition: {
+      duration: 0.88,
+      times: [0, 0.45, 0.68, 1],
+      ease: [0.23, 1, 0.32, 1],
+    },
+  },
+};
+
+const innerRingVariants: Variants = {
+  normal: { transform: 'scale(1)', opacity: 1 },
+  animate: {
+    transform: ['scale(1)', 'scale(1)', 'scale(1.16)', 'scale(1.02)', 'scale(1)'],
+    opacity: [1, 1, 0.74, 0.92, 1],
+    transition: {
+      duration: 0.88,
+      times: [0, 0.45, 0.68, 0.84, 1],
+      ease: [0.23, 1, 0.32, 1],
+    },
+  },
 };
 
 const Target01Icon = forwardRef<Target01IconHandle, Target01IconProps>(
@@ -71,11 +91,10 @@ const Target01Icon = forwardRef<Target01IconHandle, Target01IconProps>(
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={ringVariants}
-            custom={0}
+            variants={outerRingVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
           />
           <motion.path
             d="M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7"
@@ -83,11 +102,10 @@ const Target01Icon = forwardRef<Target01IconHandle, Target01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={ringVariants}
-            custom={1}
+            variants={innerRingVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
           />
           <motion.path
             d="M19.5 4.5L12 12M19.5 4.5V2M19.5 4.5H22"
