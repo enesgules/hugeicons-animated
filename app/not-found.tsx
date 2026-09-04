@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GhostIcon } from '@/icons/ghost';
+import { NotFoundGhost } from '@/app/_components/not-found-ghost';
 import { Home01Icon } from '@/icons/home-01';
 import { Notification03Icon } from '@/icons/notification-03';
 
@@ -43,11 +43,9 @@ export default function NotFound() {
           <div className="relative mb-8">
             <div
               aria-hidden
-              className="absolute inset-[-1.5rem] rounded-full bg-[#EDF8DF] blur-2xl"
+              className="absolute inset-[-1.5rem] rounded-full bg-[#F5F5F4] blur-2xl"
             />
-            <div className="relative grid size-28 place-items-center rounded-[2rem] border border-[#DDECCF] bg-[#EDF8DF] text-[#4C7A22] shadow-[0_12px_32px_rgba(44,74,15,0.1)]">
-              <GhostIcon size={54} aria-hidden />
-            </div>
+            <NotFoundGhost />
           </div>
 
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#79BD3E]">
