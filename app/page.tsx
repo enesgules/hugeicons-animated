@@ -8,12 +8,12 @@ import {
   MotionConfig,
   useReducedMotion,
 } from 'motion/react';
+import Link from 'next/link';
 import { useQueryState } from 'nuqs';
 import { IconCommandMenu } from '@/app/icon-command-menu';
-import { ICON_LIST } from '@/app/icons-manifest';
-import { DISAPPROVED_ICON_NAMES } from '@/lib/icon-approval';
+import { PUBLIC_ICONS } from '@/lib/icon-approval';
 import type { AnimatedIconHandle as IconHandle } from '@/lib/use-icon-animation';
-import { GITHUB_URL } from '@/lib/site';
+import { GITHUB_URL, installCommand } from '@/lib/site';
 import { Cancel01Icon } from '@/icons/cancel-01';
 import { Copy01Icon } from '@/icons/copy-01';
 import { FavouriteIcon } from '@/icons/favourite';
@@ -26,9 +26,7 @@ import { Tick02Icon } from '@/icons/tick-02';
 const GREEN = { bg: '#AFE67F', border: '#79BD3E', deep: '#1D3208' };
 const COPIED_TINT = { bg: '#EDF8DF', border: '#AFE67F', ink: '#2C4A0F' };
 
-const ICONS = ICON_LIST.filter(
-  ({ name }) => !DISAPPROVED_ICON_NAMES.has(name)
-).map((icon, i) => ({
+const ICONS = PUBLIC_ICONS.map((icon, i) => ({
   ...icon,
   idx: i, // stable ref slot — survives search filtering
 }));
@@ -37,9 +35,6 @@ const matches = (query: string) => {
   const q = query.trim().toLowerCase();
   return q ? ICONS.filter(({ name }) => name.includes(q)) : ICONS;
 };
-
-const installCommand = (name: string) =>
-  `npx shadcn add @hugeicons-animated/${name}`;
 
 // shared treatment for links embedded in page copy
 const textLink =
@@ -477,6 +472,7 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
             </div>
 
             <h1 className="relative z-10 w-fit text-balance text-[clamp(2.6rem,7.5vw,4.25rem)] font-bold leading-[1.06] tracking-[-0.03em]">
+              <span className="sr-only">Animated React icons. </span>
               Beautiful icons.
               <br />
               <span className="text-[#BFC2BD]">
@@ -702,46 +698,58 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
                 {filtered.map(({ name, Icon, idx }, pos) => {
                   const isCopied = copied === name;
                   return (
-                    <button
+                    <div
                       key={name}
-                      type="button"
-                      aria-label={`Copy the ${name} install command`}
-                      onClick={() => copy(name, name)}
+                      className="group relative"
                       onPointerEnter={() => refs.current[idx]?.startAnimation()}
                       onPointerLeave={() => refs.current[idx]?.stopAnimation()}
-                      onFocus={() => refs.current[idx]?.startAnimation()}
-                      onBlur={() => refs.current[idx]?.stopAnimation()}
-                      className="tile-enter group relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border transition-[background-color,border-color,box-shadow] duration-200 [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:shadow-[0_8px_24px_rgba(20,24,18,0.08)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
-                      style={{
-                        backgroundColor: isCopied ? COPIED_TINT.bg : '#F5F5F4',
-                        borderColor: isCopied
-                          ? COPIED_TINT.border
-                          : 'transparent',
-                        color: isCopied ? COPIED_TINT.ink : '#141812',
-                        // cap the cascade so late rows don't feel laggy
-                        ['--tile-delay' as string]: `${Math.min(pos * 22, 360)}ms`,
-                      }}
                     >
-                      <span
-                        aria-hidden
-                        className={`absolute right-1.5 top-1.5 rounded-full bg-white px-2 py-0.5 font-mono text-[9px] text-[#696D6E] shadow-[0_1px_3px_rgba(20,24,18,0.08)] transition-opacity duration-150 ${
-                          isCopied
-                            ? 'opacity-0'
-                            : 'opacity-0 group-hover:opacity-100'
-                        }`}
-                      >
-                        copy
-                      </span>
-                      <Icon
-                        size={32}
-                        ref={(h: IconHandle | null) => {
-                          refs.current[idx] = h;
+                      <button
+                        type="button"
+                        aria-label={`Copy the ${name} install command`}
+                        onClick={() => copy(name, name)}
+                        onFocus={() => refs.current[idx]?.startAnimation()}
+                        onBlur={() => refs.current[idx]?.stopAnimation()}
+                        className="tile-enter relative flex w-full aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border transition-[background-color,border-color,box-shadow] duration-200 [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:shadow-[0_8px_24px_rgba(20,24,18,0.08)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+                        style={{
+                          backgroundColor: isCopied ? COPIED_TINT.bg : '#F5F5F4',
+                          borderColor: isCopied
+                            ? COPIED_TINT.border
+                            : 'transparent',
+                          color: isCopied ? COPIED_TINT.ink : '#141812',
+                          // cap the cascade so late rows don't feel laggy
+                          ['--tile-delay' as string]: `${Math.min(pos * 22, 360)}ms`,
                         }}
-                      />
-                      <span className="max-w-full truncate px-2 font-mono text-[10px] leading-none opacity-50 transition-opacity duration-150 group-hover:opacity-100">
-                        {isCopied ? 'copied!' : name}
-                      </span>
-                    </button>
+                      >
+                        <span
+                          aria-hidden
+                          className={`absolute right-1.5 top-1.5 rounded-full bg-white px-2 py-0.5 font-mono text-[9px] text-[#696D6E] shadow-[0_1px_3px_rgba(20,24,18,0.08)] transition-opacity duration-150 ${
+                            isCopied
+                              ? 'opacity-0'
+                              : 'opacity-0 group-hover:opacity-100'
+                          }`}
+                        >
+                          copy
+                        </span>
+                        <Icon
+                          size={32}
+                          ref={(h: IconHandle | null) => {
+                            refs.current[idx] = h;
+                          }}
+                        />
+                        <span className="max-w-full truncate px-2 font-mono text-[10px] leading-none opacity-50 transition-opacity duration-150 group-hover:opacity-100">
+                          {isCopied ? 'copied!' : name}
+                        </span>
+                      </button>
+                      <Link
+                        href={`/icons/${name}`}
+                        prefetch={false}
+                        aria-label={`${name} details`}
+                        className="absolute left-1.5 top-1.5 rounded-full bg-white px-2 py-0.5 font-mono text-[9px] text-[#696D6E] opacity-0 shadow-[0_1px_3px_rgba(20,24,18,0.08)] transition-[opacity,color] duration-150 hover:text-[#141812] group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+                      >
+                        details
+                      </Link>
+                    </div>
                   );
                 })}
               </div>

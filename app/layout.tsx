@@ -26,7 +26,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: SITE_TITLE,
+  title: { default: SITE_TITLE, template: `%s · ${SITE_NAME}` },
   description: SITE_DESCRIPTION,
   keywords: [
     "animated icons",
@@ -63,20 +63,29 @@ export const viewport: Viewport = {
 // structured data for search engines and AI crawlers
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: SITE_NAME,
-  url: SITE_URL,
-  description: SITE_DESCRIPTION,
-  applicationCategory: "DeveloperApplication",
-  operatingSystem: "Any",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  license: "https://opensource.org/license/mit",
-  sameAs: [GITHUB_URL],
-  author: {
-    "@type": "Person",
-    name: "enesgules",
-    url: "https://github.com/enesgules",
-  },
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Any",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      license: "https://opensource.org/license/mit",
+      sameAs: [GITHUB_URL],
+      author: {
+        "@type": "Person",
+        name: "enesgules",
+        url: "https://github.com/enesgules",
+      },
+    },
+  ],
 };
 
 export default function RootLayout({

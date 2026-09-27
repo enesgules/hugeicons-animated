@@ -1,3 +1,5 @@
+import { ICON_LIST } from '@/app/icons-manifest';
+
 /** Icons hidden from the public gallery until their animations are approved. */
 export const DISAPPROVED_ICON_NAMES: ReadonlySet<string> = new Set([
   'attachment',
@@ -81,3 +83,8 @@ export const DISAPPROVED_ICON_NAMES: ReadonlySet<string> = new Set([
   'zoom-in-area',
   'zoom-out-area',
 ]);
+
+/** Icons shown in the public gallery. */
+export const PUBLIC_ICONS = ICON_LIST.filter(
+  ({ name }) => !DISAPPROVED_ICON_NAMES.has(name)
+);
