@@ -472,8 +472,7 @@ function HomeContent({ query, onQueryChange }: HomeContentProps) {
             </div>
 
             <h1 className="relative z-10 w-fit text-balance text-[clamp(2.6rem,7.5vw,4.25rem)] font-bold leading-[1.06] tracking-[-0.03em]">
-              <span className="sr-only">Animated React icons. </span>
-              Beautiful icons.
+              Beautiful <span className="whitespace-nowrap">React icons.</span>
               <br />
               <span className="text-[#BFC2BD]">
                 Now they{' '}
