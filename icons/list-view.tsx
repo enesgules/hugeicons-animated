@@ -16,16 +16,31 @@ interface ListViewIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// Existing rows contract and settle in reading order, alternating their anchored edge.
+const ROWS = [
+  'M2 3.4C2 2.24173 2.24173 2 3.4 2H20.6C21.7583 2 22 2.24173 22 3.4V4.6C22 5.75827 21.7583 6 20.6 6H3.4C2.24173 6 2 5.75827 2 4.6V3.4Z',
+  'M2 11.4C2 10.2417 2.24173 10 3.4 10H20.6C21.7583 10 22 10.2417 22 11.4V12.6C22 13.7583 21.7583 14 20.6 14H3.4C2.24173 14 2 13.7583 2 12.6V11.4Z',
+  'M2 19.4C2 18.2417 2.24173 18 3.4 18H20.6C21.7583 18 22 18.2417 22 19.4V20.6C22 21.7583 21.7583 22 20.6 22H3.4C2.24173 22 2 21.7583 2 20.6V19.4Z',
+];
+const SHORT_ROWS = [
+  'M2 3.4C2 2.24173 2.24173 2 3.4 2H10.6C11.7583 2 12 2.24173 12 3.4V4.6C12 5.75827 11.7583 6 10.6 6H3.4C2.24173 6 2 5.75827 2 4.6V3.4Z',
+  'M9.5 11.4C9.5 10.2417 9.74173 10 10.9 10H20.6C21.7583 10 22 10.2417 22 11.4V12.6C22 13.7583 21.7583 14 20.6 14H10.9C9.74173 14 9.5 13.7583 9.5 12.6V11.4Z',
+  'M2 19.4C2 18.2417 2.24173 18 3.4 18H13.1C14.2583 18 14.5 18.2417 14.5 19.4V20.6C14.5 21.7583 14.2583 22 13.1 22H3.4C2.24173 22 2 21.7583 2 20.6V19.4Z',
+];
+
+// Each row pulls in from alternating anchored edges in reading order, then
+// springs back to full width. The rows morph, so their rounded ends keep shape.
 const rowVariants: Variants = {
-  normal: { transform: 'scaleX(1)' },
+  normal: (i: number) => ({
+    d: ROWS[i],
+    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
+  }),
   animate: (i: number) => ({
-    transform: ['scaleX(1)', 'scaleX(0.68)', 'scaleX(1.04)', 'scaleX(0.98)', 'scaleX(1)'],
+    d: [ROWS[i], SHORT_ROWS[i], ROWS[i]],
     transition: {
-      duration: 0.44,
-      delay: i * 0.06,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.28, 0.56, 0.76, 1],
+      duration: 0.46,
+      delay: i * 0.08,
+      times: [0, 0.4, 1],
+      ease: ['easeInOut', [0.34, 1.36, 0.64, 1]],
     },
   }),
 };
@@ -65,7 +80,6 @@ const ListViewIcon = forwardRef<ListViewIconHandle, ListViewIconProps>(
             custom={1}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 22 / 24, originY: 12 / 24 }}
           />
           <motion.path
             d="M2 3.4C2 2.24173 2.24173 2 3.4 2H20.6C21.7583 2 22 2.24173 22 3.4V4.6C22 5.75827 21.7583 6 20.6 6H3.4C2.24173 6 2 5.75827 2 4.6V3.4Z"
@@ -76,7 +90,6 @@ const ListViewIcon = forwardRef<ListViewIconHandle, ListViewIconProps>(
             custom={0}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 2 / 24, originY: 4 / 24 }}
           />
           <motion.path
             d="M2 19.4C2 18.2417 2.24173 18 3.4 18H20.6C21.7583 18 22 18.2417 22 19.4V20.6C22 21.7583 21.7583 22 20.6 22H3.4C2.24173 22 2 21.7583 2 20.6V19.4Z"
@@ -87,7 +100,6 @@ const ListViewIcon = forwardRef<ListViewIconHandle, ListViewIconProps>(
             custom={2}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 2 / 24, originY: 20 / 24 }}
           />
         </svg>
       </div>

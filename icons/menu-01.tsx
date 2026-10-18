@@ -17,22 +17,22 @@ interface Menu01IconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const MENU_LINES = ['M4 5L20 5', 'M4 12L20 12', 'M4 19L20 19'];
-const MENU_SHORT_LINES = ['M4 5L12 5', 'M10 12L20 12', 'M4 19L14 19'];
+const MENU_SCAN_LINES = ['M4 5L17.2 5', 'M4 12L15.8 12', 'M4 19L17.2 19'];
+const MENU_OVERSHOOT_LINES = ['M4 5L20.35 5', 'M4 12L20.35 12', 'M4 19L20.35 19'];
 
-// Each row pulls in from alternating anchored edges in reading order, then
-// springs back to full width. The rows stay attached to their own edge.
+// The right edge scans downward while every row stays attached to the same left rail.
 const menuLineVariants: Variants = {
   normal: (i: number) => ({
     d: MENU_LINES[i],
     transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
   }),
   animate: (i: number) => ({
-    d: [MENU_LINES[i], MENU_SHORT_LINES[i], MENU_LINES[i]],
+    d: [MENU_LINES[i], MENU_SCAN_LINES[i], MENU_OVERSHOOT_LINES[i], MENU_LINES[i]],
     transition: {
-      duration: 0.46,
-      delay: i * 0.08,
-      times: [0, 0.4, 1],
-      ease: ['easeInOut', [0.34, 1.36, 0.64, 1]],
+      duration: 0.32,
+      delay: i * 0.075,
+      times: [0, 0.42, 0.76, 1],
+      ease: [0.23, 1, 0.32, 1],
     },
   }),
 };

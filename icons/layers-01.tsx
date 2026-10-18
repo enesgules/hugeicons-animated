@@ -16,21 +16,76 @@ interface Layers01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The stack fans open from its planted base: the top sheet lifts most, the
-// middle sheet follows, then both drop back and seat with a small compression.
-const LIFT = [2.8, 1.3, 0];
+const MIDDLE =
+  'M20.788 11.0972C20.9293 11.2959 21 11.5031 21 11.7309C21 12.7127 19.6873 13.3109 17.0618 14.5072L15.357 15.284C13.7048 16.0368 12.8786 16.4133 12 16.4133C11.1214 16.4133 10.2952 16.0368 8.64298 15.284L6.93817 14.5072C4.31272 13.3109 3 12.7127 3 11.7309C3 11.5031 3.07067 11.2959 3.212 11.0972';
+const BOTTOM =
+  'M20.3767 16.2661C20.7922 16.5971 21 16.927 21 17.3176C21 18.2995 19.6873 18.8976 17.0618 20.0939L15.357 20.8707C13.7048 21.6236 12.8786 22 12 22C11.1214 22 10.2952 21.6236 8.64298 20.8707L6.93817 20.0939C4.31272 18.8976 3 18.2995 3 17.3176C3 16.927 3.20778 16.5971 3.62334 16.2661';
 
-const layerVariants: Variants = {
+// A new layer joins the stack: the bottom sheet drops out, the middle sheet
+// steps down into its place, and a fresh sheet grows into the middle slot as
+// the top sheet makes room. At the end the copies sit exactly on the source
+// shapes, so the swap back to rest is invisible.
+const LAYER_DURATION = 0.95;
+
+const topVariants: Variants = {
   normal: { translateY: 0 },
-  animate: (i: number) => ({
-    translateY: [0, -LIFT[i], LIFT[i] * 0.18, 0],
+  animate: {
+    translateY: [0, 0, -0.9, 0.2, 0],
     transition: {
-      duration: 0.64,
-      delay: (2 - i) * 0.03,
-      ease: [[0.23, 1, 0.32, 1], 'easeIn', 'easeOut'],
-      times: [0, 0.4, 0.72, 1],
+      duration: LAYER_DURATION,
+      ease: ['linear', 'easeOut', 'easeInOut', 'easeOut'],
+      times: [0, 0.38, 0.62, 0.82, 1],
     },
-  }),
+  },
+};
+
+const middleVariants: Variants = {
+  normal: { d: MIDDLE },
+  animate: {
+    d: [MIDDLE, MIDDLE, BOTTOM, BOTTOM, MIDDLE],
+    transition: {
+      duration: LAYER_DURATION,
+      ease: ['linear', 'easeInOut', 'linear', 'linear'],
+      times: [0, 0.12, 0.5, 0.999, 1],
+    },
+  },
+};
+
+const bottomVariants: Variants = {
+  normal: { transform: 'translateY(0px) scale(1)' },
+  animate: {
+    transform: [
+      'translateY(0px) scale(1)',
+      'translateY(4px) scale(0)',
+      'translateY(4px) scale(0)',
+      'translateY(0px) scale(1)',
+    ],
+    transition: {
+      duration: LAYER_DURATION,
+      ease: ['easeIn', 'linear', 'linear'],
+      times: [0, 0.3, 0.999, 1],
+    },
+  },
+};
+
+const newLayerVariants: Variants = {
+  normal: { scale: 0 },
+  animate: {
+    scale: [0, 0, 1.08, 0.98, 1],
+    transition: {
+      duration: LAYER_DURATION,
+      ease: ['linear', [0.23, 1, 0.32, 1], 'easeInOut', 'easeOut'],
+      times: [0, 0.4, 0.68, 0.84, 1],
+    },
+  },
+};
+
+const generatedGeometryVariants: Variants = {
+  normal: { visibility: 'hidden', transition: { duration: 0 } },
+  animate: {
+    visibility: ['visible', 'visible', 'hidden'],
+    transition: { duration: LAYER_DURATION, times: [0, 0.999, 1] },
+  },
 };
 
 const Layers01Icon = forwardRef<Layers01IconHandle, Layers01IconProps>(
@@ -65,33 +120,46 @@ const Layers01Icon = forwardRef<Layers01IconHandle, Layers01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={layerVariants}
-            custom={0}
+            variants={topVariants}
             animate={controls}
             initial="normal"
           />
           <motion.path
-            d="M20.788 11.0972C20.9293 11.2959 21 11.5031 21 11.7309C21 12.7127 19.6873 13.3109 17.0618 14.5072L15.357 15.284C13.7048 16.0368 12.8786 16.4133 12 16.4133C11.1214 16.4133 10.2952 16.0368 8.64298 15.284L6.93817 14.5072C4.31272 13.3109 3 12.7127 3 11.7309C3 11.5031 3.07067 11.2959 3.212 11.0972"
+            d={MIDDLE}
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={layerVariants}
-            custom={1}
+            variants={middleVariants}
             animate={controls}
             initial="normal"
           />
           <motion.path
-            d="M20.3767 16.2661C20.7922 16.5971 21 16.927 21 17.3176C21 18.2995 19.6873 18.8976 17.0618 20.0939L15.357 20.8707C13.7048 21.6236 12.8786 22 12 22C11.1214 22 10.2952 21.6236 8.64298 20.8707L6.93817 20.0939C4.31272 18.8976 3 18.2995 3 17.3176C3 16.927 3.20778 16.5971 3.62334 16.2661"
+            d={BOTTOM}
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={layerVariants}
-            custom={2}
+            variants={bottomVariants}
             animate={controls}
             initial="normal"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+            <motion.path
+              d={MIDDLE}
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+              variants={newLayerVariants}
+              animate={controls}
+              initial="normal"
+            />
+          </motion.g>
         </svg>
       </div>
     );
