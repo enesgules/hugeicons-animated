@@ -84,6 +84,7 @@ export function IconReview() {
                   {visibleIcons.map(({ name, Icon, index }) => (
                     <button
                       key={name}
+                      id={name}
                       type="button"
                       aria-label={`Replay the ${name} animation`}
                       onClick={() =>
@@ -101,7 +102,7 @@ export function IconReview() {
                       onBlur={() =>
                         iconRefs.current[index]?.stopAnimation()
                       }
-                      className="group flex min-h-36 flex-col items-center justify-center gap-3 rounded-2xl bg-[#FFF1F2] px-3 py-4 text-center text-[#881337] shadow-[0_0_0_1px_#FECDD3,0_1px_2px_rgba(136,19,55,0.05)] transition-[background-color,box-shadow,scale] duration-150 hover:bg-[#FFF7F8] hover:shadow-[0_0_0_1px_#FECDD3,0_8px_24px_rgba(136,19,55,0.08)] active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9F1239]"
+                      className="group flex min-h-36 scroll-mt-24 flex-col items-center justify-center gap-3 rounded-2xl bg-[#FFF1F2] px-3 py-4 text-center text-[#881337] shadow-[0_0_0_1px_#FECDD3,0_1px_2px_rgba(136,19,55,0.05)] transition-[background-color,box-shadow,scale] duration-150 hover:bg-[#FFF7F8] hover:shadow-[0_0_0_1px_#FECDD3,0_8px_24px_rgba(136,19,55,0.08)] active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9F1239] target:shadow-[0_0_0_2px_#9F1239]"
                     >
                       <Icon
                         ref={(handle: AnimatedIconHandle | null) => {
