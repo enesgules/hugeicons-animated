@@ -84,6 +84,7 @@ import { Image01Icon } from '@/icons/image-01';
 import { InboxIcon } from '@/icons/inbox';
 import { InformationCircleIcon } from '@/icons/information-circle';
 import { Key01Icon } from '@/icons/key-01';
+import { Layers01Icon } from '@/icons/layers-01';
 import { Leaf01Icon } from '@/icons/leaf-01';
 import { Link01Icon } from '@/icons/link-01';
 import { LinkSquare02Icon } from '@/icons/link-square-02';
@@ -110,6 +111,7 @@ import { MoreHorizontalIcon } from '@/icons/more-horizontal';
 import { MoreVerticalIcon } from '@/icons/more-vertical';
 import { MouseLeftClick01Icon } from '@/icons/mouse-left-click-01';
 import { MusicNote01Icon } from '@/icons/music-note-01';
+import { NextIcon } from '@/icons/next';
 import { Notification03Icon } from '@/icons/notification-03';
 import { NotificationOff01Icon } from '@/icons/notification-off-01';
 import { PaintBrush02Icon } from '@/icons/paint-brush-02';
@@ -119,6 +121,7 @@ import { PauseIcon } from '@/icons/pause';
 import { PinIcon } from '@/icons/pin';
 import { PlayIcon } from '@/icons/play';
 import { PlusSignIcon } from '@/icons/plus-sign';
+import { PreviousIcon } from '@/icons/previous';
 import { PrinterIcon } from '@/icons/printer';
 import { PuzzleIcon } from '@/icons/puzzle';
 import { QrCode01Icon } from '@/icons/qr-code-01';
@@ -137,6 +140,7 @@ import { ShoppingCart01Icon } from '@/icons/shopping-cart-01';
 import { ShoppingCartAdd01Icon } from '@/icons/shopping-cart-add-01';
 import { SleepingIcon } from '@/icons/sleeping';
 import { SlidersHorizontalIcon } from '@/icons/sliders-horizontal';
+import { SmartPhone01Icon } from '@/icons/smart-phone-01';
 import { SmileIcon } from '@/icons/smile';
 import { SnowIcon } from '@/icons/snow';
 import { SortByDown01Icon } from '@/icons/sort-by-down-01';
@@ -145,7 +149,9 @@ import { SparklesIcon } from '@/icons/sparkles';
 import { SquareLock01Icon } from '@/icons/square-lock-01';
 import { StarIcon } from '@/icons/star';
 import { Sun03Icon } from '@/icons/sun-03';
+import { Tag01Icon } from '@/icons/tag-01';
 import { Target01Icon } from '@/icons/target-01';
+import { ThumbsDownIcon } from '@/icons/thumbs-down';
 import { ThumbsUpIcon } from '@/icons/thumbs-up';
 import { Tick02Icon } from '@/icons/tick-02';
 import { UmbrellaIcon } from '@/icons/umbrella';
@@ -251,6 +257,7 @@ export const ICON_LIST = [
   { name: 'inbox', Icon: InboxIcon },
   { name: 'information-circle', Icon: InformationCircleIcon },
   { name: 'key-01', Icon: Key01Icon },
+  { name: 'layers-01', Icon: Layers01Icon },
   { name: 'leaf-01', Icon: Leaf01Icon },
   { name: 'link-01', Icon: Link01Icon },
   { name: 'link-square-02', Icon: LinkSquare02Icon },
@@ -277,6 +284,7 @@ export const ICON_LIST = [
   { name: 'more-vertical', Icon: MoreVerticalIcon },
   { name: 'mouse-left-click-01', Icon: MouseLeftClick01Icon },
   { name: 'music-note-01', Icon: MusicNote01Icon },
+  { name: 'next', Icon: NextIcon },
   { name: 'notification-03', Icon: Notification03Icon },
   { name: 'notification-off-01', Icon: NotificationOff01Icon },
   { name: 'paint-brush-02', Icon: PaintBrush02Icon },
@@ -286,6 +294,7 @@ export const ICON_LIST = [
   { name: 'pin', Icon: PinIcon },
   { name: 'play', Icon: PlayIcon },
   { name: 'plus-sign', Icon: PlusSignIcon },
+  { name: 'previous', Icon: PreviousIcon },
   { name: 'printer', Icon: PrinterIcon },
   { name: 'puzzle', Icon: PuzzleIcon },
   { name: 'qr-code-01', Icon: QrCode01Icon },
@@ -304,6 +313,7 @@ export const ICON_LIST = [
   { name: 'shopping-cart-add-01', Icon: ShoppingCartAdd01Icon },
   { name: 'sleeping', Icon: SleepingIcon },
   { name: 'sliders-horizontal', Icon: SlidersHorizontalIcon },
+  { name: 'smart-phone-01', Icon: SmartPhone01Icon },
   { name: 'smile', Icon: SmileIcon },
   { name: 'snow', Icon: SnowIcon },
   { name: 'sort-by-down-01', Icon: SortByDown01Icon },
@@ -312,7 +322,9 @@ export const ICON_LIST = [
   { name: 'square-lock-01', Icon: SquareLock01Icon },
   { name: 'star', Icon: StarIcon },
   { name: 'sun-03', Icon: Sun03Icon },
+  { name: 'tag-01', Icon: Tag01Icon },
   { name: 'target-01', Icon: Target01Icon },
+  { name: 'thumbs-down', Icon: ThumbsDownIcon },
   { name: 'thumbs-up', Icon: ThumbsUpIcon },
   { name: 'tick-02', Icon: Tick02Icon },
   { name: 'umbrella', Icon: UmbrellaIcon },

@@ -16,12 +16,23 @@ interface ThumbsUpIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the complete hand, including its wrist, makes one coherent approval gesture
+// One approval pump: the hand and cuff dip back from the wrist, thrust the
+// thumb up and forward, then settle with a small recoil.
 const handVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg) scale(1)' },
+  normal: { transform: 'translateY(0%) rotate(0deg) scale(1)' },
   animate: {
-    transform: ['translateY(0px) rotate(0deg) scale(1)', 'translateY(-1.4px) rotate(-5deg) scale(1.035)', 'translateY(0.25px) rotate(1.2deg) scale(0.995)', 'translateY(0px) rotate(0deg) scale(1)'],
-    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
+    transform: [
+      'translateY(0%) rotate(0deg) scale(1)',
+      'translateY(3%) rotate(-8deg) scale(0.97)',
+      'translateY(-9%) rotate(6deg) scale(1.06)',
+      'translateY(1%) rotate(-1.5deg) scale(0.995)',
+      'translateY(0%) rotate(0deg) scale(1)',
+    ],
+    transition: {
+      duration: 0.68,
+      ease: ['easeOut', [0.23, 1, 0.32, 1], 'easeInOut', 'easeOut'],
+      times: [0, 0.2, 0.5, 0.76, 1],
+    },
   },
 };
 
@@ -53,7 +64,7 @@ const ThumbsUpIcon = forwardRef<ThumbsUpIconHandle, ThumbsUpIconProps>(
           variants={handVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '7px 18px' }}
+          style={{ transformOrigin: '29.1667% 83.3333%' }}
         >
           <path
             d="M2 12.5C2 11.3954 2.89543 10.5 4 10.5C5.65685 10.5 7 11.8431 7 13.5V17.5C7 19.1569 5.65685 20.5 4 20.5C2.89543 20.5 2 19.6046 2 18.5V12.5Z"

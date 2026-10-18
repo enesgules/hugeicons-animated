@@ -84,7 +84,7 @@ const UmbrellaIcon = forwardRef<UmbrellaIconHandle, UmbrellaIconProps>(
           variants={svgVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '12px 14px' }}
+          style={{ transformOrigin: '50% 58.3333%' }}
         >
           <path
             d="M12 3.5V2"

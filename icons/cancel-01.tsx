@@ -180,7 +180,7 @@ const Cancel01Icon = forwardRef<Cancel01IconHandle, Cancel01IconProps>(
           variants={impactVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '12px 12px' }}
+          style={{ transformOrigin: '50% 50%' }}
         >
           <motion.path
             d={FIRST_PATH}

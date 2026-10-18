@@ -16,44 +16,44 @@ interface SleepingIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the Z marks drift farther from the face so they never crowd its outline
+// One snore cycle: the Z floats up and away from the head while shrinking to
+// nothing, then a fresh Z grows back in place as the mouth exhales.
+const SLEEP_DURATION = 2.4;
+
 const zVariants: Variants = {
-  normal: { visibility: 'visible', translateX: 0, translateY: 0, transition: { duration: 0.3 } },
+  normal: {
+    transform: 'translate(0px, 0px) scale(1)',
+    transition: { duration: 0.2 },
+  },
   animate: {
-    visibility: ['visible', 'visible', 'hidden', 'hidden', 'visible'],
-    translateY: [0, -3.2, -4.8, 0, 0],
-    translateX: [0, 1.6, 2.6, 0, 0],
+    transform: [
+      'translate(0px, 0px) scale(1)',
+      'translate(2.6px, -3.2px) scale(0.45)',
+      'translate(3.2px, -4px) scale(0)',
+      'translate(0px, 0px) scale(0)',
+      'translate(0px, 0px) scale(1.08)',
+      'translate(0px, 0px) scale(1)',
+    ],
     transition: {
-      duration: 2,
-      ease: 'easeInOut',
-      times: [0, 0.5, 0.68, 0.7, 1],
+      duration: SLEEP_DURATION,
+      ease: ['easeInOut', 'easeIn', 'linear', [0.23, 1, 0.32, 1], 'easeInOut'],
+      times: [0, 0.46, 0.56, 0.6, 0.82, 1],
       repeat: Infinity,
     },
   },
 };
 
-const littleZVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0.15 } },
-  animate: {
-    visibility: ['hidden', 'visible', 'hidden'],
-    translateY: [0, -4],
-    translateX: [1, 3],
-    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity, delay: 0.6 },
-  },
-};
-
 const snoreVariants: Variants = {
-  normal: { scale: 1, transition: { duration: 0.3 } },
+  normal: { scale: 1, transition: { duration: 0.2 } },
   animate: {
-    scale: [1, 1.3, 1],
-    transition: { duration: 2, ease: 'easeInOut', repeat: Infinity },
+    scale: [1, 1.2, 1],
+    transition: {
+      duration: SLEEP_DURATION,
+      ease: 'easeInOut',
+      repeat: Infinity,
+    },
   },
 };
-const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
-  animate: { visibility: 'visible', transition: { duration: 0.08 } },
-};
-
 
 const SleepingIcon = forwardRef<SleepingIconHandle, SleepingIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -106,7 +106,6 @@ const SleepingIcon = forwardRef<SleepingIconHandle, SleepingIconProps>(
             variants={snoreVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 16px' }}
           />
           <motion.path
             d="M17 2H19.9474C20.5675 2 20.8775 2 20.9601 2.20009C21.0427 2.40019 20.8317 2.64023 20.4098 3.1203L17.9846 5.8797C17.5627 6.35977 17.3517 6.59981 17.4343 6.79991C17.5169 7 17.8269 7 18.447 7H21"
@@ -117,23 +116,8 @@ const SleepingIcon = forwardRef<SleepingIconHandle, SleepingIconProps>(
             variants={zVariants}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '50% 50%' }}
           />
-          <motion.g
-            variants={generatedGeometryVariants}
-            animate={controls}
-            initial="normal"
-          >
-          <motion.path
-            d="M16 -0.5H18.2L16 1.7H18.2"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={littleZVariants}
-            animate={controls}
-            initial="normal"
-          />
-          </motion.g>
         </svg>
       </div>
     );
