@@ -1619,6 +1619,25 @@
       ]
     },
     {
+      "name": "layers-01",
+      "type": "registry:ui",
+      "title": "layers-01",
+      "description": "Animated layers icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/layers-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "leaf-01",
       "type": "registry:ui",
       "title": "leaf-01",
@@ -2113,6 +2132,25 @@
       ]
     },
     {
+      "name": "next",
+      "type": "registry:ui",
+      "title": "next",
+      "description": "Animated next icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/next.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "notification-03",
       "type": "registry:ui",
       "title": "notification-03",
@@ -2275,6 +2313,25 @@
       "files": [
         {
           "path": "icons/plus-sign.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "previous",
+      "type": "registry:ui",
+      "title": "previous",
+      "description": "Animated previous icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/previous.tsx",
           "type": "registry:ui"
         },
         {
@@ -2626,6 +2683,25 @@
       ]
     },
     {
+      "name": "smart-phone-01",
+      "type": "registry:ui",
+      "title": "smart-phone-01",
+      "description": "Animated smart phone icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/smart-phone-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "smile",
       "type": "registry:ui",
       "title": "smile",
@@ -2778,6 +2854,25 @@
       ]
     },
     {
+      "name": "tag-01",
+      "type": "registry:ui",
+      "title": "tag-01",
+      "description": "Animated tag icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/tag-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "target-01",
       "type": "registry:ui",
       "title": "target-01",
@@ -2788,6 +2883,25 @@
       "files": [
         {
           "path": "icons/target-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "thumbs-down",
+      "type": "registry:ui",
+      "title": "thumbs-down",
+      "description": "Animated thumbs down icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/thumbs-down.tsx",
           "type": "registry:ui"
         },
         {
