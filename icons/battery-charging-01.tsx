@@ -148,7 +148,7 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
           variants={chargedBatteryVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '11px 12px' }}
+          style={{ transformOrigin: '45.8333% 50%' }}
         >
           <motion.g
             variants={generatedGeometryVariants}

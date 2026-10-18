@@ -53,7 +53,7 @@ const Loading03Icon = forwardRef<Loading03IconHandle, Loading03IconProps>(
           variants={loaderVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '12px 12px' }}
+          style={{ transformOrigin: '50% 50%' }}
         >
           <path
             d="M12 3V6"

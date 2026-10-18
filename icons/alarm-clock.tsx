@@ -74,7 +74,7 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
           variants={svgVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '12px 13px' }}
+          style={{ transformOrigin: '50% 54.1667%' }}
         >
           <path
             d="M20.5 12.5C20.5 17.1944 16.6944 21 12 21C7.30558 21 3.5 17.1944 3.5 12.5C3.5 7.80558 7.30558 4 12 4C16.6944 4 20.5 7.80558 20.5 12.5Z"
