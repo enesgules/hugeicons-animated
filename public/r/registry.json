@@ -498,6 +498,44 @@
       ]
     },
     {
+      "name": "chart-increase",
+      "type": "registry:ui",
+      "title": "chart-increase",
+      "description": "Animated chart increase icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/chart-increase.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "checkmark-badge-01",
+      "type": "registry:ui",
+      "title": "checkmark-badge-01",
+      "description": "Animated checkmark badge icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/checkmark-badge-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "chevron-down",
       "type": "registry:ui",
       "title": "chevron-down",
@@ -1534,6 +1572,25 @@
       "files": [
         {
           "path": "icons/home-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "hourglass",
+      "type": "registry:ui",
+      "title": "hourglass",
+      "description": "Animated hourglass icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/hourglass.tsx",
           "type": "registry:ui"
         },
         {
@@ -3187,6 +3244,25 @@
       "files": [
         {
           "path": "icons/wallet-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "waving-hand-01",
+      "type": "registry:ui",
+      "title": "waving-hand-01",
+      "description": "Animated waving hand icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/waving-hand-01.tsx",
           "type": "registry:ui"
         },
         {

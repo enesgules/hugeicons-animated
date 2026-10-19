@@ -27,22 +27,32 @@ const BOTTOM =
 // old top sheet slides under it and a clip trims it to the middle-layer
 // shape, the middle sheet becomes the bottom one, and the bottom sheet drops
 // out. At the end each sheet sits on its rest shape, so the swap is invisible.
-const LAYER_DURATION = 1;
-const LAYER_TIMES = [0, 0.32, 0.56, 0.999, 1];
-const LAYER_EASE: Easing[] = ['easeIn', [0.23, 1, 0.32, 1], 'linear', 'linear'];
+const LAYER_DURATION = 1.1;
+const LAYER_TIMES = [0, 0.26, 0.42, 0.56, 0.7, 0.84, 0.999, 1];
+const LAYER_EASE: Easing[] = [
+  'easeIn',
+  [0.23, 1, 0.32, 1],
+  'easeInOut',
+  'easeInOut',
+  'easeInOut',
+  'linear',
+  'linear',
+];
 const SLOT = 4.95;
+// The landing pushes the stack past its slot, then it springs back and settles.
+const SPRING = [0.9, -0.35, 0.12, 0];
 
 // The clip rect's top edge follows the falling sheet, so the old top sheet is
 // only trimmed where the new sheet covers it. Its bottom edge stays fixed.
 const CLIP_BOTTOM = 70;
 const CLIP_HEIGHT = 110;
 const CLIP_REST_TOP = CLIP_BOTTOM - CLIP_HEIGHT;
-const CLIP_TOPS = [-0.35, 6.49, 10.7, 10.7, CLIP_REST_TOP];
+const CLIP_TOPS = [-0.35, 6.49, ...SPRING.map((o) => SLOT + o + 5.75), 10.7, CLIP_REST_TOP];
 
 const newSheetVariants: Variants = {
   normal: { translateY: -13 },
   animate: {
-    translateY: [-13, -SLOT, 0, 0, 0],
+    translateY: [-13, -SLOT, ...SPRING, 0, 0],
     transition: { duration: LAYER_DURATION, ease: LAYER_EASE, times: LAYER_TIMES },
   },
 };
@@ -50,7 +60,7 @@ const newSheetVariants: Variants = {
 const topVariants: Variants = {
   normal: { translateY: 0 },
   animate: {
-    translateY: [0, 0, SLOT, SLOT, 0],
+    translateY: [0, 0, ...SPRING.map((o) => SLOT + o), SLOT, 0],
     transition: { duration: LAYER_DURATION, ease: LAYER_EASE, times: LAYER_TIMES },
   },
 };
@@ -65,22 +75,26 @@ const clipVariants: Variants = {
 };
 
 const middleVariants: Variants = {
-  normal: { d: MIDDLE },
+  normal: { d: MIDDLE, translateY: 0 },
   animate: {
-    d: [MIDDLE, MIDDLE, BOTTOM, BOTTOM, MIDDLE],
+    d: [MIDDLE, MIDDLE, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, MIDDLE],
+    translateY: [0, 0, ...SPRING, 0, 0],
     transition: { duration: LAYER_DURATION, ease: LAYER_EASE, times: LAYER_TIMES },
   },
 };
 
 const bottomVariants: Variants = {
-  normal: { transform: 'translateY(0px) scale(1)' },
+  normal: { transform: 'translateY(0px) rotate(0deg) scale(1)' },
   animate: {
     transform: [
-      'translateY(0px) scale(1)',
-      'translateY(0px) scale(1)',
-      'translateY(4px) scale(0)',
-      'translateY(4px) scale(0)',
-      'translateY(0px) scale(1)',
+      'translateY(0px) rotate(0deg) scale(1)',
+      'translateY(0px) rotate(0deg) scale(1)',
+      'translateY(4.5px) rotate(-6deg) scale(0)',
+      'translateY(4.5px) rotate(-6deg) scale(0)',
+      'translateY(4.5px) rotate(-6deg) scale(0)',
+      'translateY(4.5px) rotate(-6deg) scale(0)',
+      'translateY(4.5px) rotate(-6deg) scale(0)',
+      'translateY(0px) rotate(0deg) scale(1)',
     ],
     transition: { duration: LAYER_DURATION, ease: LAYER_EASE, times: LAYER_TIMES },
   },

@@ -19,15 +19,13 @@ interface Rocket01IconProps extends HTMLAttributes<HTMLDivElement> {
 const ROCKET_BODY =
   'M11.8013 6.48949L13.2869 5.00392C14.9596 3.3312 17.1495 2.63737 19.4671 2.52399C20.3686 2.47989 20.8193 2.45784 21.1807 2.81928C21.5422 3.18071 21.5201 3.63143 21.476 4.53289C21.3626 6.8505 20.6688 9.04042 18.9961 10.7131L17.5105 12.1987C16.2871 13.4221 15.9393 13.77 16.1961 15.097C16.4496 16.1107 16.6949 17.0923 15.9578 17.8294C15.0637 18.7235 14.2481 18.7235 13.354 17.8294L6.17058 10.646C5.27649 9.75188 5.27646 8.9363 6.17058 8.04219C6.90767 7.30509 7.88929 7.55044 8.90297 7.80389C10.23 8.06073 10.5779 7.71289 11.8013 6.48949Z';
 
-const ROCKET_DURATION = 0.92;
-const ROCKET_TIMES = [
-  0, 0.07, 0.14, 0.22, 0.32, 0.43, 0.5, 0.54, 0.62, 0.71, 0.8, 0.88,
-  0.95, 1,
-];
+const ROCKET_DURATION = 1.3;
+const ROCKET_TIMES = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.38, 0.46, 0.54, 0.6, 0.68, 0.76, 0.84, 0.92, 1];
 
-// Paper-plane launch: the whole rocket and its exhaust pull back, then
-// accelerate beyond the top-right edge. A second full rocket follows the same
-// diagonal from the bottom left and settles in place.
+// A launch: the rocket rumbles on the pad while its flame flickers, crouches,
+// and blasts off beyond the top-right edge. The thrust lines stay on the pad
+// as a plume that is pushed down and burns out. A second rocket glides in
+// from the bottom left and its exhaust lights up from the nozzle.
 const departingRocketVariants: Variants = {
   normal: {
     transform: 'translate(0%, 0%) rotate(0deg)',
@@ -36,13 +34,15 @@ const departingRocketVariants: Variants = {
   animate: {
     transform: [
       'translate(0%, 0%) rotate(0deg)',
-      'translate(-3%, 3%) rotate(1.6deg)',
-      'translate(-1%, 1%) rotate(0.8deg)',
-      'translate(6%, -6%) rotate(-0.8deg)',
-      'translate(20%, -20%) rotate(-2.4deg)',
-      'translate(46%, -46%) rotate(-4deg)',
-      'translate(80%, -80%) rotate(-4deg)',
-      'translate(118%, -118%) rotate(-3deg)',
+      'translate(-0.4%, 0.4%) rotate(-1deg)',
+      'translate(0.4%, -0.2%) rotate(1deg)',
+      'translate(-0.4%, 0.3%) rotate(-1deg)',
+      'translate(0.3%, -0.3%) rotate(0.8deg)',
+      'translate(-2%, 2%) rotate(0.5deg)',
+      'translate(4%, -4%) rotate(-0.5deg)',
+      'translate(20%, -20%) rotate(-2deg)',
+      'translate(55%, -55%) rotate(-3deg)',
+      'translate(110%, -110%) rotate(-3deg)',
       'translate(150%, -150%) rotate(-2deg)',
       'translate(150%, -150%) rotate(-2deg)',
       'translate(150%, -150%) rotate(-2deg)',
@@ -52,7 +52,7 @@ const departingRocketVariants: Variants = {
     ],
     transition: {
       duration: ROCKET_DURATION,
-      ease: 'linear',
+      ease: 'easeInOut',
       times: ROCKET_TIMES,
     },
   },
@@ -72,17 +72,19 @@ const arrivingRocketVariants: Variants = {
       'translate(-150%, 150%) rotate(-5deg)',
       'translate(-150%, 150%) rotate(-5deg)',
       'translate(-150%, 150%) rotate(-5deg)',
-      'translate(-122%, 122%) rotate(-5deg)',
-      'translate(-86%, 86%) rotate(-4deg)',
-      'translate(-52%, 52%) rotate(-3deg)',
-      'translate(-25%, 25%) rotate(-2deg)',
-      'translate(-7%, 7%) rotate(-0.6deg)',
-      'translate(-1%, 1%) rotate(0.6deg)',
+      'translate(-150%, 150%) rotate(-5deg)',
+      'translate(-150%, 150%) rotate(-5deg)',
+      'translate(-150%, 150%) rotate(-5deg)',
+      'translate(-120%, 120%) rotate(-5deg)',
+      'translate(-60%, 60%) rotate(-3deg)',
+      'translate(-22%, 22%) rotate(-1.5deg)',
+      'translate(-5%, 5%) rotate(-0.4deg)',
+      'translate(1%, -1%) rotate(0.4deg)',
       'translate(0%, 0%) rotate(0deg)',
     ],
     transition: {
       duration: ROCKET_DURATION,
-      ease: 'linear',
+      ease: 'easeOut',
       times: ROCKET_TIMES,
     },
   },
@@ -93,70 +95,82 @@ const generatedGeometryVariants: Variants = {
   animate: { visibility: 'visible', transition: { duration: 0 } },
 };
 
-// The rocket's own thrust lines lag behind the body by different amounts and
-// stretch backward while it accelerates, then leave with it. The replacement's
-// lines arrive stretched, a beat after its body, and settle to rest length.
+// Each thrust line is drawn from its tail to the nozzle-side head.
 const THRUST = [
-  {
-    rest: 'M2.5 21.5L7.5 16.5',
-    mid: 'M1.5 22.5L7.5 16.5',
-    long: 'M-0.5 24.5L7.5 16.5',
-    lag: 0.06,
-  },
-  {
-    rest: 'M8.5 21.5L10.5 19.5',
-    mid: 'M7.5 22.5L10.5 19.5',
-    long: 'M5.5 24.5L10.5 19.5',
-    lag: 0.1,
-  },
-  {
-    rest: 'M2.5 15.5L4.5 13.5',
-    mid: 'M1.5 16.5L4.5 13.5',
-    long: 'M-0.5 18.5L4.5 13.5',
-    lag: 0.04,
-  },
+  { tail: [2.5, 21.5], head: [7.5, 16.5] },
+  { tail: [8.5, 21.5], head: [10.5, 19.5] },
+  { tail: [2.5, 15.5], head: [4.5, 13.5] },
+];
+
+// Moves the tail back along the flight axis (positive = longer flame).
+const line = (i: number, stretch: number, burned = 0) => {
+  const { tail, head } = THRUST[i];
+  const tx = tail[0] - stretch;
+  const ty = tail[1] + stretch;
+  const hx = head[0] + (tx - head[0]) * burned;
+  const hy = head[1] + (ty - head[1]) * burned;
+  return `M${tx} ${ty}L${hx} ${hy}`;
+};
+
+// Flicker pattern per line during the rumble, so the flames do not pulse together.
+const FLICKER = [
+  [0, 0.9, 0.2, 1.2, 0.4, 1.6],
+  [0, 0.5, 1, 0.3, 0.9, 1.2],
+  [0, 1.1, 0.4, 0.8, 0.2, 1.4],
 ];
 
 const departingThrustVariants: Variants = {
   normal: (i: number) => ({
-    ...departingRocketVariants.normal,
-    d: THRUST[i].rest,
+    d: line(i, 0),
+    transform: 'translate(0px, 0px)',
+    visibility: 'visible',
   }),
   animate: (i: number) => {
-    const { rest, mid, long, lag } = THRUST[i];
-    const rocket = departingRocketVariants.animate as {
-      transform: string[];
-    };
+    const plume = [3, 2.2, 2.6][i];
     return {
-      transform: rocket.transform,
-      d: [rest, rest, rest, mid, long, long, long, long, long, long, long, long, long, long],
+      d: [
+        ...FLICKER[i].map((f) => line(i, f)),
+        line(i, plume),
+        line(i, plume + 0.6, 0.45),
+        line(i, plume + 1, 1),
+        ...Array(7).fill(line(i, plume + 1, 1)),
+      ],
+      transform: [
+        ...Array(7).fill('translate(0px, 0px)'),
+        'translate(-0.6px, 0.6px)',
+        'translate(-1.2px, 1.2px)',
+        ...Array(7).fill('translate(-1.2px, 1.2px)'),
+      ],
+      visibility: [...Array(9).fill('visible'), ...Array(7).fill('hidden')],
       transition: {
         duration: ROCKET_DURATION,
-        delay: lag,
-        ease: 'linear',
+        ease: 'easeInOut',
         times: ROCKET_TIMES,
       },
     };
   },
 };
 
+// The replacement's exhaust stays attached to its body and draws out from the
+// nozzle once the rocket has almost settled, each line at its own pace.
 const arrivingThrustVariants: Variants = {
-  normal: (i: number) => ({
+  normal: {
     ...arrivingRocketVariants.normal,
-    d: THRUST[i].long,
-  }),
+    pathLength: 0,
+    pathOffset: 1,
+    visibility: 'hidden',
+  },
   animate: (i: number) => {
-    const { rest, mid, long, lag } = THRUST[i];
-    const rocket = arrivingRocketVariants.animate as {
-      transform: string[];
-    };
+    const rocket = arrivingRocketVariants.animate as { transform: string[] };
+    const mid = [0.75, 0.45, 0.9][i];
     return {
       transform: rocket.transform,
-      d: [long, long, long, long, long, long, long, long, long, long, mid, rest, rest, rest],
+      pathLength: [...Array(13).fill(0), 0, mid, 1],
+      pathOffset: [...Array(13).fill(1), 1, 1 - mid, 0],
+      visibility: [...Array(13).fill('hidden'), 'hidden', 'visible', 'visible'],
       transition: {
         duration: ROCKET_DURATION,
-        delay: lag,
-        ease: 'linear',
+        ease: 'easeOut',
         times: ROCKET_TIMES,
       },
     };
@@ -209,10 +223,10 @@ const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
           fill="none"
           overflow="hidden"
         >
-          {THRUST.map(({ rest }, i) => (
+          {THRUST.map((_, i) => (
             <motion.path
-              key={rest}
-              d={rest}
+              key={i}
+              d={line(i, 0)}
               stroke="currentColor"
               strokeLinecap="round"
               strokeWidth="1.5"
@@ -236,18 +250,10 @@ const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
             animate={controls}
             initial="normal"
           >
-            <motion.g
-              variants={arrivingRocketVariants}
-              animate={controls}
-              initial="normal"
-              style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
-            >
-              <RocketGeometry />
-            </motion.g>
-            {THRUST.map(({ rest }, i) => (
+            {THRUST.map((_, i) => (
               <motion.path
-                key={rest}
-                d={rest}
+                key={i}
+                d={line(i, 0)}
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeWidth="1.5"
@@ -258,6 +264,14 @@ const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
                 style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
               />
             ))}
+            <motion.g
+              variants={arrivingRocketVariants}
+              animate={controls}
+              initial="normal"
+              style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
+            >
+              <RocketGeometry />
+            </motion.g>
           </motion.g>
         </svg>
       </div>

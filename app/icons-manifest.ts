@@ -25,6 +25,8 @@ import { CallIncoming01Icon } from '@/icons/call-incoming-01';
 import { CallOutgoing01Icon } from '@/icons/call-outgoing-01';
 import { Camera01Icon } from '@/icons/camera-01';
 import { Cancel01Icon } from '@/icons/cancel-01';
+import { ChartIncreaseIcon } from '@/icons/chart-increase';
+import { CheckmarkBadge01Icon } from '@/icons/checkmark-badge-01';
 import { ChevronDownIcon } from '@/icons/chevron-down';
 import { ChevronLeftIcon } from '@/icons/chevron-left';
 import { ChevronRightIcon } from '@/icons/chevron-right';
@@ -80,6 +82,7 @@ import { HeadphonesIcon } from '@/icons/headphones';
 import { HelpCircleIcon } from '@/icons/help-circle';
 import { HistoryIcon } from '@/icons/history';
 import { Home01Icon } from '@/icons/home-01';
+import { HourglassIcon } from '@/icons/hourglass';
 import { Image01Icon } from '@/icons/image-01';
 import { InboxIcon } from '@/icons/inbox';
 import { InformationCircleIcon } from '@/icons/information-circle';
@@ -167,6 +170,7 @@ import { Video01Icon } from '@/icons/video-01';
 import { VolumeHighIcon } from '@/icons/volume-high';
 import { VolumeMute01Icon } from '@/icons/volume-mute-01';
 import { Wallet01Icon } from '@/icons/wallet-01';
+import { WavingHand01Icon } from '@/icons/waving-hand-01';
 import { Wifi01Icon } from '@/icons/wifi-01';
 import { ZoomInAreaIcon } from '@/icons/zoom-in-area';
 import { ZoomOutAreaIcon } from '@/icons/zoom-out-area';
@@ -198,6 +202,8 @@ export const ICON_LIST = [
   { name: 'call-outgoing-01', Icon: CallOutgoing01Icon },
   { name: 'camera-01', Icon: Camera01Icon },
   { name: 'cancel-01', Icon: Cancel01Icon },
+  { name: 'chart-increase', Icon: ChartIncreaseIcon },
+  { name: 'checkmark-badge-01', Icon: CheckmarkBadge01Icon },
   { name: 'chevron-down', Icon: ChevronDownIcon },
   { name: 'chevron-left', Icon: ChevronLeftIcon },
   { name: 'chevron-right', Icon: ChevronRightIcon },
@@ -253,6 +259,7 @@ export const ICON_LIST = [
   { name: 'help-circle', Icon: HelpCircleIcon },
   { name: 'history', Icon: HistoryIcon },
   { name: 'home-01', Icon: Home01Icon },
+  { name: 'hourglass', Icon: HourglassIcon },
   { name: 'image-01', Icon: Image01Icon },
   { name: 'inbox', Icon: InboxIcon },
   { name: 'information-circle', Icon: InformationCircleIcon },
@@ -340,6 +347,7 @@ export const ICON_LIST = [
   { name: 'volume-high', Icon: VolumeHighIcon },
   { name: 'volume-mute-01', Icon: VolumeMute01Icon },
   { name: 'wallet-01', Icon: Wallet01Icon },
+  { name: 'waving-hand-01', Icon: WavingHand01Icon },
   { name: 'wifi-01', Icon: Wifi01Icon },
   { name: 'zoom-in-area', Icon: ZoomInAreaIcon },
   { name: 'zoom-out-area', Icon: ZoomOutAreaIcon },
