@@ -93,21 +93,74 @@ const generatedGeometryVariants: Variants = {
   animate: { visibility: 'visible', transition: { duration: 0 } },
 };
 
-// Temporary launch trails grow behind the plane, move back toward the bottom
-// left, and clear before the replacement arrives.
-const trailVariants: Variants = {
-  normal: { pathLength: 0, pathOffset: 0, visibility: 'hidden' },
-  animate: (i: number) => ({
-    pathLength: [0, 0.25, 1, 0.34, 0, 0],
-    pathOffset: [0, 0, 0, 0.66, 1, 1],
-    visibility: ['hidden', 'visible', 'visible', 'visible', 'hidden', 'hidden'],
-    transition: {
-      duration: 0.38,
-      delay: 0.06 + i * 0.028,
-      ease: 'linear',
-      times: [0, 0.14, 0.34, 0.58, 0.8, 1],
-    },
+// The rocket's own thrust lines lag behind the body by different amounts and
+// stretch backward while it accelerates, then leave with it. The replacement's
+// lines arrive stretched, a beat after its body, and settle to rest length.
+const THRUST = [
+  {
+    rest: 'M2.5 21.5L7.5 16.5',
+    mid: 'M1.5 22.5L7.5 16.5',
+    long: 'M-0.5 24.5L7.5 16.5',
+    lag: 0.06,
+  },
+  {
+    rest: 'M8.5 21.5L10.5 19.5',
+    mid: 'M7.5 22.5L10.5 19.5',
+    long: 'M5.5 24.5L10.5 19.5',
+    lag: 0.1,
+  },
+  {
+    rest: 'M2.5 15.5L4.5 13.5',
+    mid: 'M1.5 16.5L4.5 13.5',
+    long: 'M-0.5 18.5L4.5 13.5',
+    lag: 0.04,
+  },
+];
+
+const departingThrustVariants: Variants = {
+  normal: (i: number) => ({
+    ...departingRocketVariants.normal,
+    d: THRUST[i].rest,
   }),
+  animate: (i: number) => {
+    const { rest, mid, long, lag } = THRUST[i];
+    const rocket = departingRocketVariants.animate as {
+      transform: string[];
+    };
+    return {
+      transform: rocket.transform,
+      d: [rest, rest, rest, mid, long, long, long, long, long, long, long, long, long, long],
+      transition: {
+        duration: ROCKET_DURATION,
+        delay: lag,
+        ease: 'linear',
+        times: ROCKET_TIMES,
+      },
+    };
+  },
+};
+
+const arrivingThrustVariants: Variants = {
+  normal: (i: number) => ({
+    ...arrivingRocketVariants.normal,
+    d: THRUST[i].long,
+  }),
+  animate: (i: number) => {
+    const { rest, mid, long, lag } = THRUST[i];
+    const rocket = arrivingRocketVariants.animate as {
+      transform: string[];
+    };
+    return {
+      transform: rocket.transform,
+      d: [long, long, long, long, long, long, long, long, long, long, mid, rest, rest, rest],
+      transition: {
+        duration: ROCKET_DURATION,
+        delay: lag,
+        ease: 'linear',
+        times: ROCKET_TIMES,
+      },
+    };
+  },
 };
 
 function RocketGeometry() {
@@ -117,24 +170,6 @@ function RocketGeometry() {
         d={ROCKET_BODY}
         stroke="currentColor"
         strokeLinejoin="round"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M2.5 21.5L7.5 16.5"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M8.5 21.5L10.5 19.5"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M2.5 15.5L4.5 13.5"
-        stroke="currentColor"
-        strokeLinecap="round"
         strokeWidth="1.5"
       />
       <path
@@ -174,42 +209,20 @@ const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
           fill="none"
           overflow="hidden"
         >
-          <motion.g
-            variants={generatedGeometryVariants}
-            animate={controls}
-            initial="normal"
-          >
+          {THRUST.map(({ rest }, i) => (
             <motion.path
-              d="M7.2 14.8L2.2 19.8"
+              key={rest}
+              d={rest}
               stroke="currentColor"
               strokeLinecap="round"
               strokeWidth="1.5"
-              variants={trailVariants}
-              custom={0}
+              variants={departingThrustVariants}
+              custom={i}
               animate={controls}
               initial="normal"
+              style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
             />
-            <motion.path
-              d="M10.2 17.6L6.6 21.2"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeWidth="1.5"
-              variants={trailVariants}
-              custom={1}
-              animate={controls}
-              initial="normal"
-            />
-            <motion.path
-              d="M5.2 12.6L2 15.8"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeWidth="1.5"
-              variants={trailVariants}
-              custom={2}
-              animate={controls}
-              initial="normal"
-            />
-          </motion.g>
+          ))}
           <motion.g
             variants={departingRocketVariants}
             animate={controls}
@@ -231,6 +244,20 @@ const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
             >
               <RocketGeometry />
             </motion.g>
+            {THRUST.map(({ rest }, i) => (
+              <motion.path
+                key={rest}
+                d={rest}
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="1.5"
+                variants={arrivingThrustVariants}
+                custom={i}
+                animate={controls}
+                initial="normal"
+                style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
+              />
+            ))}
           </motion.g>
         </svg>
       </div>
