@@ -39,14 +39,18 @@ const EYE_OFF_TIMES = [
   0.92, 0.97, 1,
 ];
 
+// A zero-length stroke with round caps draws a dot, so each continuation is
+// only visible while it has length.
 function createContinuationVariants(pathLength: number[]): Variants {
   return {
     normal: {
       pathLength: 0,
+      visibility: 'hidden',
       transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] },
     },
     animate: {
       pathLength,
+      visibility: pathLength.map((value) => (value > 0 ? 'visible' : 'hidden')),
       transition: {
         duration: EYE_OFF_DURATION,
         ease: 'linear',

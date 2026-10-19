@@ -16,22 +16,24 @@ interface ThumbsDownIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// One disapproval pump, mirrored from thumbs-up: the hand lifts back from the
-// wrist, thrusts the thumb down, then settles with a small recoil.
+// A double "no" pump, mirrored from thumbs-up: the whole fist and cuff swing
+// from the elbow above the wrist, winding back before each thrust of the thumb
+// down, the second pump smaller, then settle.
 const handVariants: Variants = {
   normal: { transform: 'translateY(0%) rotate(0deg) scale(1)' },
   animate: {
     transform: [
       'translateY(0%) rotate(0deg) scale(1)',
-      'translateY(-3%) rotate(8deg) scale(0.97)',
-      'translateY(9%) rotate(-6deg) scale(1.06)',
-      'translateY(-1%) rotate(1.5deg) scale(0.995)',
+      'translateY(-4%) rotate(11deg) scale(0.96)',
+      'translateY(9%) rotate(-7deg) scale(1.05)',
+      'translateY(-2%) rotate(5deg) scale(0.98)',
+      'translateY(4%) rotate(-3deg) scale(1.02)',
       'translateY(0%) rotate(0deg) scale(1)',
     ],
     transition: {
-      duration: 0.68,
-      ease: ['easeOut', [0.23, 1, 0.32, 1], 'easeInOut', 'easeOut'],
-      times: [0, 0.2, 0.5, 0.76, 1],
+      duration: 0.9,
+      ease: ['easeOut', [0.23, 1, 0.32, 1], 'easeInOut', [0.23, 1, 0.32, 1], 'easeInOut'],
+      times: [0, 0.18, 0.4, 0.6, 0.78, 1],
     },
   },
 };
@@ -64,7 +66,7 @@ const ThumbsDownIcon = forwardRef<ThumbsDownIconHandle, ThumbsDownIconProps>(
           variants={handVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '29.1667% 16.6667%' }}
+          style={{ transformOrigin: '18.75% 0%' }}
         >
           <path
             d="M2 11.5C2 12.6046 2.89543 13.5 4 13.5C5.65685 13.5 7 12.1569 7 10.5V6.5C7 4.84315 5.65685 3.5 4 3.5C2.89543 3.5 2 4.39543 2 5.5V11.5Z"

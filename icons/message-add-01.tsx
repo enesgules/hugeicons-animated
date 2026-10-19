@@ -16,20 +16,31 @@ interface MessageAdd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the conversation inhales and the add mark pops into the open corner
-const messageVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+// The plus is screwed into the open corner: it winds back, then drives a
+// quarter turn home (a plus looks the same after 90 degrees). The bubble
+// takes the hit from its tail and springs back.
+const plusVariants: Variants = {
+  normal: { rotate: 0, scale: 1 },
   animate: {
-    transform: ['translateY(0px) scale(1)', 'translateY(0.7px) scale(0.96)', 'translateY(-1px) scale(1.025)', 'translateY(0px) scale(1)'],
-    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
+    rotate: [0, 25, -105, -84, -90],
+    scale: [1, 0.86, 1.1, 0.97, 1],
+    transition: {
+      duration: 0.8,
+      ease: ['easeOut', [0.23, 1, 0.32, 1], 'easeInOut', 'easeInOut'],
+      times: [0, 0.26, 0.56, 0.78, 1],
+    },
   },
 };
 
-const plusVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+const messageVariants: Variants = {
+  normal: { scale: 1 },
   animate: {
-    transform: ['rotate(-14deg) scale(0.48)', 'rotate(5deg) scale(1.22)', 'rotate(-2deg) scale(0.98)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.5, delay: 0.07, ease: [0.23, 1, 0.32, 1] },
+    scale: [1, 1, 0.94, 1.025, 1],
+    transition: {
+      duration: 0.8,
+      ease: 'easeInOut',
+      times: [0, 0.34, 0.5, 0.72, 1],
+    },
   },
 };
 
@@ -68,7 +79,7 @@ const MessageAdd01Icon = forwardRef<MessageAdd01IconHandle, MessageAdd01IconProp
             variants={messageVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '11px 14px' }}
+            style={{ transformBox: 'view-box', originX: 3.2 / 24, originY: 21.9 / 24 }}
           />
           <motion.path
             d="M8.5 15H15.5M8.5 10H12"
@@ -79,7 +90,7 @@ const MessageAdd01Icon = forwardRef<MessageAdd01IconHandle, MessageAdd01IconProp
             variants={messageVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 3.2 / 24, originY: 21.9 / 24 }}
           />
           <motion.path
             d="M15 5.5H22M18.5 2L18.5 9"
@@ -90,7 +101,7 @@ const MessageAdd01Icon = forwardRef<MessageAdd01IconHandle, MessageAdd01IconProp
             variants={plusVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '18.5px 5.5px' }}
+            style={{ transformBox: 'view-box', originX: 18.5 / 24, originY: 5.5 / 24 }}
           />
         </svg>
       </div>

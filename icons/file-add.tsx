@@ -18,18 +18,18 @@ interface FileAddIconProps extends HTMLAttributes<HTMLDivElement> {
 
 // a new sheet drops into the stack while the add mark stamps the corner
 const fileVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+  normal: { transform: 'translateY(0px) scaleY(1)' },
   animate: {
-    transform: ['translateY(-1.8px) scaleY(1.02)', 'translateY(1px) scaleY(0.96)', 'translateY(-0.25px) scaleY(1.01)', 'translateY(0px) scaleY(1)'],
-    transition: { duration: 0.54, ease: [0.23, 1, 0.32, 1] },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(-1.8px) scaleY(1.02)', 'translateY(1px) scaleY(0.96)', 'translateY(-0.25px) scaleY(1.01)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.62, times: [0, 0.16, 0.5, 0.76, 1], ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const plusVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+  normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    transform: ['rotate(-12deg) scale(0.5)', 'rotate(4deg) scale(1.22)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.48, delay: 0.07, ease: [0.23, 1, 0.32, 1] },
+    transform: ['rotate(0deg) scale(1)', 'rotate(-12deg) scale(0.5)', 'rotate(4deg) scale(1.22)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.56, delay: 0.04, times: [0, 0.2, 0.62, 1], ease: [0.23, 1, 0.32, 1] },
   },
 };
 

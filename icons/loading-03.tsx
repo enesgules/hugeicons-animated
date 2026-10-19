@@ -16,12 +16,19 @@ interface Loading03IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a loading glyph is a wheel, so keep every spoke visible and rotate the set
+// A loading glyph is a wheel: rotate the complete set of spokes in eased
+// 45-degree ticks. Each tick lands on an identical pose, so every repetition
+// starts and ends at rest without a pop.
 const loaderVariants: Variants = {
-  normal: { transform: 'rotate(0deg)', transition: { duration: 0.18 } },
+  normal: { rotate: 0, transition: { duration: 0.18, ease: 'easeOut' } },
   animate: {
-    transform: 'rotate(360deg)',
-    transition: { duration: 0.82, ease: 'linear', repeat: Infinity },
+    rotate: [0, 45],
+    transition: {
+      duration: 0.34,
+      ease: [0.65, 0, 0.35, 1],
+      repeat: Infinity,
+      repeatDelay: 0.06,
+    },
   },
 };
 

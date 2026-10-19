@@ -16,14 +16,18 @@ interface AttachmentIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the paperclip winds open, catches, then springs into its nested shape
+// The paperclip is lifted, dropped onto a sheet edge, and catches on its top
+// bend: the whole clip swings from that hook like a pendulum and settles.
 const clipVariants: Variants = {
-  normal: { pathLength: 1, rotate: 0, scale: 1, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
+  normal: { translateY: 0, rotate: 0 },
   animate: {
-    pathLength: [1, 0.72, 1],
-    rotate: [0, -5, 2, 0],
-    scale: [1, 0.94, 1.03, 1],
-    transition: { duration: 0.8, times: [0, 0.28, 0.68, 1], ease: 'easeInOut' },
+    translateY: [0, -1.6, 0.35, 0, 0, 0, 0, 0],
+    rotate: [0, -5, 15, -10, 6, -3, 1, 0],
+    transition: {
+      duration: 1.1,
+      ease: 'easeInOut',
+      times: [0, 0.14, 0.3, 0.46, 0.61, 0.75, 0.88, 1],
+    },
   },
 };
 
@@ -62,7 +66,7 @@ const AttachmentIcon = forwardRef<AttachmentIconHandle, AttachmentIconProps>(
             variants={clipVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 9.5 / 24, originY: 3 / 24 }}
           />
         </svg>
       </div>

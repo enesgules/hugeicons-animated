@@ -23,6 +23,25 @@
       ]
     },
     {
+      "name": "add-square",
+      "type": "registry:ui",
+      "title": "add-square",
+      "description": "Animated add square icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/add-square.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "airplane-take-off-01",
       "type": "registry:ui",
       "title": "airplane-take-off-01",
@@ -52,6 +71,25 @@
       "files": [
         {
           "path": "icons/alarm-clock.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "alert-02",
+      "type": "registry:ui",
+      "title": "alert-02",
+      "description": "Animated alert icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/alert-02.tsx",
           "type": "registry:ui"
         },
         {
@@ -99,6 +137,25 @@
       ]
     },
     {
+      "name": "arrow-down-01",
+      "type": "registry:ui",
+      "title": "arrow-down-01",
+      "description": "Animated arrow down icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-down-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "arrow-down-02",
       "type": "registry:ui",
       "title": "arrow-down-02",
@@ -109,6 +166,25 @@
       "files": [
         {
           "path": "icons/arrow-down-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "arrow-down-double",
+      "type": "registry:ui",
+      "title": "arrow-down-double",
+      "description": "Animated arrow down double icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-down-double.tsx",
           "type": "registry:ui"
         },
         {
@@ -156,6 +232,25 @@
       ]
     },
     {
+      "name": "arrow-left-01",
+      "type": "registry:ui",
+      "title": "arrow-left-01",
+      "description": "Animated arrow left icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-left-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "arrow-left-02",
       "type": "registry:ui",
       "title": "arrow-left-02",
@@ -166,6 +261,44 @@
       "files": [
         {
           "path": "icons/arrow-left-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "arrow-reload-horizontal",
+      "type": "registry:ui",
+      "title": "arrow-reload-horizontal",
+      "description": "Animated arrow reload horizontal icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-reload-horizontal.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "arrow-right-01",
+      "type": "registry:ui",
+      "title": "arrow-right-01",
+      "description": "Animated arrow right icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-right-01.tsx",
           "type": "registry:ui"
         },
         {
@@ -194,6 +327,25 @@
       ]
     },
     {
+      "name": "arrow-up-01",
+      "type": "registry:ui",
+      "title": "arrow-up-01",
+      "description": "Animated arrow up icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-up-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "arrow-up-02",
       "type": "registry:ui",
       "title": "arrow-up-02",
@@ -204,6 +356,25 @@
       "files": [
         {
           "path": "icons/arrow-up-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "arrow-up-double",
+      "type": "registry:ui",
+      "title": "arrow-up-double",
+      "description": "Animated arrow up double icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/arrow-up-double.tsx",
           "type": "registry:ui"
         },
         {
@@ -289,6 +460,25 @@
       ]
     },
     {
+      "name": "battery-full",
+      "type": "registry:ui",
+      "title": "battery-full",
+      "description": "Animated battery full icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/battery-full.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "bluetooth",
       "type": "registry:ui",
       "title": "bluetooth",
@@ -327,6 +517,44 @@
       ]
     },
     {
+      "name": "bookmark-02",
+      "type": "registry:ui",
+      "title": "bookmark-02",
+      "description": "Animated bookmark icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/bookmark-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "bookmark-add-01",
+      "type": "registry:ui",
+      "title": "bookmark-add-01",
+      "description": "Animated bookmark add icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/bookmark-add-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "bug-01",
       "type": "registry:ui",
       "title": "bug-01",
@@ -356,6 +584,25 @@
       "files": [
         {
           "path": "icons/bulb.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "calendar-01",
+      "type": "registry:ui",
+      "title": "calendar-01",
+      "description": "Animated calendar icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/calendar-01.tsx",
           "type": "registry:ui"
         },
         {
@@ -422,6 +669,25 @@
       ]
     },
     {
+      "name": "call-end-01",
+      "type": "registry:ui",
+      "title": "call-end-01",
+      "description": "Animated call end icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/call-end-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "call-incoming-01",
       "type": "registry:ui",
       "title": "call-incoming-01",
@@ -451,6 +717,25 @@
       "files": [
         {
           "path": "icons/call-outgoing-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "call",
+      "type": "registry:ui",
+      "title": "call",
+      "description": "Animated call icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/call.tsx",
           "type": "registry:ui"
         },
         {
@@ -498,6 +783,44 @@
       ]
     },
     {
+      "name": "cancel-02",
+      "type": "registry:ui",
+      "title": "cancel-02",
+      "description": "Animated cancel icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/cancel-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "cancel-circle",
+      "type": "registry:ui",
+      "title": "cancel-circle",
+      "description": "Animated cancel circle icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/cancel-circle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "chart-increase",
       "type": "registry:ui",
       "title": "chart-increase",
@@ -527,6 +850,44 @@
       "files": [
         {
           "path": "icons/checkmark-badge-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "checkmark-circle-02",
+      "type": "registry:ui",
+      "title": "checkmark-circle-02",
+      "description": "Animated checkmark circle icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/checkmark-circle-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "checkmark-square-02",
+      "type": "registry:ui",
+      "title": "checkmark-square-02",
+      "description": "Animated checkmark square icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/checkmark-square-02.tsx",
           "type": "registry:ui"
         },
         {
@@ -698,6 +1059,25 @@
       "files": [
         {
           "path": "icons/clock-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "clock-02",
+      "type": "registry:ui",
+      "title": "clock-02",
+      "description": "Animated clock icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/clock-02.tsx",
           "type": "registry:ui"
         },
         {
@@ -897,6 +1277,25 @@
       ]
     },
     {
+      "name": "copy-02",
+      "type": "registry:ui",
+      "title": "copy-02",
+      "description": "Animated copy icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/copy-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "credit-card",
       "type": "registry:ui",
       "title": "credit-card",
@@ -992,6 +1391,25 @@
       ]
     },
     {
+      "name": "delete-01",
+      "type": "registry:ui",
+      "title": "delete-01",
+      "description": "Animated delete icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/delete-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "delete-02",
       "type": "registry:ui",
       "title": "delete-02",
@@ -1002,6 +1420,25 @@
       "files": [
         {
           "path": "icons/delete-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "delete-03",
+      "type": "registry:ui",
+      "title": "delete-03",
+      "description": "Animated delete icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/delete-03.tsx",
           "type": "registry:ui"
         },
         {
@@ -1230,6 +1667,44 @@
       "files": [
         {
           "path": "icons/file-download.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "file-edit",
+      "type": "registry:ui",
+      "title": "file-edit",
+      "description": "Animated file edit icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/file-edit.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "file-search",
+      "type": "registry:ui",
+      "title": "file-search",
+      "description": "Animated file search icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/file-search.tsx",
           "type": "registry:ui"
         },
         {
@@ -1543,6 +2018,25 @@
       ]
     },
     {
+      "name": "help-square",
+      "type": "registry:ui",
+      "title": "help-square",
+      "description": "Animated help square icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/help-square.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "history",
       "type": "registry:ui",
       "title": "history",
@@ -1648,6 +2142,25 @@
       "files": [
         {
           "path": "icons/information-circle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "information-square",
+      "type": "registry:ui",
+      "title": "information-square",
+      "description": "Animated information square icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/information-square.tsx",
           "type": "registry:ui"
         },
         {
@@ -1866,6 +2379,25 @@
       ]
     },
     {
+      "name": "login-02",
+      "type": "registry:ui",
+      "title": "login-02",
+      "description": "Animated login icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/login-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "logout-01",
       "type": "registry:ui",
       "title": "logout-01",
@@ -1876,6 +2408,25 @@
       "files": [
         {
           "path": "icons/logout-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "logout-02",
+      "type": "registry:ui",
+      "title": "logout-02",
+      "description": "Animated logout icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/logout-02.tsx",
           "type": "registry:ui"
         },
         {
@@ -1923,6 +2474,44 @@
       ]
     },
     {
+      "name": "mail-02",
+      "type": "registry:ui",
+      "title": "mail-02",
+      "description": "Animated mail icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/mail-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "mail-add-01",
+      "type": "registry:ui",
+      "title": "mail-add-01",
+      "description": "Animated mail add icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/mail-add-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "mail-open",
       "type": "registry:ui",
       "title": "mail-open",
@@ -1933,6 +2522,25 @@
       "files": [
         {
           "path": "icons/mail-open.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "mail-send-01",
+      "type": "registry:ui",
+      "title": "mail-send-01",
+      "description": "Animated mail send icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/mail-send-01.tsx",
           "type": "registry:ui"
         },
         {
@@ -2075,6 +2683,25 @@
       ]
     },
     {
+      "name": "minus-sign-square",
+      "type": "registry:ui",
+      "title": "minus-sign-square",
+      "description": "Animated minus sign square icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/minus-sign-square.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "minus-sign",
       "type": "registry:ui",
       "title": "minus-sign",
@@ -2208,6 +2835,44 @@
       ]
     },
     {
+      "name": "notification-01",
+      "type": "registry:ui",
+      "title": "notification-01",
+      "description": "Animated notification icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/notification-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "notification-02",
+      "type": "registry:ui",
+      "title": "notification-02",
+      "description": "Animated notification icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/notification-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "notification-03",
       "type": "registry:ui",
       "title": "notification-03",
@@ -2303,6 +2968,25 @@
       ]
     },
     {
+      "name": "pause-circle",
+      "type": "registry:ui",
+      "title": "pause-circle",
+      "description": "Animated pause circle icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/pause-circle.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "pause",
       "type": "registry:ui",
       "title": "pause",
@@ -2332,6 +3016,25 @@
       "files": [
         {
           "path": "icons/pin.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "play-circle",
+      "type": "registry:ui",
+      "title": "play-circle",
+      "description": "Animated play circle icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/play-circle.tsx",
           "type": "registry:ui"
         },
         {
@@ -2455,6 +3158,25 @@
       ]
     },
     {
+      "name": "redo-02",
+      "type": "registry:ui",
+      "title": "redo-02",
+      "description": "Animated redo icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/redo-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "redo",
       "type": "registry:ui",
       "title": "redo",
@@ -2484,6 +3206,25 @@
       "files": [
         {
           "path": "icons/refresh.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "repeat",
+      "type": "registry:ui",
+      "title": "repeat",
+      "description": "Animated repeat icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/repeat.tsx",
           "type": "registry:ui"
         },
         {
@@ -2588,6 +3329,25 @@
       ]
     },
     {
+      "name": "search-02",
+      "type": "registry:ui",
+      "title": "search-02",
+      "description": "Animated search icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/search-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "sent",
       "type": "registry:ui",
       "title": "sent",
@@ -2626,6 +3386,44 @@
       ]
     },
     {
+      "name": "settings-02",
+      "type": "registry:ui",
+      "title": "settings-02",
+      "description": "Animated settings icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/settings-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "share-01",
+      "type": "registry:ui",
+      "title": "share-01",
+      "description": "Animated share icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/share-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "share-08",
       "type": "registry:ui",
       "title": "share-08",
@@ -2655,6 +3453,25 @@
       "files": [
         {
           "path": "icons/shield-02.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "shopping-bag-01",
+      "type": "registry:ui",
+      "title": "shopping-bag-01",
+      "description": "Animated shopping bag icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/shopping-bag-01.tsx",
           "type": "registry:ui"
         },
         {
@@ -2873,6 +3690,25 @@
       ]
     },
     {
+      "name": "square-unlock-01",
+      "type": "registry:ui",
+      "title": "square-unlock-01",
+      "description": "Animated square unlock icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/square-unlock-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "star",
       "type": "registry:ui",
       "title": "star",
@@ -2987,6 +3823,25 @@
       ]
     },
     {
+      "name": "tick-01",
+      "type": "registry:ui",
+      "title": "tick-01",
+      "description": "Animated tick icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/tick-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "tick-02",
       "type": "registry:ui",
       "title": "tick-02",
@@ -3006,6 +3861,25 @@
       ]
     },
     {
+      "name": "tick-double-01",
+      "type": "registry:ui",
+      "title": "tick-double-01",
+      "description": "Animated tick double icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/tick-double-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "umbrella",
       "type": "registry:ui",
       "title": "umbrella",
@@ -3016,6 +3890,25 @@
       "files": [
         {
           "path": "icons/umbrella.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "undo-02",
+      "type": "registry:ui",
+      "title": "undo-02",
+      "description": "Animated undo icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/undo-02.tsx",
           "type": "registry:ui"
         },
         {
@@ -3092,6 +3985,25 @@
       "files": [
         {
           "path": "icons/user-check-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "user-circle",
+      "type": "registry:ui",
+      "title": "user-circle",
+      "description": "Animated user circle icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/user-circle.tsx",
           "type": "registry:ui"
         },
         {
@@ -3196,6 +4108,44 @@
       ]
     },
     {
+      "name": "view-off",
+      "type": "registry:ui",
+      "title": "view-off",
+      "description": "Animated view off icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/view-off.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "view",
+      "type": "registry:ui",
+      "title": "view",
+      "description": "Animated view icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/view.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "volume-high",
       "type": "registry:ui",
       "title": "volume-high",
@@ -3215,6 +4165,25 @@
       ]
     },
     {
+      "name": "volume-low",
+      "type": "registry:ui",
+      "title": "volume-low",
+      "description": "Animated volume low icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/volume-low.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "volume-mute-01",
       "type": "registry:ui",
       "title": "volume-mute-01",
@@ -3225,6 +4194,25 @@
       "files": [
         {
           "path": "icons/volume-mute-01.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "lib/use-icon-animation.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "volume-off",
+      "type": "registry:ui",
+      "title": "volume-off",
+      "description": "Animated volume off icon",
+      "dependencies": [
+        "motion"
+      ],
+      "files": [
+        {
+          "path": "icons/volume-off.tsx",
           "type": "registry:ui"
         },
         {

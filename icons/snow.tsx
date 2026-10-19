@@ -16,17 +16,24 @@ interface SnowIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the connected flake turns as one object and returns exactly to rest
+// The flake winds up against the turn, then twirls one full turn as a single
+// rigid crystal (every arm stays joined at the center), overshoots, and
+// settles back. A full turn ends exactly on the rest pose.
 const snowVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg) scale(1)' },
+  normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
     transform: [
-      'translateY(0px) rotate(0deg) scale(1)',
-      'translateY(-0.55px) rotate(60deg) scale(1.055)',
-      'translateY(0.2px) rotate(120deg) scale(0.99)',
-      'translateY(0px) rotate(0deg) scale(1)',
+      'rotate(0deg) scale(1)',
+      'rotate(-20deg) scale(0.9)',
+      'rotate(376deg) scale(1.08)',
+      'rotate(355deg) scale(0.98)',
+      'rotate(360deg) scale(1)',
     ],
-    transition: { duration: 0.82, ease: [0.23, 1, 0.32, 1] },
+    transition: {
+      duration: 1.2,
+      ease: ['easeInOut', [0.5, 0, 0.2, 1], 'easeInOut', 'easeOut'],
+      times: [0, 0.2, 0.64, 0.84, 1],
+    },
   },
 };
 

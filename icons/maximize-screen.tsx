@@ -3,7 +3,7 @@
 import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
-import { forwardRef, useId } from 'react';
+import { forwardRef } from 'react';
 import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
@@ -21,144 +21,84 @@ const MAXIMIZE_WINDOW =
 const MAXIMIZE_OUTER_SOURCE =
   'M2 8.5V10.5M14 2H10M22 14V10M13.5 22H15.5M2.05986 5.5C2.21387 4.43442 2.51347 3.67903 3.09625 3.09625C3.67903 2.51347 4.43442 2.21387 5.5 2.05986M18.5 2.05986C19.5656 2.21387 20.321 2.51347 20.9037 3.09625C21.4865 3.67903 21.7861 4.43442 21.9401 5.5M21.9401 18.5C21.7861 19.5656 21.4865 20.321 20.9037 20.9037C20.321 21.4865 19.5656 21.7861 18.5 21.9401';
 
-const MAXIMIZE_DURATION = 0.86;
-const MAXIMIZE_TIMES = [0, 0.07, 0.14, 0.23, 0.34, 0.46, 0.58, 0.68, 0.76, 0.82, 0.88, 0.94, 1];
+const MAXIMIZE_DURATION = 1.2;
 
-function createExpandedWindowPath({
-  right,
-  top,
-}: {
-  right: number;
-  top: number;
-}) {
+function createExpandedWindowPath(growth: number) {
+  const right = 11 + growth;
+  const top = 13 - growth;
   return `M2 ${top + 4}C2 ${top + 2.1144} 2 ${top + 1.1716} 2.58579 ${top + 0.5858}C3.17157 ${top} 4.11438 ${top} 6 ${top}H${right - 4}C${right - 2.11438} ${top} ${right - 1.17157} ${top} ${right - 0.5858} ${top + 0.5858}C${right} ${top + 1.1716} ${right} ${top + 2.1144} ${right} ${top + 4}V18C${right} 19.8856 ${right} 20.8284 ${right - 0.5858} 21.4142C${right - 1.17157} 22 ${right - 2.11438} 22 ${right - 4} 22H6C4.11438 22 3.17157 22 2.58579 21.4142C2 20.8284 2 19.8856 2 18V${top + 4}Z`;
 }
 
-const EXPANDING_WINDOW_FRAMES = [
-  MAXIMIZE_WINDOW,
-  MAXIMIZE_WINDOW,
-  createExpandedWindowPath({ right: 11.66, top: 12.34 }),
-  createExpandedWindowPath({ right: 12.98, top: 11.02 }),
-  createExpandedWindowPath({ right: 15.18, top: 8.82 }),
-  createExpandedWindowPath({ right: 17.82, top: 6.18 }),
-  createExpandedWindowPath({ right: 20.02, top: 3.98 }),
-  createExpandedWindowPath({ right: 21.45, top: 2.55 }),
-  createExpandedWindowPath({ right: 22, top: 2 }),
-  createExpandedWindowPath({ right: 22, top: 2 }),
-  createExpandedWindowPath({ right: 20.02, top: 3.98 }),
-  createExpandedWindowPath({ right: 15.18, top: 8.82 }),
-  MAXIMIZE_WINDOW,
-];
+// Pre-eased (ease-in-out) growth of the window's top-right corner, in viewBox
+// units, with a small overshoot past the outer frame before it settles.
+const EXPAND_TIMES = [0, 0.072, 0.104, 0.136, 0.168, 0.2, 0.232, 0.264, 0.296, 0.328, 0.36, 0.44];
+const EXPAND_GROWTH = [0, 0.045, 0.362, 1.22, 2.893, 5.65, 8.407, 10.08, 10.938, 11.255, 11.3, 11];
+// The arrow rides ahead of the growing corner until its tip nears the frame
+// corner, then the corner swallows it toward the tip.
+const ARROW_SHIFT = [0, 0.045, 0.362, 1.22, 2.893, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5];
+const ARROW_SCALE = [1, 1, 1, 1, 1, 0.575, 0.03, 0, 0, 0, 0, 0];
 
-// The arrow leads the original window into the outer frame.
+// Maximize: the solid window grows from its bottom-left corner until it fills
+// the dashed frame, pushing the arrow into the corner. After a hold the large
+// window erases along its outline, uncovering the dashed frame, while the
+// small window draws itself back in place and the arrow grows out again.
 const arrowVariants: Variants = {
-  normal: { transform: 'translate(0px, 0px)' },
+  normal: { x: 0, y: 0, scale: 1, visibility: 'visible' },
   animate: {
-    transform: [
-      'translate(0px, 0px)',
-      'translate(0.2px, -0.2px)',
-      'translate(0.55px, -0.55px)',
-      'translate(1.1px, -1.1px)',
-      'translate(1.45px, -1.45px)',
-      'translate(0.9px, -0.9px)',
-      'translate(0.35px, -0.35px)',
-      'translate(0px, 0px)',
-      'translate(0px, 0px)',
-      'translate(0px, 0px)',
-      'translate(0.35px, -0.35px)',
-      'translate(0.15px, -0.15px)',
-      'translate(0px, 0px)',
-    ],
+    x: [...ARROW_SHIFT, 0, 0, 0],
+    y: [...ARROW_SHIFT.map((shift) => -shift), 0, 0, 0],
+    scale: [...ARROW_SCALE, 0, 1.08, 1],
+    visibility: ['visible', 'hidden', 'hidden', 'visible', 'visible'],
     transition: {
       duration: MAXIMIZE_DURATION,
-      ease: [0.77, 0, 0.175, 1],
-      times: MAXIMIZE_TIMES,
+      ease: 'linear',
+      times: [...EXPAND_TIMES, 0.8, 0.9, 1],
+      scale: {
+        duration: MAXIMIZE_DURATION,
+        ease: [...EXPAND_TIMES.map(() => 'linear' as const), 'linear', 'easeOut', 'easeInOut'],
+        times: [...EXPAND_TIMES, 0.8, 0.9, 1],
+      },
+      visibility: { duration: MAXIMIZE_DURATION, times: [0, 0.264, 0.8, 0.81, 1] },
     },
   },
 };
 
 const sourceWindowVariants: Variants = {
-  normal: {
-    d: MAXIMIZE_WINDOW,
-    strokeDasharray: '100 0',
-    strokeDashoffset: 0,
-    visibility: 'visible',
-  },
+  normal: { pathLength: 1, visibility: 'visible' },
   animate: {
-    d: EXPANDING_WINDOW_FRAMES,
-    strokeDasharray: [
-      '100 0',
-      '100 0',
-      '100 0',
-      '100 0',
-      '100 0',
-      '100 0',
-      '36 0.4',
-      '12 1',
-      '5 1.8',
-      '2.6 2.2',
-      '5 1.8',
-      '36 0.4',
-      '100 0',
-    ],
-    strokeDashoffset: [0, 0, 0, 0, 0, 0, 0.5, 1.5, 3, 4, 3, 0.5, 0],
-    visibility: [
-      'visible',
-      'visible',
-      'visible',
-      'visible',
-      'visible',
-      'visible',
-      'visible',
-      'visible',
-      'visible',
-      'visible',
-      'hidden',
-      'hidden',
-      'visible',
-    ],
+    pathLength: [1, 1, 0, 1, 1],
+    visibility: ['visible', 'hidden', 'hidden', 'visible', 'visible'],
     transition: {
       duration: MAXIMIZE_DURATION,
-      ease: 'linear',
-      times: MAXIMIZE_TIMES,
+      ease: ['linear', 'linear', [0.4, 0, 0.2, 1], 'linear'],
+      times: [0, 0.01, 0.62, 0.9, 1],
     },
   },
 };
 
 const sourceOuterFrameVariants: Variants = {
-  normal: { pathLength: 1 },
+  normal: { visibility: 'visible' },
   animate: {
-    pathLength: [1, 1, 1, 0.92, 0.72, 0.42, 0.15, 0, 0, 0, 0.18, 0.55, 1],
-    transition: {
-      duration: MAXIMIZE_DURATION,
-      ease: 'linear',
-      times: MAXIMIZE_TIMES,
-    },
+    visibility: ['visible', 'hidden', 'hidden', 'visible', 'visible'],
+    transition: { duration: MAXIMIZE_DURATION, times: [0, 0.36, 0.58, 0.6, 1] },
   },
 };
 
-const arrivingWindowVariants: Variants = {
-  normal: { transform: 'translate(-12px, 12px)' },
+const expandingWindowVariants: Variants = {
+  normal: { d: createExpandedWindowPath(0), pathLength: 1, pathOffset: 0 },
   animate: {
-    transform: [
-      'translate(-12px, 12px)',
-      'translate(-12px, 12px)',
-      'translate(-12px, 12px)',
-      'translate(-12px, 12px)',
-      'translate(-12px, 12px)',
-      'translate(-9px, 9px)',
-      'translate(-4.5px, 4.5px)',
-      'translate(-1px, 1px)',
-      'translate(0px, 0px)',
-      'translate(0px, 0px)',
-      'translate(0px, 0px)',
-      'translate(0px, 0px)',
-      'translate(0px, 0px)',
-    ],
+    d: EXPAND_GROWTH.map(createExpandedWindowPath),
+    pathLength: [1, 1, 0],
+    pathOffset: [0, 0, 1],
     transition: {
       duration: MAXIMIZE_DURATION,
-      ease: 'linear',
-      times: MAXIMIZE_TIMES,
+      ease: [0.45, 0, 0.3, 1],
+      times: [0, 0.58, 0.9],
+      d: {
+        duration: MAXIMIZE_DURATION * 0.44,
+        ease: 'linear',
+        times: EXPAND_TIMES.map((t) => t / 0.44),
+      },
     },
   },
 };
@@ -166,45 +106,14 @@ const arrivingWindowVariants: Variants = {
 const generatedGeometryVariants: Variants = {
   normal: { visibility: 'hidden', transition: { duration: 0 } },
   animate: {
-    visibility: ['hidden', 'hidden', 'hidden', 'hidden', 'visible', 'visible', 'visible', 'visible', 'visible', 'visible', 'visible', 'visible', 'hidden'],
-    transition: {
-      duration: MAXIMIZE_DURATION,
-      ease: 'linear',
-      times: MAXIMIZE_TIMES,
-    },
-  },
-};
-
-const occlusionMaskVariants: Variants = {
-  normal: { transform: 'translate(-12px, 12px)' },
-  animate: {
-    transform: [
-      'translate(-12px, 12px)',
-      'translate(-12px, 12px)',
-      'translate(-12px, 12px)',
-      'translate(-12px, 12px)',
-      'translate(-12px, 12px)',
-      'translate(-9px, 9px)',
-      'translate(-4.5px, 4.5px)',
-      'translate(-1px, 1px)',
-      'translate(0px, 0px)',
-      'translate(0px, 0px)',
-      'translate(0px, 0px)',
-      'translate(0px, 0px)',
-      'translate(0px, 0px)',
-    ],
-    transition: {
-      duration: MAXIMIZE_DURATION,
-      ease: 'linear',
-      times: MAXIMIZE_TIMES,
-    },
+    visibility: ['visible', 'hidden'],
+    transition: { duration: MAXIMIZE_DURATION * 0.9 },
   },
 };
 
 const MaximizeScreenIcon = forwardRef<MaximizeScreenIconHandle, MaximizeScreenIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
-    const occlusionMaskId = useId();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
       loops: false,
@@ -226,37 +135,20 @@ const MaximizeScreenIcon = forwardRef<MaximizeScreenIconHandle, MaximizeScreenIc
           height={size}
           viewBox="0 0 24 24"
           fill="none"
-          overflow="hidden"
+          overflow="visible"
         >
-          <defs>
-            <mask
-              id={occlusionMaskId}
-              x="0"
-              y="0"
-              width="24"
-              height="24"
-              maskUnits="userSpaceOnUse"
-            >
-              <rect x="0" y="0" width="24" height="24" fill="white" />
-              <motion.g
-                variants={generatedGeometryVariants}
-                animate={controls}
-                initial="normal"
-              >
-                <motion.path
-                  d={MAXIMIZE_WINDOW}
-                  fill="black"
-                  stroke="black"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="3"
-                  variants={occlusionMaskVariants}
-                  animate={controls}
-                  initial="normal"
-                />
-              </motion.g>
-            </mask>
-          </defs>
+          <motion.g variants={generatedGeometryVariants} animate={controls} initial="normal">
+            <motion.path
+              d={MAXIMIZE_WINDOW}
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+              variants={expandingWindowVariants}
+              animate={controls}
+              initial="normal"
+            />
+          </motion.g>
           <motion.path
             d="M12.5667 7.93408L15.3088 8.03416C15.7163 8.04903 16.0391 8.38374 16.0391 8.79156V11.4064M10.5391 13.4341L15.5828 8.41565"
             stroke="currentColor"
@@ -266,7 +158,7 @@ const MaximizeScreenIcon = forwardRef<MaximizeScreenIconHandle, MaximizeScreenIc
             variants={arrowVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '13px 11px' }}
+            style={{ transformBox: 'view-box', originX: 15.6 / 24, originY: 8.4 / 24 }}
           />
           <motion.path
             d={MAXIMIZE_WINDOW}
@@ -274,7 +166,6 @@ const MaximizeScreenIcon = forwardRef<MaximizeScreenIconHandle, MaximizeScreenIc
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            mask={`url(#${occlusionMaskId})`}
             variants={sourceWindowVariants}
             animate={controls}
             initial="normal"
@@ -288,26 +179,10 @@ const MaximizeScreenIcon = forwardRef<MaximizeScreenIconHandle, MaximizeScreenIc
             animate={controls}
             initial="normal"
           />
-          <motion.g
-            variants={generatedGeometryVariants}
-            animate={controls}
-            initial="normal"
-          >
-            <motion.path
-              d={MAXIMIZE_WINDOW}
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              variants={arrivingWindowVariants}
-              animate={controls}
-              initial="normal"
-            />
-          </motion.g>
         </svg>
       </div>
     );
-  }
+  },
 );
 
 MaximizeScreenIcon.displayName = 'MaximizeScreenIcon';

@@ -16,26 +16,40 @@ interface Download01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a conveyor: the arrow falls through, fades, and a new one drops in from
-// above — the tray dips as each delivery lands
+// the arrow lifts, drops into the tray, and the tray absorbs the landing
 const arrowVariants: Variants = {
-  normal: { translateY: 0, visibility: 'visible' },
+  normal: { transform: 'translateY(0px)' },
   animate: {
-    translateY: [0, 5, -5, 0],
-    visibility: ['visible', 'hidden', 'hidden', 'visible'],
+    transform: [
+      'translateY(0px)',
+      'translateY(-1.4px)',
+      'translateY(2.6px)',
+      'translateY(-0.5px)',
+      'translateY(0px)',
+    ],
     transition: {
-      duration: 0.7,
-      times: [0, 0.42, 0.5, 1],
-      ease: ['easeIn', 'linear', 'easeOut'],
+      duration: 0.74,
+      times: [0, 0.24, 0.5, 0.74, 1],
+      ease: ['easeOut', 'easeIn', 'easeOut', 'easeInOut'],
     },
   },
 };
 
 const trayVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { transform: 'translateY(0px) scale(1, 1)' },
   animate: {
-    translateY: [0, 1.2, 0],
-    transition: { duration: 0.3, ease: 'easeOut', delay: 0.32 },
+    transform: [
+      'translateY(0px) scale(1, 1)',
+      'translateY(0px) scale(1, 1)',
+      'translateY(0.9px) scale(1.04, 0.8)',
+      'translateY(-0.2px) scale(0.99, 1.05)',
+      'translateY(0px) scale(1, 1)',
+    ],
+    transition: {
+      duration: 0.74,
+      times: [0, 0.46, 0.6, 0.8, 1],
+      ease: ['linear', 'easeOut', 'easeInOut', 'easeInOut'],
+    },
   },
 };
 
@@ -74,6 +88,7 @@ const Download01Icon = forwardRef<Download01IconHandle, Download01IconProps>(
             variants={trayVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 21 / 24 }}
           />
           <motion.path
             d="M16.4998 11.5002C16.4998 11.5002 13.1856 16.0002 11.9997 16.0002C10.8139 16.0002 7.49976 11.5002 7.49976 11.5002M11.9997 15.0002V3.00016"

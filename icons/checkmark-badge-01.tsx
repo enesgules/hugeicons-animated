@@ -16,35 +16,37 @@ interface CheckmarkBadge01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// Verified stamp: the badge presses in with a wiggle and pops back while the
-// check is struck through again.
+// Verified seal: the rosette winds back, spins one full turn like a seal
+// being pressed, and lands with a small squash. The check is struck again as
+// the seal lands.
 const badgeVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
     transform: [
       'rotate(0deg) scale(1)',
-      'rotate(-10deg) scale(0.9)',
-      'rotate(8deg) scale(1.08)',
-      'rotate(-4deg) scale(0.98)',
-      'rotate(2deg) scale(1)',
-      'rotate(0deg) scale(1)',
+      'rotate(-14deg) scale(0.9)',
+      'rotate(372deg) scale(1.1)',
+      'rotate(354deg) scale(0.96)',
+      'rotate(362deg) scale(1.01)',
+      'rotate(360deg) scale(1)',
     ],
     transition: {
-      duration: 0.8,
-      ease: 'easeInOut',
-      times: [0, 0.18, 0.42, 0.62, 0.8, 1],
+      duration: 1,
+      ease: ['easeOut', [0.33, 0, 0.2, 1], 'easeInOut', 'easeInOut', 'easeOut'],
+      times: [0, 0.18, 0.5, 0.68, 0.84, 1],
     },
   },
 };
 
 const checkVariants: Variants = {
-  normal: { pathLength: 1 },
+  normal: { pathLength: 1, visibility: 'visible' },
   animate: {
-    pathLength: [1, 1, 0, 1, 1],
+    pathLength: [1, 0, 0, 1, 1],
+    visibility: ['visible', 'hidden', 'hidden', 'visible', 'visible'],
     transition: {
-      duration: 0.8,
-      ease: ['linear', 'easeIn', [0.23, 1, 0.32, 1], 'linear'],
-      times: [0, 0.12, 0.26, 0.62, 1],
+      duration: 1,
+      ease: ['easeIn', 'linear', [0.23, 1, 0.32, 1], 'linear'],
+      times: [0, 0.18, 0.46, 0.72, 1],
     },
   },
 };

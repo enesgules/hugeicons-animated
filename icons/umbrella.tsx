@@ -16,45 +16,58 @@ interface UmbrellaIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// drops reach the canopy and make a small connected splash at contact
-const svgVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0.3 } },
-  animate: {
-    rotate: [0, -5, 3.5, -1.5, 0],
-    transition: { duration: 1.8, ease: 'easeInOut', repeat: Infinity },
-  },
+const RAIN_PERIOD = 0.9;
+
+const SPLASH_DROPLETS = [
+  { cx: 4.12, cy: 4.45, x: -1.25, y: -0.62, lane: 0 },
+  { cx: 5.73, cy: 3.29, x: -0.18, y: -1.39, lane: 0 },
+  { cx: 18.27, cy: 3.29, x: 0.18, y: -1.39, lane: 1 },
+  { cx: 19.88, cy: 4.45, x: 1.25, y: -0.62, lane: 1 },
+] as const;
+
+// The umbrella holds steady in the rain: a drop falls onto each side of the
+// canopy in turn, and where it lands two tiny droplets bounce off the fabric
+// away from each other and from the outline.
+const generatedGeometryVariants: Variants = {
+  normal: { visibility: 'hidden', transition: { duration: 0 } },
+  animate: { visibility: 'visible', transition: { duration: 0 } },
 };
 
 const dropVariants: Variants = {
-  normal: { opacity: 0, visibility: 'hidden', transition: { duration: 0.15 } },
-  animate: (i: number) => ({
-    opacity: [0, 1, 1, 0],
-    visibility: ['hidden', 'visible', 'visible', 'hidden'],
-    translateY: [0, 5, 10.5, 14],
+  normal: { transform: 'translateY(0px)', visibility: 'hidden' },
+  animate: (lane: number) => ({
+    transform: ['translateY(0px)', 'translateY(4.2px)', 'translateY(4.2px)', 'translateY(4.2px)'],
+    visibility: ['visible', 'visible', 'hidden', 'hidden'],
     transition: {
-      duration: 0.9,
-      ease: 'easeIn',
-      times: [0, 0.2, 0.8, 1],
+      duration: RAIN_PERIOD,
+      ease: ['easeIn', 'linear', 'linear'],
+      times: [0, 0.42, 0.43, 1],
+      delay: lane * (RAIN_PERIOD / 2),
       repeat: Infinity,
-      delay: i * 0.3,
     },
   }),
 };
 
-const impactVariants: Variants = {
-  normal: { opacity: 0, visibility: 'hidden', transform: 'scale(0.3)' },
-  animate: (i: number) => ({
-    opacity: [0, 0, 1, 0],
-    visibility: ['hidden', 'hidden', 'visible', 'hidden'],
-    transform: ['scale(0.3)', 'scale(0.3)', 'scale(1)', 'scale(1.25)'],
-    transition: { duration: 0.9, delay: i * 0.3, times: [0, 0.78, 0.88, 1], ease: [0.23, 1, 0.32, 1], repeat: Infinity },
+const dropletVariants: Variants = {
+  normal: { transform: 'translate(0px, 0px)', visibility: 'hidden' },
+  animate: ({ x, y, lane }: (typeof SPLASH_DROPLETS)[number]) => ({
+    transform: [
+      'translate(0px, 0px)',
+      'translate(0px, 0px)',
+      `translate(${x}px, ${y}px)`,
+      `translate(${x * 1.1}px, ${y * 1.1}px)`,
+      `translate(${x * 1.1}px, ${y * 1.1}px)`,
+    ],
+    visibility: ['hidden', 'hidden', 'visible', 'hidden', 'hidden'],
+    transition: {
+      duration: RAIN_PERIOD,
+      ease: ['linear', [0.23, 1, 0.32, 1], 'linear', 'linear'],
+      times: [0, 0.43, 0.74, 0.76, 1],
+      delay: lane * (RAIN_PERIOD / 2),
+      repeat: Infinity,
+    },
   }),
 };
-const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
-  animate: { visibility: 'visible', transition: { duration: 0.08 } },
-};
-
 
 const UmbrellaIcon = forwardRef<UmbrellaIconHandle, UmbrellaIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -74,18 +87,46 @@ const UmbrellaIcon = forwardRef<UmbrellaIconHandle, UmbrellaIconProps>(
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <motion.svg
+        <svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}
           height={size}
           viewBox="0 0 24 24"
           fill="none"
-          overflow="visible"
-          variants={svgVariants}
-          animate={controls}
-          initial="normal"
-          style={{ transformOrigin: '50% 58.3333%' }}
+          overflow="hidden"
         >
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+            {[6, 18].map((x, lane) => (
+              <motion.path
+                key={x}
+                d={`M${x} -3V-1`}
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="1.5"
+                variants={dropVariants}
+                custom={lane}
+                animate={controls}
+                initial="normal"
+              />
+            ))}
+            {SPLASH_DROPLETS.map((droplet) => (
+              <motion.circle
+                key={`${droplet.cx}-${droplet.cy}`}
+                cx={droplet.cx}
+                cy={droplet.cy}
+                r="0.65"
+                fill="currentColor"
+                variants={dropletVariants}
+                custom={droplet}
+                animate={controls}
+                initial="normal"
+              />
+            ))}
+          </motion.g>
           <path
             d="M12 3.5V2"
             stroke="currentColor"
@@ -107,46 +148,7 @@ const UmbrellaIcon = forwardRef<UmbrellaIconHandle, UmbrellaIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
-          <motion.g
-            variants={generatedGeometryVariants}
-            animate={controls}
-            initial="normal"
-          >
-          <motion.path
-            d="M5.5 -2.5V-0.5"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={dropVariants}
-            custom={0}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M12 -4V-2"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={dropVariants}
-            custom={1}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M18.5 -2.5V-0.5"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={dropVariants}
-            custom={2}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path d="M4.5 11.7L5.5 10.9L6.5 11.7" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" variants={impactVariants} custom={0} animate={controls} initial="normal" style={{ transformOrigin: '5.5px 11.5px' }} />
-          <motion.path d="M11 12.8L12 12L13 12.8" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" variants={impactVariants} custom={1} animate={controls} initial="normal" style={{ transformOrigin: '12px 12.5px' }} />
-          <motion.path d="M17.5 11.7L18.5 10.9L19.5 11.7" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" variants={impactVariants} custom={2} animate={controls} initial="normal" style={{ transformOrigin: '18.5px 11.5px' }} />
-          </motion.g>
-        </motion.svg>
+        </svg>
       </div>
     );
   }

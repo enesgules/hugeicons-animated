@@ -16,34 +16,29 @@ interface ZoomOutAreaIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
+// rest-parity: split-source-path
+const ZOOM_DURATION = 0.8;
+const ZOOM_TIMES = [0, 0.18, 0.55, 0.8, 1];
+
+// Zooming out: the area corners wind out, then pull inward as the lens
+// shrinks away, and both settle back with a small rebound.
 const lensVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+  normal: { scale: 1 },
   animate: {
-    transform: ['scale(1)', 'scale(0.91)', 'scale(1.015)', 'scale(1)'],
-    transition: {
-      duration: 0.5,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.42, 0.75, 1],
-    },
+    scale: [1, 1.05, 0.8, 1.02, 1],
+    transition: { duration: ZOOM_DURATION, times: ZOOM_TIMES, ease: 'easeInOut' },
   },
 };
 
-const minusVariants: Variants = {
-  normal: { d: 'M16.5 14.5H12.5' },
-  animate: {
-    d: [
-      'M16.5 14.5H12.5',
-      'M15.3 14.5H13.7',
-      'M16.65 14.5H12.35',
-      'M16.5 14.5H12.5',
-    ],
-    transition: {
-      duration: 0.46,
-      delay: 0.03,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.46, 0.76, 1],
-    },
-  },
+// Each corner piece travels along its own direction (x, y).
+const FRAME_TRAVEL = [0, -0.35, 1.2, -0.15, 0];
+const frameVariants: Variants = {
+  normal: { translateX: 0, translateY: 0 },
+  animate: ([dx, dy]: [number, number]) => ({
+    translateX: FRAME_TRAVEL.map((v) => v * dx),
+    translateY: FRAME_TRAVEL.map((v) => v * dy),
+    transition: { duration: ZOOM_DURATION, times: ZOOM_TIMES, ease: 'easeInOut' },
+  }),
 };
 
 const ZoomOutAreaIcon = forwardRef<ZoomOutAreaIconHandle, ZoomOutAreaIconProps>(
@@ -71,33 +66,81 @@ const ZoomOutAreaIcon = forwardRef<ZoomOutAreaIconHandle, ZoomOutAreaIconProps>(
           fill="none"
           overflow="visible"
         >
-          <motion.path
-            d="M18.5016 18.5L21 21M20 14.5C20 11.4624 17.5376 9 14.5 9C11.4624 9 9 11.4624 9 14.5C9 17.5376 11.4624 20 14.5 20C17.5376 20 20 17.5376 20 14.5Z"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
+          <motion.g
             variants={lensVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '14.5px 14.5px' }}
-          />
+            style={{ transformBox: 'view-box', originX: 14.5 / 24, originY: 14.5 / 24 }}
+          >
+            <path
+              d="M18.5016 18.5L21 21M20 14.5C20 11.4624 17.5376 9 14.5 9C11.4624 9 9 11.4624 9 14.5C9 17.5376 11.4624 20 14.5 20C17.5376 20 20 17.5376 20 14.5Z"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M16.5 14.5H12.5"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            />
+          </motion.g>
           <motion.path
-            d="M16.5 14.5H12.5"
+            d="M10 3H14"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={minusVariants}
+            variants={frameVariants}
+            custom={[0, 1]}
             animate={controls}
             initial="normal"
           />
-          <path
-            d="M10 3H14M3 10V14M6.5 21C4.567 21 3 19.433 3 17.5M17.5 3C19.433 3 21 4.567 21 6.5M3 6.5C3 4.567 4.567 3 6.5 3"
+          <motion.path
+            d="M3 10V14"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            variants={frameVariants}
+            custom={[1, 0]}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M6.5 21C4.567 21 3 19.433 3 17.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={frameVariants}
+            custom={[1, -1]}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M17.5 3C19.433 3 21 4.567 21 6.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={frameVariants}
+            custom={[-1, 1]}
+            animate={controls}
+            initial="normal"
+          />
+          <motion.path
+            d="M3 6.5C3 4.567 4.567 3 6.5 3"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={frameVariants}
+            custom={[1, 1]}
+            animate={controls}
+            initial="normal"
           />
         </svg>
       </div>

@@ -25,12 +25,22 @@ const userVariants: Variants = {
   },
 };
 
+// The check is quickly erased, then struck again with a pop. A zero-length
+// stroke would leave a dot, so it is hidden while erased.
+const CHECK_LENGTH = [1, 0, 1, 1, 1];
+
 const checkVariants: Variants = {
-  normal: { transform: 'scale(1)', pathLength: 1 },
+  normal: { transform: 'scale(1)', pathLength: 1, visibility: 'visible' },
   animate: {
-    transform: ['scale(0.72)', 'scale(1.13)', 'scale(0.97)', 'scale(1)'],
-    pathLength: [0, 1, 1, 1],
-    transition: { duration: 0.5, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(0.72)', 'scale(1.13)', 'scale(0.97)', 'scale(1)'],
+    pathLength: CHECK_LENGTH,
+    visibility: CHECK_LENGTH.map((value) => (value > 0 ? 'visible' : 'hidden')),
+    transition: {
+      duration: 0.58,
+      delay: 0.04,
+      times: [0, 0.16, 0.6, 0.82, 1],
+      ease: ['easeIn', [0.23, 1, 0.32, 1], [0.23, 1, 0.32, 1], [0.23, 1, 0.32, 1]],
+    },
   },
 };
 

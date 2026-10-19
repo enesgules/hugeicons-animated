@@ -75,7 +75,7 @@ const Settings01Icon = forwardRef<Settings01IconHandle, Settings01IconProps>(
             variants={gearVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 12.0625 / 24, originY: 12.0078 / 24 }}
           />
           <path
             d="M15.5195 12C15.5195 13.933 13.9525 15.5 12.0195 15.5C10.0865 15.5 8.51953 13.933 8.51953 12C8.51953 10.067 10.0865 8.5 12.0195 8.5C13.9525 8.5 15.5195 10.067 15.5195 12Z"

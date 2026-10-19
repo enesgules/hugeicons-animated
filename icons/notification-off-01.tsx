@@ -60,13 +60,22 @@ const departingSlashVariants: Variants = {
   },
 };
 
+// A zero-length stroke with round caps draws a dot, so each continuation is
+// only visible while it has length.
+const LEADING_LENGTH = [0, 0, 0, 0.12, 0.62, 1, 1, 1, 1, 1, 0.62, 0.2, 0, 0, 0];
+const TRAILING_LENGTH = [0, 0, 0, 0, 0.25, 0.7, 1, 1, 1, 1, 1, 1, 0.8, 0.3, 0];
+const visibleWhileDrawn = (lengths: number[]) =>
+  lengths.map((value) => (value > 0 ? 'visible' : 'hidden'));
+
 const leadingContinuationVariants: Variants = {
   normal: {
     pathLength: 0,
+    visibility: 'hidden',
     transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
   },
   animate: {
-    pathLength: [0, 0, 0, 0.12, 0.62, 1, 1, 1, 1, 1, 0.62, 0.2, 0, 0, 0],
+    pathLength: LEADING_LENGTH,
+    visibility: visibleWhileDrawn(LEADING_LENGTH),
     transition: { duration: OFF_DURATION, ease: 'linear', times: OFF_TIMES },
   },
 };
@@ -74,10 +83,12 @@ const leadingContinuationVariants: Variants = {
 const trailingContinuationVariants: Variants = {
   normal: {
     pathLength: 0,
+    visibility: 'hidden',
     transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
   },
   animate: {
-    pathLength: [0, 0, 0, 0, 0.25, 0.7, 1, 1, 1, 1, 1, 1, 0.8, 0.3, 0],
+    pathLength: TRAILING_LENGTH,
+    visibility: visibleWhileDrawn(TRAILING_LENGTH),
     transition: { duration: OFF_DURATION, ease: 'linear', times: OFF_TIMES },
   },
 };

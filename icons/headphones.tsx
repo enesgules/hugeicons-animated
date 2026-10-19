@@ -16,22 +16,28 @@ interface HeadphonesIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a bass hit stays inside the headphones: the band flexes and both cups answer
-const bandVariants: Variants = {
-  normal: { scaleY: 1, translateY: 0, transition: { type: 'spring', duration: 0.45, bounce: 0 } },
-  animate: {
-    scaleY: [1, 0.94, 1.03, 1],
-    translateY: [0, 0.5, -0.25, 0],
-    transition: { duration: 0.8, ease: 'easeInOut' },
-  },
+// Two bass beats land in the cups: each cup punches outward like a speaker
+// cone, and the springy headband stretches wide to follow, then snaps back.
+const BEAT_TIMES = [0, 0.12, 0.26, 0.44, 0.56, 0.76, 1];
+const BEAT_SPREAD = [1, 0.97, 1.1, 0.99, 1.05, 0.995, 1];
+const beatTransition = {
+  duration: 0.95,
+  ease: 'easeInOut' as const,
+  times: BEAT_TIMES,
 };
 
+const bandVariants: Variants = {
+  normal: { scaleX: 1 },
+  animate: { scaleX: BEAT_SPREAD, transition: beatTransition },
+};
+
+// each cup rides the band end (8.085 units from the centre) and pulses
 const cupVariants: Variants = {
-  normal: { scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
+  normal: { translateX: 0, scale: 1 },
   animate: (direction: number) => ({
-    scale: [1, 1.1, 0.96, 1.06, 1],
-    rotate: [0, direction * 3, 0, direction * -2, 0],
-    transition: { duration: 0.85, ease: 'easeInOut' },
+    translateX: BEAT_SPREAD.map((spread) => direction * 8.085 * (spread - 1)),
+    scale: [1, 0.95, 1.12, 0.99, 1.06, 1, 1],
+    transition: beatTransition,
   }),
 };
 
@@ -70,7 +76,7 @@ const HeadphonesIcon = forwardRef<HeadphonesIconHandle, HeadphonesIconProps>(
             variants={bandVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 3 / 24 }}
           />
           <motion.path
             d="M8.97651 19.6043L7.23857 14.6127C7.05341 14.1466 6.4617 13.9131 5.97493 14.0297C4.46441 14.5333 3.6462 16.1718 4.14742 17.6895L4.58543 19.0158C5.08664 20.5334 6.71747 21.3555 8.22799 20.8519C8.68896 20.6556 9.10449 20.0897 8.97651 19.6043Z"
@@ -82,7 +88,7 @@ const HeadphonesIcon = forwardRef<HeadphonesIconHandle, HeadphonesIconProps>(
             custom={-1}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '6.5px 17.5px' }}
+            style={{ transformBox: 'view-box', originX: 6.55 / 24, originY: 17.45 / 24 }}
           />
           <motion.path
             d="M15.0235 19.6043L16.7614 14.6127C16.9466 14.1466 17.5383 13.9131 18.0251 14.0297C19.5356 14.5333 20.3538 16.1718 19.8526 17.6895L19.4146 19.0158C18.9134 20.5334 17.2825 21.3555 15.772 20.8519C15.311 20.6556 14.8955 20.0897 15.0235 19.6043Z"
@@ -94,7 +100,7 @@ const HeadphonesIcon = forwardRef<HeadphonesIconHandle, HeadphonesIconProps>(
             custom={1}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '17.5px 17.5px' }}
+            style={{ transformBox: 'view-box', originX: 17.45 / 24, originY: 17.45 / 24 }}
           />
         </svg>
       </div>

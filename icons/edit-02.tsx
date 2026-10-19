@@ -16,22 +16,36 @@ interface Edit02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the pencil scribbles; the baseline redraws underneath as the written line
+const EDIT_DURATION = 1.15;
+
+// Editing: the pencil lifts and draws back while the old stroke wipes away,
+// touches down, then drags forward and leans into the stroke as the fresh line
+// draws in at the same pace. It lifts off and returns to rest.
 const pencilVariants: Variants = {
-  normal: { rotate: 0, translateX: 0 },
+  normal: { translateX: 0, translateY: 0, rotate: 0 },
   animate: {
-    rotate: [0, -5, 3, -2, 0],
-    translateX: [0, -1.5, 1, -0.5, 0],
-    transition: { duration: 0.65, ease: 'easeInOut' },
+    translateX: [0, -0.8, -0.8, 1.5, 0.7, 0],
+    translateY: [0, -1.4, 0, 0, -0.6, 0],
+    rotate: [0, -3, 0, 2, 0, 0],
+    transition: {
+      duration: EDIT_DURATION,
+      times: [0, 0.22, 0.34, 0.82, 0.92, 1],
+      ease: ['easeOut', 'easeIn', 'easeInOut', 'easeOut', 'easeInOut'],
+    },
   },
 };
 
 const lineVariants: Variants = {
-  normal: { pathLength: 1, visibility: 'visible' },
+  normal: { pathLength: 1, pathOffset: 0, visibility: 'visible' },
   animate: {
-    pathLength: [0, 1],
-    visibility: 'visible',
-    transition: { duration: 0.5, ease: 'easeOut', delay: 0.1 },
+    pathLength: [1, 1, 0, 0, 1, 1],
+    pathOffset: [0, 0, 1, 0, 0, 0],
+    visibility: ['visible', 'visible', 'hidden', 'hidden', 'visible', 'visible'],
+    transition: {
+      duration: EDIT_DURATION,
+      times: [0, 0.04, 0.26, 0.34, 0.82, 1],
+      ease: ['linear', 'easeIn', 'linear', 'easeInOut', 'linear'],
+    },
   },
 };
 
@@ -69,7 +83,7 @@ const Edit02Icon = forwardRef<Edit02IconHandle, Edit02IconProps>(
             variants={pencilVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '2px 21px' }}
+            style={{ transformBox: 'view-box', originX: 2 / 24, originY: 22 / 24 }}
           />
           <motion.path
             d="M13 4L20 11"
@@ -79,7 +93,7 @@ const Edit02Icon = forwardRef<Edit02IconHandle, Edit02IconProps>(
             variants={pencilVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '2px 21px' }}
+            style={{ transformBox: 'view-box', originX: 2 / 24, originY: 22 / 24 }}
           />
           <motion.path
             d="M14 22L22 22"

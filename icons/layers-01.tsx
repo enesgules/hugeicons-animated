@@ -23,41 +23,76 @@ const MIDDLE =
 const BOTTOM =
   'M20.3767 16.2661C20.7922 16.5971 21 16.927 21 17.3176C21 18.2995 19.6873 18.8976 17.0618 20.0939L15.357 20.8707C13.7048 21.6236 12.8786 22 12 22C11.1214 22 10.2952 21.6236 8.64298 20.8707L6.93817 20.0939C4.31272 18.8976 3 18.2995 3 17.3176C3 16.927 3.20778 16.5971 3.62334 16.2661';
 
-// A new sheet falls in from the top and lands on the stack like a solid sheet:
-// a mask that moves with it hides the old top sheet wherever it covers it.
-// The impact squashes the stack, which bounces back like jelly, each sheet a
-// little less than the one above. At the end the new sheet sits exactly on
-// the old top sheet, so the swap back to rest is invisible.
-const LAYER_DURATION = 1.1;
-const LAYER_TIMES = [0, 0.28, 0.4, 0.54, 0.68, 0.82, 0.999, 1];
+// A new sheet falls in from the top like a solid sheet (a mask that moves
+// with it hides whatever it covers) and, on landing, pushes the stack down one
+// slot: the old top sheet becomes the middle layer (a clip trims it to the
+// middle-layer shape), the middle sheet becomes the bottom one, and the bottom
+// sheet slides out. The stack then bounces like jelly. At the end each sheet
+// sits on a rest shape, so the swap back to rest is invisible.
+const LAYER_DURATION = 1.15;
+const LAYER_TIMES = [0, 0.26, 0.42, 0.56, 0.7, 0.84, 0.999, 1];
 const LAYER_EASE: Easing[] = [
   'easeIn',
-  'easeOut',
+  [0.23, 1, 0.32, 1],
   'easeInOut',
   'easeInOut',
   'easeInOut',
   'linear',
   'linear',
 ];
-const DROP_FROM = -12;
-// Damped bounce after impact, scaled per sheet from top to bottom.
-const BOUNCE = [1.3, -0.5, 0.22, 0];
-const bounce = (k: number) => BOUNCE.map((o) => o * k);
+const DROP_FROM = -13;
+const SLOT = 4.95;
+// Damped bounce after the push lands.
+const BOUNCE = [1.2, -0.45, 0.18, 0];
+const settle = (base: number, k = 1) => BOUNCE.map((o) => base + o * k);
+
+// The clip's top edge follows the falling sheet, then stays 5.75 below the
+// old top sheet's own origin, which is where the middle layer's ends sit.
+const CLIP_BOTTOM = 70;
+const CLIP_HEIGHT = 110;
+const CLIP_REST_TOP = CLIP_BOTTOM - CLIP_HEIGHT;
+const CLIP_TOPS = [-0.35, 6.49, ...settle(SLOT + 5.75), 10.7, CLIP_REST_TOP];
 
 const newSheetVariants: Variants = {
   normal: { translateY: DROP_FROM },
   animate: {
-    translateY: [DROP_FROM, 0, ...bounce(1), 0, DROP_FROM],
+    translateY: [DROP_FROM, -SLOT, ...settle(0), 0, DROP_FROM],
     transition: { duration: LAYER_DURATION, ease: LAYER_EASE, times: LAYER_TIMES },
   },
 };
 
-const sheetVariants: Variants = {
+const topVariants: Variants = {
   normal: { translateY: 0 },
-  animate: (k: number) => ({
-    translateY: [0, 0, ...bounce(k), 0, 0],
+  animate: {
+    translateY: [0, 0, ...settle(SLOT), SLOT, 0],
     transition: { duration: LAYER_DURATION, ease: LAYER_EASE, times: LAYER_TIMES },
-  }),
+  },
+};
+
+const clipVariants: Variants = {
+  normal: { attrY: CLIP_REST_TOP, height: CLIP_HEIGHT },
+  animate: {
+    attrY: CLIP_TOPS,
+    height: CLIP_TOPS.map((top) => CLIP_BOTTOM - top),
+    transition: { duration: LAYER_DURATION, ease: LAYER_EASE, times: LAYER_TIMES },
+  },
+};
+
+const middleVariants: Variants = {
+  normal: { d: MIDDLE, translateY: 0 },
+  animate: {
+    d: [MIDDLE, MIDDLE, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, MIDDLE],
+    translateY: [0, 0, ...settle(0, 0.7), 0, 0],
+    transition: { duration: LAYER_DURATION, ease: LAYER_EASE, times: LAYER_TIMES },
+  },
+};
+
+const bottomVariants: Variants = {
+  normal: { translateY: 0 },
+  animate: {
+    translateY: [0, 0, 9, 9, 9, 9, 9, 0],
+    transition: { duration: LAYER_DURATION, ease: LAYER_EASE, times: LAYER_TIMES },
+  },
 };
 
 const generatedGeometryVariants: Variants = {
@@ -72,6 +107,7 @@ const Layers01Icon = forwardRef<Layers01IconHandle, Layers01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
     const maskId = useId();
+    const clipId = useId();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
       loops: false,
@@ -109,16 +145,26 @@ const Layers01Icon = forwardRef<Layers01IconHandle, Layers01IconProps>(
                 initial="normal"
               />
             </mask>
+            <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
+              <motion.rect
+                x="-5"
+                y={CLIP_REST_TOP}
+                width="34"
+                height={CLIP_HEIGHT}
+                variants={clipVariants}
+                animate={controls}
+                initial="normal"
+              />
+            </clipPath>
           </defs>
-          <g mask={`url(#${maskId})`}>
+          <g mask={`url(#${maskId})`} clipPath={`url(#${clipId})`}>
             <motion.path
               d={TOP}
               stroke="currentColor"
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="1.5"
-              variants={sheetVariants}
-              custom={1}
+              variants={topVariants}
               animate={controls}
               initial="normal"
             />
@@ -129,8 +175,7 @@ const Layers01Icon = forwardRef<Layers01IconHandle, Layers01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={sheetVariants}
-            custom={0.6}
+            variants={middleVariants}
             animate={controls}
             initial="normal"
           />
@@ -140,8 +185,7 @@ const Layers01Icon = forwardRef<Layers01IconHandle, Layers01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={sheetVariants}
-            custom={0.25}
+            variants={bottomVariants}
             animate={controls}
             initial="normal"
           />

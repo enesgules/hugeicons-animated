@@ -16,36 +16,66 @@ interface CloudLightningIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
+const STRIKE_DURATION = 1.1;
+
+// The cloud swells and rumbles while the bolt retracts into it, then the
+// bolt strikes down in one fast stroke, flickers twice like real lightning,
+// and the cloud recoils from the discharge before settling.
 const cloudVariants: Variants = {
-  normal: {
-    translateY: 0,
-    transition: { duration: 0.24, ease: [0.23, 1, 0.32, 1] },
-  },
+  normal: { transform: 'translate(0px, 0px) scale(1)' },
   animate: {
-    translateY: [0, -1.1, 0.4, 0],
+    transform: [
+      'translate(0px, 0px) scale(1)',
+      'translate(0px, 0.3px) scale(1.04)',
+      'translate(-0.3px, 0.2px) scale(1.04)',
+      'translate(0.3px, 0.2px) scale(1.04)',
+      'translate(0px, -0.7px) scale(0.98)',
+      'translate(0.15px, -0.15px) scale(1.01)',
+      'translate(0px, 0.08px) scale(1)',
+      'translate(0px, 0px) scale(1)',
+    ],
     transition: {
-      duration: 1,
+      duration: STRIKE_DURATION,
       ease: 'easeInOut',
-      times: [0, 0.34, 0.56, 1],
+      times: [0, 0.18, 0.25, 0.31, 0.4, 0.55, 0.75, 1],
     },
   },
 };
 
 const boltVariants: Variants = {
-  normal: {
-    pathLength: 1,
-    pathOffset: 0,
-    visibility: 'visible',
-    transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] },
-  },
+  normal: { pathLength: 1, visibility: 'visible' },
   animate: {
-    pathLength: [1, 1, 0.18, 0, 0, 1, 1],
-    pathOffset: [0, 0, 0.82, 1, 0, 0, 0],
-    visibility: ['visible', 'visible', 'visible', 'hidden', 'hidden', 'visible', 'visible'],
+    pathLength: [1, 0.06, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+    visibility: [
+      'visible',
+      'hidden',
+      'hidden',
+      'hidden',
+      'visible',
+      'visible',
+      'hidden',
+      'hidden',
+      'visible',
+      'hidden',
+      'hidden',
+      'visible',
+    ],
     transition: {
-      duration: 1,
-      ease: 'linear',
-      times: [0, 0.12, 0.38, 0.48, 0.54, 0.82, 1],
+      duration: STRIKE_DURATION,
+      ease: [
+        'easeIn',
+        'linear',
+        'linear',
+        [0.55, 0, 1, 0.45],
+        'linear',
+        'linear',
+        'linear',
+        'linear',
+        'linear',
+        'linear',
+        'linear',
+      ],
+      times: [0, 0.18, 0.24, 0.3, 0.38, 0.44, 0.47, 0.5, 0.55, 0.58, 0.61, 1],
     },
   },
 };
@@ -85,6 +115,7 @@ const CloudLightningIcon = forwardRef<CloudLightningIconHandle, CloudLightningIc
             variants={cloudVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 10.5 / 24 }}
           />
           <motion.path
             d="M12.9994 13L11.1994 15.4C10.6758 16.0981 10.414 16.4472 10.5522 16.7236C10.6904 17 11.1267 17 11.9994 17C12.8721 17 13.3084 17 13.4466 17.2764C13.5848 17.5528 13.323 17.9019 12.7994 18.6L10.9994 21"

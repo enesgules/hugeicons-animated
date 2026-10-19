@@ -16,89 +16,32 @@ interface VolumeMute01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const MUTE_MARK = 'M20 9.75L23 14.25M23 9.75L20 14.25';
-const SOUND_WAVE =
-  'M20 9C20.6254 9.81968 21 10.8634 21 12C21 13.1366 20.6254 14.1803 20 15';
+// Hush: the cone draws back to sound, but a mute cross stamps down beside its
+// mouth and knocks the cone back. The cone rebounds to rest and the cross
+// shrinks away, leaving the silent speaker.
+const MUTE_DURATION = 1;
 
-const MUTE_DURATION = 1.12;
-const MUTE_TIMES = [
-  0, 0.05, 0.1, 0.16, 0.24, 0.34, 0.44, 0.56, 0.68, 0.76, 0.82, 0.87,
-  0.92, 0.97, 1,
-];
-
-const departingMuteVariants: Variants = {
-  normal: {
-    transform: 'translate(0px, 0px)',
-    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-  },
+const speakerVariants: Variants = {
+  normal: { scale: 1 },
   animate: {
-    transform: [
-      'translate(0px, 0px)',
-      'translate(0.8px, 0.8px)',
-      'translate(4px, 4px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-    ],
+    scale: [1, 0.94, 0.94, 0.9, 1.02, 1],
     transition: {
-      duration: MUTE_DURATION,
-      ease: 'linear',
-      times: MUTE_TIMES,
+      duration: 0.8,
+      ease: ['easeOut', 'linear', 'easeIn', [0.23, 1, 0.32, 1], 'easeInOut'],
+      times: [0, 0.25, 0.35, 0.45, 0.7, 1],
     },
   },
 };
 
-const soundWaveVariants: Variants = {
-  normal: {
-    pathLength: 0,
-    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-  },
+const muteCrossVariants: Variants = {
+  normal: { scale: 1.35, visibility: 'hidden' },
   animate: {
-    pathLength: [0, 0, 0, 0, 0.25, 0.7, 1, 1, 1, 1, 1, 1, 0.8, 0.3, 0],
+    scale: [1.35, 1.35, 0.86, 1.06, 1, 1, 0],
+    visibility: ['hidden', 'hidden', 'visible', 'visible', 'visible', 'visible', 'hidden'],
     transition: {
       duration: MUTE_DURATION,
-      ease: 'linear',
-      times: MUTE_TIMES,
-    },
-  },
-};
-
-const arrivingMuteVariants: Variants = {
-  normal: {
-    transform: 'translate(-24px, -24px)',
-    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-  },
-  animate: {
-    transform: [
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-18px, -18px)',
-      'translate(-9px, -9px)',
-      'translate(-3px, -3px)',
-      'translate(-0.6px, -0.6px)',
-      'translate(0px, 0px)',
-    ],
-    transition: {
-      duration: MUTE_DURATION,
-      ease: 'linear',
-      times: MUTE_TIMES,
+      ease: ['linear', 'easeIn', [0.23, 1, 0.32, 1], 'easeInOut', 'linear', 'easeIn'],
+      times: [0, 0.2, 0.34, 0.48, 0.6, 0.82, 1],
     },
   },
 };
@@ -132,23 +75,18 @@ const VolumeMute01Icon = forwardRef<VolumeMute01IconHandle, VolumeMute01IconProp
           height={size}
           viewBox="0 0 24 24"
           fill="none"
-          overflow="hidden"
+          overflow="visible"
         >
-          <path
+          <motion.path
             d="M18 14.8135V9.18646C18 6.04126 18 4.46866 17.074 4.0773C16.1481 3.68593 15.0583 4.79793 12.8787 7.02192C11.7499 8.17365 11.1059 8.42869 9.5 8.42869C8.3879 8.42869 7.02749 8.28131 6.33706 9.33566C6 9.85038 6 10.5669 6 12C6 13.4331 6 14.1496 6.33706 14.6643C7.02749 15.7187 8.3879 15.5713 9.5 15.5713C11.106 15.5713 11.7499 15.8264 12.8787 16.9781C15.0583 19.2021 16.1481 20.3141 17.074 19.9227C18 19.5313 18 17.9587 18 14.8135Z"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-          />
-          <motion.path
-            d={MUTE_MARK}
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={departingMuteVariants}
+            variants={speakerVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'view-box', originX: 6 / 24, originY: 0.5 }}
           />
           <motion.g
             variants={generatedGeometryVariants}
@@ -156,23 +94,14 @@ const VolumeMute01Icon = forwardRef<VolumeMute01IconHandle, VolumeMute01IconProp
             initial="normal"
           >
             <motion.path
-              d={SOUND_WAVE}
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              variants={soundWaveVariants}
-              animate={controls}
-              initial="normal"
-            />
-            <motion.path
-              d={MUTE_MARK}
+              d="M20.25 10.75L22.75 13.25M22.75 10.75L20.25 13.25"
               stroke="currentColor"
               strokeLinecap="round"
               strokeWidth="1.5"
-              variants={arrivingMuteVariants}
+              variants={muteCrossVariants}
               animate={controls}
               initial="normal"
+              style={{ transformBox: 'view-box', originX: 21.5 / 24, originY: 0.5 }}
             />
           </motion.g>
         </svg>

@@ -1,6 +1,6 @@
 'use client';
 
-import type { Variants } from 'motion/react';
+import type { Easing, Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
@@ -16,21 +16,46 @@ interface SortByUp01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the arrow pulls the ordering upward while the values trade visual weight
-const arrowVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
-  animate: {
-    transform: ['translateY(1.8px)', 'translateY(-2.2px)', 'translateY(0.35px)', 'translateY(0px)'],
-    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.48, 0.78, 1] },
+const SORT_DURATION = 0.95;
+const SORT_TIMES = [0, 0.16, 0.6, 0.8, 0.999, 1];
+const SORT_EASE: Easing[] = ['easeOut', 'easeInOut', 'easeInOut', 'easeOut', 'linear'];
+const SWING_TIMES = [0, 0.16, 0.38, 0.6, 1];
+const SWING_EASE: Easing[] = ['linear', 'easeOut', 'easeIn', 'linear'];
+
+// The two items trade places: the bottom item travels upward beside the arrow
+// while the other swings past on the outer side, both shrinking as they cross.
+// They land in each other's slot, so the last frame equals the rest pose.
+const itemVariants: Variants = {
+  normal: { translateX: 0, translateY: 0, scale: 1 },
+  animate: (i: number) => {
+    const lead = i === 1;
+    const travel = i === 0 ? 11 : -11;
+    const back = i === 0 ? -0.7 : 0.7;
+    const over = i === 0 ? 0.5 : -0.5;
+    return {
+      translateY: [0, back, travel + over, travel, travel, 0],
+      translateX: [0, 0, lead ? 3.1 : -3.5, 0, 0],
+      scale: [1, 1, 0.65, 1, 1],
+      transition: {
+        translateY: { duration: SORT_DURATION, times: SORT_TIMES, ease: SORT_EASE },
+        translateX: { duration: SORT_DURATION, times: SWING_TIMES, ease: SWING_EASE },
+        scale: { duration: SORT_DURATION, times: SWING_TIMES, ease: 'easeInOut' },
+      },
+    };
   },
 };
 
-const valueVariants: Variants = {
-  normal: { transform: 'scale(1)' },
-  animate: (i: number) => ({
-    transform: ['translateY(0px) scale(1)', i === 0 ? 'translateY(0.7px) scale(0.9)' : 'translateY(-0.7px) scale(1.08)', 'translateY(0px) scale(1)'],
-    transition: { duration: 0.46, delay: i * 0.06, ease: [0.23, 1, 0.32, 1] },
-  }),
+// The arrow winds up against its direction, then pushes the order upward.
+const arrowVariants: Variants = {
+  normal: { translateY: 0 },
+  animate: {
+    translateY: [0, 0.8, -1.6, 0.3, 0],
+    transition: {
+      duration: SORT_DURATION,
+      times: [0, 0.16, 0.5, 0.78, 1],
+      ease: 'easeInOut',
+    },
+  },
 };
 
 const SortByUp01Icon = forwardRef<SortByUp01IconHandle, SortByUp01IconProps>(
@@ -68,27 +93,24 @@ const SortByUp01Icon = forwardRef<SortByUp01IconHandle, SortByUp01IconProps>(
             variants={arrowVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '18px 11px' }}
           />
           <motion.path
             d="M3 6.5C3 5.27489 3 4.66233 3.23842 4.1944C3.44815 3.78279 3.78279 3.44815 4.1944 3.23842C4.66233 3 5.27489 3 6.5 3C7.72511 3 8.33767 3 8.8056 3.23842C9.21721 3.44815 9.55185 3.78279 9.76158 4.1944C10 4.66233 10 5.27489 10 6.5C10 7.72511 10 8.33767 9.76158 8.8056C9.55185 9.21721 9.21721 9.55185 8.8056 9.76158C8.33767 10 7.72511 10 6.5 10C5.27489 10 4.66233 10 4.1944 9.76158C3.78279 9.55185 3.44815 9.21721 3.23842 8.8056C3 8.33767 3 7.72511 3 6.5Z"
             stroke="currentColor"
             strokeWidth="1.5"
-            variants={valueVariants}
+            variants={itemVariants}
             custom={0}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '6.5px 6.5px' }}
           />
           <motion.path
             d="M3 17.5C3 16.2749 3 15.6623 3.23842 15.1944C3.44815 14.7828 3.78279 14.4481 4.1944 14.2384C4.66233 14 5.27489 14 6.5 14C7.72511 14 8.33767 14 8.8056 14.2384C9.21721 14.4481 9.55185 14.7828 9.76158 15.1944C10 15.6623 10 16.2749 10 17.5C10 18.7251 10 19.3377 9.76158 19.8056C9.55185 20.2172 9.21721 20.5519 8.8056 20.7616C8.33767 21 7.72511 21 6.5 21C5.27489 21 4.66233 21 4.1944 20.7616C3.78279 20.5519 3.44815 20.2172 3.23842 19.8056C3 19.3377 3 18.7251 3 17.5Z"
             stroke="currentColor"
             strokeWidth="1.5"
-            variants={valueVariants}
+            variants={itemVariants}
             custom={1}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '6.5px 17.5px' }}
           />
         </svg>
       </div>

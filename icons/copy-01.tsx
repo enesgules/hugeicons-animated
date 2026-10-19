@@ -91,9 +91,14 @@ const occlusionVariants: Variants = {
   },
 };
 
+// The occlusion mask is only active while the sheets overlap; at rest it would
+// trim the ends of the rear panel.
 const generatedGeometryVariants: Variants = {
   normal: { visibility: 'hidden', transition: { duration: 0.08 } },
-  animate: { visibility: 'visible', transition: { duration: 0 } },
+  animate: {
+    visibility: ['visible', 'visible', 'hidden'],
+    transition: { duration: COPY_DURATION, times: [0, 0.999, 1] },
+  },
 };
 
 /** Animated Copy icon with imperative hover controls. */

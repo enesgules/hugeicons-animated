@@ -16,25 +16,40 @@ interface Upload01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the arrow launches off the top, and its replacement rises from the tray
+// the tray loads like a spring and launches the arrow upward
 const arrowVariants: Variants = {
-  normal: { translateY: 0, visibility: 'visible' },
+  normal: { transform: 'translateY(0px)' },
   animate: {
-    translateY: [0, -5, 5, 0],
-    visibility: ['visible', 'hidden', 'hidden', 'visible'],
+    transform: [
+      'translateY(0px)',
+      'translateY(1.4px)',
+      'translateY(-3px)',
+      'translateY(0.5px)',
+      'translateY(0px)',
+    ],
     transition: {
-      duration: 0.7,
-      times: [0, 0.42, 0.5, 1],
-      ease: ['easeIn', 'linear', 'easeOut'],
+      duration: 0.74,
+      times: [0, 0.26, 0.54, 0.78, 1],
+      ease: ['easeInOut', [0.23, 1, 0.32, 1], 'easeInOut', 'easeInOut'],
     },
   },
 };
 
 const trayVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { transform: 'translateY(0px) scale(1, 1)' },
   animate: {
-    translateY: [0, 0.9, 0],
-    transition: { duration: 0.3, ease: 'easeOut', delay: 0.08 },
+    transform: [
+      'translateY(0px) scale(1, 1)',
+      'translateY(0.6px) scale(1.04, 0.82)',
+      'translateY(-0.4px) scale(0.99, 1.06)',
+      'translateY(0px) scale(1, 1)',
+      'translateY(0px) scale(1, 1)',
+    ],
+    transition: {
+      duration: 0.74,
+      times: [0, 0.26, 0.42, 0.66, 1],
+      ease: ['easeInOut', 'easeOut', 'easeInOut', 'linear'],
+    },
   },
 };
 
@@ -73,6 +88,7 @@ const Upload01Icon = forwardRef<Upload01IconHandle, Upload01IconProps>(
             variants={trayVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 21 / 24 }}
           />
           <motion.path
             d="M16.5 7.49993C16.5 7.49993 13.1858 2.99997 12 2.99996C10.8141 2.99995 7.50002 7.49996 7.50002 7.49996M12 3.99996V16"

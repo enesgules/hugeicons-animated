@@ -16,70 +16,70 @@ interface BulbIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a current climbs the stem, energizes the filament, and flexes the glass
-// before five well-spaced rays draw outward
+// the bulb charges (current drains, glass and filament pinch), then switches
+// on: the filament flares, the glass swells, and five rays shoot outward and
+// leave, so the bulb ends exactly as it started
+const BULB_DURATION = 0.7;
+const BULB_TIMES = [0, 0.28, 0.48, 0.72, 1];
+
 const glassVariants: Variants = {
-  normal: { transform: 'translateY(0px) scale(1, 1)' },
+  normal: { transform: 'scale(1, 1)' },
   animate: {
-    transform: [
-      'translateY(0px) scale(1, 1)',
-      'translateY(0.35px) scale(0.97, 0.94)',
-      'translateY(-0.55px) scale(1.045, 1.06)',
-      'translateY(0.1px) scale(0.995, 0.99)',
-      'translateY(0px) scale(1, 1)',
-    ],
-    transition: { duration: 0.58, delay: 0.08, ease: [0.23, 1, 0.32, 1], times: [0, 0.24, 0.52, 0.78, 1] },
+    transform: ['scale(1, 1)', 'scale(0.96, 0.93)', 'scale(1.04, 1.05)', 'scale(0.99, 0.985)', 'scale(1, 1)'],
+    transition: { duration: BULB_DURATION, times: BULB_TIMES, ease: ['easeInOut', 'easeOut', 'easeInOut', 'easeInOut'] },
   },
 };
 
 const filamentVariants: Variants = {
-  normal: { pathLength: 1, visibility: 'visible', transform: 'scaleX(1)' },
+  normal: { transform: 'scale(1)' },
   animate: {
-    pathLength: [1, 0.35, 1, 1],
-    visibility: ['visible', 'visible', 'visible', 'visible'],
-    transform: ['scaleX(1)', 'scaleX(0.78)', 'scaleX(1.14)', 'scaleX(1)'],
-    transition: { duration: 0.5, delay: 0.05, ease: [0.23, 1, 0.32, 1], times: [0, 0.22, 0.62, 1] },
+    transform: ['scale(1)', 'scale(0.75)', 'scale(1.35)', 'scale(0.92)', 'scale(1)'],
+    transition: { duration: BULB_DURATION, times: BULB_TIMES, ease: ['easeInOut', 'easeOut', 'easeInOut', 'easeInOut'] },
   },
 };
 
 const currentVariants: Variants = {
-  normal: { pathLength: 1, visibility: 'visible' },
+  normal: { pathLength: 1 },
   animate: {
-    pathLength: [1, 0.12, 1, 1],
-    visibility: ['visible', 'visible', 'visible', 'visible'],
-    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1], times: [0, 0.2, 0.7, 1] },
+    pathLength: [1, 0.3, 1, 1],
+    transition: { duration: BULB_DURATION, times: [0, 0.28, 0.46, 1], ease: ['easeInOut', 'easeOut', 'linear'] },
   },
 };
 
-type LightRay = { x: number; y: number; delay: number };
-
+// each ray waits hidden for the switch-on, grows out from the glass, then its
+// tail chases the tip away; the wait is a keyframe so no cap dot shows early
+const RAY_LIFE = 0.46;
 const rayVariants: Variants = {
-  normal: ({ x, y }: LightRay) => ({
-    visibility: 'hidden',
-    pathLength: 0,
-    transform: 'translate(' + -x + 'px, ' + -y + 'px)',
-  }),
-  animate: ({ x, y, delay }: LightRay) => ({
-    visibility: ['hidden', 'visible', 'visible'],
-    pathLength: [0, 1, 1],
-    transform: [
-      'translate(' + -x + 'px, ' + -y + 'px)',
-      'translate(0px, 0px)',
-      'translate(' + x * 0.18 + 'px, ' + y * 0.18 + 'px)',
-    ],
-    transition: {
-      duration: 0.48,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.68, 1],
-      delay: 0.18 + delay,
-    },
-  }),
-};
-const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
-  animate: { visibility: 'visible', transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', pathLength: 0, pathOffset: 0 },
+  animate: (delay: number) => {
+    const start = 0.3 + delay;
+    const total = start + RAY_LIFE;
+    return {
+      visibility: ['hidden', 'hidden', 'visible', 'visible', 'hidden'],
+      pathLength: [0, 0, 1, 1, 0],
+      pathOffset: [0, 0, 0, 0, 1],
+      transition: {
+        duration: total,
+        times: [0, start / total, (start + 0.42 * RAY_LIFE) / total, (start + 0.55 * RAY_LIFE) / total, 1],
+        ease: ['linear', 'easeOut', 'linear', 'easeIn'],
+      },
+    };
+  },
 };
 
+// rays sit on circles r = 10.75..12.25 around the glass centre (12, 9.9)
+const RAYS = [
+  { d: 'M12 -0.85V-2.35', delay: 0 },
+  { d: 'M4.4 2.3L3.34 1.24', delay: 0.03 },
+  { d: 'M19.6 2.3L20.66 1.24', delay: 0.03 },
+  { d: 'M1.25 9.9H-0.25', delay: 0.06 },
+  { d: 'M22.75 9.9H24.25', delay: 0.06 },
+];
+
+const generatedGeometryVariants: Variants = {
+  normal: { visibility: 'hidden' },
+  animate: { visibility: 'visible' },
+};
 
 const BulbIcon = forwardRef<BulbIconHandle, BulbIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -115,7 +115,7 @@ const BulbIcon = forwardRef<BulbIconHandle, BulbIconProps>(
             variants={glassVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 14px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 14 / 24 }}
           />
           <motion.path
             d="M14 10C13.3875 10.6432 12.7111 11 12 11C11.2889 11 10.6125 10.6432 10 10"
@@ -125,7 +125,7 @@ const BulbIcon = forwardRef<BulbIconHandle, BulbIconProps>(
             variants={filamentVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 10.5px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 10.5 / 24 }}
           />
           <path
             d="M7.38287 17.0982C7.291 16.8216 7.24507 16.6833 7.25042 16.5713C7.26174 16.3343 7.41114 16.1262 7.63157 16.0405C7.73579 16 7.88105 16 8.17157 16H15.8284C16.119 16 16.2642 16 16.3684 16.0405C16.5889 16.1262 16.7383 16.3343 16.7496 16.5713C16.7549 16.6833 16.709 16.8216 16.6171 17.0982C16.4473 17.6094 16.3624 17.8651 16.2315 18.072C15.9572 18.5056 15.5272 18.8167 15.0306 18.9408C14.7935 19 14.525 19 13.9881 19H10.0119C9.47495 19 9.2065 19 8.96944 18.9408C8.47283 18.8167 8.04281 18.5056 7.7685 18.072C7.63755 17.8651 7.55266 17.6094 7.38287 17.0982Z"
@@ -152,56 +152,19 @@ const BulbIcon = forwardRef<BulbIconHandle, BulbIconProps>(
             animate={controls}
             initial="normal"
           >
-          <motion.path
-            d="M12 0V-1.8"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={rayVariants}
-            custom={{ x: 0, y: -0.8, delay: 0.08 }}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M5 2.2L3.7 0.9"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={rayVariants}
-            custom={{ x: -0.55, y: -0.55, delay: 0 }}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M19 2.2L20.3 0.9"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={rayVariants}
-            custom={{ x: 0.55, y: -0.55, delay: 0.04 }}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M2 9.8H0.2"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={rayVariants}
-            custom={{ x: -0.75, y: 0, delay: 0.12 }}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M22 9.8H23.8"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="1.5"
-            variants={rayVariants}
-            custom={{ x: 0.75, y: 0, delay: 0.16 }}
-            animate={controls}
-            initial="normal"
-          />
+            {RAYS.map(({ d, delay }) => (
+              <motion.path
+                key={d}
+                d={d}
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="1.5"
+                variants={rayVariants}
+                custom={delay}
+                animate={controls}
+                initial="normal"
+              />
+            ))}
           </motion.g>
         </svg>
       </div>

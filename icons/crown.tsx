@@ -16,58 +16,48 @@ interface CrownIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The crown gives one restrained lift around its fixed center jewel.
-const crownBodyVariants: Variants = {
-  normal: {
-    transform: 'translateY(0px) scale(1)',
-    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-  },
+const CROWN_DURATION = 1.15;
+const TWINKLES = [
+  { x: 12, y: 7.4 },
+  { x: 7.6, y: 13 },
+  { x: 16.4, y: 13 },
+];
+
+// The crown dips, rises off its base with a little stretch, and is held up
+// while three small twinkles flash inside it in turn. Then it sets back down
+// with a soft landing. The base line and the center jewel stay fixed.
+const crownVariants: Variants = {
+  normal: { translateY: 0, scaleY: 1 },
   animate: {
-    transform: [
-      'translateY(0px) scale(1)',
-      'translateY(0.35px) scale(0.992)',
-      'translateY(-0.45px) scale(1.018)',
-      'translateY(-0.1px) scale(1.006)',
-      'translateY(0px) scale(1)',
-    ],
+    translateY: [0, 0.4, -1.7, -1.5, 0.25, 0],
+    scaleY: [1, 0.95, 1.03, 1, 0.98, 1],
     transition: {
-      duration: 0.78,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.2, 0.52, 0.78, 1],
+      duration: CROWN_DURATION,
+      times: [0, 0.14, 0.34, 0.66, 0.84, 1],
+      ease: ['easeInOut', [0.33, 1, 0.68, 1], 'easeInOut', [0.55, 0, 0.85, 0.35], 'easeOut'],
     },
   },
 };
 
-const glintVariants: Variants = {
-  normal: {
-    opacity: 0,
-    visibility: 'hidden',
-    transform: 'scale(0.75)',
-    transition: { duration: 0.12, ease: [0.23, 1, 0.32, 1] },
+const generatedGeometryVariants: Variants = {
+  normal: { visibility: 'hidden', transition: { duration: 0 } },
+  animate: {
+    visibility: ['visible', 'visible', 'hidden'],
+    transition: { duration: CROWN_DURATION, times: [0, 0.82, 0.84] },
   },
+};
+
+const twinkleVariants: Variants = {
+  normal: { scale: 0, rotate: 0 },
   animate: (i: number) => ({
-    opacity: [0, 0, 1, 0.7, 0],
-    visibility: ['hidden', 'hidden', 'visible', 'visible', 'hidden'],
-    transform: [
-      'scale(0.75)',
-      'scale(0.75)',
-      'scale(1)',
-      'scale(0.94)',
-      'scale(0.8)',
-    ],
+    scale: [0, 0, 1, 0, 0],
+    rotate: [0, 0, 45, 90, 90],
     transition: {
-      duration: 0.82,
-      ease: [0.23, 1, 0.32, 1],
-      repeat: Infinity,
-      repeatDelay: 0.28,
-      delay: 0.16 + i * 0.34,
-      times: [0, 0.2, 0.42, 0.7, 1],
+      duration: CROWN_DURATION,
+      times: [0, 0.3 + i * 0.09, 0.4 + i * 0.09, 0.52 + i * 0.09, 1],
+      ease: 'easeInOut',
     },
   }),
-};
-const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
-  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 const CrownIcon = forwardRef<CrownIconHandle, CrownIconProps>(
@@ -75,7 +65,7 @@ const CrownIcon = forwardRef<CrownIconHandle, CrownIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
-      loops: true,
+      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -110,43 +100,38 @@ const CrownIcon = forwardRef<CrownIconHandle, CrownIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
-          <motion.path
-            d="M14.9152 7.61089L13.8078 5.38179C13.019 3.79393 12.6246 3 12 3C11.3754 3 10.981 3.79393 10.1922 5.38179L9.08483 7.61089C8.58107 8.62494 8.32919 9.13197 7.87976 9.24608C7.8485 9.25401 7.81689 9.26043 7.78503 9.26533C7.32682 9.3357 6.89919 8.96678 6.04393 8.22895C4.0124 6.47635 2.99663 5.60004 2.38034 5.94899C2.34045 5.97157 2.30213 5.99686 2.26565 6.02467C1.70197 6.45439 2.09541 7.74136 2.88229 10.3153L4.04783 14.1279C4.47098 15.5121 4.68255 16.2042 5.21787 16.6021C5.75318 17 6.47261 17 7.91147 17L16.0886 16.9999C17.5274 16.9999 18.2468 16.9999 18.7821 16.602C19.3175 16.2041 19.529 15.512 19.9522 14.1279L21.1177 10.3153C21.9046 7.74137 22.298 6.4544 21.7344 6.02468C21.6979 5.99687 21.6595 5.97158 21.6197 5.94899C21.0034 5.60006 19.9876 6.47636 17.9561 8.22896C17.1008 8.96679 16.6732 9.3357 16.215 9.26533C16.1831 9.26043 16.1515 9.25401 16.1202 9.24607C15.6708 9.13197 15.4189 8.62494 14.9152 7.61089Z"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={crownBodyVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 12.75px' }}
-          />
           <motion.g
-            variants={generatedGeometryVariants}
+            variants={crownVariants}
             animate={controls}
             initial="normal"
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 17 / 24 }}
           >
-            <motion.path
-              d="M7.3 11.6V12.8M6.7 12.2H7.9"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeWidth="1.5"
-              variants={glintVariants}
-              custom={0}
+            <motion.g
+              variants={generatedGeometryVariants}
               animate={controls}
               initial="normal"
-              style={{ transformOrigin: '7.3px 12.2px' }}
-            />
-            <motion.path
-              d="M16.7 11.2V12.4M16.1 11.8H17.3"
+            >
+              {TWINKLES.map(({ x, y }, i) => (
+                <motion.path
+                  key={i}
+                  d={`M${x} ${y - 0.9}V${y + 0.9}M${x - 0.9} ${y}H${x + 0.9}`}
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeWidth="1.5"
+                  variants={twinkleVariants}
+                  custom={i}
+                  animate={controls}
+                  initial="normal"
+                  style={{ transformBox: 'view-box', originX: x / 24, originY: y / 24 }}
+                />
+              ))}
+            </motion.g>
+            <path
+              d="M14.9152 7.61089L13.8078 5.38179C13.019 3.79393 12.6246 3 12 3C11.3754 3 10.981 3.79393 10.1922 5.38179L9.08483 7.61089C8.58107 8.62494 8.32919 9.13197 7.87976 9.24608C7.8485 9.25401 7.81689 9.26043 7.78503 9.26533C7.32682 9.3357 6.89919 8.96678 6.04393 8.22895C4.0124 6.47635 2.99663 5.60004 2.38034 5.94899C2.34045 5.97157 2.30213 5.99686 2.26565 6.02467C1.70197 6.45439 2.09541 7.74136 2.88229 10.3153L4.04783 14.1279C4.47098 15.5121 4.68255 16.2042 5.21787 16.6021C5.75318 17 6.47261 17 7.91147 17L16.0886 16.9999C17.5274 16.9999 18.2468 16.9999 18.7821 16.602C19.3175 16.2041 19.529 15.512 19.9522 14.1279L21.1177 10.3153C21.9046 7.74137 22.298 6.4544 21.7344 6.02468C21.6979 5.99687 21.6595 5.97158 21.6197 5.94899C21.0034 5.60006 19.9876 6.47636 17.9561 8.22896C17.1008 8.96679 16.6732 9.3357 16.215 9.26533C16.1831 9.26043 16.1515 9.25401 16.1202 9.24607C15.6708 9.13197 15.4189 8.62494 14.9152 7.61089Z"
               stroke="currentColor"
               strokeLinecap="round"
+              strokeLinejoin="round"
               strokeWidth="1.5"
-              variants={glintVariants}
-              custom={1}
-              animate={controls}
-              initial="normal"
-              style={{ transformOrigin: '16.7px 11.8px' }}
             />
           </motion.g>
         </svg>

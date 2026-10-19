@@ -16,45 +16,34 @@ interface Location01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// Match location-add's quick hop and carry the landing ring with the pin.
+const HOP_DURATION = 0.72;
+const HOP_TIMES = [0, 0.34, 0.58, 0.78, 1];
+
+// Same beat as location-add-01: the pin hops and lands on its tip with a
+// short squash. The inner circle contracts on the lift and pulses on landing.
 const pinVariants: Variants = {
-  normal: { transform: 'translateY(0px) scaleY(1)' },
+  normal: { translateY: 0, scaleY: 1 },
   animate: {
-    transform: [
-      'translateY(0px) scaleY(1)',
-      'translateY(-2.6px) scaleY(1.04)',
-      'translateY(1.1px) scaleY(0.93)',
-      'translateY(-0.35px) scaleY(1.02)',
-      'translateY(0px) scaleY(1)',
-    ],
+    translateY: [0, -2.6, 0, 0, 0],
+    scaleY: [1, 1.04, 0.91, 1.03, 1],
     transition: {
-      duration: 0.68,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.34, 0.58, 0.78, 1],
+      duration: HOP_DURATION,
+      times: HOP_TIMES,
+      ease: [[0.33, 1, 0.68, 1], [0.55, 0, 0.85, 0.35], 'easeOut', 'easeInOut'],
     },
   },
 };
 
-// The ring travels with the pin, then expands when the pin lands.
-const rippleVariants: Variants = {
-  normal: {
-    visibility: 'hidden',
-    transform: 'scale(0.55)',
-    transition: { duration: 0.15, ease: [0.23, 1, 0.32, 1] },
-  },
+const circleVariants: Variants = {
+  normal: { scale: 1 },
   animate: {
-    visibility: ['hidden', 'hidden', 'visible', 'hidden'],
-    transform: ['scale(0.55)', 'scale(0.55)', 'scale(1)', 'scale(1.55)'],
+    scale: [1, 0.86, 1.14, 0.97, 1],
     transition: {
-      duration: 0.68,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.48, 0.62, 1],
+      duration: HOP_DURATION,
+      times: HOP_TIMES,
+      ease: [[0.33, 1, 0.68, 1], [0.55, 0, 0.85, 0.35], 'easeOut', 'easeInOut'],
     },
   },
-};
-const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
-  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 const Location01Icon = forwardRef<Location01IconHandle, Location01IconProps>(
@@ -87,36 +76,22 @@ const Location01Icon = forwardRef<Location01IconHandle, Location01IconProps>(
             variants={pinVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 22px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 22 / 24 }}
           >
             <path
               d="M13.6177 21.367C13.1841 21.773 12.6044 22 12.0011 22C11.3978 22 10.8182 21.773 10.3845 21.367C6.41302 17.626 1.09076 13.4469 3.68627 7.37966C5.08963 4.09916 8.45834 2 12.0011 2C15.5439 2 18.9126 4.09916 20.316 7.37966C22.9082 13.4393 17.599 17.6389 13.6177 21.367Z"
               stroke="currentColor"
               strokeWidth="1.5"
             />
-            <path
+            <motion.path
               d="M15.5 11C15.5 12.933 13.933 14.5 12 14.5C10.067 14.5 8.5 12.933 8.5 11C8.5 9.067 10.067 7.5 12 7.5C13.933 7.5 15.5 9.067 15.5 11Z"
               stroke="currentColor"
               strokeWidth="1.5"
-            />
-            <motion.g
-              variants={generatedGeometryVariants}
+              variants={circleVariants}
               animate={controls}
               initial="normal"
-            >
-              <motion.ellipse
-                cx="12"
-                cy="21.7"
-                rx="3.5"
-                ry="1"
-                stroke="currentColor"
-                strokeWidth="1"
-                variants={rippleVariants}
-                animate={controls}
-                initial="normal"
-                style={{ transformOrigin: '12px 21.7px' }}
-              />
-            </motion.g>
+              style={{ transformBox: 'view-box', originX: 0.5, originY: 11 / 24 }}
+            />
           </motion.g>
         </svg>
       </div>

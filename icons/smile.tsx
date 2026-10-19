@@ -16,45 +16,58 @@ interface SmileIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// recognition: a small head tilt, the smile widens, and it blinks —
-// the eyes are drawn shut and open again via scaleY at their own height
+// a beaming grin: the mouth tightens for a beat, then breaks into a wide grin
+// while the cheeks push the eyes into a happy squint and the face giggles,
+// before everything relaxes back to the untouched smile
+const SMILE_TIMES = [0, 0.16, 0.38, 0.54, 0.7, 0.86, 1];
+
+const MOUTH_REST = 'M8 15C8.91212 16.2144 10.3643 17 12 17C13.6357 17 15.0879 16.2144 16 15';
+
 const svgVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0.3 } },
+  normal: { transform: 'translateY(0%) rotate(0deg)' },
   animate: {
-    rotate: [0, -6, -6, 0],
-    transition: { duration: 1.1, ease: 'easeInOut', times: [0, 0.25, 0.75, 1] },
+    transform: [
+      'translateY(0%) rotate(0deg)',
+      'translateY(2%) rotate(0deg)',
+      'translateY(-5%) rotate(-6deg)',
+      'translateY(-2%) rotate(5deg)',
+      'translateY(-3.5%) rotate(-3deg)',
+      'translateY(0.5%) rotate(1deg)',
+      'translateY(0%) rotate(0deg)',
+    ],
+    transition: { duration: 1.1, ease: 'easeInOut', times: SMILE_TIMES },
   },
 };
 
 const mouthVariants: Variants = {
-  normal: {
-    d: 'M8 15C8.91212 16.2144 10.3643 17 12 17C13.6357 17 15.0879 16.2144 16 15',
-    transition: { duration: 0.3, ease: 'easeOut' },
-  },
+  normal: { d: MOUTH_REST },
   animate: {
     d: [
-      'M8 15C8.91212 16.2144 10.3643 17 12 17C13.6357 17 15.0879 16.2144 16 15',
-      'M7.6 14.6C8.7 16.6 10.3 17.7 12 17.7C13.7 17.7 15.3 16.6 16.4 14.6',
-      'M7.8 14.8C8.8 16.45 10.35 17.35 12 17.35C13.65 17.35 15.2 16.45 16.2 14.8',
-      'M8 15C8.91212 16.2144 10.3643 17 12 17C13.6357 17 15.0879 16.2144 16 15',
+      MOUTH_REST,
+      'M8.6 15.3C9.4 16.25 10.6 16.8 12 16.8C13.4 16.8 14.6 16.25 15.4 15.3',
+      'M7.1 14.3C8.35 16.9 10.05 18.3 12 18.3C13.95 18.3 15.65 16.9 16.9 14.3',
+      'M7.2 14.4C8.4 16.8 10.1 18.1 12 18.1C13.9 18.1 15.6 16.8 16.8 14.4',
+      'M7.1 14.3C8.35 16.9 10.05 18.3 12 18.3C13.95 18.3 15.65 16.9 16.9 14.3',
+      'M7.8 14.8C8.8 16.4 10.3 17.3 12 17.3C13.7 17.3 15.2 16.4 16.2 14.8',
+      MOUTH_REST,
     ],
-    transition: {
-      duration: 1.1,
-      times: [0, 0.36, 0.76, 1],
-      ease: [0.23, 1, 0.32, 1],
-    },
+    transition: { duration: 1.1, ease: 'easeInOut', times: SMILE_TIMES },
   },
 };
 
 const eyeVariants: Variants = {
-  normal: { scaleY: 1, transition: { duration: 0.2 } },
+  normal: { transform: 'translateY(0px) scaleY(1)' },
   animate: {
-    scaleY: [1, 0.15, 1, 1, 0.15, 1],
-    transition: {
-      duration: 1.1,
-      times: [0, 0.12, 0.24, 0.5, 0.62, 0.74],
-      ease: 'easeInOut',
-    },
+    transform: [
+      'translateY(0px) scaleY(1)',
+      'translateY(0px) scaleY(1)',
+      'translateY(-0.5px) scaleY(0.3)',
+      'translateY(-0.5px) scaleY(0.3)',
+      'translateY(-0.5px) scaleY(0.3)',
+      'translateY(0px) scaleY(1)',
+      'translateY(0px) scaleY(1)',
+    ],
+    transition: { duration: 1.1, ease: 'easeInOut', times: SMILE_TIMES },
   },
 };
 
@@ -116,7 +129,7 @@ const SmileIcon = forwardRef<SmileIconHandle, SmileIconProps>(
             variants={eyeVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 8.7px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 8.75 / 24 }}
           />
         </motion.svg>
       </div>

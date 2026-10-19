@@ -16,29 +16,76 @@ interface SparklesIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// two stars trade brightness so the twinkle feels continuous, not simultaneous
-const sparkleVariants: Variants = {
-  normal: { scale: 1, rotate: 0, visibility: 'visible', transition: { type: 'spring', duration: 0.45, bounce: 0 } },
-  animate: (i: number) => ({
-    scale: [1, i === 0 ? 1.18 : 0.72, i === 0 ? 0.78 : 1.2, 1],
-    rotate: [0, i === 0 ? 8 : -10, 0],
-    transition: { duration: 1, times: [0, 0.32, 0.7, 1], ease: 'easeInOut' },
-  }),
+const GLINT_DURATION = 1.1;
+
+const TWINKLES = [
+  { x: 5, y: 4.5, start: 0.5 },
+  { x: 19.5, y: 18.5, start: 0.62 },
+] as const;
+
+// Each star winds up, then spins a quarter turn and pops (four-point stars
+// land on an identical pose); the small one answers in the opposite direction.
+// The stars stay small while their arms are diagonal, so they never touch.
+// Two tiny twinkles spin open in the free corners after the pop.
+const bigStarVariants: Variants = {
+  normal: { transform: 'rotate(0deg) scale(1)' },
+  animate: {
+    transform: [
+      'rotate(0deg) scale(1)',
+      'rotate(-12deg) scale(0.82)',
+      'rotate(96deg) scale(1.1)',
+      'rotate(88deg) scale(0.98)',
+      'rotate(90deg) scale(1)',
+    ],
+    transition: {
+      duration: GLINT_DURATION,
+      ease: ['easeInOut', [0.5, 0, 0.2, 1], 'easeInOut', 'easeOut'],
+      times: [0, 0.2, 0.5, 0.7, 1],
+    },
+  },
 };
 
-const glintVariants: Variants = {
-  normal: { visibility: 'hidden', scale: 0.25 },
-  animate: (i: number) => ({
-    visibility: ['hidden', 'visible', 'hidden'],
-    scale: [0.25, 1.1],
-    transition: { duration: 0.45, delay: 0.18 + i * 0.16, ease: 'easeOut' },
-  }),
+const smallStarVariants: Variants = {
+  normal: { transform: 'rotate(0deg) scale(1)' },
+  animate: {
+    transform: [
+      'rotate(0deg) scale(1)',
+      'rotate(12deg) scale(0.8)',
+      'rotate(-96deg) scale(1.12)',
+      'rotate(-88deg) scale(0.98)',
+      'rotate(-90deg) scale(1)',
+    ],
+    transition: {
+      duration: GLINT_DURATION,
+      ease: ['easeInOut', [0.5, 0, 0.2, 1], 'easeInOut', 'easeOut'],
+      times: [0, 0.3, 0.6, 0.8, 1],
+    },
+  },
 };
+
 const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
-  animate: { visibility: 'visible', transition: { duration: 0.08 } },
+  normal: { visibility: 'hidden', transition: { duration: 0 } },
+  animate: { visibility: 'visible', transition: { duration: 0 } },
 };
 
+const twinkleVariants: Variants = {
+  normal: { transform: 'rotate(0deg) scale(0)', visibility: 'hidden' },
+  animate: (start: number) => ({
+    transform: [
+      'rotate(0deg) scale(0)',
+      'rotate(0deg) scale(0)',
+      'rotate(90deg) scale(1)',
+      'rotate(180deg) scale(0)',
+      'rotate(180deg) scale(0)',
+    ],
+    visibility: ['hidden', 'hidden', 'visible', 'hidden', 'hidden'],
+    transition: {
+      duration: GLINT_DURATION,
+      ease: ['linear', [0.23, 1, 0.32, 1], 'easeIn', 'linear'],
+      times: [0, start, start + 0.12, start + 0.3, 1],
+    },
+  }),
+};
 
 const SparklesIcon = forwardRef<SparklesIconHandle, SparklesIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -71,30 +118,40 @@ const SparklesIcon = forwardRef<SparklesIconHandle, SparklesIconProps>(
             stroke="currentColor"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={sparkleVariants}
-            custom={0}
+            variants={bigStarVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '15px 9px' }}
+            style={{ transformBox: 'view-box', originX: 15 / 24, originY: 9 / 24 }}
           />
           <motion.path
             d="M7 12L7.38481 13.7083C7.71121 15.1572 8.84275 16.2888 10.2917 16.6152L12 17L10.2917 17.3848C8.84275 17.7112 7.71121 18.8427 7.38481 20.2917L7 22L6.61519 20.2917C6.28879 18.8427 5.15725 17.7112 3.70827 17.3848L2 17L3.70827 16.6152C5.15725 16.2888 6.28879 15.1573 6.61519 13.7083L7 12Z"
             stroke="currentColor"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={sparkleVariants}
-            custom={1}
+            variants={smallStarVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '7px 17px' }}
+            style={{ transformBox: 'view-box', originX: 7 / 24, originY: 17 / 24 }}
           />
           <motion.g
             variants={generatedGeometryVariants}
             animate={controls}
             initial="normal"
           >
-          <motion.path d="M5 4V2.4M4.2 3.2H5.8" stroke="currentColor" strokeLinecap="round" strokeWidth="1.1" variants={glintVariants} custom={0} animate={controls} initial="normal" style={{ transformOrigin: '5px 3.2px' }} />
-          <motion.path d="M19.5 19.5V17.9M18.7 18.7H20.3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.1" variants={glintVariants} custom={1} animate={controls} initial="normal" style={{ transformOrigin: '19.5px 18.7px' }} />
+            {TWINKLES.map(({ x, y, start }) => (
+              <motion.path
+                key={`${x}-${y}`}
+                d={`M${x} ${y - 1}V${y + 1}M${x - 1} ${y}H${x + 1}`}
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="1.5"
+                variants={twinkleVariants}
+                custom={start}
+                animate={controls}
+                initial="normal"
+                style={{ transformBox: 'view-box', originX: x / 24, originY: y / 24 }}
+              />
+            ))}
           </motion.g>
         </svg>
       </div>

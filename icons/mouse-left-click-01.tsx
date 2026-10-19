@@ -16,42 +16,34 @@ interface MouseLeftClick01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The click mark contracts as the mouse presses, then flicks back on release.
-const clickMarkVariants: Variants = {
-  normal: { transform: 'translate(0px, 0px) scale(1)' },
+// rest-parity: split-source-path
+const CLICK_DURATION = 0.62;
+const CLICK_TIMES = [0, 0.3, 0.42, 0.62, 0.8, 1];
+
+// The left button shell hinges at its rear edge and its front dips toward the
+// divider, holds for a beat, then springs back up past rest and settles.
+const leftShellVariants: Variants = {
+  normal: { scaleY: 1 },
   animate: {
-    transform: [
-      'translate(0px, 0px) scale(1)',
-      'translate(1.15px, 0.45px) scale(0.82)',
-      'translate(1.15px, 0.45px) scale(0.82)',
-      'translate(-0.18px, -0.12px) scale(1.08)',
-      'translate(0px, 0px) scale(1)',
-    ],
+    scaleY: [1, 0.8, 0.8, 1.04, 0.99, 1],
     transition: {
-      duration: 0.26,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.5, 0.64, 0.86, 1],
+      duration: CLICK_DURATION,
+      times: CLICK_TIMES,
+      ease: ['easeIn', 'linear', 'easeOut', 'easeInOut', 'easeInOut'],
     },
   },
 };
 
-// The complete mouse stays connected while its left side leads the downstroke.
-const mousePressVariants: Variants = {
-  normal: {
-    transform: 'translate(0px, 0px) rotate(0deg) scaleY(1)',
-  },
+// On release the click mark flicks away from the button and springs back.
+const clickMarkVariants: Variants = {
+  normal: { translateX: 0, translateY: 0 },
   animate: {
-    transform: [
-      'translate(0px, 0px) rotate(0deg) scaleY(1)',
-      'translate(0px, 0.2px) rotate(-1.5deg) scaleY(0.975)',
-      'translate(0px, 0.2px) rotate(-1.5deg) scaleY(0.975)',
-      'translate(0px, -0.1px) rotate(0.3deg) scaleY(1.006)',
-      'translate(0px, 0px) rotate(0deg) scaleY(1)',
-    ],
+    translateX: [0, 0.3, 0.3, -1.4, 0.2, 0],
+    translateY: [0, 0.3, 0.3, -1, 0.15, 0],
     transition: {
-      duration: 0.26,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.5, 0.64, 0.86, 1],
+      duration: CLICK_DURATION,
+      times: CLICK_TIMES,
+      ease: ['easeIn', 'linear', 'easeOut', 'easeInOut', 'easeInOut'],
     },
   },
 };
@@ -90,32 +82,33 @@ const MouseLeftClick01Icon = forwardRef<MouseLeftClick01IconHandle, MouseLeftCli
             variants={clickMarkVariants}
             animate={controls}
             initial="normal"
-            style={{ originX: 1, originY: 0 }}
           />
-          <motion.g
-            variants={mousePressVariants}
+          <path
+            d="M6 12C6 13.732 6.10903 15.4317 6.24061 17.0888C6.43047 19.4803 8.32417 21.511 10.765 21.8118C11.6626 21.9223 12.5752 22 13.5 22C14.4247 22 15.3373 21.9223 16.2349 21.8118C18.6758 21.511 20.5694 19.4803 20.7593 17.0888C20.8909 15.4317 21 13.732 21 12C21 10.268 20.8909 8.56832 20.7593 6.91118C20.5694 4.51965 18.6758 2.48893 16.2349 2.1882C15.3373 2.07762 14.4247 2 13.5 2"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+          <motion.path
+            d="M13.5 2C12.5752 2 11.6626 2.07762 10.765 2.1882C8.32417 2.48893 6.43047 4.51965 6.24061 6.91118C6.10903 8.56832 6 10.268 6 12"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            variants={leftShellVariants}
             animate={controls}
             initial="normal"
-            style={{ originX: 1, originY: 1 }}
-          >
-            <path
-              d="M13.5 2L13.5 6M13.5 10L13.5 12"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-            />
-            <path
-              d="M12 7.5C12 7.03406 12 6.80109 12.0761 6.61732C12.1776 6.37229 12.3723 6.17761 12.6173 6.07612C12.8011 6 13.0341 6 13.5 6C13.9659 6 14.1989 6 14.3827 6.07612C14.6277 6.17761 14.8224 6.37229 14.9239 6.61732C15 6.80109 15 7.03406 15 7.5V8.5C15 8.96594 15 9.19891 14.9239 9.38268C14.8224 9.62771 14.6277 9.82239 14.3827 9.92388C14.1989 10 13.9659 10 13.5 10C13.0341 10 12.8011 10 12.6173 9.92388C12.3723 9.82239 12.1776 9.62771 12.0761 9.38268C12 9.19891 12 8.96594 12 8.5V7.5Z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            />
-            <path
-              d="M6.24061 17.0888C6.43047 19.4803 8.32417 21.511 10.765 21.8118C11.6626 21.9223 12.5752 22 13.5 22C14.4247 22 15.3373 21.9223 16.2349 21.8118C18.6758 21.511 20.5694 19.4803 20.7593 17.0888C20.8909 15.4317 21 13.732 21 12C21 10.268 20.8909 8.56832 20.7593 6.91118C20.5694 4.51965 18.6758 2.48893 16.2349 2.1882C15.3373 2.07762 14.4247 2 13.5 2C12.5752 2 11.6626 2.07762 10.765 2.1882C8.32417 2.48893 6.43047 4.51965 6.24061 6.91118C6.10903 8.56832 6 10.268 6 12C6 13.732 6.10903 15.4317 6.24061 17.0888Z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            />
-          </motion.g>
+            style={{ transformBox: 'view-box', originX: 9.75 / 24, originY: 0.5 }}
+          />
+          <path
+            d="M13.5 2L13.5 6M13.5 10L13.5 12"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M12 7.5C12 7.03406 12 6.80109 12.0761 6.61732C12.1776 6.37229 12.3723 6.17761 12.6173 6.07612C12.8011 6 13.0341 6 13.5 6C13.9659 6 14.1989 6 14.3827 6.07612C14.6277 6.17761 14.8224 6.37229 14.9239 6.61732C15 6.80109 15 7.03406 15 7.5V8.5C15 8.96594 15 9.19891 14.9239 9.38268C14.8224 9.62771 14.6277 9.82239 14.3827 9.92388C14.1989 10 13.9659 10 13.5 10C13.0341 10 12.8011 10 12.6173 9.92388C12.3723 9.82239 12.1776 9.62771 12.0761 9.38268C12 9.19891 12 8.96594 12 8.5V7.5Z"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
         </svg>
       </div>
     );

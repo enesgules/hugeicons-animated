@@ -16,31 +16,45 @@ interface Wifi01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the signal physically expands from its source; visibility only supports the motion
+// Searching for signal: the arcs retract into their midpoints from the
+// outside in, then the source pulses and they redraw from the inside out. Each
+// cycle starts and ends on the complete, untouched icon.
+const WIFI_CYCLE = 1.6;
+
 const arcVariants: Variants = {
-  normal: { visibility: 'visible', transform: 'translateY(0px) scale(1)', transition: { duration: 0.22 } },
-  animate: (i: number) => ({
-    visibility: ['visible', 'visible', 'visible'],
-    transform: [
-      'translateY(0.8px) scale(0.82)',
-      'translateY(0px) scale(1.06)',
-      'translateY(0px) scale(1)',
-    ],
-    transition: {
-      duration: 0.95,
-      ease: [0.23, 1, 0.32, 1],
-      repeat: Infinity,
-      repeatDelay: 0.08,
-      delay: i * 0.12,
-    },
-  }),
+  normal: {
+    pathLength: 1,
+    pathOffset: 0,
+    visibility: 'visible',
+    transition: { duration: 0.22, ease: 'easeOut' },
+  },
+  animate: (i: number) => {
+    const collapse = 0.04 + (2 - i) * 0.07;
+    const grow = 0.46 + i * 0.1;
+    return {
+      pathLength: [1, 1, 0, 0, 1, 1],
+      pathOffset: [0, 0, 0.5, 0.5, 0, 0],
+      visibility: ['visible', 'visible', 'hidden', 'hidden', 'visible', 'visible'],
+      transition: {
+        duration: WIFI_CYCLE,
+        ease: ['linear', 'easeIn', 'linear', 'easeOut', 'linear'],
+        times: [0, collapse, collapse + 0.16, grow, grow + 0.2, 1],
+        repeat: Infinity,
+      },
+    };
+  },
 };
 
 const sourceVariants: Variants = {
-  normal: { transform: 'scale(1)', transition: { duration: 0.2 } },
+  normal: { scale: 1, transition: { duration: 0.2 } },
   animate: {
-    transform: ['scale(1)', 'scale(0.86)', 'scale(1.18)', 'scale(1)'],
-    transition: { duration: 0.95, ease: [0.23, 1, 0.32, 1], repeat: Infinity, repeatDelay: 0.08 },
+    scale: [1, 1, 0.7, 1.25, 1, 1],
+    transition: {
+      duration: WIFI_CYCLE,
+      ease: ['linear', 'easeInOut', 'easeOut', 'easeInOut', 'linear'],
+      times: [0, 0.3, 0.4, 0.5, 0.62, 1],
+      repeat: Infinity,
+    },
   },
 };
 
@@ -80,7 +94,6 @@ const Wifi01Icon = forwardRef<Wifi01IconHandle, Wifi01IconProps>(
             custom={0}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 18px' }}
           />
           <motion.path
             d="M18.5 11.5C14.7324 8.16667 9.5 8.16667 5.5 11.5"
@@ -92,7 +105,6 @@ const Wifi01Icon = forwardRef<Wifi01IconHandle, Wifi01IconProps>(
             custom={1}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 18px' }}
           />
           <motion.path
             d="M2 8.5C8.31579 3.16669 15.6842 3.16668 22 8.49989"
@@ -104,7 +116,6 @@ const Wifi01Icon = forwardRef<Wifi01IconHandle, Wifi01IconProps>(
             custom={2}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 18px' }}
           />
           <motion.circle
             cx="12"
@@ -117,12 +128,12 @@ const Wifi01Icon = forwardRef<Wifi01IconHandle, Wifi01IconProps>(
             variants={sourceVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 18px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 18 / 24 }}
           />
         </svg>
       </div>
     );
-  }
+  },
 );
 
 Wifi01Icon.displayName = 'Wifi01Icon';

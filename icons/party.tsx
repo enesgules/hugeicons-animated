@@ -27,16 +27,22 @@ const popperVariants: Variants = {
   },
 };
 
+// The confetti is sucked back into the popper, then bursts out and settles.
 const confettiVariants: Variants = {
-  normal: { visibility: 'visible', transform: 'translate(0px, 0px) rotate(0deg) scale(1)' },
+  normal: { transform: 'translate(0px, 0px) rotate(0deg) scale(1)' },
   animate: (i: number) => ({
-    visibility: ['hidden', 'visible', 'visible'],
     transform: [
+      'translate(0px, 0px) rotate(0deg) scale(1)',
       'translate(-7px, 7px) rotate(0deg) scale(0.2)',
       'translate(' + (0.7 + (i % 2) * 0.7) + 'px, ' + (-1.2 - (i % 3) * 0.45) + 'px) rotate(' + ((i % 2 === 0 ? 1 : -1) * (14 + i * 2)) + 'deg) scale(1.05)',
       'translate(0px, 0px) rotate(0deg) scale(1)',
     ],
-    transition: { duration: 0.62, delay: i * 0.025, ease: [0.23, 1, 0.32, 1] },
+    transition: {
+      duration: 0.74,
+      delay: i * 0.025,
+      times: [0, 0.16, 0.58, 1],
+      ease: ['easeIn', [0.23, 1, 0.32, 1], [0.23, 1, 0.32, 1]],
+    },
   }),
 };
 

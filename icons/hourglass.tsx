@@ -16,15 +16,16 @@ interface HourglassIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// Time running: the top sand surface sinks into a funnel and drains through
-// the neck as a falling stream while a mound builds in the bottom bulb. Then
-// the glass turns over. The full bottom mound turned over is exactly the full
-// top surface, so every cycle continues without a jump.
+// Time running: the top sand surface sinks into a deepening funnel and drains
+// through the neck as a falling stream while a mound builds in the bottom bulb.
+// Then the glass winds up and turns over with a small overshoot. The full
+// bottom mound turned over is exactly the full top surface, so every cycle
+// continues without a jump.
 const SAND_CYCLE = 2.6;
-const SAND_TIMES = [0, 0.06, 0.12, 0.4, 0.62, 0.68, 0.72, 0.88, 0.96, 1];
+const SAND_TIMES = [0, 0.06, 0.12, 0.4, 0.6, 0.66, 0.7, 0.76, 0.9, 0.96, 1];
 
 const TOP_FULL = 'M17.2 4.6Q12 7 6.8 4.6';
-const TOP_HALF = 'M15.7 8Q12 9.6 8.3 8';
+const TOP_HALF = 'M15.7 8Q12 10.2 8.3 8';
 const TOP_LOW = 'M12.8 10.4Q12 11 11.2 10.4';
 const TOP_EMPTY = 'M12.1 11.2Q12 11.3 11.9 11.2';
 const BOTTOM_EMPTY = 'M11 20.2Q12 20 13 20.2';
@@ -46,15 +47,10 @@ const flipVariants: Variants = {
   normal: { transform: 'rotate(0deg)', transition: { duration: 0.25 } },
   animate: {
     transform: [
-      'rotate(0deg)',
-      'rotate(0deg)',
-      'rotate(0deg)',
-      'rotate(0deg)',
-      'rotate(0deg)',
-      'rotate(0deg)',
-      'rotate(0deg)',
-      'rotate(192deg)',
-      'rotate(180deg)',
+      ...Array(7).fill('rotate(0deg)'),
+      'rotate(-10deg)',
+      'rotate(188deg)',
+      'rotate(178.5deg)',
       'rotate(180deg)',
     ],
     transition: SAND_LOOP,
@@ -64,8 +60,8 @@ const flipVariants: Variants = {
 const topSandVariants: Variants = {
   normal: { d: TOP_FULL },
   animate: {
-    d: [TOP_FULL, TOP_FULL, TOP_FULL, TOP_HALF, TOP_LOW, TOP_EMPTY, TOP_EMPTY, TOP_EMPTY, TOP_EMPTY, TOP_EMPTY],
-    visibility: ['visible', 'visible', 'visible', 'visible', 'visible', 'hidden', 'hidden', 'hidden', 'hidden', 'hidden'],
+    d: [TOP_FULL, TOP_FULL, TOP_FULL, TOP_HALF, TOP_LOW, ...Array(6).fill(TOP_EMPTY)],
+    visibility: [...Array(5).fill('visible'), ...Array(6).fill('hidden')],
     transition: SAND_LOOP,
   },
 };
@@ -73,8 +69,8 @@ const topSandVariants: Variants = {
 const bottomSandVariants: Variants = {
   normal: { d: BOTTOM_EMPTY, visibility: 'hidden' },
   animate: {
-    d: [BOTTOM_EMPTY, BOTTOM_EMPTY, BOTTOM_EMPTY, BOTTOM_HALF, BOTTOM_FULL, BOTTOM_FULL, BOTTOM_FULL, BOTTOM_FULL, BOTTOM_FULL, BOTTOM_FULL],
-    visibility: ['hidden', 'hidden', 'visible', 'visible', 'visible', 'visible', 'visible', 'visible', 'visible', 'visible'],
+    d: [BOTTOM_EMPTY, BOTTOM_EMPTY, BOTTOM_EMPTY, BOTTOM_HALF, ...Array(7).fill(BOTTOM_FULL)],
+    visibility: ['hidden', 'hidden', ...Array(9).fill('visible')],
     transition: SAND_LOOP,
   },
 };
@@ -82,8 +78,8 @@ const bottomSandVariants: Variants = {
 const streamVariants: Variants = {
   normal: { d: STREAM_START, visibility: 'hidden' },
   animate: {
-    d: [STREAM_START, STREAM_START, STREAM_LONG, STREAM_LONG, STREAM_SHORT, STREAM_SHORT, STREAM_END, STREAM_END, STREAM_END, STREAM_END],
-    visibility: ['hidden', 'visible', 'visible', 'visible', 'visible', 'visible', 'hidden', 'hidden', 'hidden', 'hidden'],
+    d: [STREAM_START, STREAM_START, STREAM_LONG, STREAM_LONG, STREAM_SHORT, STREAM_SHORT, ...Array(5).fill(STREAM_END)],
+    visibility: ['hidden', ...Array(5).fill('visible'), ...Array(5).fill('hidden')],
     transition: SAND_LOOP,
   },
 };
