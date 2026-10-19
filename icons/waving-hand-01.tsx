@@ -72,7 +72,7 @@ const WavingHand01Icon = forwardRef<WavingHand01IconHandle, WavingHand01IconProp
             variants={handVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '8px 21px' }}
+            style={{ transformBox: 'view-box', originX: 8 / 24, originY: 21 / 24 }}
           />
           <motion.path
             d="M20.8307 13C21.377 14.6354 20.5574 16.4263 19 17"

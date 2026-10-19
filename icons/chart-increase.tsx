@@ -16,17 +16,38 @@ interface ChartIncreaseIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// Growth: the trend line and its arrow dip toward their base, then grow past
-// full size and settle. The axes stay fixed.
-const trendVariants: Variants = {
-  normal: { scale: 1 },
+// The trend retracts toward its base with the arrowhead riding back down the
+// curve, turning with it, then shoots up to the tip and overshoots along the
+// final heading before it settles. Arrow keyframes are sampled from the curve.
+// rest-parity: split-source-path
+const TREND_DURATION = 1;
+const TREND_TIMES = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
+
+const lineVariants: Variants = {
+  normal: { pathLength: 1 },
   animate: {
-    scale: [1, 0.78, 1.1, 0.97, 1],
-    transition: {
-      duration: 0.72,
-      ease: ['easeOut', [0.23, 1, 0.32, 1], 'easeInOut', 'easeOut'],
-      times: [0, 0.24, 0.58, 0.8, 1],
-    },
+    pathLength: [1, 0.956, 0.65, 0.344, 0.3, 0.351, 0.71, 1, 1, 1, 1],
+    transition: { duration: TREND_DURATION, ease: 'linear', times: TREND_TIMES },
+  },
+};
+
+const arrowVariants: Variants = {
+  normal: { transform: 'translate(0px, 0px) rotate(0deg)' },
+  animate: {
+    transform: [
+      'translate(0px, 0px) rotate(0deg)',
+      'translate(0px, 0.75px) rotate(2.7deg)',
+      'translate(-1.24px, 5.78px) rotate(30.4deg)',
+      'translate(-5.00px, 9.31px) rotate(65.0deg)',
+      'translate(-5.68px, 9.61px) rotate(69.0deg)',
+      'translate(-4.89px, 9.25px) rotate(64.2deg)',
+      'translate(-0.79px, 4.85px) rotate(23.7deg)',
+      'translate(-0.01px, -0.52px) rotate(0deg)',
+      'translate(-0.02px, -0.90px) rotate(0deg)',
+      'translate(-0.01px, -0.45px) rotate(0deg)',
+      'translate(0px, 0px) rotate(0deg)',
+    ],
+    transition: { duration: TREND_DURATION, ease: 'linear', times: TREND_TIMES },
   },
 };
 
@@ -63,15 +84,25 @@ const ChartIncreaseIcon = forwardRef<ChartIncreaseIconHandle, ChartIncreaseIconP
             strokeWidth="1.5"
           />
           <motion.path
-            d="M7.99707 16.999C11.5286 16.999 18.9122 15.5348 18.6979 6.43269M16.4886 8.04302L18.3721 6.14612C18.5656 5.95127 18.8798 5.94981 19.0751 6.14286L20.9971 8.04302"
+            d="M7.99707 16.999C11.5286 16.999 18.9122 15.5348 18.6979 6.43269"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={trendVariants}
+            variants={lineVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '8px 17px' }}
+          />
+          <motion.path
+            d="M16.4886 8.04302L18.3721 6.14612C18.5656 5.95127 18.8798 5.94981 19.0751 6.14286L20.9971 8.04302"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={arrowVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformBox: 'view-box', originX: 18.6979 / 24, originY: 6.43269 / 24 }}
           />
         </svg>
       </div>

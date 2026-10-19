@@ -16,24 +16,87 @@ interface HourglassIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// Turn the timer over: a small wind-up, one half turn with overshoot, and a
-// settle. The hourglass is symmetric, so it lands on its untouched pose.
+// Time running: the top sand surface sinks into a funnel and drains through
+// the neck as a falling stream while a mound builds in the bottom bulb. Then
+// the glass turns over. The full bottom mound turned over is exactly the full
+// top surface, so every cycle continues without a jump.
+const SAND_CYCLE = 2.6;
+const SAND_TIMES = [0, 0.06, 0.12, 0.4, 0.62, 0.68, 0.72, 0.88, 0.96, 1];
+
+const TOP_FULL = 'M17.2 4.6Q12 7 6.8 4.6';
+const TOP_HALF = 'M15.7 8Q12 9.6 8.3 8';
+const TOP_LOW = 'M12.8 10.4Q12 11 11.2 10.4';
+const TOP_EMPTY = 'M12.1 11.2Q12 11.3 11.9 11.2';
+const BOTTOM_EMPTY = 'M11 20.2Q12 20 13 20.2';
+const BOTTOM_HALF = 'M8.2 20Q12 18.2 15.8 20';
+const BOTTOM_FULL = 'M6.8 19.4Q12 17 17.2 19.4';
+const STREAM_START = 'M12 12.8L12 12.8';
+const STREAM_LONG = 'M12 12.8L12 19.6';
+const STREAM_SHORT = 'M12 12.8L12 17.8';
+const STREAM_END = 'M12 17.6L12 17.6';
+
+const SAND_LOOP = {
+  duration: SAND_CYCLE,
+  ease: 'easeInOut',
+  times: SAND_TIMES,
+  repeat: Infinity,
+} as const;
+
 const flipVariants: Variants = {
-  normal: { transform: 'rotate(0deg)' },
+  normal: { transform: 'rotate(0deg)', transition: { duration: 0.25 } },
   animate: {
     transform: [
       'rotate(0deg)',
-      'rotate(-14deg)',
-      'rotate(194deg)',
-      'rotate(176deg)',
+      'rotate(0deg)',
+      'rotate(0deg)',
+      'rotate(0deg)',
+      'rotate(0deg)',
+      'rotate(0deg)',
+      'rotate(0deg)',
+      'rotate(192deg)',
+      'rotate(180deg)',
       'rotate(180deg)',
     ],
-    transition: {
-      duration: 0.9,
-      ease: ['easeOut', [0.65, 0, 0.35, 1], 'easeInOut', 'easeInOut'],
-      times: [0, 0.2, 0.62, 0.82, 1],
-    },
+    transition: SAND_LOOP,
   },
+};
+
+const topSandVariants: Variants = {
+  normal: { d: TOP_FULL },
+  animate: {
+    d: [TOP_FULL, TOP_FULL, TOP_FULL, TOP_HALF, TOP_LOW, TOP_EMPTY, TOP_EMPTY, TOP_EMPTY, TOP_EMPTY, TOP_EMPTY],
+    visibility: ['visible', 'visible', 'visible', 'visible', 'visible', 'hidden', 'hidden', 'hidden', 'hidden', 'hidden'],
+    transition: SAND_LOOP,
+  },
+};
+
+const bottomSandVariants: Variants = {
+  normal: { d: BOTTOM_EMPTY, visibility: 'hidden' },
+  animate: {
+    d: [BOTTOM_EMPTY, BOTTOM_EMPTY, BOTTOM_EMPTY, BOTTOM_HALF, BOTTOM_FULL, BOTTOM_FULL, BOTTOM_FULL, BOTTOM_FULL, BOTTOM_FULL, BOTTOM_FULL],
+    visibility: ['hidden', 'hidden', 'visible', 'visible', 'visible', 'visible', 'visible', 'visible', 'visible', 'visible'],
+    transition: SAND_LOOP,
+  },
+};
+
+const streamVariants: Variants = {
+  normal: { d: STREAM_START, visibility: 'hidden' },
+  animate: {
+    d: [STREAM_START, STREAM_START, STREAM_LONG, STREAM_LONG, STREAM_SHORT, STREAM_SHORT, STREAM_END, STREAM_END, STREAM_END, STREAM_END],
+    visibility: ['hidden', 'visible', 'visible', 'visible', 'visible', 'visible', 'hidden', 'hidden', 'hidden', 'hidden'],
+    transition: SAND_LOOP,
+  },
+};
+
+// The sand grows out of the neck once at the start instead of popping in.
+const sandInVariants: Variants = {
+  normal: { scale: 0 },
+  animate: { scale: 1, transition: { duration: 0.3, ease: [0.23, 1, 0.32, 1] } },
+};
+
+const generatedGeometryVariants: Variants = {
+  normal: { visibility: 'hidden', transition: { duration: 0 } },
+  animate: { visibility: 'visible', transition: { duration: 0 } },
 };
 
 const HourglassIcon = forwardRef<HourglassIconHandle, HourglassIconProps>(
@@ -41,7 +104,7 @@ const HourglassIcon = forwardRef<HourglassIconHandle, HourglassIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
-      loops: false,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -94,6 +157,46 @@ const HourglassIcon = forwardRef<HourglassIconHandle, HourglassIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+            <motion.g
+              variants={sandInVariants}
+              animate={controls}
+              initial="normal"
+              style={{ transformBox: 'view-box' }}
+            >
+              <motion.path
+                d={TOP_FULL}
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="1.5"
+                variants={topSandVariants}
+                animate={controls}
+                initial="normal"
+              />
+              <motion.path
+                d={STREAM_START}
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="1.5"
+                variants={streamVariants}
+                animate={controls}
+                initial="normal"
+              />
+              <motion.path
+                d={BOTTOM_EMPTY}
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="1.5"
+                variants={bottomSandVariants}
+                animate={controls}
+                initial="normal"
+              />
+            </motion.g>
+          </motion.g>
         </motion.svg>
       </div>
     );

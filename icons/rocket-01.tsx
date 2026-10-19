@@ -19,13 +19,13 @@ interface Rocket01IconProps extends HTMLAttributes<HTMLDivElement> {
 const ROCKET_BODY =
   'M11.8013 6.48949L13.2869 5.00392C14.9596 3.3312 17.1495 2.63737 19.4671 2.52399C20.3686 2.47989 20.8193 2.45784 21.1807 2.81928C21.5422 3.18071 21.5201 3.63143 21.476 4.53289C21.3626 6.8505 20.6688 9.04042 18.9961 10.7131L17.5105 12.1987C16.2871 13.4221 15.9393 13.77 16.1961 15.097C16.4496 16.1107 16.6949 17.0923 15.9578 17.8294C15.0637 18.7235 14.2481 18.7235 13.354 17.8294L6.17058 10.646C5.27649 9.75188 5.27646 8.9363 6.17058 8.04219C6.90767 7.30509 7.88929 7.55044 8.90297 7.80389C10.23 8.06073 10.5779 7.71289 11.8013 6.48949Z';
 
-const ROCKET_DURATION = 1.3;
-const ROCKET_TIMES = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.38, 0.46, 0.54, 0.6, 0.68, 0.76, 0.84, 0.92, 1];
+const ROCKET_DURATION = 1;
+const ROCKET_TIMES = [0, 0.06, 0.14, 0.24, 0.34, 0.42, 0.5, 0.58, 0.66, 0.74, 0.82, 0.9, 1];
 
-// A launch: the rocket rumbles on the pad while its flame flickers, crouches,
-// and blasts off beyond the top-right edge. The thrust lines stay on the pad
-// as a plume that is pushed down and burns out. A second rocket glides in
-// from the bottom left and its exhaust lights up from the nozzle.
+// A launch: the rocket crouches and blasts off beyond the top-right edge at
+// once while its flame flares. The thrust lines stay on the pad as a plume
+// that is pushed down and burns out. A second rocket glides in from the
+// bottom left and its exhaust lights up from the nozzle.
 const departingRocketVariants: Variants = {
   normal: {
     transform: 'translate(0%, 0%) rotate(0deg)',
@@ -34,15 +34,12 @@ const departingRocketVariants: Variants = {
   animate: {
     transform: [
       'translate(0%, 0%) rotate(0deg)',
-      'translate(-0.4%, 0.4%) rotate(-1deg)',
-      'translate(0.4%, -0.2%) rotate(1deg)',
-      'translate(-0.4%, 0.3%) rotate(-1deg)',
-      'translate(0.3%, -0.3%) rotate(0.8deg)',
-      'translate(-2%, 2%) rotate(0.5deg)',
-      'translate(4%, -4%) rotate(-0.5deg)',
-      'translate(20%, -20%) rotate(-2deg)',
-      'translate(55%, -55%) rotate(-3deg)',
+      'translate(-1.5%, 1.5%) rotate(0.6deg)',
+      'translate(6%, -6%) rotate(-0.8deg)',
+      'translate(24%, -24%) rotate(-2deg)',
+      'translate(60%, -60%) rotate(-3deg)',
       'translate(110%, -110%) rotate(-3deg)',
+      'translate(150%, -150%) rotate(-2deg)',
       'translate(150%, -150%) rotate(-2deg)',
       'translate(150%, -150%) rotate(-2deg)',
       'translate(150%, -150%) rotate(-2deg)',
@@ -72,12 +69,9 @@ const arrivingRocketVariants: Variants = {
       'translate(-150%, 150%) rotate(-5deg)',
       'translate(-150%, 150%) rotate(-5deg)',
       'translate(-150%, 150%) rotate(-5deg)',
-      'translate(-150%, 150%) rotate(-5deg)',
-      'translate(-150%, 150%) rotate(-5deg)',
-      'translate(-150%, 150%) rotate(-5deg)',
-      'translate(-120%, 120%) rotate(-5deg)',
-      'translate(-60%, 60%) rotate(-3deg)',
-      'translate(-22%, 22%) rotate(-1.5deg)',
+      'translate(-110%, 110%) rotate(-5deg)',
+      'translate(-55%, 55%) rotate(-3deg)',
+      'translate(-20%, 20%) rotate(-1.5deg)',
       'translate(-5%, 5%) rotate(-0.4deg)',
       'translate(1%, -1%) rotate(0.4deg)',
       'translate(0%, 0%) rotate(0deg)',
@@ -112,12 +106,8 @@ const line = (i: number, stretch: number, burned = 0) => {
   return `M${tx} ${ty}L${hx} ${hy}`;
 };
 
-// Flicker pattern per line during the rumble, so the flames do not pulse together.
-const FLICKER = [
-  [0, 0.9, 0.2, 1.2, 0.4, 1.6],
-  [0, 0.5, 1, 0.3, 0.9, 1.2],
-  [0, 1.1, 0.4, 0.8, 0.2, 1.4],
-];
+// How far each flame flares at ignition, so the lines do not move together.
+const FLARE = [0.9, 0.5, 1.1];
 
 const departingThrustVariants: Variants = {
   normal: (i: number) => ({
@@ -129,19 +119,18 @@ const departingThrustVariants: Variants = {
     const plume = [3, 2.2, 2.6][i];
     return {
       d: [
-        ...FLICKER[i].map((f) => line(i, f)),
+        line(i, 0),
+        line(i, FLARE[i]),
         line(i, plume),
         line(i, plume + 0.6, 0.45),
-        line(i, plume + 1, 1),
-        ...Array(7).fill(line(i, plume + 1, 1)),
+        ...Array(9).fill(line(i, plume + 1, 1)),
       ],
       transform: [
-        ...Array(7).fill('translate(0px, 0px)'),
+        ...Array(3).fill('translate(0px, 0px)'),
         'translate(-0.6px, 0.6px)',
-        'translate(-1.2px, 1.2px)',
-        ...Array(7).fill('translate(-1.2px, 1.2px)'),
+        ...Array(9).fill('translate(-1.2px, 1.2px)'),
       ],
-      visibility: [...Array(9).fill('visible'), ...Array(7).fill('hidden')],
+      visibility: [...Array(4).fill('visible'), ...Array(9).fill('hidden')],
       transition: {
         duration: ROCKET_DURATION,
         ease: 'easeInOut',
@@ -165,9 +154,9 @@ const arrivingThrustVariants: Variants = {
     const mid = [0.75, 0.45, 0.9][i];
     return {
       transform: rocket.transform,
-      pathLength: [...Array(13).fill(0), 0, mid, 1],
-      pathOffset: [...Array(13).fill(1), 1, 1 - mid, 0],
-      visibility: [...Array(13).fill('hidden'), 'hidden', 'visible', 'visible'],
+      pathLength: [...Array(11).fill(0), mid, 1],
+      pathOffset: [...Array(11).fill(1), 1 - mid, 0],
+      visibility: [...Array(11).fill('hidden'), 'visible', 'visible'],
       transition: {
         duration: ROCKET_DURATION,
         ease: 'easeOut',
@@ -234,14 +223,14 @@ const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
               custom={i}
               animate={controls}
               initial="normal"
-              style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
+              style={{ transformBox: 'view-box' }}
             />
           ))}
           <motion.g
             variants={departingRocketVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box' }}
           >
             <RocketGeometry />
           </motion.g>
@@ -261,14 +250,14 @@ const Rocket01Icon = forwardRef<Rocket01IconHandle, Rocket01IconProps>(
                 custom={i}
                 animate={controls}
                 initial="normal"
-                style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
+                style={{ transformBox: 'view-box' }}
               />
             ))}
             <motion.g
               variants={arrivingRocketVariants}
               animate={controls}
               initial="normal"
-              style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
+              style={{ transformBox: 'view-box' }}
             >
               <RocketGeometry />
             </motion.g>

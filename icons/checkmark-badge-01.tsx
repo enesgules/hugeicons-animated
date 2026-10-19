@@ -82,7 +82,7 @@ const CheckmarkBadge01Icon = forwardRef<CheckmarkBadge01IconHandle, CheckmarkBad
             variants={badgeVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box' }}
           />
           <motion.path
             d="M9 12.8929C9 12.8929 10.2 13.5447 10.8 14.5C10.8 14.5 12.6 10.75 15 9.5"

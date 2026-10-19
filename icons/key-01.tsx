@@ -82,7 +82,7 @@ const Key01Icon = forwardRef<Key01IconHandle, Key01IconProps>(
               variants={turnVariants}
               animate={controls}
               initial="normal"
-              style={{ transformBox: 'view-box', transformOrigin: '15.5px 8.5px' }}
+              style={{ transformBox: 'view-box', originX: 15.5 / 24, originY: 8.5 / 24 }}
             >
               <g transform="rotate(-45 15.5 8.5)">
                 <path

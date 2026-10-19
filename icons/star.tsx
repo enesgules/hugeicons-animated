@@ -71,7 +71,7 @@ const StarIcon = forwardRef<StarIconHandle, StarIconProps>(
             variants={starVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '12px 12.47px' }}
+            style={{ transformBox: 'view-box' }}
           />
         </svg>
       </div>
