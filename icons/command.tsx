@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CommandIconHandle {
@@ -16,20 +16,22 @@ interface CommandIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// A compact key press keeps the shortcut glyph clear at small sizes.
+const PRESS_LAND = springEase(0.45, 0.35);
+
+// A key press: the glyph squashes down like a pressed key, then the key
+// springs back up past its rest height and settles.
 const commandVariants: Variants = {
   normal: { transform: 'translateY(0px) scale(1, 1)' },
   animate: {
     transform: [
       'translateY(0px) scale(1, 1)',
       'translateY(1px) scale(0.94, 0.86)',
-      'translateY(-0.3px) scale(1.02, 1.06)',
       'translateY(0px) scale(1, 1)',
     ],
     transition: {
-      duration: 0.48,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.34, 0.68, 1],
+      duration: 0.7,
+      times: [0, 0.3, 1],
+      ease: [[0.4, 0, 0.2, 1], PRESS_LAND],
     },
   },
 };

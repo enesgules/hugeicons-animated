@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Search02IconHandle {
@@ -16,29 +16,25 @@ interface Search02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The magnifier lifts and tilts to scan right, sweeps back left, then
-// zooms in over the lens center and settles.
+const SEARCH_LAND = springEase(0.45, 0.35);
+
+// Search, shared by the magnifier icons: the magnifier lifts and tilts to scan
+// right, sweeps back left, zooms in over the lens center, and lands with a
+// spring.
 const searchVariants: Variants = {
   normal: { transform: 'translate(0px, 0px) rotate(0deg) scale(1)' },
   animate: {
     transform: [
       'translate(0px, 0px) rotate(0deg) scale(1)',
       'translate(1.25px, -0.55px) rotate(14deg) scale(0.78)',
-      'translate(0.4px, -0.8px) rotate(6deg) scale(0.76)',
       'translate(-0.65px, 0.25px) rotate(-8deg) scale(0.8)',
-      'translate(-0.15px, 0.1px) rotate(-2.5deg) scale(1.08)',
+      'translate(0px, 0px) rotate(0deg) scale(1.1)',
       'translate(0px, 0px) rotate(0deg) scale(1)',
     ],
     transition: {
-      duration: 1.24,
-      times: [0, 0.32, 0.48, 0.64, 0.84, 1],
-      ease: [
-        [0.77, 0, 0.175, 1],
-        'linear',
-        'linear',
-        [0.77, 0, 0.175, 1],
-        [0.23, 1, 0.32, 1],
-      ],
+      duration: 1.1,
+      times: [0, 0.24, 0.46, 0.62, 1],
+      ease: [[0.77, 0, 0.175, 1], [0.77, 0, 0.175, 1], [0.4, 0, 0.2, 1], SEARCH_LAND],
     },
   },
 };

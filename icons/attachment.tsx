@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface AttachmentIconHandle {
@@ -16,18 +16,17 @@ interface AttachmentIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The paperclip is lifted, dropped onto a sheet edge, and catches on its top
-// bend: the whole clip swings from that hook like a pendulum and settles.
+const SWING = springEase(0.8, 0.45);
+const SWING_DURATION = 1.3;
+const SWING_TIMES = [0, 0.16, 1];
+
+// Pendulum: the paperclip hangs from its top bend; a kick swings it to one
+// side, then a high-bounce spring swings it back through rest and it settles.
 const clipVariants: Variants = {
-  normal: { translateY: 0, rotate: 0 },
+  normal: { rotate: 0 },
   animate: {
-    translateY: [0, -1.6, 0.35, 0, 0, 0, 0, 0],
-    rotate: [0, -5, 15, -10, 6, -3, 1, 0],
-    transition: {
-      duration: 1.1,
-      ease: 'easeInOut',
-      times: [0, 0.14, 0.3, 0.46, 0.61, 0.75, 0.88, 1],
-    },
+    rotate: [0, 16, 0],
+    transition: { duration: SWING_DURATION, times: SWING_TIMES, ease: ['easeOut', SWING] },
   },
 };
 

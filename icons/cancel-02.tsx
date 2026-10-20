@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Cancel02IconHandle {
@@ -16,17 +16,24 @@ interface Cancel02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The cross winds back, then twists a quarter turn shut and settles. A quarter
-// turn lands on the same shape as the rest pose.
+const MARK_LAND = springEase(0.5, 0.3);
+
+// Cancel, for a single outlined X: the cross winds back, twists past a
+// quarter turn, and springs back onto it. A quarter turn lands on the same
+// shape as the rest pose.
 const crossVariants: Variants = {
-  normal: { rotate: 0, scale: 1 },
+  normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    rotate: [0, -16, 98, 90],
-    scale: [1, 0.9, 1.06, 1],
+    transform: [
+      'rotate(0deg) scale(1)',
+      'rotate(-16deg) scale(0.92)',
+      'rotate(108deg) scale(1.04)',
+      'rotate(90deg) scale(1)',
+    ],
     transition: {
-      duration: 0.72,
-      ease: ['easeInOut', [0.6, 0, 0.25, 1], 'easeInOut'],
-      times: [0, 0.3, 0.72, 1],
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], MARK_LAND],
     },
   },
 };

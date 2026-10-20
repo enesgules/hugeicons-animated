@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Copy02IconHandle {
@@ -21,31 +21,44 @@ interface Copy02IconProps extends HTMLAttributes<HTMLDivElement> {
 const SLOT_OUTLINE =
   'M11.4873 9.02455L14.0283 9.02455L16.994 8.98193L19.4946 9.02455C20.3274 9.17371 21.6641 9.32713 21.9716 11.0488L21.9716 14.0221L21.9436 16.9818L22.0025 19.9726C21.6685 21.6894 20.3296 21.8223 19.4946 21.9586L16.9799 21.9586L14.0143 22.0013L11.5 21.9573C10.6672 21.8086 9.33039 21.6559 9.02197 19.9344L8.98236 16.9953L9.01033 14.0357L9.01033 11.0488C9.31781 9.32713 10.6545 9.17371 11.4873 9.02455Z';
 
-const COPY_DURATION = 1.1;
+// Copy, shared by clipboards and sheets: a short wind-up, the copy moves onto
+// the original, holds there, and springs back out to its own place.
+const COPY_DURATION = 1;
+const COPY_TIMES = [0, 0.12, 0.36, 0.5, 1];
+const COPY_LAND = springEase(0.45, 0.35);
 
-// The rear sheet presses like a stamp, a solid copy traces around the dashed
-// slot, holds as a finished sheet, then clears back into the dashed slot.
+// The rear sheet presses like a stamp, a solid copy peels off it and springs
+// into the dashed slot, holds as a finished sheet, then clears back into the
+// dashed slot along its outline.
 const rearSheetVariants: Variants = {
-  normal: { scale: 1 },
+  normal: { transform: 'scale(1)' },
   animate: {
-    scale: [1, 0.92, 1.03, 1],
+    transform: ['scale(1)', 'scale(0.92)', 'scale(1)'],
     transition: {
-      duration: 0.5,
-      times: [0, 0.3, 0.65, 1],
-      ease: [[0.23, 1, 0.32, 1], [0.77, 0, 0.175, 1], 'easeInOut'],
+      duration: COPY_DURATION,
+      times: [0, COPY_TIMES[1], COPY_TIMES[3]],
+      ease: ['easeOut', COPY_LAND],
     },
   },
 };
 
-const traceVariants: Variants = {
-  normal: { pathLength: 0, pathOffset: 0 },
+// The copy starts exactly over the pressed rear sheet.
+const copySheetVariants: Variants = {
+  normal: { transform: 'translate(-6px, -6px) scale(1.06)', pathLength: 1, pathOffset: 0 },
   animate: {
-    pathLength: [0, 0, 1, 1, 0],
-    pathOffset: [0, 0, 0, 0, 1],
+    transform: [
+      'translate(-6px, -6px) scale(1.06)',
+      'translate(-6px, -6px) scale(1.06)',
+      'translate(0px, 0px) scale(1)',
+    ],
+    pathLength: [1, 1, 0],
+    pathOffset: [0, 0, 1],
     transition: {
       duration: COPY_DURATION,
-      times: [0, 0.12, 0.5, 0.74, 0.96],
-      ease: [0.77, 0, 0.175, 1],
+      times: [0, COPY_TIMES[1], COPY_TIMES[3]],
+      ease: ['linear', COPY_LAND],
+      pathLength: { duration: COPY_DURATION, times: [0, 0.7, 0.96], ease: [0.77, 0, 0.175, 1] },
+      pathOffset: { duration: COPY_DURATION, times: [0, 0.7, 0.96], ease: [0.77, 0, 0.175, 1] },
     },
   },
 };
@@ -57,7 +70,7 @@ const generatedGeometryVariants: Variants = {
     transition: {
       duration: COPY_DURATION,
       ease: 'linear',
-      times: [0, 0.12, 0.96, 1],
+      times: [0, COPY_TIMES[1], 0.96, 1],
     },
   },
 };
@@ -117,9 +130,10 @@ const Copy02Icon = forwardRef<Copy02IconHandle, Copy02IconProps>(
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="1.5"
-              variants={traceVariants}
+              variants={copySheetVariants}
               animate={controls}
               initial="normal"
+              style={{ transformBox: 'view-box', originX: 15.5 / 24, originY: 15.5 / 24 }}
             />
           </motion.g>
         </svg>

@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Sun03IconHandle {
@@ -16,16 +16,21 @@ interface Sun03IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a bright solar breath: the core gathers energy, the rays burst outward,
-// and both settle into a gentle living shimmer instead of a slow wobble
+const WEATHER_DURATION = 1.1;
+const WEATHER_TIMES = [0, 0.16, 0.4, 1];
+const WEATHER_LAND = springEase(0.45, 0.35);
+
+// A bright solar breath, with the weather family's timing: the core gathers
+// energy while the rays draw in with a counter-turn, then both burst outward
+// and settle on a spring, again and again while it shines.
 const coreVariants: Variants = {
   normal: { transform: 'scale(1)', transition: { duration: 0.2, ease: 'easeOut' } },
   animate: {
-    transform: ['scale(1)', 'scale(0.9)', 'scale(1.16)', 'scale(1.02)', 'scale(1)'],
+    transform: ['scale(1)', 'scale(0.9)', 'scale(1.16)', 'scale(1)'],
     transition: {
-      duration: 1.15,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.12, 0.32, 0.58, 1],
+      duration: WEATHER_DURATION,
+      times: WEATHER_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], WEATHER_LAND],
       repeat: Infinity,
       repeatDelay: 0.18,
     },
@@ -39,14 +44,12 @@ const raysVariants: Variants = {
       'rotate(0deg) scale(1)',
       'rotate(-7deg) scale(0.82)',
       'rotate(5deg) scale(1.18)',
-      'rotate(-2deg) scale(1.04)',
       'rotate(0deg) scale(1)',
     ],
-    visibility: ['visible', 'visible', 'visible', 'visible', 'visible'],
     transition: {
-      duration: 1.15,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.12, 0.34, 0.62, 1],
+      duration: WEATHER_DURATION,
+      times: WEATHER_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], WEATHER_LAND],
       repeat: Infinity,
       repeatDelay: 0.18,
     },
@@ -86,7 +89,7 @@ const Sun03Icon = forwardRef<Sun03IconHandle, Sun03IconProps>(
             variants={coreVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
           />
           <motion.path
             d="M12 2V3.5M12 20.5V22M19.0708 19.0713L18.0101 18.0106M5.98926 5.98926L4.9286 4.9286M22 12H20.5M3.5 12H2M19.0713 4.92871L18.0106 5.98937M5.98975 18.0107L4.92909 19.0714"
@@ -96,7 +99,7 @@ const Sun03Icon = forwardRef<Sun03IconHandle, Sun03IconProps>(
             variants={raysVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
           />
         </svg>
       </div>

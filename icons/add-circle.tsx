@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface AddCircleIconHandle {
@@ -16,25 +16,35 @@ interface AddCircleIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the boundary makes room, then the add mark resolves at its center
-const circleVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+const PLUS_LAND = springEase(0.5, 0.3);
+const CONTAINER_LAND = springEase(0.45, 0.35);
+
+// Add, shared by every icon with a plus: the plus winds back, turns a quarter
+// turn into place (a plus turned 90 degrees matches its rest pose), and lands
+// with a spring while the circle dips and springs back.
+const plusVariants: Variants = {
+  normal: { rotate: 0, scale: 1 },
   animate: {
-    transform: ['scale(1)', 'scale(0.96)', 'scale(1.025)', 'scale(1)'],
-    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
+    rotate: [0, -16, 102, 90],
+    scale: [1, 0.8, 0.8, 1],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], PLUS_LAND],
+    },
   },
 };
 
-const plusVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(1)' },
+const containerVariants: Variants = {
+  normal: { scaleX: 1, scaleY: 1 },
   animate: {
-    transform: [
-      'rotate(0deg) scale(1)',
-      'rotate(-10deg) scale(0.82)',
-      'rotate(3deg) scale(1.08)',
-      'rotate(0deg) scale(1)',
-    ],
-    transition: { duration: 0.42, delay: 0.04, ease: [0.23, 1, 0.32, 1] },
+    scaleX: [1, 1, 1.03, 1],
+    scaleY: [1, 1, 0.94, 1],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], CONTAINER_LAND],
+    },
   },
 };
 
@@ -64,17 +74,20 @@ const AddCircleIcon = forwardRef<AddCircleIconHandle, AddCircleIconProps>(
           fill="none"
           overflow="visible"
         >
-          <motion.path
-            d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={circleVariants}
+          <motion.g
+            variants={containerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
-          />
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 22 / 24 }}
+          >
+            <path
+              d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            />
+          </motion.g>
           <motion.path
             d="M12 8V16M16 12H8"
             stroke="currentColor"
@@ -84,7 +97,7 @@ const AddCircleIcon = forwardRef<AddCircleIconHandle, AddCircleIconProps>(
             variants={plusVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
           />
         </svg>
       </div>

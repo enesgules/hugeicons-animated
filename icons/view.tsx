@@ -1,10 +1,10 @@
 'use client';
 
-import type { Variants } from 'motion/react';
+import type { Easing, Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ViewIconHandle {
@@ -23,35 +23,28 @@ const outline = (k: number) => {
 };
 
 const VIEW_OPEN = outline(1);
-const VIEW_DURATION = 1;
-const VIEW_TIMES = [0, 0.16, 0.34, 0.48, 0.6, 0.66, 0.8, 0.9, 1];
+const BLINK = springEase(0.45, 0.35);
+const BLINK_DURATION = 1;
+const BLINK_TIMES = [0, 0.16, 0.34, 0.5, 0.62, 0.68, 1];
+const BLINK_EASE: Easing[] = ['easeOut', [0.4, 0, 0.2, 1], 'easeInOut', 'easeIn', 'linear', BLINK];
+const LIDS = [1, 1, 1, 1, 0, 0, 1];
+const GLANCE = [0, -2.2, 2, 0, 0, 0, 0];
 
-// The pupil glances left and right, then the lids meet in a blink and
-// reopen a touch wide before settling.
+// Glance and blink, shared by the eye icons: the pupil glances left and right,
+// the lids meet, and the eye springs open a touch wide before it settles.
 const outlineVariants: Variants = {
   normal: { d: VIEW_OPEN },
   animate: {
-    d: [
-      VIEW_OPEN,
-      VIEW_OPEN,
-      VIEW_OPEN,
-      VIEW_OPEN,
-      outline(0),
-      outline(0),
-      outline(1.08),
-      outline(0.98),
-      VIEW_OPEN,
-    ],
-    transition: { duration: VIEW_DURATION, ease: 'easeInOut', times: VIEW_TIMES },
+    d: LIDS.map(outline),
+    transition: { duration: BLINK_DURATION, times: BLINK_TIMES, ease: BLINK_EASE },
   },
 };
 
 const pupilVariants: Variants = {
-  normal: { translateX: 0, scaleY: 1 },
+  normal: { transform: 'translateX(0px) scaleY(1)' },
   animate: {
-    translateX: [0, -2.4, 2.2, 0, 0, 0, 0, 0, 0],
-    scaleY: [1, 1, 1, 1, 0, 0, 1, 1, 1],
-    transition: { duration: VIEW_DURATION, ease: 'easeInOut', times: VIEW_TIMES },
+    transform: GLANCE.map((x, i) => `translateX(${x}px) scaleY(${LIDS[i]})`),
+    transition: { duration: BLINK_DURATION, times: BLINK_TIMES, ease: BLINK_EASE },
   },
 };
 

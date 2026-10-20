@@ -3,8 +3,8 @@
 import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
-import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { forwardRef, useId } from 'react';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Archive02IconHandle {
@@ -16,92 +16,53 @@ interface Archive02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// A document with text slides through the bottom drawer's top seam.
+// A document with text rises through the bottom drawer's top seam and drops
+// back in.
 const ARCHIVE_DOCUMENT =
   'M6.9 11V4.5C6.9 3.9 7.4 3.4 8 3.4H16C16.6 3.4 17.1 3.9 17.1 4.5V11Z';
 
-const ARCHIVE_DURATION = 0.94;
+// Slot, shared by envelopes, the printer and the archive: the content moves
+// out (or opens), holds a beat, and lands back in place on a spring; the
+// container squashes when it lands and springs back.
+const SLOT_DURATION = 1;
+const SLOT_TIMES = [0, 0.28, 0.36, 1];
+const SLOT_LAND = springEase(0.45, 0.35);
 
-const ARCHIVE_TIMES = [
-  0, 0.05, 0.1, 0.16, 0.23, 0.31, 0.4, 0.5, 0.58, 0.65, 0.71,
-  0.76, 0.8, 0.84, 0.88, 0.93, 0.97, 1,
-];
-
+// The drawer slides open, holds, and shuts on a spring.
 const archiveDrawerVariants: Variants = {
-  normal: {
-    transform: 'translateY(0px)',
-    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-  },
+  normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: [
-      'translateY(0px)',
-      'translateY(0.25px)',
-      'translateY(0.9px)',
-      'translateY(1.85px)',
-      'translateY(2.65px)',
-      'translateY(2.38px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(1.55px)',
-      'translateY(0.45px)',
-      'translateY(0px)',
-    ],
+    transform: ['translateY(0px)', 'translateY(2.5px)', 'translateY(2.5px)', 'translateY(0px)'],
     transition: {
-      duration: ARCHIVE_DURATION,
-      ease: [0.77, 0, 0.175, 1],
-      times: ARCHIVE_TIMES,
+      duration: SLOT_DURATION,
+      times: SLOT_TIMES,
+      ease: [[0.4, 0, 0.2, 1], 'linear', SLOT_LAND],
     },
   },
 };
 
 const archiveDocumentVariants: Variants = {
-  normal: {
-    transform: 'translateY(11.3px)',
-    transition: { duration: 0.14, ease: [0.23, 1, 0.32, 1] },
-  },
+  normal: { transform: 'translateY(11.3px)' },
   animate: {
-    transform: [
-      'translateY(11.3px)',
-      'translateY(11.3px)',
-      'translateY(11.3px)',
-      'translateY(10.6px)',
-      'translateY(8.9px)',
-      'translateY(6.2px)',
-      'translateY(3.2px)',
-      'translateY(1.45px)',
-      'translateY(1.15px)',
-      'translateY(1.28px)',
-      'translateY(1.9px)',
-      'translateY(3.4px)',
-      'translateY(6.2px)',
-      'translateY(9.4px)',
-      'translateY(11.3px)',
-      'translateY(11.3px)',
-      'translateY(11.3px)',
-      'translateY(11.3px)',
-    ],
+    transform: ['translateY(11.3px)', 'translateY(1.2px)', 'translateY(1.2px)', 'translateY(11.3px)'],
     transition: {
-      duration: ARCHIVE_DURATION,
-      ease: [0.77, 0, 0.175, 1],
-      times: ARCHIVE_TIMES,
+      duration: SLOT_DURATION,
+      times: SLOT_TIMES,
+      ease: [[0.4, 0, 0.2, 1], 'linear', SLOT_LAND],
     },
   },
 };
+
 const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0 } },
+  normal: { visibility: 'hidden' },
   animate: { visibility: 'visible', transition: { duration: 0 } },
 };
 
 const Archive02Icon = forwardRef<Archive02IconHandle, Archive02IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
+    const documentWindowId = useId();
+    const backMaskId = useId();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
       loops: false,
@@ -126,11 +87,11 @@ const Archive02Icon = forwardRef<Archive02IconHandle, Archive02IconProps>(
           overflow="visible"
         >
           <defs>
-            <clipPath id="archive-document-window" clipPathUnits="userSpaceOnUse">
+            <clipPath id={documentWindowId} clipPathUnits="userSpaceOnUse">
               <rect x="0" y="0" width="24" height="13.8" />
             </clipPath>
             <mask
-              id="archive-back-mask"
+              id={backMaskId}
               x="0"
               y="0"
               width="24"
@@ -173,9 +134,9 @@ const Archive02Icon = forwardRef<Archive02IconHandle, Archive02IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            mask="url(#archive-back-mask)"
+            mask={`url(#${backMaskId})`}
           />
-          <g clipPath="url(#archive-document-window)">
+          <g clipPath={`url(#${documentWindowId})`}>
             <motion.g
               variants={generatedGeometryVariants}
               animate={controls}
@@ -211,7 +172,7 @@ const Archive02Icon = forwardRef<Archive02IconHandle, Archive02IconProps>(
             variants={archiveDrawerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 16px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 16 / 24 }}
           />
           <path
             d="M6 7C6.00004 5.5998 6.00006 4.89969 6.27259 4.3649C6.51227 3.89457 6.89467 3.51218 7.36501 3.27252C7.89981 3 8.59991 3 10.0001 3H14C15.4001 3 16.1002 3 16.635 3.27248C17.1054 3.51217 17.4878 3.89462 17.7275 4.36502C18 4.8998 18 5.59987 18 7"
@@ -229,7 +190,7 @@ const Archive02Icon = forwardRef<Archive02IconHandle, Archive02IconProps>(
             variants={archiveDrawerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 16px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 16 / 24 }}
           />
         </svg>
       </div>

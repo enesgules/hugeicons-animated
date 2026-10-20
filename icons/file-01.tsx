@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface File01IconHandle {
@@ -16,30 +16,42 @@ interface File01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// Match the document icon's compact paper response.
-const fileVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+const PAGE_DURATION = 1;
+const PAGE_TIMES = [0, 0.16, 0.4, 1];
+const PAGE_LAND = springEase(0.45, 0.35);
+
+// Page, shared by every file and document: the sheet lifts and tips back,
+// presses down, and lands on a spring.
+const pageVariants: Variants = {
+  normal: { transform: 'translateY(0px) rotate(0deg)' },
   animate: {
     transform: [
       'translateY(0px) rotate(0deg)',
       'translateY(-0.8px) rotate(-1deg)',
-      'translateY(0.45px) rotate(0.5deg)',
+      'translateY(0.5px) rotate(0.6deg)',
       'translateY(0px) rotate(0deg)',
     ],
-    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
+    transition: {
+      duration: PAGE_DURATION,
+      times: PAGE_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], PAGE_LAND],
+    },
   },
 };
 
+const MARK_LAND = springEase(0.5, 0.3);
+
+// The text lines retract toward their start as the page presses down, then
+// spring back out to full length.
 const lineVariants: Variants = {
   normal: { transform: 'scaleX(1)' },
   animate: {
-    transform: [
-      'scaleX(1)',
-      'scaleX(0.5)',
-      'scaleX(1.1)',
-      'scaleX(1)',
-    ],
-    transition: { duration: 0.48, delay: 0.12, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleX(1)', 'scaleX(1)', 'scaleX(0.5)', 'scaleX(1)'],
+    transition: {
+      duration: PAGE_DURATION,
+      times: PAGE_TIMES,
+      ease: ['linear', [0.4, 0, 0.2, 1], MARK_LAND],
+    },
   },
 };
 
@@ -74,10 +86,10 @@ const File01Icon = forwardRef<File01IconHandle, File01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={fileVariants}
+            variants={pageVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
           />
           <motion.path
             d="M8 7L16 7"
@@ -88,7 +100,7 @@ const File01Icon = forwardRef<File01IconHandle, File01IconProps>(
             variants={lineVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '8px 7px' }}
+            style={{ transformBox: 'view-box', originX: 8 / 24, originY: 7 / 24 }}
           />
           <motion.path
             d="M8 11L12 11"
@@ -99,7 +111,7 @@ const File01Icon = forwardRef<File01IconHandle, File01IconProps>(
             variants={lineVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '8px 11px' }}
+            style={{ transformBox: 'view-box', originX: 8 / 24, originY: 11 / 24 }}
           />
         </svg>
       </div>

@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface NotificationOff01IconHandle {
@@ -27,97 +27,61 @@ const NOTIFICATION_TOP_CONTINUATION =
 const NOTIFICATION_RIGHT_CONTINUATION =
   'M21 16.2311C21 17.208 20.208 18 19.2311 18H18';
 
-const OFF_DURATION = 1.12;
-const OFF_TIMES = [
-  0, 0.05, 0.1, 0.16, 0.24, 0.34, 0.44, 0.56, 0.68, 0.76, 0.82, 0.87,
-  0.92, 0.97, 1,
-];
+const OFF_DURATION = 1.2;
+const SLASH_LAND = springEase(0.5, 0.3);
 
+// Slash off, shared by every icon with a slash: the slash winds back and
+// shoots off the bottom-right corner, the outline heals across its breaks,
+// then a fresh slash darts in from the top-left corner and lands with a
+// spring while the breaks reopen where it crosses.
 const departingSlashVariants: Variants = {
-  normal: {
-    transform: 'translate(0px, 0px)',
-    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-  },
+  normal: { transform: 'translate(0px, 0px)' },
   animate: {
     transform: [
       'translate(0px, 0px)',
-      'translate(0.8px, 0.8px)',
-      'translate(4px, 4px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
-      'translate(24px, 24px)',
+      'translate(-0.8px, -0.8px)',
       'translate(24px, 24px)',
       'translate(24px, 24px)',
     ],
-    transition: { duration: OFF_DURATION, ease: 'linear', times: OFF_TIMES },
-  },
-};
-
-// A zero-length stroke with round caps draws a dot, so each continuation is
-// only visible while it has length.
-const LEADING_LENGTH = [0, 0, 0, 0.12, 0.62, 1, 1, 1, 1, 1, 0.62, 0.2, 0, 0, 0];
-const TRAILING_LENGTH = [0, 0, 0, 0, 0.25, 0.7, 1, 1, 1, 1, 1, 1, 0.8, 0.3, 0];
-const visibleWhileDrawn = (lengths: number[]) =>
-  lengths.map((value) => (value > 0 ? 'visible' : 'hidden'));
-
-const leadingContinuationVariants: Variants = {
-  normal: {
-    pathLength: 0,
-    visibility: 'hidden',
-    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-  },
-  animate: {
-    pathLength: LEADING_LENGTH,
-    visibility: visibleWhileDrawn(LEADING_LENGTH),
-    transition: { duration: OFF_DURATION, ease: 'linear', times: OFF_TIMES },
-  },
-};
-
-const trailingContinuationVariants: Variants = {
-  normal: {
-    pathLength: 0,
-    visibility: 'hidden',
-    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-  },
-  animate: {
-    pathLength: TRAILING_LENGTH,
-    visibility: visibleWhileDrawn(TRAILING_LENGTH),
-    transition: { duration: OFF_DURATION, ease: 'linear', times: OFF_TIMES },
+    transition: {
+      duration: OFF_DURATION,
+      times: [0, 0.12, 0.34, 1],
+      ease: ['easeOut', 'easeIn', 'linear'],
+    },
   },
 };
 
 const arrivingSlashVariants: Variants = {
-  normal: {
-    transform: 'translate(-24px, -24px)',
-    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-  },
+  normal: { transform: 'translate(-24px, -24px)' },
   animate: {
     transform: [
       'translate(-24px, -24px)',
       'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-24px, -24px)',
-      'translate(-18px, -18px)',
-      'translate(-9px, -9px)',
-      'translate(-3px, -3px)',
-      'translate(-0.6px, -0.6px)',
+      'translate(1.2px, 1.2px)',
       'translate(0px, 0px)',
     ],
-    transition: { duration: OFF_DURATION, ease: 'linear', times: OFF_TIMES },
+    transition: {
+      duration: OFF_DURATION,
+      times: [0, 0.6, 0.8, 1],
+      ease: ['linear', [0.4, 0, 0.2, 1], SLASH_LAND],
+    },
   },
+};
+
+// Each continuation draws once the departing slash has passed its break and
+// retracts just before the arriving slash reaches it. A zero-length stroke
+// with round caps draws a dot, so it is only visible while it has length.
+const continuationVariants: Variants = {
+  normal: { pathLength: 0, visibility: 'hidden' },
+  animate: ([drawn, crossed]: [number, number]) => ({
+    pathLength: [0, 0, 1, 1, 0, 0],
+    visibility: ['hidden', 'hidden', 'visible', 'visible', 'hidden', 'hidden'],
+    transition: {
+      duration: OFF_DURATION,
+      ease: 'easeOut',
+      times: [0, drawn, drawn + 0.08, crossed - 0.015, crossed + 0.015, 1],
+    },
+  }),
 };
 
 const generatedGeometryVariants: Variants = {
@@ -210,7 +174,8 @@ const NotificationOff01Icon = forwardRef<NotificationOff01IconHandle, Notificati
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="1.5"
-              variants={leadingContinuationVariants}
+              variants={continuationVariants}
+              custom={[0.212, 0.653]}
               animate={controls}
               initial="normal"
             />
@@ -220,7 +185,8 @@ const NotificationOff01Icon = forwardRef<NotificationOff01IconHandle, Notificati
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="1.5"
-              variants={trailingContinuationVariants}
+              variants={continuationVariants}
+              custom={[0.302, 0.699]}
               animate={controls}
               initial="normal"
             />

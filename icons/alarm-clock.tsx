@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface AlarmClockIconHandle {
@@ -16,13 +16,23 @@ interface AlarmClockIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the clock rattles while its two existing alarm bells sweep through a broad mirrored arc;
-// no additional ringing marks are introduced
+const RING_DURATION = 0.9;
+const RING_TIMES = [0, 0.07, 0.5, 0.57, 1];
+const RING_LAND = springEase(0.7, 0.45);
+
+// The alarm rings: on each strike the clock is knocked to one side (left,
+// then right) and both bells are thrown outward, then a high-bounce spring
+// rattles them back to rest, over and over while it rings. No extra ringing marks are added.
 const svgVariants: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3 } },
   animate: {
-    rotate: [0, -5, 4, -3, 2, -1, 0],
-    transition: { duration: 0.62, ease: [0.77, 0, 0.175, 1], repeat: Infinity },
+    rotate: [0, -6, 0, 6, 0],
+    transition: {
+      duration: RING_DURATION,
+      times: RING_TIMES,
+      ease: ['easeOut', RING_LAND, 'easeOut', RING_LAND],
+      repeat: Infinity,
+    },
   },
 };
 
@@ -31,16 +41,15 @@ const bellVariants: Variants = {
   animate: (direction: number) => ({
     transform: [
       'translate(0px, 0px) rotate(0deg)',
-      'translate(' + direction * 2.6 + 'px, 0.9px) rotate(' + direction * -9 + 'deg)',
-      'translate(' + direction * -0.45 + 'px, -0.25px) rotate(' + direction * 4 + 'deg)',
-      'translate(' + direction * 2.1 + 'px, 0.65px) rotate(' + direction * -6 + 'deg)',
-      'translate(' + direction * 0.35 + 'px, 0.1px) rotate(' + direction * -1 + 'deg)',
+      `translate(${direction * -1.6}px, 0.6px) rotate(${direction * 9}deg)`,
+      'translate(0px, 0px) rotate(0deg)',
+      `translate(${direction * -1.6}px, 0.6px) rotate(${direction * 9}deg)`,
       'translate(0px, 0px) rotate(0deg)',
     ],
     transition: {
-      duration: 0.68,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.2, 0.42, 0.64, 0.82, 1],
+      duration: RING_DURATION,
+      times: RING_TIMES,
+      ease: ['easeOut', RING_LAND, 'easeOut', RING_LAND],
       repeat: Infinity,
     },
   }),
@@ -107,7 +116,7 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
             custom={1}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}
+            style={{ transformBox: 'view-box', originX: 3.5 / 24, originY: 4.5 / 24 }}
           />
           <motion.path
             d="M22 6L19 3"
@@ -119,7 +128,7 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
             custom={-1}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}
+            style={{ transformBox: 'view-box', originX: 20.5 / 24, originY: 4.5 / 24 }}
           />
           <path
             d="M12 8V12.5L14 14.5"

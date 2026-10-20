@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ArrowUp01IconHandle {
@@ -16,20 +16,24 @@ interface ArrowUp01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the chevron dips a little, then rises with a narrowing squash and springs
-// back, the same nudge as chevron-up with a clear wind-up
+const NUDGE_LAND = springEase(0.5, 0.3);
+
+// Nudge, shared by every arrow and chevron: a short wind-up against the
+// direction, a dart along it, and a spring landing back in place.
 const arrowVariants: Variants = {
   normal: { transform: 'translateY(0px) scaleX(1)' },
   animate: {
     transform: [
       'translateY(0px) scaleX(1)',
-      'translateY(0.6px) scaleX(1.02)',
+      'translateY(0.7px) scaleX(1.03)',
       'translateY(-2.6px) scaleX(0.9)',
-      'translateY(0.45px) scaleX(1.04)',
-      'translateY(-0.6px) scaleX(0.98)',
       'translateY(0px) scaleX(1)',
     ],
-    transition: { duration: 0.62, ease: [0.23, 1, 0.32, 1], times: [0, 0.14, 0.42, 0.64, 0.82, 1] },
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], NUDGE_LAND],
+    },
   },
 };
 

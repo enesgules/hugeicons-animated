@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CloudLightningIconHandle {
@@ -16,66 +16,68 @@ interface CloudLightningIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const STRIKE_DURATION = 1.1;
+const WEATHER_DURATION = 1.1;
+const WEATHER_TIMES = [0, 0.16, 0.4, 1];
+const WEATHER_LAND = springEase(0.45, 0.35);
+const BOLT_LAND = springEase(0.5, 0.3);
 
-// The cloud swells and rumbles while the bolt retracts into it, then the
-// bolt strikes down in one fast stroke, flickers twice like real lightning,
-// and the cloud recoils from the discharge before settling.
+// Weather, shared by every cloud: the cloud gathers (it sinks and swells),
+// releases with a lift, and settles on a spring. Here the bolt pulls up into
+// the gathering cloud, strikes down in one fast stroke as the cloud lifts,
+// flickers twice like real lightning, and springs back into place.
 const cloudVariants: Variants = {
-  normal: { transform: 'translate(0px, 0px) scale(1)' },
+  normal: { transform: 'translateY(0px) scale(1)' },
   animate: {
     transform: [
-      'translate(0px, 0px) scale(1)',
-      'translate(0px, 0.3px) scale(1.04)',
-      'translate(-0.3px, 0.2px) scale(1.04)',
-      'translate(0.3px, 0.2px) scale(1.04)',
-      'translate(0px, -0.7px) scale(0.98)',
-      'translate(0.15px, -0.15px) scale(1.01)',
-      'translate(0px, 0.08px) scale(1)',
-      'translate(0px, 0px) scale(1)',
+      'translateY(0px) scale(1)',
+      'translateY(0.4px) scale(1.04)',
+      'translateY(-0.9px) scale(0.98)',
+      'translateY(0px) scale(1)',
     ],
     transition: {
-      duration: STRIKE_DURATION,
-      ease: 'easeInOut',
-      times: [0, 0.18, 0.25, 0.31, 0.4, 0.55, 0.75, 1],
+      duration: WEATHER_DURATION,
+      times: WEATHER_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], WEATHER_LAND],
     },
   },
 };
 
 const boltVariants: Variants = {
-  normal: { pathLength: 1, visibility: 'visible' },
+  normal: { transform: 'translateY(0px)', pathLength: 1, visibility: 'visible' },
   animate: {
-    pathLength: [1, 0.06, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+    transform: ['translateY(0px)', 'translateY(0px)', 'translateY(1.2px)', 'translateY(0px)'],
+    pathLength: [1, 0, 0, 1, 1],
+    // Hidden while retracted, then two short flickers after the strike.
     visibility: [
       'visible',
       'hidden',
       'hidden',
-      'hidden',
       'visible',
       'visible',
       'hidden',
       'hidden',
+      'visible',
       'visible',
       'hidden',
       'hidden',
       'visible',
     ],
     transition: {
-      duration: STRIKE_DURATION,
-      ease: [
-        'easeIn',
-        'linear',
-        'linear',
-        [0.55, 0, 1, 0.45],
-        'linear',
-        'linear',
-        'linear',
-        'linear',
-        'linear',
-        'linear',
-        'linear',
-      ],
-      times: [0, 0.18, 0.24, 0.3, 0.38, 0.44, 0.47, 0.5, 0.55, 0.58, 0.61, 1],
+      transform: {
+        duration: WEATHER_DURATION,
+        times: [0, 0.3, 0.4, 1],
+        ease: ['linear', 'easeIn', BOLT_LAND],
+      },
+      pathLength: {
+        duration: WEATHER_DURATION,
+        times: [0, 0.16, 0.3, 0.4, 1],
+        ease: ['easeIn', 'linear', 'easeIn', 'linear'],
+      },
+      visibility: {
+        duration: WEATHER_DURATION,
+        times: [0, 0.16, 0.3, 0.31, 0.46, 0.47, 0.5, 0.51, 0.55, 0.56, 0.59, 1],
+        ease: 'linear',
+      },
     },
   },
 };

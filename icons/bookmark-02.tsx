@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Bookmark02IconHandle {
@@ -16,8 +16,12 @@ interface Bookmark02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The ribbon lifts out of the page, drops back into the binding, squashes on
-// landing, and springs to its saved length.
+const BOOKMARK_DURATION = 0.8;
+const BOOKMARK_TIMES = [0, 0.16, 0.4, 1];
+const BOOKMARK_LAND = springEase(0.45, 0.35);
+
+// Bookmark, shared by every ribbon: it lifts out of the page, drops into the
+// binding with a squash, and springs to its saved length.
 const ribbonVariants: Variants = {
   normal: { transform: 'translateY(0px) scaleY(1)' },
   animate: {
@@ -25,14 +29,12 @@ const ribbonVariants: Variants = {
       'translateY(0px) scaleY(1)',
       'translateY(-1.4px) scaleY(1.04)',
       'translateY(2.4px) scaleY(0.88)',
-      'translateY(-0.7px) scaleY(1.04)',
-      'translateY(0.2px) scaleY(0.99)',
       'translateY(0px) scaleY(1)',
     ],
     transition: {
-      duration: 0.72,
-      times: [0, 0.22, 0.46, 0.66, 0.84, 1],
-      ease: ['easeOut', [0.55, 0, 0.9, 0.45], 'easeOut', 'easeInOut', 'easeInOut'],
+      duration: BOOKMARK_DURATION,
+      times: BOOKMARK_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], BOOKMARK_LAND],
     },
   },
 };

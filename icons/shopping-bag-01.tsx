@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ShoppingBag01IconHandle {
@@ -16,43 +16,30 @@ interface ShoppingBag01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const SWING_DURATION = 1;
-const SWING_TIMES = [0, 0.16, 0.36, 0.54, 0.7, 0.85, 1];
+const SWING = springEase(0.8, 0.45);
+const SWING_DURATION = 1.3;
+const SWING_TIMES = [0, 0.16, 1];
+const LAG = 0.06;
 
-// The bag is picked up and swings from its top like a carried bag; the handle
-// lags a beat behind the swing and settles last.
+// Pendulum: the carried bag is kicked to one side from its top, then a
+// high-bounce spring swings it back through rest; the handle lags the bag.
 const bagVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg)' },
+  normal: { rotate: 0 },
   animate: {
-    transform: [
-      'translateY(0px) rotate(0deg)',
-      'translateY(-1.6px) rotate(-9deg)',
-      'translateY(-1.2px) rotate(7deg)',
-      'translateY(-0.7px) rotate(-4.5deg)',
-      'translateY(-0.3px) rotate(2.2deg)',
-      'translateY(0px) rotate(-0.8deg)',
-      'translateY(0px) rotate(0deg)',
-    ],
-    transition: { duration: SWING_DURATION, times: SWING_TIMES, ease: 'easeInOut' },
+    rotate: [0, -12, 0],
+    transition: { duration: SWING_DURATION, times: SWING_TIMES, ease: ['easeOut', SWING] },
   },
 };
 
 const handleVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+  normal: { x: 0 },
   animate: {
-    transform: [
-      'translateX(0px)',
-      'translateX(0.9px)',
-      'translateX(-0.8px)',
-      'translateX(0.5px)',
-      'translateX(-0.25px)',
-      'translateX(0.08px)',
-      'translateX(0px)',
-    ],
+    x: [0, -0.9, 0],
     transition: {
       duration: SWING_DURATION,
-      times: [0, 0.22, 0.42, 0.6, 0.76, 0.9, 1],
-      ease: 'easeInOut',
+      delay: LAG,
+      times: SWING_TIMES,
+      ease: ['easeOut', SWING],
     },
   },
 };

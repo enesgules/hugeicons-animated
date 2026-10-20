@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef, useId } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CallIncoming01IconHandle {
@@ -16,43 +16,51 @@ interface CallIncoming01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const ARROW = 'M16 10C15.3932 9.41016 13 7.84027 13 7C13 6.15973 15.3932 4.58984 16 4M13.5 7H21';
-const DURATION = 1;
+const ARROW =
+  'M16 10C15.3932 9.41016 13 7.84027 13 7C13 6.15973 15.3932 4.58984 16 4M13.5 7H21';
+const RING = springEase(0.7, 0.45);
+const RING_DURATION = 0.9;
+const RING_TIMES = [0, 0.16, 1];
+const ARROW_DURATION = 1.1;
+const ARROW_LAND = springEase(0.5, 0.3);
 
-// The call comes in: the arrow pulls back and dives into the handset, the
-// handset rattles as it rings, and a fresh arrow slides in from the right edge.
+// The call comes in: the arrow winds back and dives into the handset, the
+// handset rings on the hit, and a fresh arrow springs in from the right edge.
+// Ring, shared by every phone icon: the handset kicks to one side, then a
+// high-bounce spring rattles it back through rest until it settles.
 const handsetVariants: Variants = {
-  normal: { rotate: 0 },
+  normal: { transform: 'rotate(0deg)' },
   animate: {
-    rotate: [0, 0, -10, 8, -6, 3, 0],
+    transform: ['rotate(0deg)', 'rotate(-15deg)', 'rotate(0deg)'],
     transition: {
-      duration: DURATION,
-      ease: 'easeInOut',
-      times: [0, 0.36, 0.48, 0.6, 0.72, 0.84, 0.96],
+      duration: RING_DURATION,
+      delay: 0.26,
+      times: RING_TIMES,
+      ease: ['easeOut', RING],
     },
   },
 };
 
 const departingArrowVariants: Variants = {
-  normal: { translateX: 0 },
+  normal: { transform: 'translateX(0px)' },
   animate: {
-    translateX: [0, 1.4, -11, -11],
+    transform: ['translateX(0px)', 'translateX(1.4px)', 'translateX(-13px)', 'translateX(-13px)'],
     transition: {
-      duration: DURATION,
+      duration: ARROW_DURATION,
+      times: [0, 0.16, 0.36, 1],
       ease: ['easeOut', 'easeIn', 'linear'],
-      times: [0, 0.2, 0.42, 1],
     },
   },
 };
 
 const arrivingArrowVariants: Variants = {
-  normal: { translateX: 12 },
+  normal: { transform: 'translateX(12px)' },
   animate: {
-    translateX: [12, 12, -0.6, 0.2, 0],
+    transform: ['translateX(12px)', 'translateX(12px)', 'translateX(0px)'],
     transition: {
-      duration: DURATION,
-      ease: ['linear', [0.23, 1, 0.32, 1], 'easeInOut', 'easeInOut'],
-      times: [0, 0.44, 0.74, 0.88, 1],
+      duration: ARROW_DURATION,
+      times: [0, 0.4, 1],
+      ease: ['linear', ARROW_LAND],
     },
   },
 };
@@ -91,7 +99,7 @@ const CallIncoming01Icon = forwardRef<CallIncoming01IconHandle, CallIncoming01Ic
         >
           <defs>
             <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
-              <rect x="11.5" y="2" width="12.5" height="10" />
+              <rect x="10" y="2" width="14" height="10" />
             </clipPath>
           </defs>
           <motion.path

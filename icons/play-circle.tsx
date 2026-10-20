@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface PlayCircleIconHandle {
@@ -16,30 +16,38 @@ interface PlayCircleIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const PLAY_DURATION = 0.56;
-const PLAY_TIMES = [0, 0.22, 0.52, 0.78, 1];
+const MEDIA_LAND = springEase(0.5, 0.3);
+const MEDIA_DURATION = 0.8;
+const MEDIA_TIMES = [0, 0.16, 0.4, 1];
 
-// The button presses in while the play shape compresses, then the shape
-// releases forward and both settle.
-const buttonVariants: Variants = {
+// Media: the play shape compresses back, releases forward, and lands with a
+// spring; the ring dips with the press and springs back.
+const ringVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.93)', 'scale(1.03)', 'scale(0.995)', 'scale(1)'],
-    transition: { duration: PLAY_DURATION, times: PLAY_TIMES, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scale(1)', 'scale(0.92)', 'scale(0.95)', 'scale(1)'],
+    transition: {
+      duration: MEDIA_DURATION,
+      times: MEDIA_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], MEDIA_LAND],
+    },
   },
 };
 
-const playVariants: Variants = {
+const triangleVariants: Variants = {
   normal: { transform: 'translateX(0px) scaleX(1) scaleY(1)' },
   animate: {
     transform: [
       'translateX(0px) scaleX(1) scaleY(1)',
-      'translateX(-0.9px) scaleX(0.86) scaleY(1.05)',
-      'translateX(2.2px) scaleX(1.12) scaleY(0.96)',
-      'translateX(-0.2px) scaleX(0.99) scaleY(1.005)',
+      'translateX(-0.8px) scaleX(0.88) scaleY(1.04)',
+      'translateX(2px) scaleX(1.08) scaleY(0.97)',
       'translateX(0px) scaleX(1) scaleY(1)',
     ],
-    transition: { duration: PLAY_DURATION, times: PLAY_TIMES, ease: [0.23, 1, 0.32, 1] },
+    transition: {
+      duration: MEDIA_DURATION,
+      times: MEDIA_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], MEDIA_LAND],
+    },
   },
 };
 
@@ -75,7 +83,7 @@ const PlayCircleIcon = forwardRef<PlayCircleIconHandle, PlayCircleIconProps>(
             r="10"
             stroke="currentColor"
             strokeWidth="1.5"
-            variants={buttonVariants}
+            variants={ringVariants}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
@@ -85,7 +93,7 @@ const PlayCircleIcon = forwardRef<PlayCircleIconHandle, PlayCircleIconProps>(
             stroke="currentColor"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={playVariants}
+            variants={triangleVariants}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 10 / 24, originY: 0.5 }}

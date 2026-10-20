@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface SparklesIconHandle {
@@ -16,51 +16,37 @@ interface SparklesIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const GLINT_DURATION = 1.1;
-
+const GLINT_DURATION = 0.9;
+const GLINT_TIMES = [0, 0.18, 0.5, 1];
+const GLINT_LAND = springEase(0.45, 0.35);
 const TWINKLES = [
   { x: 5, y: 4.5, start: 0.5 },
   { x: 19.5, y: 18.5, start: 0.62 },
 ] as const;
 
-// Each star winds up, then spins a quarter turn and pops (four-point stars
-// land on an identical pose); the small one answers in the opposite direction.
-// The stars stay small while their arms are diagonal, so they never touch.
-// Two tiny twinkles spin open in the free corners after the pop.
-const bigStarVariants: Variants = {
+// Glint, shared by stars, sparkles and gems: a counter-turn with a squeeze,
+// one turn by the shape's symmetry with a pop that runs just past the pose,
+// and a spring landing. Four-point stars turn a quarter turn; the small one
+// answers in the opposite direction a beat later, so their arms are never
+// diagonal at the same time. The two stars sit close, so their overshoot and
+// pop are smaller than a lone star's to keep a clear gap between them. Two tiny twinkles spin open in
+// the free corners as the stars land.
+const starVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
-  animate: {
+  animate: (direction: number) => ({
     transform: [
       'rotate(0deg) scale(1)',
-      'rotate(-12deg) scale(0.82)',
-      'rotate(96deg) scale(1.1)',
-      'rotate(88deg) scale(0.98)',
-      'rotate(90deg) scale(1)',
+      `rotate(${direction * -14}deg) scale(0.88)`,
+      `rotate(${direction * 96}deg) scale(1.08)`,
+      `rotate(${direction * 90}deg) scale(1)`,
     ],
     transition: {
       duration: GLINT_DURATION,
-      ease: ['easeInOut', [0.5, 0, 0.2, 1], 'easeInOut', 'easeOut'],
-      times: [0, 0.2, 0.5, 0.7, 1],
+      delay: direction < 0 ? 0.12 : 0,
+      times: GLINT_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], GLINT_LAND],
     },
-  },
-};
-
-const smallStarVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(1)' },
-  animate: {
-    transform: [
-      'rotate(0deg) scale(1)',
-      'rotate(12deg) scale(0.8)',
-      'rotate(-96deg) scale(1.12)',
-      'rotate(-88deg) scale(0.98)',
-      'rotate(-90deg) scale(1)',
-    ],
-    transition: {
-      duration: GLINT_DURATION,
-      ease: ['easeInOut', [0.5, 0, 0.2, 1], 'easeInOut', 'easeOut'],
-      times: [0, 0.3, 0.6, 0.8, 1],
-    },
-  },
+  }),
 };
 
 const generatedGeometryVariants: Variants = {
@@ -118,7 +104,8 @@ const SparklesIcon = forwardRef<SparklesIconHandle, SparklesIconProps>(
             stroke="currentColor"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={bigStarVariants}
+            variants={starVariants}
+            custom={1}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 15 / 24, originY: 9 / 24 }}
@@ -128,7 +115,8 @@ const SparklesIcon = forwardRef<SparklesIconHandle, SparklesIconProps>(
             stroke="currentColor"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={smallStarVariants}
+            variants={starVariants}
+            custom={-1}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 7 / 24, originY: 17 / 24 }}

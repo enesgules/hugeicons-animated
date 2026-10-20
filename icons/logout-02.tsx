@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Logout02IconHandle {
@@ -16,22 +16,39 @@ interface Logout02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// as in logout-01, the arrow pushes off the door and shoots out: it winds
-// back, launches out of the doorway, and the door recoils from the kick
+const DOOR_DURATION = 0.9;
+const DOOR_TIMES = [0, 0.16, 0.4, 1];
+const ARROW_LAND = springEase(0.5, 0.3);
+const DOOR_LAND = springEase(0.45, 0.35);
+
+// Door (logout): the arrow winds back, pushes out through the doorway, and
+// springs back; the door frame recoils from the push and springs back.
 const arrowVariants: Variants = {
-  normal: { translateX: 0 },
+  normal: { transform: 'translateX(0px)' },
   animate: {
-    translateX: [0, -1, 3.2, -0.35, 0],
-    transition: { duration: 0.62, ease: [0.23, 1, 0.32, 1], times: [0, 0.2, 0.5, 0.74, 1] },
+    transform: ['translateX(0px)', 'translateX(-0.8px)', 'translateX(2.6px)', 'translateX(0px)'],
+    transition: {
+      duration: DOOR_DURATION,
+      times: DOOR_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], ARROW_LAND],
+    },
   },
 };
 
 const doorVariants: Variants = {
-  normal: { translateX: 0, scaleX: 1 },
+  normal: { transform: 'translateX(0px) scaleX(1)' },
   animate: {
-    translateX: [0, 0, -0.7, 0.2, 0],
-    scaleX: [1, 1, 0.96, 1.01, 1],
-    transition: { duration: 0.62, ease: [0.23, 1, 0.32, 1], times: [0, 0.2, 0.42, 0.7, 1] },
+    transform: [
+      'translateX(0px) scaleX(1)',
+      'translateX(0px) scaleX(1)',
+      'translateX(-1px) scaleX(0.92)',
+      'translateX(0px) scaleX(1)',
+    ],
+    transition: {
+      duration: DOOR_DURATION,
+      times: DOOR_TIMES,
+      ease: ['linear', 'easeIn', DOOR_LAND],
+    },
   },
 };
 

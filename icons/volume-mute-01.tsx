@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface VolumeMute01IconHandle {
@@ -16,32 +16,35 @@ interface VolumeMute01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// Hush: the cone draws back to sound, but a mute cross stamps down beside its
-// mouth and knocks the cone back. The cone rebounds to rest and the cross
-// shrinks away, leaving the silent speaker.
-const MUTE_DURATION = 1;
+const SOUND_DURATION = 0.8;
+const SOUND_TIMES = [0, 0.16, 0.4, 1];
+const SPEAKER_LAND = springEase(0.45, 0.35);
+const CROSS_LAND = springEase(0.5, 0.3);
 
+// Sound burst, shared by every speaker icon: the cone draws back, pushes,
+// and lands with a spring. Here no wave comes out: a mute cross springs up
+// beside the cone mouth, holds, and shrinks away to the silent speaker.
 const speakerVariants: Variants = {
-  normal: { scale: 1 },
+  normal: { transform: 'scale(1)' },
   animate: {
-    scale: [1, 0.94, 0.94, 0.9, 1.02, 1],
+    transform: ['scale(1)', 'scale(0.92)', 'scale(1.05)', 'scale(1)'],
     transition: {
-      duration: 0.8,
-      ease: ['easeOut', 'linear', 'easeIn', [0.23, 1, 0.32, 1], 'easeInOut'],
-      times: [0, 0.25, 0.35, 0.45, 0.7, 1],
+      duration: SOUND_DURATION,
+      times: SOUND_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], SPEAKER_LAND],
     },
   },
 };
 
 const muteCrossVariants: Variants = {
-  normal: { scale: 1.35, visibility: 'hidden' },
+  normal: { transform: 'scale(0)', visibility: 'hidden' },
   animate: {
-    scale: [1.35, 1.35, 0.86, 1.06, 1, 1, 0],
-    visibility: ['hidden', 'hidden', 'visible', 'visible', 'visible', 'visible', 'hidden'],
+    transform: ['scale(0)', 'scale(0)', 'scale(1)', 'scale(1)', 'scale(0)'],
+    visibility: ['hidden', 'hidden', 'visible', 'visible', 'hidden'],
     transition: {
-      duration: MUTE_DURATION,
-      ease: ['linear', 'easeIn', [0.23, 1, 0.32, 1], 'easeInOut', 'linear', 'easeIn'],
-      times: [0, 0.2, 0.34, 0.48, 0.6, 0.82, 1],
+      duration: 1.1,
+      times: [0, 0.4, 0.68, 0.84, 1],
+      ease: ['linear', CROSS_LAND, 'linear', 'easeIn'],
     },
   },
 };
@@ -86,7 +89,7 @@ const VolumeMute01Icon = forwardRef<VolumeMute01IconHandle, VolumeMute01IconProp
             variants={speakerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 6 / 24, originY: 0.5 }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 0.5 }}
           />
           <motion.g
             variants={generatedGeometryVariants}

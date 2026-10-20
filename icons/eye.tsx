@@ -1,10 +1,10 @@
 'use client';
 
-import type { Variants } from 'motion/react';
+import type { Easing, Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
-import { forwardRef, useId } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { forwardRef } from 'react';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface EyeIconHandle {
@@ -16,133 +16,50 @@ interface EyeIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const EYE_DURATION = 0.88;
-const EYE_TIMES = [0, 0.18, 0.38, 0.58, 0.68, 0.74, 0.78, 0.88, 1];
-const TOP_EYELID_OPEN =
-  'M2 14C2 13.6845 2.15201 13.4713 2.45604 13.045C3.8221 11.1294 7.31078 7 12 7C16.6892 7 20.1779 11.1294 21.544 13.045C21.848 13.4713 22 13.6845 22 14';
-const TOP_EYELID_HALF =
-  'M2 14C2 13.85 2.15201 13.7 2.45604 13.55C5.2 11.2 8.5 10 12 10C15.5 10 18.8 11.2 21.544 13.55C21.848 13.7 22 13.85 22 14';
-const EYELID_CLOSED =
-  'M2 14C2 14 2.15201 14 2.45604 14C3.8221 14 7.31078 14 12 14C16.6892 14 20.1779 14 21.544 14C21.848 14 22 14 22 14';
-const BOTTOM_EYELID_OPEN =
-  'M2 14C2 14.3155 2.15201 14.5287 2.45604 14.955C3.8221 16.8706 7.31078 21 12 21C16.6892 21 20.1779 16.8706 21.544 14.955C21.848 14.5287 22 14.3155 22 14';
-const BOTTOM_EYELID_HALF =
-  'M2 14C2 14.15 2.15201 14.3 2.45604 14.45C5.2 16.8 8.5 18 12 18C15.5 18 18.8 16.8 21.544 14.45C21.848 14.3 22 14.15 22 14';
+// The source outline with its lid height scaled around the eye line (y = 14).
+const outline = (k: number) => {
+  const y = (v: number) => +(14 + (v - 14) * k).toFixed(4);
+  return `M21.544 ${y(13.045)}C21.848 ${y(13.4713)} 22 ${y(13.6845)} 22 14C22 ${y(14.3155)} 21.848 ${y(14.5287)} 21.544 ${y(14.955)}C20.1779 ${y(16.8706)} 16.6892 ${y(21)} 12 ${y(21)}C7.31078 ${y(21)} 3.8221 ${y(16.8706)} 2.45604 ${y(14.955)}C2.15201 ${y(14.5287)} 2 ${y(14.3155)} 2 14C2 ${y(13.6845)} 2.15201 ${y(13.4713)} 2.45604 ${y(13.045)}C3.8221 ${y(11.1294)} 7.31078 ${y(7)} 12 ${y(7)}C16.6892 ${y(7)} 20.1779 ${y(11.1294)} 21.544 ${y(13.045)}Z`;
+};
 
-// The pupil darts first, then yields softly as the lids meet.
-const pupilVariants: Variants = {
-  normal: { translateX: 0, scaleX: 1, scaleY: 1 },
+const EYE_OPEN = outline(1);
+const BLINK = springEase(0.45, 0.35);
+const BLINK_DURATION = 1;
+const BLINK_TIMES = [0, 0.16, 0.34, 0.5, 0.62, 0.68, 1];
+const BLINK_EASE: Easing[] = ['easeOut', [0.4, 0, 0.2, 1], 'easeInOut', 'easeIn', 'linear', BLINK];
+const LIDS = [1, 1, 1, 1, 0, 0, 1];
+const GLANCE = [0, -2.2, 2, 0, 0, 0, 0];
+
+// Glance and blink, shared by the eye icons: the pupil glances left and right,
+// the lids meet, and the eye springs open a touch wide before it settles.
+// The brow dips with the blink.
+const outlineVariants: Variants = {
+  normal: { d: EYE_OPEN },
   animate: {
-    translateX: [0, -1.6, 1.5, 0, 0, 0, 0, 0, 0],
-    scaleX: [1, 1, 1, 1, 1.04, 1.08, 1.06, 0.98, 1],
-    scaleY: [1, 1, 1, 1, 0.92, 0.85, 0.88, 1.03, 1],
-    transition: {
-      duration: EYE_DURATION,
-      ease: 'easeInOut',
-      times: EYE_TIMES,
-    },
+    d: LIDS.map(outline),
+    transition: { duration: BLINK_DURATION, times: BLINK_TIMES, ease: BLINK_EASE },
   },
 };
 
-const eyeOutlineVariants: Variants = {
-  normal: { scaleX: 1, scaleY: 1 },
+const pupilVariants: Variants = {
+  normal: { transform: 'translateX(0px) scaleY(1)' },
   animate: {
-    scaleX: [1, 1, 1, 1, 1.015, 1.03, 1.025, 0.99, 1],
-    scaleY: [1, 1, 1, 1, 0.91, 0.78, 0.83, 1.025, 1],
-    transition: { duration: EYE_DURATION, ease: 'easeInOut', times: EYE_TIMES },
+    transform: GLANCE.map((x, i) => `translateX(${x}px) scaleY(${LIDS[i]})`),
+    transition: { duration: BLINK_DURATION, times: BLINK_TIMES, ease: BLINK_EASE },
   },
 };
 
 const browVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { transform: 'translateY(0px)' },
   animate: {
-    translateY: [0, 0, 0, 0, 0.25, 0.65, 0.55, -0.12, 0],
-    transition: { duration: EYE_DURATION, ease: 'easeInOut', times: EYE_TIMES },
-  },
-};
-
-const topEyelidVariants: Variants = {
-  normal: { d: TOP_EYELID_OPEN, pathLength: 1 },
-  animate: {
-    d: [
-      TOP_EYELID_OPEN,
-      TOP_EYELID_OPEN,
-      TOP_EYELID_OPEN,
-      TOP_EYELID_OPEN,
-      TOP_EYELID_HALF,
-      EYELID_CLOSED,
-      EYELID_CLOSED,
-      TOP_EYELID_HALF,
-      TOP_EYELID_OPEN,
-    ],
-    transition: { duration: EYE_DURATION, ease: 'easeInOut', times: EYE_TIMES },
-  },
-};
-
-const bottomEyelidVariants: Variants = {
-  normal: { d: BOTTOM_EYELID_OPEN, pathLength: 1 },
-  animate: {
-    d: [
-      BOTTOM_EYELID_OPEN,
-      BOTTOM_EYELID_OPEN,
-      BOTTOM_EYELID_OPEN,
-      BOTTOM_EYELID_OPEN,
-      BOTTOM_EYELID_HALF,
-      EYELID_CLOSED,
-      EYELID_CLOSED,
-      BOTTOM_EYELID_HALF,
-      BOTTOM_EYELID_OPEN,
-    ],
-    transition: { duration: EYE_DURATION, ease: 'easeInOut', times: EYE_TIMES },
-  },
-};
-
-const pupilClipVariants: Variants = {
-  normal: { height: 14, y: 7 },
-  animate: {
-    height: [14, 14, 14, 14, 8, 0, 0, 8, 14],
-    y: [7, 7, 7, 7, 10, 14, 14, 10, 7],
-    transition: { duration: EYE_DURATION, ease: 'easeInOut', times: EYE_TIMES },
-  },
-};
-
-const generatedGeometryVariants: Variants = {
-  normal: {
-    visibility: 'hidden',
-    transform: 'scaleX(1) scaleY(1)',
-    transition: { duration: 0 },
-  },
-  animate: {
-    visibility: [
-      'hidden',
-      'hidden',
-      'hidden',
-      'visible',
-      'visible',
-      'visible',
-      'visible',
-      'visible',
-      'hidden',
-    ],
-    transform: [
-      'scaleX(1) scaleY(1)',
-      'scaleX(1) scaleY(1)',
-      'scaleX(1) scaleY(1)',
-      'scaleX(1) scaleY(1)',
-      'scaleX(1.012) scaleY(0.93)',
-      'scaleX(1.025) scaleY(0.84)',
-      'scaleX(1.02) scaleY(0.88)',
-      'scaleX(0.995) scaleY(1.02)',
-      'scaleX(1) scaleY(1)',
-    ],
-    transition: { duration: EYE_DURATION, ease: 'easeInOut', times: EYE_TIMES },
+    transform: LIDS.map((k) => `translateY(${(1 - k) * 0.7}px)`),
+    transition: { duration: BLINK_DURATION, times: BLINK_TIMES, ease: BLINK_EASE },
   },
 };
 
 const EyeIcon = forwardRef<EyeIconHandle, EyeIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
-    const pupilClipId = useId();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
       loops: false,
@@ -166,18 +83,6 @@ const EyeIcon = forwardRef<EyeIconHandle, EyeIconProps>(
           fill="none"
           overflow="visible"
         >
-          <defs>
-            <clipPath id={pupilClipId} clipPathUnits="userSpaceOnUse">
-              <motion.rect
-                x="0"
-                width="24"
-                fill="currentColor"
-                variants={pupilClipVariants}
-                animate={controls}
-                initial="normal"
-              />
-            </clipPath>
-          </defs>
           <motion.path
             d="M2 8C2 8 6.47715 3 12 3C17.5228 3 22 8 22 8"
             stroke="currentColor"
@@ -188,13 +93,12 @@ const EyeIcon = forwardRef<EyeIconHandle, EyeIconProps>(
             initial="normal"
           />
           <motion.path
-            d="M21.544 13.045C21.848 13.4713 22 13.6845 22 14C22 14.3155 21.848 14.5287 21.544 14.955C20.1779 16.8706 16.6892 21 12 21C7.31078 21 3.8221 16.8706 2.45604 14.955C2.15201 14.5287 2 14.3155 2 14C2 13.6845 2.15201 13.4713 2.45604 13.045C3.8221 11.1294 7.31078 7 12 7C16.6892 7 20.1779 11.1294 21.544 13.045Z"
+            d={EYE_OPEN}
             stroke="currentColor"
             strokeWidth="1.5"
-            variants={eyeOutlineVariants}
+            variants={outlineVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 14px' }}
           />
           <motion.path
             d="M15 14C15 12.3431 13.6569 11 12 11C10.3431 11 9 12.3431 9 14C9 15.6569 10.3431 17 12 17C13.6569 17 15 15.6569 15 14Z"
@@ -203,36 +107,8 @@ const EyeIcon = forwardRef<EyeIconHandle, EyeIconProps>(
             variants={pupilVariants}
             animate={controls}
             initial="normal"
-            clipPath={`url(#${pupilClipId})`}
-            style={{ transformOrigin: '12px 14px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 14 / 24 }}
           />
-          <motion.g
-            variants={generatedGeometryVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 14px' }}
-          >
-            <motion.path
-              d={TOP_EYELID_OPEN}
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              variants={topEyelidVariants}
-              animate={controls}
-              initial="normal"
-            />
-            <motion.path
-              d={BOTTOM_EYELID_OPEN}
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              variants={bottomEyelidVariants}
-              animate={controls}
-              initial="normal"
-            />
-          </motion.g>
         </svg>
       </div>
     );

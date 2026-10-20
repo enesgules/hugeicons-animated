@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef, useId } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface MailOpenIconHandle {
@@ -22,106 +22,76 @@ const MAIL_LETTER_CLOSED =
   'M4.99998 12V6C4.99998 4.11438 4.99998 3.17157 5.58577 2.58579C6.17156 2 7.11437 2 8.99998 2H15C16.8856 2 17.8284 2 18.4142 2.58579C19 3.17157 19 4.11438 19 6V12H4.99998Z';
 const MAIL_TEXT = 'M10 10H14M10 6H14';
 
-const MAIL_DURATION = 0.92;
-const MAIL_TIMES = [0, 0.08, 0.16, 0.26, 0.38, 0.5, 0.62, 0.72, 0.82, 0.9, 0.96, 1];
+// Slot, shared by envelopes, the printer and the archive: the content moves
+// out (or opens), holds a beat, and lands back in place on a spring; the
+// container squashes when it lands and springs back.
+const SLOT_DURATION = 1;
+const SLOT_TIMES = [0, 0.28, 0.36, 1];
+const SLOT_LAND = springEase(0.45, 0.35);
 
-const bodyVariants: Variants = {
+const containerVariants: Variants = {
   normal: { transform: 'translateY(0px) scaleX(1) scaleY(1)' },
   animate: {
     transform: [
       'translateY(0px) scaleX(1) scaleY(1)',
       'translateY(0px) scaleX(1) scaleY(1)',
-      'translateY(0.12px) scaleX(1.006) scaleY(0.994)',
-      'translateY(0.28px) scaleX(1.018) scaleY(0.982)',
-      'translateY(0.5px) scaleX(1.035) scaleY(0.958)',
-      'translateY(0.2px) scaleX(1.014) scaleY(0.986)',
-      'translateY(-0.36px) scaleX(0.985) scaleY(1.022)',
-      'translateY(0.14px) scaleX(1.008) scaleY(0.994)',
-      'translateY(0px) scaleX(1) scaleY(1)',
-      'translateY(0px) scaleX(1) scaleY(1)',
-      'translateY(0px) scaleX(1) scaleY(1)',
+      'translateY(0.45px) scaleX(1.035) scaleY(0.958)',
       'translateY(0px) scaleX(1) scaleY(1)',
     ],
     transition: {
-      duration: MAIL_DURATION,
-      ease: 'linear',
-      times: MAIL_TIMES,
+      duration: SLOT_DURATION,
+      times: [0, 0.48, 0.56, 1],
+      ease: ['linear', 'easeOut', SLOT_LAND],
     },
   },
 };
 
-// The current letter keeps its full visibility as it clears the top edge.
+// The letter accelerates up and out of the envelope.
 const outgoingLetterVariants: Variants = {
-  normal: {
-    transform: 'translateY(0px)',
-    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-  },
+  normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: [
-      'translateY(0px)',
-      'translateY(-0.8px)',
-      'translateY(-2.4px)',
-      'translateY(-5.5px)',
-      'translateY(-9.5px)',
-      'translateY(-14px)',
-      'translateY(-18px)',
-      'translateY(-18px)',
-      'translateY(-18px)',
-      'translateY(-18px)',
-      'translateY(-18px)',
-      'translateY(-18px)',
-    ],
+    transform: ['translateY(0px)', 'translateY(-18px)', 'translateY(-18px)', 'translateY(-18px)'],
     transition: {
-      duration: MAIL_DURATION,
-      ease: [0.77, 0, 0.175, 1],
-      times: MAIL_TIMES,
+      duration: SLOT_DURATION,
+      times: SLOT_TIMES,
+      ease: [[0.5, 0, 0.9, 0.4], 'linear', 'linear'],
     },
   },
 };
 
-// A replacement follows from below, passes behind the envelope lip, and settles.
+// A replacement rises from inside the envelope and lands on a spring.
 const incomingLetterVariants: Variants = {
-  normal: {
-    transform: 'translateY(13px)',
-    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
-  },
+  normal: { transform: 'translateY(13px)' },
   animate: {
-    transform: [
-      'translateY(13px)',
-      'translateY(12px)',
-      'translateY(10px)',
-      'translateY(7px)',
-      'translateY(3.5px)',
-      'translateY(0.5px)',
-      'translateY(-0.3px)',
-      'translateY(-0.35px)',
-      'translateY(0.15px)',
-      'translateY(0px)',
-      'translateY(0px)',
-      'translateY(0px)',
-    ],
+    transform: ['translateY(13px)', 'translateY(13px)', 'translateY(13px)', 'translateY(0px)'],
     transition: {
-      duration: MAIL_DURATION,
-      ease: [0.77, 0, 0.175, 1],
-      times: MAIL_TIMES,
+      duration: SLOT_DURATION,
+      times: SLOT_TIMES,
+      ease: ['linear', 'linear', SLOT_LAND],
     },
   },
 };
 
 const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0, delay: 0.18 } },
+  normal: { visibility: 'hidden' },
   animate: { visibility: 'visible', transition: { duration: 0 } },
 };
 
 // Once the source clears the lip, it hands off to a complete document outline.
 const outgoingSourceVariants: Variants = {
-  normal: { visibility: 'visible', transition: { duration: 0, delay: 0.18 } },
-  animate: { visibility: 'hidden', transition: { duration: 0, delay: 0.15 } },
+  normal: { visibility: 'visible' },
+  animate: {
+    visibility: ['visible', 'visible', 'hidden', 'hidden'],
+    transition: { duration: SLOT_DURATION, times: [0, 0.12, 0.13, 1] },
+  },
 };
 
 const outgoingClosedVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0 } },
-  animate: { visibility: 'visible', transition: { duration: 0, delay: 0.15 } },
+  normal: { visibility: 'hidden' },
+  animate: {
+    visibility: ['hidden', 'hidden', 'visible', 'visible'],
+    transition: { duration: SLOT_DURATION, times: [0, 0.12, 0.13, 1] },
+  },
 };
 
 const MailOpenIcon = forwardRef<MailOpenIconHandle, MailOpenIconProps>(
@@ -161,10 +131,10 @@ const MailOpenIcon = forwardRef<MailOpenIconHandle, MailOpenIconProps>(
             stroke="currentColor"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={bodyVariants}
+            variants={containerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 15px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 15 / 24 }}
           />
           <motion.g
             clipPath={`url(#${letterWindowId})`}
@@ -238,10 +208,10 @@ const MailOpenIcon = forwardRef<MailOpenIconHandle, MailOpenIconProps>(
             stroke="currentColor"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={bodyVariants}
+            variants={containerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 15px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 15 / 24 }}
           />
         </svg>
       </div>

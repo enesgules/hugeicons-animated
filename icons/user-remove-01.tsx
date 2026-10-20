@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface UserRemove01IconHandle {
@@ -16,20 +16,38 @@ interface UserRemove01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the profile recoils from a decisive remove mark, then both settle cleanly
-const personVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+const MINUS_LAND = springEase(0.5, 0.3);
+const CONTAINER_LAND = springEase(0.45, 0.35);
+
+// Remove: the mark stretches a little, pinches to scaleX 0.45, and springs
+// back out. The person recoils from it, dipping back and down from the neck,
+// and settles with a spring.
+const markVariants: Variants = {
+  normal: { transform: 'scaleX(1)' },
   animate: {
-    transform: ['translateX(0px) scale(1)', 'translateX(-1.5px) scale(0.97)', 'translateX(0.35px) scale(1.01)', 'translateX(0px) scale(1)'],
-    transition: { duration: 0.54, ease: [0.23, 1, 0.32, 1] },
+    transform: ['scaleX(1)', 'scaleX(1.08)', 'scaleX(0.45)', 'scaleX(1)'],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], MINUS_LAND],
+    },
   },
 };
 
-const removeVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(1)' },
+const personVariants: Variants = {
+  normal: { transform: 'translate(0px, 0px) scale(1)' },
   animate: {
-    transform: ['rotate(-10deg) scale(0.58)', 'rotate(12deg) scale(1.2)', 'rotate(-3deg) scale(0.98)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.5, delay: 0.06, ease: [0.23, 1, 0.32, 1] },
+    transform: [
+      'translate(0px, 0px) scale(1)',
+      'translate(0.3px, -0.3px) scale(1.02)',
+      'translate(-1.2px, 0.6px) scale(0.95)',
+      'translate(0px, 0px) scale(1)',
+    ],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], CONTAINER_LAND],
+    },
   },
 };
 
@@ -68,7 +86,7 @@ const UserRemove01Icon = forwardRef<UserRemove01IconHandle, UserRemove01IconProp
             variants={personVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '9.5px 8px' }}
+            style={{ transformBox: 'view-box', originX: 9.5 / 24, originY: 13 / 24 }}
           />
           <motion.path
             d="M15.5 21L18.5 18M18.5 18L21.5 15M18.5 18L15.5 15M18.5 18L21.5 21"
@@ -76,10 +94,10 @@ const UserRemove01Icon = forwardRef<UserRemove01IconHandle, UserRemove01IconProp
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={removeVariants}
+            variants={markVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '18.5px 18px' }}
+            style={{ transformBox: 'view-box', originX: 18.5 / 24, originY: 18 / 24 }}
           />
           <motion.path
             d="M2.5 20C2.5 16.134 5.63401 13 9.5 13C10.775 13 11.9704 13.3409 13 13.9365"
@@ -90,7 +108,7 @@ const UserRemove01Icon = forwardRef<UserRemove01IconHandle, UserRemove01IconProp
             variants={personVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '9.5px 18px' }}
+            style={{ transformBox: 'view-box', originX: 9.5 / 24, originY: 13 / 24 }}
           />
         </svg>
       </div>

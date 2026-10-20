@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ZoomInAreaIconHandle {
@@ -17,27 +17,37 @@ interface ZoomInAreaIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 // rest-parity: split-source-path
-const ZOOM_DURATION = 0.8;
-const ZOOM_TIMES = [0, 0.18, 0.55, 0.8, 1];
+const FRAME_DURATION = 0.8;
+const FRAME_TIMES = [0, 0.16, 0.4, 1];
+const MARK_LAND = springEase(0.5, 0.3);
+const OBJECT_LAND = springEase(0.45, 0.35);
 
-// Zooming in: the area corners wind in, then push outward as the lens
-// magnifies, and both settle back with a small rebound.
+// Frame (zoom in): the lens and the area corners contract for leverage, then
+// burst outward as the lens magnifies, and spring back.
 const lensVariants: Variants = {
-  normal: { scale: 1 },
+  normal: { transform: 'scale(1)' },
   animate: {
-    scale: [1, 0.94, 1.2, 0.98, 1],
-    transition: { duration: ZOOM_DURATION, times: ZOOM_TIMES, ease: 'easeInOut' },
+    transform: ['scale(1)', 'scale(0.94)', 'scale(1.16)', 'scale(1)'],
+    transition: {
+      duration: FRAME_DURATION,
+      times: FRAME_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], OBJECT_LAND],
+    },
   },
 };
 
-// Each corner piece travels along its own direction (x, y).
-const FRAME_TRAVEL = [0, -0.35, 1.3, -0.15, 0];
-const frameVariants: Variants = {
-  normal: { translateX: 0, translateY: 0 },
+// Each corner piece travels along its own direction (x, y): a short wind-up,
+// the burst, and a spring landing.
+const CORNER_TRAVEL = [0, -0.5, 1.4, 0];
+const cornerVariants: Variants = {
+  normal: { transform: 'translate(0px, 0px)' },
   animate: ([dx, dy]: [number, number]) => ({
-    translateX: FRAME_TRAVEL.map((v) => v * dx),
-    translateY: FRAME_TRAVEL.map((v) => v * dy),
-    transition: { duration: ZOOM_DURATION, times: ZOOM_TIMES, ease: 'easeInOut' },
+    transform: CORNER_TRAVEL.map((v) => `translate(${v * dx}px, ${v * dy}px)`),
+    transition: {
+      duration: FRAME_DURATION,
+      times: FRAME_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], MARK_LAND],
+    },
   }),
 };
 
@@ -93,7 +103,7 @@ const ZoomInAreaIcon = forwardRef<ZoomInAreaIconHandle, ZoomInAreaIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={frameVariants}
+            variants={cornerVariants}
             custom={[0, -1]}
             animate={controls}
             initial="normal"
@@ -104,7 +114,7 @@ const ZoomInAreaIcon = forwardRef<ZoomInAreaIconHandle, ZoomInAreaIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={frameVariants}
+            variants={cornerVariants}
             custom={[-1, 0]}
             animate={controls}
             initial="normal"
@@ -115,7 +125,7 @@ const ZoomInAreaIcon = forwardRef<ZoomInAreaIconHandle, ZoomInAreaIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={frameVariants}
+            variants={cornerVariants}
             custom={[-1, 1]}
             animate={controls}
             initial="normal"
@@ -126,7 +136,7 @@ const ZoomInAreaIcon = forwardRef<ZoomInAreaIconHandle, ZoomInAreaIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={frameVariants}
+            variants={cornerVariants}
             custom={[1, -1]}
             animate={controls}
             initial="normal"
@@ -137,7 +147,7 @@ const ZoomInAreaIcon = forwardRef<ZoomInAreaIconHandle, ZoomInAreaIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={frameVariants}
+            variants={cornerVariants}
             custom={[-1, -1]}
             animate={controls}
             initial="normal"

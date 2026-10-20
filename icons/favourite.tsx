@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface FavouriteIconHandle {
@@ -16,7 +16,8 @@ interface FavouriteIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// A playful lub-dub: the heart stays centered and swells evenly on each beat.
+// A playful lub-dub: the heart stays centered and swells evenly on each beat,
+// and the second beat settles on a spring.
 const HEART_REST =
   'M10.4107 19.9677C7.58942 17.858 2 13.0348 2 8.69444C2 5.82563 4.10526 3.5 7 3.5C8.5 3.5 10 4 12 6C14 4 15.5 3.5 17 3.5C19.8947 3.5 22 5.82563 22 8.69444C22 13.0348 16.4106 17.858 13.5893 19.9677C12.6399 20.6776 11.3601 20.6776 10.4107 19.9677Z';
 const HEART_BEAT =
@@ -24,17 +25,21 @@ const HEART_BEAT =
 const HEART_HALF =
   'M10.36 19.88C7.4 17.73 1.6 12.97 1.6 8.65C1.6 5.7 4.05 3.35 7 3.35C8.55 3.35 10.05 3.9 12 5.9C13.95 3.9 15.45 3.35 17 3.35C19.95 3.35 22.4 5.7 22.4 8.65C22.4 12.97 16.6 17.73 13.65 19.88C12.67 20.64 11.33 20.64 10.36 19.88Z';
 
+const BEAT_DURATION = 0.8;
+const BEAT_TIMES = [0, 0.12, 0.3, 0.44, 0.58, 1];
+const HEART_LAND = springEase(0.45, 0.35);
+
 const heartBodyVariants: Variants = {
   normal: {
     scale: 1,
     transition: { type: 'spring', duration: 0.3, bounce: 0 },
   },
   animate: {
-    scale: [1, 0.96, 1.16, 0.98, 1.09, 1],
+    scale: [1, 0.96, 1.16, 0.98, 1.1, 1],
     transition: {
-      duration: 0.72,
-      ease: [0.22, 1, 0.36, 1],
-      times: [0, 0.12, 0.32, 0.48, 0.68, 1],
+      duration: BEAT_DURATION,
+      times: BEAT_TIMES,
+      ease: ['easeOut', [0.22, 1, 0.36, 1], 'easeInOut', [0.22, 1, 0.36, 1], HEART_LAND],
     },
   },
 };
@@ -51,9 +56,9 @@ const heartVariants: Variants = {
       HEART_REST,
     ],
     transition: {
-      duration: 0.72,
-      ease: 'easeInOut',
-      times: [0, 0.12, 0.32, 0.48, 0.68, 1],
+      duration: BEAT_DURATION,
+      times: BEAT_TIMES,
+      ease: ['easeOut', [0.22, 1, 0.36, 1], 'easeInOut', [0.22, 1, 0.36, 1], HEART_LAND],
     },
   },
 };
@@ -88,7 +93,7 @@ const FavouriteIcon = forwardRef<FavouriteIconHandle, FavouriteIconProps>(
             variants={heartBodyVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
           >
             <motion.path
               d={HEART_REST}

@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Mail02IconHandle {
@@ -18,56 +18,42 @@ interface Mail02IconProps extends HTMLAttributes<HTMLDivElement> {
 
 const FLAP_CLOSED =
   'M7 8.5L9.94202 10.2394C11.6572 11.2535 12.3428 11.2535 14.058 10.2394L17 8.5';
-const FLAP_EDGE_ON =
-  'M7 8.5L9.94202 8.75C11.6572 8.9 12.3428 8.9 14.058 8.75L17 8.5';
 const FLAP_OPEN =
   'M7 8.5L9.94202 6.9C11.6572 6 12.3428 6 14.058 6.9L17 8.5';
-const FLAP_OPEN_OVERSHOOT =
-  'M7 8.5L9.94202 6.7C11.6572 5.75 12.3428 5.75 14.058 6.7L17 8.5';
-const FLAP_CLOSED_OVERSHOOT =
-  'M7 8.5L9.94202 10.5C11.6572 11.55 12.3428 11.55 14.058 10.5L17 8.5';
 
-const MAIL_DURATION = 0.94;
+// Slot, shared by envelopes, the printer and the archive: the content moves
+// out (or opens), holds a beat, and lands back in place on a spring; the
+// container squashes when it lands and springs back.
+const SLOT_DURATION = 1;
+const SLOT_TIMES = [0, 0.28, 0.36, 1];
+const SLOT_LAND = springEase(0.45, 0.35);
 
-// The inner flap turns edge-on, opens, then snaps shut with a soft overshoot
-// while the envelope absorbs the close.
-const flapVariants: Variants = {
-  normal: { d: FLAP_CLOSED },
-  animate: {
-    d: [
-      FLAP_CLOSED,
-      FLAP_EDGE_ON,
-      FLAP_OPEN,
-      FLAP_OPEN_OVERSHOOT,
-      FLAP_OPEN,
-      FLAP_OPEN,
-      FLAP_EDGE_ON,
-      FLAP_CLOSED_OVERSHOOT,
-      FLAP_CLOSED,
-    ],
-    transition: {
-      duration: MAIL_DURATION,
-      ease: [0.77, 0, 0.175, 1],
-      times: [0, 0.13, 0.28, 0.38, 0.5, 0.62, 0.76, 0.9, 1],
-    },
-  },
-};
-
-const bodyVariants: Variants = {
+const containerVariants: Variants = {
   normal: { transform: 'translateY(0px) scaleX(1) scaleY(1)' },
   animate: {
     transform: [
       'translateY(0px) scaleX(1) scaleY(1)',
       'translateY(0px) scaleX(1) scaleY(1)',
       'translateY(0.45px) scaleX(1.035) scaleY(0.958)',
-      'translateY(-0.32px) scaleX(0.985) scaleY(1.022)',
-      'translateY(0.12px) scaleX(1.008) scaleY(0.994)',
       'translateY(0px) scaleX(1) scaleY(1)',
     ],
     transition: {
-      duration: MAIL_DURATION,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.76, 0.86, 0.93, 0.97, 1],
+      duration: SLOT_DURATION,
+      times: [0, 0.48, 0.56, 1],
+      ease: ['linear', 'easeOut', SLOT_LAND],
+    },
+  },
+};
+
+// The inner flap swings open, holds, and slams shut on a spring.
+const flapVariants: Variants = {
+  normal: { d: FLAP_CLOSED },
+  animate: {
+    d: [FLAP_CLOSED, FLAP_OPEN, FLAP_OPEN, FLAP_CLOSED],
+    transition: {
+      duration: SLOT_DURATION,
+      times: SLOT_TIMES,
+      ease: [[0.4, 0, 0.2, 1], 'linear', SLOT_LAND],
     },
   },
 };
@@ -99,7 +85,7 @@ const Mail02Icon = forwardRef<Mail02IconHandle, Mail02IconProps>(
           overflow="visible"
         >
           <motion.g
-            variants={bodyVariants}
+            variants={containerVariants}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}

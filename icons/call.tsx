@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CallIconHandle {
@@ -16,20 +16,25 @@ interface CallIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const RING_PERIOD = 1.25;
-const RATTLE_TIMES = [0, 0.084, 0.168, 0.28, 0.392, 0.476, 0.56, 1];
+const RING = springEase(0.7, 0.45);
+const RING_DURATION = 0.9;
+const RING_TIMES = [0, 0.16, 1];
+const RING_REST = 0.4;
 
-// While you hover, the handset keeps ringing: it rattles, and short ring rays
-// burst out of its open corner with each rattle, then rest and repeat.
+// Ring, shared by every phone icon: the handset kicks to one side, then a
+// high-bounce spring rattles it back through rest until it settles. While
+// you hover it keeps ringing, and short ring rays burst out of its open
+// corner with each kick.
 const handsetVariants: Variants = {
-  normal: { rotate: 0, transition: { duration: 0.3, ease: 'easeOut' } },
+  normal: { transform: 'rotate(0deg)', transition: { duration: 0.3, ease: 'easeOut' } },
   animate: {
-    rotate: [0, -12, 10, -8, 6, -3, 0, 0],
+    transform: ['rotate(0deg)', 'rotate(-15deg)', 'rotate(0deg)'],
     transition: {
-      duration: RING_PERIOD,
-      ease: 'easeInOut',
-      times: RATTLE_TIMES,
+      duration: RING_DURATION,
+      times: RING_TIMES,
+      ease: ['easeOut', RING],
       repeat: Infinity,
+      repeatDelay: RING_REST,
     },
   },
 };
@@ -46,10 +51,11 @@ const rayVariants: Variants = {
     pathOffset: [0, 0, 0, 0, 0.75, 0.75],
     visibility: ['hidden', 'hidden', 'visible', 'visible', 'hidden', 'hidden'],
     transition: {
-      duration: RING_PERIOD,
+      duration: RING_DURATION,
       ease: 'easeOut',
-      times: [0, 0.04 + i * 0.03, 0.18 + i * 0.03, 0.36 + i * 0.03, 0.52 + i * 0.03, 1],
+      times: [0, 0.1 + i * 0.04, 0.26 + i * 0.04, 0.44 + i * 0.04, 0.6 + i * 0.04, 1],
       repeat: Infinity,
+      repeatDelay: RING_REST,
     },
   }),
 };

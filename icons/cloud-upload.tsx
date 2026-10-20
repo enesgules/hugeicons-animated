@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CloudUploadIconHandle {
@@ -16,20 +16,39 @@ interface CloudUploadIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the arrow loads beneath the cloud, surges upward, and gives it a buoyant lift
-const cloudVariants: Variants = {
+const TRANSFER_DURATION = 0.9;
+const TRANSFER_TIMES = [0, 0.16, 0.4, 1];
+const ARROW_LAND = springEase(0.5, 0.3);
+const CONTAINER_LAND = springEase(0.45, 0.35);
+
+// Transfer (upload): the cloud compresses and carries the arrow down with it,
+// then springs up and launches the arrow, which springs back into place.
+const arrowVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(0px) scaleY(1)', 'translateY(0.45px) scaleY(0.98)', 'translateY(-1px) scaleY(1.03)', 'translateY(0px) scaleY(1)'],
-    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1], times: [0, 0.2, 0.56, 1] },
+    transform: ['translateY(0px)', 'translateY(0.8px)', 'translateY(-2.4px)', 'translateY(0px)'],
+    transition: {
+      duration: TRANSFER_DURATION,
+      times: TRANSFER_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], ARROW_LAND],
+    },
   },
 };
 
-const uploadVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+const containerVariants: Variants = {
+  normal: { transform: 'translateY(0px) scale(1, 1)' },
   animate: {
-    transform: ['translateY(2.4px)', 'translateY(-2.2px)', 'translateY(0.35px)', 'translateY(0px)'],
-    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.78, 1] },
+    transform: [
+      'translateY(0px) scale(1, 1)',
+      'translateY(0.8px) scale(1.03, 0.95)',
+      'translateY(-0.3px) scale(0.99, 1.03)',
+      'translateY(0px) scale(1, 1)',
+    ],
+    transition: {
+      duration: TRANSFER_DURATION,
+      times: TRANSFER_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], CONTAINER_LAND],
+    },
   },
 };
 
@@ -65,10 +84,10 @@ const CloudUploadIcon = forwardRef<CloudUploadIconHandle, CloudUploadIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={cloudVariants}
+            variants={containerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 18 / 24 }}
           />
           <motion.path
             d="M12 13L12 21M12 13C11.2998 13 9.99153 14.9943 9.5 15.5M12 13C12.7002 13 14.0085 14.9943 14.5 15.5"
@@ -76,10 +95,9 @@ const CloudUploadIcon = forwardRef<CloudUploadIconHandle, CloudUploadIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={uploadVariants}
+            variants={arrowVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 17px' }}
           />
         </svg>
       </div>

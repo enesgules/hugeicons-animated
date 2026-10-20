@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Tag01IconHandle {
@@ -16,16 +16,17 @@ interface Tag01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// A hanging price tag swings on its string hole and settles like a pendulum.
+const SWING = springEase(0.8, 0.45);
+const SWING_DURATION = 1.3;
+const SWING_TIMES = [0, 0.16, 1];
+
+// Pendulum: the hanging price tag is kicked to one side, then a high-bounce
+// spring swings it back through rest and it settles on its string hole.
 const tagVariants: Variants = {
   normal: { rotate: 0 },
   animate: {
-    rotate: [0, 14, -10, 6, -3, 1, 0],
-    transition: {
-      duration: 0.95,
-      ease: 'easeInOut',
-      times: [0, 0.18, 0.38, 0.56, 0.72, 0.87, 1],
-    },
+    rotate: [0, 18, 0],
+    transition: { duration: SWING_DURATION, times: SWING_TIMES, ease: ['easeOut', SWING] },
   },
 };
 

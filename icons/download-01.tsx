@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Download01IconHandle {
@@ -16,39 +16,38 @@ interface Download01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the arrow lifts, drops into the tray, and the tray absorbs the landing
+const TRANSFER_DURATION = 0.9;
+const TRANSFER_TIMES = [0, 0.16, 0.4, 1];
+const ARROW_LAND = springEase(0.5, 0.3);
+const CONTAINER_LAND = springEase(0.45, 0.35);
+
+// Transfer (download): the arrow winds up, drops into the tray, and springs
+// back; the tray squashes on the impact and springs back.
 const arrowVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: [
-      'translateY(0px)',
-      'translateY(-1.4px)',
-      'translateY(2.6px)',
-      'translateY(-0.5px)',
-      'translateY(0px)',
-    ],
+    transform: ['translateY(0px)', 'translateY(-0.8px)', 'translateY(2.4px)', 'translateY(0px)'],
     transition: {
-      duration: 0.74,
-      times: [0, 0.24, 0.5, 0.74, 1],
-      ease: ['easeOut', 'easeIn', 'easeOut', 'easeInOut'],
+      duration: TRANSFER_DURATION,
+      times: TRANSFER_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], ARROW_LAND],
     },
   },
 };
 
-const trayVariants: Variants = {
+const containerVariants: Variants = {
   normal: { transform: 'translateY(0px) scale(1, 1)' },
   animate: {
     transform: [
       'translateY(0px) scale(1, 1)',
       'translateY(0px) scale(1, 1)',
-      'translateY(0.9px) scale(1.04, 0.8)',
-      'translateY(-0.2px) scale(0.99, 1.05)',
+      'translateY(0.8px) scale(1.03, 0.95)',
       'translateY(0px) scale(1, 1)',
     ],
     transition: {
-      duration: 0.74,
-      times: [0, 0.46, 0.6, 0.8, 1],
-      ease: ['linear', 'easeOut', 'easeInOut', 'easeInOut'],
+      duration: TRANSFER_DURATION,
+      times: TRANSFER_TIMES,
+      ease: ['linear', 'easeIn', CONTAINER_LAND],
     },
   },
 };
@@ -85,7 +84,7 @@ const Download01Icon = forwardRef<Download01IconHandle, Download01IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={trayVariants}
+            variants={containerVariants}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 0.5, originY: 21 / 24 }}

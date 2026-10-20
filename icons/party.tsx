@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface PartyIconHandle {
@@ -16,34 +16,64 @@ interface PartyIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the popper recoils and the existing confetti emerges from inside its cone
+// A party pop: the popper winds back from its base while the confetti is
+// pulled into the cone mouth, then the popper kicks and the confetti bursts
+// out past its places with a spin and springs back to rest.
+const POP_DURATION = 1.1;
+const POP_TIMES = [0, 0.16, 0.32, 1];
+const POPPER_LAND = springEase(0.5, 0.3);
+const CONFETTI_LAND = springEase(0.45, 0.35);
+const MOUTH = [12.6, 11.4];
+// Confetti piece centres, in source order.
+const PIECES = [
+  [17.5, 6.5],
+  [21.75, 6],
+  [20.75, 13.25],
+  [18, 2.25],
+  [11, 3.25],
+  [13.6, 4],
+  [20, 10.4],
+];
+
 const popperVariants: Variants = {
-  normal: { translateX: 0, translateY: 0, rotate: 0, transition: { type: 'spring', duration: 0.5, bounce: 0 } },
+  normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    translateX: [0, -1, 0.5, 0],
-    translateY: [0, 1, -0.5, 0],
-    rotate: [0, -6, 2, 0],
-    transition: { duration: 0.75, times: [0, 0.25, 0.62, 1], ease: 'easeOut' },
+    transform: [
+      'rotate(0deg) scale(1)',
+      'rotate(-9deg) scale(0.9)',
+      'rotate(7deg) scale(1.06)',
+      'rotate(0deg) scale(1)',
+    ],
+    transition: {
+      duration: POP_DURATION,
+      times: POP_TIMES,
+      ease: ['easeIn', [0.23, 1, 0.32, 1], POPPER_LAND],
+    },
   },
 };
 
-// The confetti is sucked back into the popper, then bursts out and settles.
 const confettiVariants: Variants = {
   normal: { transform: 'translate(0px, 0px) rotate(0deg) scale(1)' },
-  animate: (i: number) => ({
-    transform: [
-      'translate(0px, 0px) rotate(0deg) scale(1)',
-      'translate(-7px, 7px) rotate(0deg) scale(0.2)',
-      'translate(' + (0.7 + (i % 2) * 0.7) + 'px, ' + (-1.2 - (i % 3) * 0.45) + 'px) rotate(' + ((i % 2 === 0 ? 1 : -1) * (14 + i * 2)) + 'deg) scale(1.05)',
-      'translate(0px, 0px) rotate(0deg) scale(1)',
-    ],
-    transition: {
-      duration: 0.74,
-      delay: i * 0.025,
-      times: [0, 0.16, 0.58, 1],
-      ease: ['easeIn', [0.23, 1, 0.32, 1], [0.23, 1, 0.32, 1]],
-    },
-  }),
+  animate: (i: number) => {
+    const [x, y] = PIECES[i];
+    const inX = MOUTH[0] - x;
+    const inY = MOUTH[1] - y;
+    const spin = (i % 2 === 0 ? 1 : -1) * (30 + i * 6);
+    return {
+      transform: [
+        'translate(0px, 0px) rotate(0deg) scale(1)',
+        `translate(${inX}px, ${inY}px) rotate(0deg) scale(0.3)`,
+        `translate(${-inX * 0.35}px, ${-inY * 0.35}px) rotate(${spin}deg) scale(1.15)`,
+        'translate(0px, 0px) rotate(0deg) scale(1)',
+      ],
+      transition: {
+        duration: POP_DURATION,
+        delay: i * 0.02,
+        times: POP_TIMES,
+        ease: ['easeIn', [0.23, 1, 0.32, 1], CONFETTI_LAND],
+      },
+    };
+  },
 };
 
 const PartyIcon = forwardRef<PartyIconHandle, PartyIconProps>(
@@ -81,7 +111,7 @@ const PartyIcon = forwardRef<PartyIconHandle, PartyIconProps>(
             variants={popperVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '5px 19px' }}
+            style={{ transformBox: 'view-box', originX: 2.6 / 24, originY: 21.4 / 24 }}
           />
           <motion.path
             d="M6.50085 10.5L13.5009 17.5M4.50085 15.5L8.50085 19.5"
@@ -92,7 +122,7 @@ const PartyIcon = forwardRef<PartyIconHandle, PartyIconProps>(
             variants={popperVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '5px 19px' }}
+            style={{ transformBox: 'view-box', originX: 2.6 / 24, originY: 21.4 / 24 }}
           />
           <motion.path
             d="M16.0009 8L19.0009 5"

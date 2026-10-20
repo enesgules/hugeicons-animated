@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface UserCircleIconHandle {
@@ -16,21 +16,37 @@ interface UserCircleIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// A real nod: the head dips on its neck, and the shoulders settle after
-// while staying anchored to the avatar frame.
+const NOD_LAND = springEase(0.45, 0.35);
+
+// People nod, shared by every user icon: the shoulders lift for a breath and
+// then settle down on their base, the head rides on them and nods forward on
+// its neck, and both land with a spring.
 const headVariants: Variants = {
-  normal: { rotate: 0 },
+  normal: { transform: 'translateY(0px) rotate(0deg)' },
   animate: {
-    rotate: [0, 18, -5, 0],
-    transition: { duration: 0.62, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] },
+    transform: [
+      'translateY(0px) rotate(0deg)',
+      'translateY(-0.24px) rotate(-6deg)',
+      'translateY(0.6px) rotate(16deg)',
+      'translateY(0px) rotate(0deg)',
+    ],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], NOD_LAND],
+    },
   },
 };
 
 const shouldersVariants: Variants = {
-  normal: { scaleY: 1 },
+  normal: { transform: 'scaleY(1)' },
   animate: {
-    scaleY: [1, 0.9, 1.02, 1],
-    transition: { duration: 0.5, ease: 'easeOut', delay: 0.26, times: [0, 0.35, 0.7, 1] },
+    transform: ['scaleY(1)', 'scaleY(1.04)', 'scaleY(0.9)', 'scaleY(1)'],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], NOD_LAND],
+    },
   },
 };
 

@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Diamond02IconHandle {
@@ -16,63 +16,60 @@ interface Diamond02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The gem pops into the light, its center facet flashes, and a large glint
-// catches its upper edge before everything settles cleanly.
+const GLINT_DURATION = 0.9;
+const GLINT_TIMES = [0, 0.18, 0.5, 1];
+const GLINT_LAND = springEase(0.45, 0.35);
+
+// Glint, shared by stars, sparkles and gems: a counter-turn with a squeeze,
+// a pop that runs just past the pose, and a spring landing. The gem tilts
+// instead of turning, its center facet flashes wide, and a twinkle spins
+// open on its upper edge as it lands.
 const svgVariants: Variants = {
-  normal: {
-    translateY: 0,
-    rotate: 0,
-    scale: 1,
-    transition: { type: 'spring', duration: 0.3, bounce: 0 },
-  },
+  normal: { transform: 'translateY(0px) rotate(0deg) scale(1)' },
   animate: {
-    translateY: [0, -1.1, 0.2, -0.35, 0],
-    rotate: [0, -4.5, 2.5, -0.75, 0],
-    scale: [1, 1.15, 0.985, 1.045, 1],
+    transform: [
+      'translateY(0px) rotate(0deg) scale(1)',
+      'translateY(0.3px) rotate(3deg) scale(0.88)',
+      'translateY(-1.1px) rotate(-4.5deg) scale(1.14)',
+      'translateY(0px) rotate(0deg) scale(1)',
+    ],
     transition: {
-      duration: 0.85,
-      ease: 'easeInOut',
-      times: [0, 0.3, 0.5, 0.72, 1],
+      duration: GLINT_DURATION,
+      times: GLINT_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], GLINT_LAND],
     },
   },
 };
 
 const facetVariants: Variants = {
-  normal: {
-    visibility: 'visible',
-    scaleX: 1,
-    transition: { duration: 0.18, ease: 'easeOut' },
-  },
+  normal: { transform: 'scaleX(1)' },
   animate: {
-    visibility: ['visible', 'visible', 'visible', 'visible', 'visible'],
-    scaleX: [1, 0.55, 1.55, 0.82, 1],
+    transform: ['scaleX(1)', 'scaleX(0.55)', 'scaleX(1.55)', 'scaleX(1)'],
     transition: {
-      duration: 0.72,
-      delay: 0.05,
-      ease: 'easeInOut',
-      times: [0, 0.24, 0.48, 0.72, 1],
+      duration: GLINT_DURATION,
+      times: GLINT_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], GLINT_LAND],
     },
   },
 };
 
-const glintVariants: Variants = {
-  normal: {
-    visibility: 'hidden',
-    scale: 0.2,
-    rotate: -18,
-    transition: { duration: 0.16, ease: 'easeOut' },
-  },
-  animate: {
-    visibility: ['hidden', 'visible', 'visible', 'hidden'],
-    scale: [0.2, 1.35, 1.05, 0.45],
-    rotate: [-18, 0, 14, 26],
+const twinkleVariants: Variants = {
+  normal: { transform: 'rotate(0deg) scale(0)', visibility: 'hidden' },
+  animate: (start: number) => ({
+    transform: [
+      'rotate(0deg) scale(0)',
+      'rotate(0deg) scale(0)',
+      'rotate(90deg) scale(1)',
+      'rotate(180deg) scale(0)',
+      'rotate(180deg) scale(0)',
+    ],
+    visibility: ['hidden', 'hidden', 'visible', 'hidden', 'hidden'],
     transition: {
-      duration: 0.68,
-      delay: 0.08,
-      ease: 'easeInOut',
-      times: [0, 0.34, 0.62, 1],
+      duration: GLINT_DURATION,
+      ease: ['linear', [0.23, 1, 0.32, 1], 'easeIn', 'linear'],
+      times: [0, start, start + 0.12, start + 0.3, 1],
     },
-  },
+  }),
 };
 
 const generatedGeometryVariants: Variants = {
@@ -124,7 +121,7 @@ const Diamond02Icon = forwardRef<Diamond02IconHandle, Diamond02IconProps>(
             variants={facetVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 8.5px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 8.5 / 24 }}
           />
           <motion.g
             variants={generatedGeometryVariants}
@@ -136,10 +133,11 @@ const Diamond02Icon = forwardRef<Diamond02IconHandle, Diamond02IconProps>(
               stroke="currentColor"
               strokeLinecap="round"
               strokeWidth="1.5"
-              variants={glintVariants}
+              variants={twinkleVariants}
+              custom={0.4}
               animate={controls}
               initial="normal"
-              style={{ transformOrigin: '19.1px 4.3px' }}
+              style={{ transformBox: 'view-box', originX: 19.1 / 24, originY: 4.3 / 24 }}
             />
           </motion.g>
         </motion.svg>

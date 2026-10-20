@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Delete03IconHandle {
@@ -16,8 +16,12 @@ interface Delete03IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the hinged lid opens, then the bin absorbs the weight as it closes and the
-// contents lines settle a beat later, top line first
+const DELETE_DURATION = 0.9;
+const DELETE_LAND = springEase(0.45, 0.35);
+const CONTENT_LAND = springEase(0.5, 0.3);
+
+// Delete, shared by every bin: the hinged lid winds down, swings open, holds,
+// and slams shut on a spring; the bin squashes when the lid lands.
 const lidVariants: Variants = {
   normal: { transform: 'translateY(0px) rotate(0deg)' },
   animate: {
@@ -26,14 +30,12 @@ const lidVariants: Variants = {
       'translateY(0.2px) rotate(1deg)',
       'translateY(-2.4px) rotate(-9deg)',
       'translateY(-2.2px) rotate(-8deg)',
-      'translateY(0.18px) rotate(1deg)',
-      'translateY(-0.08px) rotate(-0.4deg)',
       'translateY(0px) rotate(0deg)',
     ],
     transition: {
-      duration: 0.82,
-      times: [0, 0.1, 0.34, 0.52, 0.78, 0.9, 1],
-      ease: [0.77, 0, 0.175, 1],
+      duration: DELETE_DURATION,
+      times: [0, 0.12, 0.36, 0.5, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], 'easeInOut', DELETE_LAND],
     },
   },
 };
@@ -44,26 +46,27 @@ const binVariants: Variants = {
     transform: [
       'translateY(0px) scaleY(1)',
       'translateY(0px) scaleY(1)',
-      'translateY(0.35px) scaleY(0.97)',
-      'translateY(-0.14px) scaleY(1.012)',
+      'translateY(0.35px) scaleY(0.96)',
       'translateY(0px) scaleY(1)',
     ],
     transition: {
-      duration: 0.82,
-      times: [0, 0.7, 0.8, 0.91, 1],
-      ease: [0.23, 1, 0.32, 1],
+      duration: DELETE_DURATION,
+      times: [0, 0.6, 0.68, 1],
+      ease: ['linear', 'easeOut', DELETE_LAND],
     },
   },
 };
 
+// The contents drop a beat after the lid lands, top line first.
 const contentVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { transform: 'translateY(0px)' },
   animate: (i: number) => ({
-    translateY: [0, 0, 0.9, -0.25, 0],
+    transform: ['translateY(0px)', 'translateY(0px)', 'translateY(0.9px)', 'translateY(0px)'],
     transition: {
-      duration: 0.82,
-      times: [0, 0.7 + i * 0.04, 0.82 + i * 0.04, 0.92, 1],
-      ease: [0.23, 1, 0.32, 1],
+      duration: DELETE_DURATION,
+      delay: i * 0.04,
+      times: [0, 0.62, 0.72, 1],
+      ease: ['linear', 'easeOut', CONTENT_LAND],
     },
   }),
 };

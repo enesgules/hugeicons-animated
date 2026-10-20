@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ArrowReloadHorizontalIconHandle {
@@ -16,14 +16,19 @@ interface ArrowReloadHorizontalIconProps extends HTMLAttributes<HTMLDivElement> 
   size?: number;
 }
 
-// the refresh whip on a two-arrow loop: it rewinds slightly, then turns
-// clockwise half a revolution, so each arrow lands on the other's place. The
-// icon is point-symmetric, so 180 deg looks exactly like the rest pose.
+const TURN_LAND = springEase(0.45, 0.35);
+
+// Turn, as in refresh: the two-arrow loop winds up against the turn, whips
+// one full clockwise turn a little past rest, and lands with a spring.
 const svgVariants: Variants = {
-  normal: { rotate: 0 },
+  normal: { transform: 'rotate(0deg)' },
   animate: {
-    rotate: [0, -22, 180],
-    transition: { duration: 0.8, times: [0, 0.22, 1], ease: ['easeIn', 'easeOut'] },
+    transform: ['rotate(0deg)', 'rotate(-18deg)', 'rotate(384deg)', 'rotate(360deg)'],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.15, 0.55, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], TURN_LAND],
+    },
   },
 };
 

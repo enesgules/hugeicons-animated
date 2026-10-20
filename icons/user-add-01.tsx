@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface UserAdd01IconHandle {
@@ -16,20 +16,35 @@ interface UserAdd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the profile gives a buoyant nod and the add mark answers beside it
-const personVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+const PLUS_LAND = springEase(0.5, 0.3);
+const CONTAINER_LAND = springEase(0.45, 0.35);
+
+// Add, shared by every icon with a plus: the plus winds back, turns a quarter
+// turn into place (a plus turned 90 degrees matches its rest pose), and lands
+// with a spring while the person dips and springs back.
+const plusVariants: Variants = {
+  normal: { rotate: 0, scale: 1 },
   animate: {
-    transform: ['translateY(0px) scale(1)', 'translateY(-1.5px) scale(1.03)', 'translateY(0.5px) scale(0.98)', 'translateY(0px) scale(1)'],
-    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
+    rotate: [0, -16, 102, 90],
+    scale: [1, 0.8, 0.8, 1],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], PLUS_LAND],
+    },
   },
 };
 
-const plusVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(1)' },
+const containerVariants: Variants = {
+  normal: { scaleX: 1, scaleY: 1 },
   animate: {
-    transform: ['rotate(-16deg) scale(0.5)', 'rotate(5deg) scale(1.2)', 'rotate(-2deg) scale(0.98)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.5, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
+    scaleX: [1, 1, 1.03, 1],
+    scaleY: [1, 1, 0.94, 1],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], CONTAINER_LAND],
+    },
   },
 };
 
@@ -59,17 +74,27 @@ const UserAdd01Icon = forwardRef<UserAdd01IconHandle, UserAdd01IconProps>(
           fill="none"
           overflow="visible"
         >
-          <motion.path
-            d="M15 8C15 5.23858 12.7614 3 10 3C7.23858 3 5 5.23858 5 8C5 10.7614 7.23858 13 10 13C12.7614 13 15 10.7614 15 8Z"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={personVariants}
+          <motion.g
+            variants={containerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '10px 10px' }}
-          />
+            style={{ transformBox: 'view-box', originX: 10 / 24, originY: 20 / 24 }}
+          >
+            <path
+              d="M15 8C15 5.23858 12.7614 3 10 3C7.23858 3 5 5.23858 5 8C5 10.7614 7.23858 13 10 13C12.7614 13 15 10.7614 15 8Z"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M3 20C3 16.134 6.13401 13 10 13C11.4872 13 12.8662 13.4638 14 14.2547"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            />
+          </motion.g>
           <motion.path
             d="M17.5 21L17.5 14M14 17.5H21"
             stroke="currentColor"
@@ -79,18 +104,7 @@ const UserAdd01Icon = forwardRef<UserAdd01IconHandle, UserAdd01IconProps>(
             variants={plusVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '17.5px 17.5px' }}
-          />
-          <motion.path
-            d="M3 20C3 16.134 6.13401 13 10 13C11.4872 13 12.8662 13.4638 14 14.2547"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={personVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '10px 18px' }}
+            style={{ transformBox: 'view-box', originX: 17.5 / 24, originY: 17.5 / 24 }}
           />
         </svg>
       </div>

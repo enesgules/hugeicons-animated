@@ -1,10 +1,10 @@
 'use client';
 
-import type { Easing, Variants } from 'motion/react';
+import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ShoppingCartAdd01IconHandle {
@@ -16,37 +16,35 @@ interface ShoppingCartAdd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const ADD_DURATION = 0.95;
-const ADD_TIMES = [0, 0.1, 0.32, 0.44, 0.56, 0.66, 0.8, 1];
-const ADD_EASE: Easing[] = [
-  'easeOut',
-  [0.33, 1, 0.68, 1],
-  'easeOut',
-  [0.55, 0, 0.85, 0.35],
-  'easeOut',
-  'easeInOut',
-  'easeInOut',
-];
+const PLUS_LAND = springEase(0.5, 0.3);
+const CONTAINER_LAND = springEase(0.45, 0.35);
 
-// The plus crouches, hops straight up out of its open corner with a stretch,
-// and drops back into place with a squash. Its landing weighs the basket down
-// on its wheels, and the basket rebounds. The plus only moves vertically in
-// the open corner, so it never crosses the cart.
-const cartVariants: Variants = {
-  normal: { translateY: 0 },
+// Add, shared by every icon with a plus: the plus winds back, turns a quarter
+// turn into place (a plus turned 90 degrees matches its rest pose), and lands
+// with a spring while the basket dips and springs back.
+const plusVariants: Variants = {
+  normal: { rotate: 0, scale: 1 },
   animate: {
-    translateY: [0, 0, 0, 0, 0, 0.45, -0.15, 0],
-    transition: { duration: ADD_DURATION, times: ADD_TIMES, ease: ADD_EASE },
+    rotate: [0, -16, 102, 90],
+    scale: [1, 0.8, 0.8, 1],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], PLUS_LAND],
+    },
   },
 };
 
-const plusVariants: Variants = {
-  normal: { translateY: 0, scaleX: 1, scaleY: 1 },
+const containerVariants: Variants = {
+  normal: { scaleX: 1, scaleY: 1 },
   animate: {
-    translateY: [0, 0.3, -2.4, -2.4, 0, 0, 0, 0],
-    scaleX: [1, 1.12, 0.9, 1, 1.14, 0.97, 1, 1],
-    scaleY: [1, 0.82, 1.12, 1, 0.84, 1.04, 1, 1],
-    transition: { duration: ADD_DURATION, times: ADD_TIMES, ease: ADD_EASE },
+    scaleX: [1, 1, 1.03, 1],
+    scaleY: [1, 1, 0.94, 1],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], CONTAINER_LAND],
+    },
   },
 };
 
@@ -90,7 +88,12 @@ const ShoppingCartAdd01Icon = forwardRef<ShoppingCartAdd01IconHandle, ShoppingCa
             strokeLinejoin="round"
             strokeWidth="1.5"
           />
-          <motion.g variants={cartVariants} animate={controls} initial="normal">
+          <motion.g
+            variants={containerVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 17 / 24 }}
+          >
             <path
               d="M2 3H2.20664C3.53124 3 4.19354 3 4.6255 3.40221C5.05746 3.80441 5.10464 4.46503 5.19902 5.78626L5.45035 9.30496C5.5924 11.2936 5.66342 12.2879 5.96476 13.0961C6.62531 14.8677 8.08229 16.2244 9.89648 16.757C10.7241 17 11.7267 17 13.7317 17C15.8373 17 16.89 17 17.7417 16.7416C19.6593 16.1599 21.1599 14.6593 21.7416 12.7417C21.9426 12.0793 21.9872 11.299 21.9972 10M12.5 6H5.5"
               stroke="currentColor"
@@ -98,18 +101,18 @@ const ShoppingCartAdd01Icon = forwardRef<ShoppingCartAdd01IconHandle, ShoppingCa
               strokeLinejoin="round"
               strokeWidth="1.5"
             />
-            <motion.path
-              d="M16 6H22M19 9V3"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              variants={plusVariants}
-              animate={controls}
-              initial="normal"
-              style={{ transformBox: 'view-box', originX: 19 / 24, originY: 6 / 24 }}
-            />
           </motion.g>
+          <motion.path
+            d="M16 6H22M19 9V3"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={plusVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformBox: 'view-box', originX: 19 / 24, originY: 6 / 24 }}
+          />
         </svg>
       </div>
     );

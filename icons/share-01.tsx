@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Share01IconHandle {
@@ -16,33 +16,39 @@ interface Share01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const SHARE_DURATION = 0.95;
-const SHARE_TIMES = [0, 0.2, 0.42, 0.6, 0.8, 0.91, 1];
+const LAUNCH_DURATION = 0.8;
+const LAUNCH_TIMES = [0, 0.16, 0.4, 1];
+const ARROW_LAND = springEase(0.5, 0.3);
+const FRAME_LAND = springEase(0.45, 0.35);
 
-// The arrow draws back into the box, flings up and out from its tail, hangs,
-// then springs home. The box recoils as the arrow leaves it.
+// Launch, shared by the link and share icons: the arrow winds back into the
+// box, flings up and out from its tail, and springs back; the box dips as the
+// arrow loads and springs back as it leaves.
 const arrowVariants: Variants = {
-  normal: { translateX: 0, translateY: 0, rotate: 0 },
+  normal: { transform: 'translate(0px, 0px) rotate(0deg)' },
   animate: {
-    translateX: [0, -0.9, 2.6, 2.2, -0.3, 0.08, 0],
-    translateY: [0, 0.5, -1.2, -1, 0.15, -0.04, 0],
-    rotate: [0, 4, -7, -6, 1, -0.3, 0],
+    transform: [
+      'translate(0px, 0px) rotate(0deg)',
+      'translate(-0.9px, 0.5px) rotate(4deg)',
+      'translate(2.6px, -1.2px) rotate(-7deg)',
+      'translate(0px, 0px) rotate(0deg)',
+    ],
     transition: {
-      duration: SHARE_DURATION,
-      ease: 'easeInOut',
-      times: SHARE_TIMES,
+      duration: LAUNCH_DURATION,
+      times: LAUNCH_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], ARROW_LAND],
     },
   },
 };
 
 const boxVariants: Variants = {
-  normal: { translateX: 0 },
+  normal: { transform: 'scale(1)' },
   animate: {
-    translateX: [0, 0.2, -0.6, 0, 0, 0, 0],
+    transform: ['scale(1)', 'scale(0.95)', 'scale(1.03)', 'scale(1)'],
     transition: {
-      duration: SHARE_DURATION,
-      ease: 'easeInOut',
-      times: SHARE_TIMES,
+      duration: LAUNCH_DURATION,
+      times: LAUNCH_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], FRAME_LAND],
     },
   },
 };

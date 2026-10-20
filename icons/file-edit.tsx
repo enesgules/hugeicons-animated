@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface FileEditIconHandle {
@@ -16,8 +16,33 @@ interface FileEditIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The pencil lifts off its tip, scribbles two quick strokes, and taps down;
-// the page gives a small paper nudge under the pressure.
+const PAGE_DURATION = 1;
+const PAGE_TIMES = [0, 0.16, 0.4, 1];
+const PAGE_LAND = springEase(0.45, 0.35);
+
+// Page, shared by every file and document: the sheet lifts and tips back,
+// presses down, and lands on a spring.
+const pageVariants: Variants = {
+  normal: { transform: 'translateY(0px) rotate(0deg)' },
+  animate: {
+    transform: [
+      'translateY(0px) rotate(0deg)',
+      'translateY(-0.8px) rotate(-1deg)',
+      'translateY(0.5px) rotate(0.6deg)',
+      'translateY(0px) rotate(0deg)',
+    ],
+    transition: {
+      duration: PAGE_DURATION,
+      times: PAGE_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], PAGE_LAND],
+    },
+  },
+};
+
+const PENCIL_LAND = springEase(0.5, 0.3);
+
+// The pencil lifts off its tip, scribbles two quick strokes, lifts again, and
+// taps down on a spring.
 const pencilVariants: Variants = {
   normal: { transform: 'translate(0px, 0px) rotate(0deg)' },
   animate: {
@@ -27,31 +52,13 @@ const pencilVariants: Variants = {
       'translate(1.3px, 0px) rotate(4deg)',
       'translate(-0.4px, -0.3px) rotate(-5deg)',
       'translate(1px, 0px) rotate(3deg)',
+      'translate(0.2px, -1.2px) rotate(-9deg)',
       'translate(0px, 0px) rotate(0deg)',
     ],
     transition: {
-      duration: 0.8,
-      times: [0, 0.2, 0.4, 0.58, 0.76, 1],
-      ease: 'easeInOut',
-    },
-  },
-};
-
-const pageVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg)' },
-  animate: {
-    transform: [
-      'translateY(0px) rotate(0deg)',
-      'translateY(0px) rotate(0deg)',
-      'translateY(0.4px) rotate(-0.6deg)',
-      'translateY(-0.2px) rotate(0.4deg)',
-      'translateY(0.3px) rotate(-0.4deg)',
-      'translateY(0px) rotate(0deg)',
-    ],
-    transition: {
-      duration: 0.8,
-      times: [0, 0.2, 0.4, 0.58, 0.76, 1],
-      ease: 'easeInOut',
+      duration: PAGE_DURATION,
+      times: [0, 0.14, 0.22, 0.3, 0.38, 0.48, 1],
+      ease: ['easeOut', 'easeInOut', 'easeInOut', 'easeInOut', 'easeInOut', PENCIL_LAND],
     },
   },
 };
@@ -101,7 +108,7 @@ const FileEditIcon = forwardRef<FileEditIconHandle, FileEditIconProps>(
             variants={pageVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 11 / 24, originY: 12 / 24 }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
           />
         </svg>
       </div>

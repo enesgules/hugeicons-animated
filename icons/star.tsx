@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface StarIconHandle {
@@ -16,22 +16,26 @@ interface StarIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// A collected star: it gathers with a small counter-turn, then makes one
-// full spin with a pop. Five-fold symmetry lands it on the untouched pose.
+const GLINT_DURATION = 0.9;
+const GLINT_TIMES = [0, 0.18, 0.5, 1];
+const GLINT_LAND = springEase(0.45, 0.35);
+
+// Glint, shared by stars, sparkles and gems: a counter-turn with a squeeze,
+// one turn by the shape's symmetry with a pop that runs just past the pose,
+// and a spring landing. A collected star makes one full spin.
 const starVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
     transform: [
       'rotate(0deg) scale(1)',
       'rotate(-14deg) scale(0.88)',
-      'rotate(330deg) scale(1.14)',
-      'rotate(366deg) scale(0.98)',
+      'rotate(372deg) scale(1.14)',
       'rotate(360deg) scale(1)',
     ],
     transition: {
-      duration: 0.82,
-      ease: ['easeOut', [0.33, 0, 0.2, 1], 'easeOut', 'easeInOut'],
-      times: [0, 0.18, 0.62, 0.84, 1],
+      duration: GLINT_DURATION,
+      times: GLINT_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], GLINT_LAND],
     },
   },
 };
@@ -71,7 +75,7 @@ const StarIcon = forwardRef<StarIconHandle, StarIconProps>(
             variants={starVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
           />
         </svg>
       </div>

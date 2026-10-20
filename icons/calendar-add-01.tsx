@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CalendarAdd01IconHandle {
@@ -16,20 +16,35 @@ interface CalendarAdd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the calendar flips forward on its rings and the add mark stamps the new day
-const calendarVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+const PLUS_LAND = springEase(0.5, 0.3);
+const CONTAINER_LAND = springEase(0.45, 0.35);
+
+// Add, shared by every icon with a plus: the plus winds back, turns a quarter
+// turn into place (a plus turned 90 degrees matches its rest pose), and lands
+// with a spring while the calendar dips and springs back.
+const plusVariants: Variants = {
+  normal: { rotate: 0, scale: 1 },
   animate: {
-    transform: ['translateY(0px) scaleY(1)', 'translateY(-1.2px) scaleY(0.96)', 'translateY(0.65px) scaleY(1.03)', 'translateY(0px) scaleY(1)'],
-    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
+    rotate: [0, -16, 102, 90],
+    scale: [1, 0.8, 0.8, 1],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], PLUS_LAND],
+    },
   },
 };
 
-const plusVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(1)' },
+const containerVariants: Variants = {
+  normal: { scaleX: 1, scaleY: 1 },
   animate: {
-    transform: ['rotate(-15deg) scale(0.5)', 'rotate(5deg) scale(1.22)', 'rotate(-2deg) scale(0.98)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.5, delay: 0.12, ease: [0.23, 1, 0.32, 1] },
+    scaleX: [1, 1, 1.03, 1],
+    scaleY: [1, 1, 0.94, 1],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], CONTAINER_LAND],
+    },
   },
 };
 
@@ -59,39 +74,34 @@ const CalendarAdd01Icon = forwardRef<CalendarAdd01IconHandle, CalendarAdd01IconP
           fill="none"
           overflow="visible"
         >
-          <motion.path
-            d="M16 2V6M8 2V6"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={calendarVariants}
+          <motion.g
+            variants={containerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 4px' }}
-          />
-          <motion.path
-            d="M21 14V12C21 8.22876 21 6.34315 19.8284 5.17157C18.6569 4 16.7712 4 13 4H11C7.22876 4 5.34315 4 4.17157 5.17157C3 6.34315 3 8.22876 3 12V14C3 17.7712 3 19.6569 4.17157 20.8284C5.34315 22 7.22876 22 11 22H13"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={calendarVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 13px' }}
-          />
-          <motion.path
-            d="M3 10H21"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={calendarVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '12px 10px' }}
-          />
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 22 / 24 }}
+          >
+            <path
+              d="M16 2V6M8 2V6"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M21 14V12C21 8.22876 21 6.34315 19.8284 5.17157C18.6569 4 16.7712 4 13 4H11C7.22876 4 5.34315 4 4.17157 5.17157C3 6.34315 3 8.22876 3 12V14C3 17.7712 3 19.6569 4.17157 20.8284C5.34315 22 7.22876 22 11 22H13"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M3 10H21"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            />
+          </motion.g>
           <motion.path
             d="M17.5 15V22M21 18.5L14 18.5"
             stroke="currentColor"
@@ -101,7 +111,7 @@ const CalendarAdd01Icon = forwardRef<CalendarAdd01IconHandle, CalendarAdd01IconP
             variants={plusVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '17.5px 18.5px' }}
+            style={{ transformBox: 'view-box', originX: 17.5 / 24, originY: 18.5 / 24 }}
           />
         </svg>
       </div>

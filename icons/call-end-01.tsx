@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CallEnd01IconHandle {
@@ -16,44 +16,37 @@ interface CallEnd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const HANG_UP_DURATION = 0.9;
+const RING = springEase(0.7, 0.45);
+const RING_DURATION = 0.9;
+const RING_TIMES = [0, 0.16, 1];
+const MARK_LAND = springEase(0.5, 0.3);
 
-// The handset lifts, slams down onto the cradle, and bounces to rest; the
-// end mark stamps a quarter turn on the impact.
+// Ring, shared by every phone icon: the handset kicks to one side, then a
+// high-bounce spring rattles it back through rest until it settles.
 const handsetVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg)' },
+  normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: [
-      'translateY(0px) rotate(0deg)',
-      'translateY(-1.3px) rotate(-9deg)',
-      'translateY(1.2px) rotate(5deg)',
-      'translateY(-0.4px) rotate(-1.8deg)',
-      'translateY(0.12px) rotate(0.5deg)',
-      'translateY(0px) rotate(0deg)',
-    ],
-    transition: {
-      duration: HANG_UP_DURATION,
-      times: [0, 0.26, 0.44, 0.62, 0.8, 1],
-      ease: ['easeOut', [0.55, 0, 0.9, 0.45], 'easeOut', 'easeInOut', 'easeInOut'],
-    },
+    transform: ['rotate(0deg)', 'rotate(-15deg)', 'rotate(0deg)'],
+    transition: { duration: RING_DURATION, times: RING_TIMES, ease: ['easeOut', RING] },
   },
 };
 
+// Cancel, for a single X: the end mark winds back, twists past a quarter
+// turn, and springs back onto it as the call is cut.
 const endMarkVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
     transform: [
       'rotate(0deg) scale(1)',
-      'rotate(0deg) scale(1)',
-      'rotate(-14deg) scale(0.85)',
-      'rotate(100deg) scale(1.16)',
-      'rotate(87deg) scale(0.98)',
+      'rotate(-16deg) scale(0.92)',
+      'rotate(108deg) scale(1.04)',
       'rotate(90deg) scale(1)',
     ],
     transition: {
-      duration: HANG_UP_DURATION,
-      times: [0, 0.2, 0.42, 0.64, 0.82, 1],
-      ease: 'easeInOut',
+      duration: 0.8,
+      delay: 0.1,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], MARK_LAND],
     },
   },
 };

@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ChartIncreaseIconHandle {
@@ -17,16 +17,19 @@ interface ChartIncreaseIconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 // The trend retracts toward its base with the arrowhead riding back down the
-// curve, turning with it, then shoots up to the tip and overshoots along the
-// final heading before it settles. Arrow keyframes are sampled from the curve.
+// curve, turning with it, then shoots up past the tip along the final heading
+// and lands on it with a spring. Arrow keyframes are sampled from the curve.
 // rest-parity: split-source-path
-const TREND_DURATION = 1;
-const TREND_TIMES = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
+const TREND_DURATION = 1.2;
+const TREND_TIMES = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.78, 1.2].map(
+  (time) => time / TREND_DURATION
+);
+const ARROW_LAND = springEase(0.5, 0.3);
 
 const lineVariants: Variants = {
   normal: { pathLength: 1 },
   animate: {
-    pathLength: [1, 0.956, 0.65, 0.344, 0.3, 0.351, 0.71, 1, 1, 1, 1],
+    pathLength: [1, 0.956, 0.65, 0.344, 0.3, 0.351, 0.71, 1, 1, 1],
     transition: { duration: TREND_DURATION, ease: 'linear', times: TREND_TIMES },
   },
 };
@@ -44,10 +47,23 @@ const arrowVariants: Variants = {
       'translate(-0.79px, 4.85px) rotate(23.7deg)',
       'translate(-0.01px, -0.52px) rotate(0deg)',
       'translate(-0.02px, -0.90px) rotate(0deg)',
-      'translate(-0.01px, -0.45px) rotate(0deg)',
       'translate(0px, 0px) rotate(0deg)',
     ],
-    transition: { duration: TREND_DURATION, ease: 'linear', times: TREND_TIMES },
+    transition: {
+      duration: TREND_DURATION,
+      times: TREND_TIMES,
+      ease: [
+        'linear',
+        'linear',
+        'linear',
+        'linear',
+        'linear',
+        'linear',
+        'linear',
+        'easeOut',
+        ARROW_LAND,
+      ],
+    },
   },
 };
 

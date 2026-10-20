@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface LocationAdd01IconHandle {
@@ -16,40 +16,34 @@ interface LocationAdd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The pin and add mark hop and settle as one object.
-const pinVariants: Variants = {
-  normal: { transform: 'translateY(0px) scaleY(1)' },
+const PLUS_LAND = springEase(0.5, 0.3);
+const CONTAINER_LAND = springEase(0.45, 0.35);
+
+// Add, shared by every icon with a plus: the plus winds back, turns a quarter
+// turn into place (a plus turned 90 degrees matches its rest pose), and lands
+// with a spring while the pin dips and springs back.
+const plusVariants: Variants = {
+  normal: { rotate: 0, scale: 1 },
   animate: {
-    transform: [
-      'translateY(0px) scaleY(1)',
-      'translateY(-2.6px) scaleY(1.04)',
-      'translateY(1.1px) scaleY(0.93)',
-      'translateY(-0.35px) scaleY(1.02)',
-      'translateY(0px) scaleY(1)',
-    ],
+    rotate: [0, -16, 102, 90],
+    scale: [1, 0.8, 0.8, 1],
     transition: {
-      duration: 0.68,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.34, 0.58, 0.78, 1],
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], PLUS_LAND],
     },
   },
 };
 
-// The plus contracts on lift and pulses once when the pin lands.
-const plusVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+const containerVariants: Variants = {
+  normal: { scaleX: 1, scaleY: 1 },
   animate: {
-    transform: [
-      'scale(1)',
-      'scale(0.9)',
-      'scale(1.15)',
-      'scale(0.97)',
-      'scale(1)',
-    ],
+    scaleX: [1, 1, 1.03, 1],
+    scaleY: [1, 1, 0.94, 1],
     transition: {
-      duration: 0.68,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, 0.34, 0.58, 0.78, 1],
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], CONTAINER_LAND],
     },
   },
 };
@@ -81,27 +75,30 @@ const LocationAdd01Icon = forwardRef<LocationAdd01IconHandle, LocationAdd01IconP
           overflow="visible"
         >
           <motion.g
-            variants={pinVariants}
+            variants={containerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 22px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 22 / 24 }}
           >
             <path
               d="M13.6177 21.367C13.1841 21.773 12.6044 22 12.0011 22C11.3978 22 10.8182 21.773 10.3845 21.367C6.41302 17.626 1.09076 13.4469 3.68627 7.37966C5.08963 4.09916 8.45834 2 12.0011 2C15.5439 2 18.9126 4.09916 20.316 7.37966C22.9082 13.4393 17.599 17.6389 13.6177 21.367Z"
               stroke="currentColor"
-              strokeWidth="1.5"
-            />
-            <motion.path
-              d="M15.5 11H12M12 11H8.5M12 11V14.5M12 11L12 7.5"
-              stroke="currentColor"
               strokeLinecap="round"
+              strokeLinejoin="round"
               strokeWidth="1.5"
-              variants={plusVariants}
-              animate={controls}
-              initial="normal"
-              style={{ transformOrigin: '12px 11px' }}
             />
           </motion.g>
+          <motion.path
+            d="M15.5 11H12M12 11H8.5M12 11V14.5M12 11L12 7.5"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={plusVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 11 / 24 }}
+          />
         </svg>
       </div>
     );

@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Settings01IconHandle {
@@ -16,27 +16,19 @@ interface Settings01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The outer mechanism turns and settles while the center bearing stays fixed.
+const TURN_LAND = springEase(0.45, 0.35);
+
+// Turn: the outer gear winds up against the turn, whips one full turn a
+// little past rest, and lands with a spring while the center bearing stays
+// fixed.
 const gearVariants: Variants = {
-  normal: {
-    transform: 'rotate(0deg)',
-    transition: { type: 'spring', duration: 0.6, bounce: 0 },
-  },
+  normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: [
-      'rotate(0deg)',
-      'rotate(202deg)',
-      'rotate(177.5deg)',
-      'rotate(180deg)',
-    ],
+    transform: ['rotate(0deg)', 'rotate(-18deg)', 'rotate(384deg)', 'rotate(360deg)'],
     transition: {
-      duration: 0.92,
-      times: [0, 0.72, 0.9, 1],
-      ease: [
-        [0.77, 0, 0.175, 1],
-        [0.23, 1, 0.32, 1],
-        [0.23, 1, 0.32, 1],
-      ],
+      duration: 0.8,
+      times: [0, 0.15, 0.55, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], TURN_LAND],
     },
   },
 };

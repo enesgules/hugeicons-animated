@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface QrCode01IconHandle {
@@ -16,21 +16,28 @@ interface QrCode01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a scanner line travels down while the code cells answer in sequence
+const QR_LAND = springEase(0.5, 0.3);
+
+// A scan: a scanner line travels down while the code cells answer in
+// sequence, each pressing in and springing back, and the frame pulses.
 const qrCellVariants: Variants = {
-  normal: { visibility: 'visible', scale: 1 },
+  normal: { scale: 1 },
   animate: (i: number) => ({
-    visibility: ['visible', 'visible', 'visible'],
     scale: [1, 0.82, 1],
-    transition: { duration: 0.42, delay: 0.12 + i * 0.07, ease: 'easeOut' },
+    transition: {
+      duration: 0.6,
+      delay: 0.12 + i * 0.07,
+      times: [0, 0.4, 1],
+      ease: [[0.4, 0, 0.2, 1], QR_LAND],
+    },
   }),
 };
 
 const qrFrameVariants: Variants = {
-  normal: { scale: 1, transition: { type: 'spring', duration: 0.4, bounce: 0 } },
+  normal: { scale: 1 },
   animate: {
     scale: [1, 1.03, 1],
-    transition: { duration: 0.75, ease: 'easeOut' },
+    transition: { duration: 0.8, times: [0, 0.3, 1], ease: ['easeOut', QR_LAND] },
   },
 };
 
@@ -46,7 +53,6 @@ const generatedGeometryVariants: Variants = {
   normal: { visibility: 'hidden', transition: { duration: 0.08 } },
   animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
-
 
 const QrCode01Icon = forwardRef<QrCode01IconHandle, QrCode01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
@@ -84,7 +90,7 @@ const QrCode01Icon = forwardRef<QrCode01IconHandle, QrCode01IconProps>(
             custom={0}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '8.5px 8.5px' }}
+            style={{ transformBox: 'view-box', originX: 8.5 / 24, originY: 8.5 / 24 }}
           />
           <motion.path
             d="M13.5 10.5C14.4428 10.5 14.9142 10.5 15.2071 10.2071C15.5 9.91421 15.5 9.44281 15.5 8.5C15.5 7.55719 15.5 7.08579 15.7929 6.79289C16.0858 6.5 16.5572 6.5 17.5 6.5"
@@ -129,7 +135,7 @@ const QrCode01Icon = forwardRef<QrCode01IconHandle, QrCode01IconProps>(
             custom={4}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '15.5px 15.5px' }}
+            style={{ transformBox: 'view-box', originX: 15.5 / 24, originY: 15.5 / 24 }}
           />
           <motion.path
             d="M6.5 21.5C6.03563 21.5 5.80344 21.5 5.60812 21.478C3.98545 21.2952 2.70484 20.0145 2.52201 18.3919C2.5 18.1966 2.5 17.9644 2.5 17.5M17.5 21.5C17.9644 21.5 18.1966 21.5 18.3919 21.478C20.0145 21.2952 21.2952 20.0145 21.478 18.3919C21.5 18.1966 21.5 17.9644 21.5 17.5M6.5 2.5C6.03563 2.5 5.80344 2.5 5.60812 2.52201C3.98545 2.70484 2.70484 3.98545 2.52201 5.60812C2.5 5.80344 2.5 6.03563 2.5 6.5M17.5 2.5C17.9644 2.5 18.1966 2.5 18.3919 2.52201C20.0145 2.70484 21.2952 3.98545 21.478 5.60812C21.5 5.80344 21.5 6.03563 21.5 6.5"
@@ -140,7 +146,7 @@ const QrCode01Icon = forwardRef<QrCode01IconHandle, QrCode01IconProps>(
             variants={qrFrameVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
           />
           <motion.g
             variants={generatedGeometryVariants}

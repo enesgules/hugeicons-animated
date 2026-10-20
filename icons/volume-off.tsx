@@ -1,10 +1,10 @@
 'use client';
 
-import type { Easing, Variants } from 'motion/react';
+import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface VolumeOffIconHandle {
@@ -16,95 +16,102 @@ interface VolumeOffIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const OFF_DURATION = 1.3;
-const BURST_EASE: Easing[] = ['linear', 'easeOut', [0.23, 1, 0.32, 1], 'easeInOut', 'linear'];
+const OFF_DURATION = 1.2;
+const SLASH_LAND = springEase(0.5, 0.3);
 
-// The slash slides out, the speaker outline heals across its two breaks and
-// gives one sound burst, then the slash slides back in and the breaks reopen
-// where it crosses. Off-canvas, the slash jumps corners while hidden.
-const slashVariants: Variants = {
-  normal: { transform: 'translate(0px, 0px)', visibility: 'visible' },
+// Slash off, shared by every icon with a slash: the slash winds back and
+// shoots off the bottom-right corner, the outline heals across its breaks,
+// then a fresh slash darts in from the top-left corner and lands with a
+// spring while the breaks reopen where it crosses.
+const departingSlashVariants: Variants = {
+  normal: { transform: 'translate(0px, 0px)' },
   animate: {
     transform: [
       'translate(0px, 0px)',
-      'translate(0.8px, 0.8px)',
-      'translate(4px, 4px)',
+      'translate(-0.8px, -0.8px)',
       'translate(24px, 24px)',
       'translate(24px, 24px)',
+    ],
+    transition: {
+      duration: OFF_DURATION,
+      times: [0, 0.12, 0.34, 1],
+      ease: ['easeOut', 'easeIn', 'linear'],
+    },
+  },
+};
+
+const arrivingSlashVariants: Variants = {
+  normal: { transform: 'translate(-24px, -24px)' },
+  animate: {
+    transform: [
       'translate(-24px, -24px)',
       'translate(-24px, -24px)',
-      'translate(-18px, -18px)',
-      'translate(-9px, -9px)',
-      'translate(-3px, -3px)',
-      'translate(-0.6px, -0.6px)',
+      'translate(1.2px, 1.2px)',
       'translate(0px, 0px)',
     ],
-    visibility: [
-      'visible',
-      'visible',
-      'visible',
-      'visible',
-      'hidden',
-      'hidden',
-      'hidden',
-      'visible',
-      'visible',
-      'visible',
-      'visible',
-      'visible',
-    ],
     transition: {
       duration: OFF_DURATION,
-      ease: 'linear',
-      times: [0, 0.05, 0.1, 0.18, 0.5, 0.501, 0.74, 0.8, 0.85, 0.9, 0.95, 1],
+      times: [0, 0.6, 0.8, 1],
+      ease: ['linear', [0.4, 0, 0.2, 1], SLASH_LAND],
     },
   },
 };
 
-const speakerVariants: Variants = {
-  normal: { transform: 'scale(1)' },
-  animate: {
-    transform: ['scale(1)', 'scale(1)', 'scale(0.94)', 'scale(1.04)', 'scale(1)', 'scale(1)'],
-    transition: {
-      duration: OFF_DURATION,
-      ease: BURST_EASE,
-      times: [0, 0.3, 0.38, 0.5, 0.64, 1],
-    },
-  },
-};
-
-const waveVariants: Variants = {
-  normal: { transform: 'scale(1)' },
-  animate: {
-    transform: ['scale(1)', 'scale(1)', 'scale(0.7)', 'scale(1.12)', 'scale(1)', 'scale(1)'],
-    transition: {
-      duration: OFF_DURATION,
-      ease: BURST_EASE,
-      times: [0, 0.3, 0.42, 0.56, 0.7, 1],
-    },
-  },
-};
-
-// Each continuation grows from the end the slash leaves first and retracts
-// toward the end it reaches first on its way back.
+// Each continuation draws once the departing slash has passed its break and
+// retracts just before the arriving slash reaches it. A zero-length stroke
+// with round caps draws a dot, so it is only visible while it has length.
 const continuationVariants: Variants = {
-  normal: { pathLength: 0 },
+  normal: { pathLength: 0, visibility: 'hidden' },
   animate: ([drawn, crossed]: [number, number]) => ({
     pathLength: [0, 0, 1, 1, 0, 0],
+    visibility: ['hidden', 'hidden', 'visible', 'visible', 'hidden', 'hidden'],
     transition: {
       duration: OFF_DURATION,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, drawn, drawn + 0.16, crossed, crossed + 0.08, 1],
+      ease: 'easeOut',
+      times: [0, drawn, drawn + 0.08, crossed - 0.015, crossed + 0.015, 1],
     },
   }),
 };
 
 const generatedGeometryVariants: Variants = {
   normal: { visibility: 'hidden', transition: { duration: 0 } },
+  animate: { visibility: 'visible', transition: { duration: 0 } },
+};
+
+const SOUND_DURATION = 0.8;
+const SOUND_TIMES = [0, 0.16, 0.4, 1];
+const SPEAKER_LAND = springEase(0.45, 0.35);
+const WAVE_LAND = springEase(0.5, 0.3);
+// The burst plays while the slash is away.
+const SOUND_DELAY = 0.4;
+
+// Sound burst, shared by every speaker icon: the cone draws back and pushes,
+// the waves gather toward the cone mouth and radiate past their rest arcs,
+// the outer wave last, and everything lands with a spring.
+const speakerVariants: Variants = {
+  normal: { transform: 'scale(1)' },
   animate: {
-    visibility: ['visible', 'visible', 'hidden'],
-    transition: { duration: OFF_DURATION, ease: 'linear', times: [0, 0.96, 1] },
+    transform: ['scale(1)', 'scale(0.92)', 'scale(1.05)', 'scale(1)'],
+    transition: {
+      duration: SOUND_DURATION,
+      delay: SOUND_DELAY,
+      times: SOUND_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], SPEAKER_LAND],
+    },
   },
+};
+
+const waveVariants: Variants = {
+  normal: { transform: 'scale(1)' },
+  animate: (i: number) => ({
+    transform: ['scale(1)', 'scale(0.65)', 'scale(1.15)', 'scale(1)'],
+    transition: {
+      duration: SOUND_DURATION,
+      delay: SOUND_DELAY + i * 0.06,
+      times: SOUND_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], WAVE_LAND],
+    },
+  }),
 };
 
 const VolumeOffIcon = forwardRef<VolumeOffIconHandle, VolumeOffIconProps>(
@@ -139,7 +146,7 @@ const VolumeOffIcon = forwardRef<VolumeOffIconHandle, VolumeOffIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={slashVariants}
+            variants={departingSlashVariants}
             animate={controls}
             initial="normal"
           />
@@ -150,6 +157,7 @@ const VolumeOffIcon = forwardRef<VolumeOffIconHandle, VolumeOffIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
             variants={waveVariants}
+            custom={0}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 14 / 24, originY: 0.5 }}
@@ -161,6 +169,7 @@ const VolumeOffIcon = forwardRef<VolumeOffIconHandle, VolumeOffIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
             variants={waveVariants}
+            custom={1}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 14 / 24, originY: 0.5 }}
@@ -183,7 +192,7 @@ const VolumeOffIcon = forwardRef<VolumeOffIconHandle, VolumeOffIconProps>(
                 strokeLinejoin="round"
                 strokeWidth="1.5"
                 variants={continuationVariants}
-                custom={[0.06, 0.82]}
+                custom={[0.23, 0.659]}
                 animate={controls}
                 initial="normal"
               />
@@ -194,7 +203,7 @@ const VolumeOffIcon = forwardRef<VolumeOffIconHandle, VolumeOffIconProps>(
                 strokeLinejoin="round"
                 strokeWidth="1.5"
                 variants={continuationVariants}
-                custom={[0.1, 0.86]}
+                custom={[0.267, 0.674]}
                 animate={controls}
                 initial="normal"
               />
@@ -205,6 +214,22 @@ const VolumeOffIcon = forwardRef<VolumeOffIconHandle, VolumeOffIconProps>(
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="1.5"
+            />
+          </motion.g>
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+            <motion.path
+              d="M22 22L2 2"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+              variants={arrivingSlashVariants}
+              animate={controls}
+              initial="normal"
             />
           </motion.g>
         </svg>

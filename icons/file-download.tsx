@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface FileDownloadIconHandle {
@@ -16,20 +16,39 @@ interface FileDownloadIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the download arrow falls decisively into the document and the page catches it
+const TRANSFER_DURATION = 0.9;
+const TRANSFER_TIMES = [0, 0.16, 0.4, 1];
+const ARROW_LAND = springEase(0.5, 0.3);
+const CONTAINER_LAND = springEase(0.45, 0.35);
+
+// Transfer (download): the arrow winds up, drops into the page, and springs
+// back; the page squashes on the impact and springs back.
 const arrowVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(-2.4px)', 'translateY(1.8px)', 'translateY(-0.35px)', 'translateY(0px)'],
-    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.5, 0.78, 1] },
+    transform: ['translateY(0px)', 'translateY(-0.8px)', 'translateY(2.4px)', 'translateY(0px)'],
+    transition: {
+      duration: TRANSFER_DURATION,
+      times: TRANSFER_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], ARROW_LAND],
+    },
   },
 };
 
-const fileVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
+const containerVariants: Variants = {
+  normal: { transform: 'translateY(0px) scale(1, 1)' },
   animate: {
-    transform: ['translateY(0px) scaleY(1)', 'translateY(0px) scaleY(1)', 'translateY(0.7px) scaleY(0.96)', 'translateY(0px) scaleY(1)'],
-    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.42, 0.62, 1] },
+    transform: [
+      'translateY(0px) scale(1, 1)',
+      'translateY(0px) scale(1, 1)',
+      'translateY(0.8px) scale(1.03, 0.95)',
+      'translateY(0px) scale(1, 1)',
+    ],
+    transition: {
+      duration: TRANSFER_DURATION,
+      times: TRANSFER_TIMES,
+      ease: ['linear', 'easeIn', CONTAINER_LAND],
+    },
   },
 };
 
@@ -68,7 +87,6 @@ const FileDownloadIcon = forwardRef<FileDownloadIconHandle, FileDownloadIconProp
             variants={arrowVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '7px 6px' }}
           />
           <motion.path
             d="M4 13L4 14.5442C4 17.7892 4 19.4117 4.88607 20.5107C5.06508 20.7327 5.26731 20.9349 5.48933 21.1139C6.58831 22 8.21082 22 11.4558 22C12.1614 22 12.5141 22 12.8372 21.886C12.9044 21.8623 12.9702 21.835 13.0345 21.8043C13.3436 21.6564 13.593 21.407 14.0919 20.9081L18.8284 16.1716C19.4065 15.5935 19.6955 15.3045 19.8478 14.9369C20 14.5694 20 14.1606 20 13.3431V10C20 6.22876 20 4.34315 18.8284 3.17157C17.6569 2 15.7712 2 12 2M13 21.5V21C13 18.1716 13 16.7574 13.8787 15.8787C14.7574 15 16.1716 15 19 15H19.5"
@@ -76,10 +94,10 @@ const FileDownloadIcon = forwardRef<FileDownloadIconHandle, FileDownloadIconProp
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={fileVariants}
+            variants={containerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 14px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 22 / 24 }}
           />
         </svg>
       </div>

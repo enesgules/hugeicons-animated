@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface HelpSquareIconHandle {
@@ -16,41 +16,41 @@ interface HelpSquareIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The question mark tilts its head on its base like a puzzled shrug, and the
-// dot hops under it.
-const squareVariants: Variants = {
-  normal: { scale: 1 },
-  animate: {
-    scale: [1, 0.98, 1.018, 0.996, 1],
-    transition: {
-      duration: 0.72,
-      ease: ['easeInOut', 'easeInOut', 'easeInOut', 'easeInOut'],
-      times: [0, 0.22, 0.5, 0.76, 1],
-    },
-  },
-};
+const HOP_LAND = springEase(0.5, 0.3);
 
-const questionVariants: Variants = {
-  normal: { rotate: 0 },
+// Info hop, shared by info, alert and help: the stem crouches on its base,
+// then pushes up while the dot hops, and both land with a spring. The frame
+// stays still.
+const stemVariants: Variants = {
+  normal: { transform: 'translateY(0px) scaleY(1)' },
   animate: {
-    rotate: [0, -18, 12, -5, 0],
+    transform: [
+      'translateY(0px) scaleY(1)',
+      'translateY(0px) scaleY(0.8)',
+      'translateY(-1px) scaleY(1.1)',
+      'translateY(0px) scaleY(1)',
+    ],
     transition: {
-      duration: 0.72,
-      ease: ['easeInOut', 'easeInOut', 'easeInOut', 'easeInOut'],
-      times: [0, 0.22, 0.5, 0.76, 1],
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], HOP_LAND],
     },
   },
 };
 
 const dotVariants: Variants = {
-  normal: { y: 0, scale: 1 },
+  normal: { transform: 'translateY(0px) scale(1)' },
   animate: {
-    y: [0, 0.5, -0.7, 0.2, 0],
-    scale: [1, 0.9, 1.15, 0.95, 1],
+    transform: [
+      'translateY(0px) scale(1)',
+      'translateY(0.5px) scale(0.85)',
+      'translateY(-1.6px) scale(1)',
+      'translateY(0px) scale(1)',
+    ],
     transition: {
-      duration: 0.72,
-      ease: ['easeInOut', [0.23, 1, 0.32, 1], 'easeInOut', 'easeInOut'],
-      times: [0, 0.22, 0.5, 0.76, 1],
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], HOP_LAND],
     },
   },
 };
@@ -81,14 +81,12 @@ const HelpSquareIcon = forwardRef<HelpSquareIconHandle, HelpSquareIconProps>(
           fill="none"
           overflow="visible"
         >
-          <motion.path
+          <path
             d="M2.5 12C2.5 7.52166 2.5 5.28249 3.89124 3.89124C5.28249 2.5 7.52166 2.5 12 2.5C16.4783 2.5 18.7175 2.5 20.1088 3.89124C21.5 5.28249 21.5 7.52166 21.5 12C21.5 16.4783 21.5 18.7175 20.1088 20.1088C18.7175 21.5 16.4783 21.5 12 21.5C7.52166 21.5 5.28249 21.5 3.89124 20.1088C2.5 18.7175 2.5 16.4783 2.5 12Z"
             stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={squareVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
           />
           <motion.path
             d="M9.5 9.5C9.5 8.11929 10.6193 7 12 7C13.3807 7 14.5 8.11929 14.5 9.5C14.5 10.3569 14.0689 11.1131 13.4117 11.5636C12.7283 12.0319 12 12.6716 12 13.5"
@@ -96,7 +94,7 @@ const HelpSquareIcon = forwardRef<HelpSquareIconHandle, HelpSquareIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={questionVariants}
+            variants={stemVariants}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 0.5, originY: 13.5 / 24 }}

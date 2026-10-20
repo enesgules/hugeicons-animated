@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 /** Imperative controls for the Clipboard Paste icon animation. */
@@ -17,39 +17,37 @@ interface ClipboardPasteIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The arrow pulls back and releases while the complete clipboard absorbs it.
+// Copy, shared by clipboards and sheets: a short wind-up, the copy moves onto
+// the original, holds there, and springs back out to its own place.
+const COPY_DURATION = 1;
+const COPY_TIMES = [0, 0.12, 0.36, 0.5, 1];
+const COPY_LAND = springEase(0.45, 0.35);
+
+// The arrow pulls back into the board, holds, and fires out; the board recoils
+// as it releases, and both spring back.
 const pasteVariants: Variants = {
-  normal: {
-    x: 0,
-    scaleX: 1,
-    transition: { type: 'spring', duration: 0.3, bounce: 0 },
-  },
+  normal: { x: 0, scaleX: 1 },
   animate: {
-    x: [0, -1.4, -1.4, 1.6, -0.35, 0],
-    scaleX: [1, 0.9, 0.9, 1.04, 0.99, 1],
+    x: [0, -1.4, -1.4, 1.6, 0],
+    scaleX: [1, 0.9, 0.9, 1.04, 1],
     transition: {
-      duration: 0.68,
-      ease: 'easeInOut',
-      times: [0, 0.16, 0.28, 0.6, 0.82, 1],
+      duration: COPY_DURATION,
+      times: COPY_TIMES,
+      ease: ['easeOut', 'linear', [0.4, 0, 0.2, 1], COPY_LAND],
     },
   },
 };
 
 const boardVariants: Variants = {
-  normal: {
-    x: 0,
-    scale: 1,
-    rotate: 0,
-    transition: { type: 'spring', duration: 0.3, bounce: 0 },
-  },
+  normal: { x: 0, scale: 1, rotate: 0 },
   animate: {
-    x: [0, 0, 0, -0.5, 0.22, 0],
-    scale: [1, 1, 1, 0.985, 1.012, 1],
-    rotate: [0, 0, 0, -0.6, 0.25, 0],
+    x: [0, 0, 0, -0.5, 0],
+    scale: [1, 1, 1, 0.985, 1],
+    rotate: [0, 0, 0, -0.6, 0],
     transition: {
-      duration: 0.68,
-      ease: 'easeInOut',
-      times: [0, 0.16, 0.34, 0.6, 0.82, 1],
+      duration: COPY_DURATION,
+      times: COPY_TIMES,
+      ease: ['linear', 'linear', [0.4, 0, 0.2, 1], COPY_LAND],
     },
   },
 };
@@ -85,7 +83,7 @@ const ClipboardPasteIcon = forwardRef<ClipboardPasteIconHandle, ClipboardPasteIc
             variants={pasteVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '15px 13px' }}
+            style={{ transformBox: 'view-box', originX: 15 / 24, originY: 13 / 24 }}
           >
             <path
               d="M19.502 13.0005H10.502"
@@ -106,7 +104,7 @@ const ClipboardPasteIcon = forwardRef<ClipboardPasteIconHandle, ClipboardPasteIc
             variants={boardVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '11.5px 12px' }}
+            style={{ transformBox: 'view-box', originX: 11.5 / 24, originY: 0.5 }}
           >
             <path
               d="M13.998 2.00049H8.99805C8.16962 2.00049 7.49805 2.67206 7.49805 3.50049C7.49805 4.32892 8.16962 5.00049 8.99805 5.00049H13.998C14.8265 5.00049 15.498 4.32892 15.498 3.50049C15.498 2.67206 14.8265 2.00049 13.998 2.00049Z"

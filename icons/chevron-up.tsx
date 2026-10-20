@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ChevronUpIconHandle {
@@ -16,11 +16,24 @@ interface ChevronUpIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
+const NUDGE_LAND = springEase(0.5, 0.3);
+
+// Nudge, shared by every arrow and chevron: a short wind-up against the
+// direction, a dart along it, and a spring landing back in place.
 const chevronVariants: Variants = {
   normal: { transform: 'translateY(0px) scaleX(1)' },
   animate: {
-    transform: ['translateY(0px) scaleX(1)', 'translateY(-2.4px) scaleX(0.9)', 'translateY(0.45px) scaleX(1.04)', 'translateY(-0.8px) scaleX(0.97)', 'translateY(0px) scaleX(1)'],
-    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
+    transform: [
+      'translateY(0px) scaleX(1)',
+      'translateY(0.7px) scaleX(1.03)',
+      'translateY(-2.6px) scaleX(0.9)',
+      'translateY(0px) scaleX(1)',
+    ],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], NUDGE_LAND],
+    },
   },
 };
 
@@ -54,7 +67,6 @@ const ChevronUpIcon = forwardRef<ChevronUpIconHandle, ChevronUpIconProps>(
           variants={chevronVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '12px 12px' }}
         />
         </svg>
       </div>

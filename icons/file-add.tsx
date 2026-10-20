@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface FileAddIconHandle {
@@ -16,20 +16,35 @@ interface FileAddIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a new sheet drops into the stack while the add mark stamps the corner
-const fileVariants: Variants = {
-  normal: { transform: 'translateY(0px) scaleY(1)' },
+const PLUS_LAND = springEase(0.5, 0.3);
+const CONTAINER_LAND = springEase(0.45, 0.35);
+
+// Add, shared by every icon with a plus: the plus winds back, turns a quarter
+// turn into place (a plus turned 90 degrees matches its rest pose), and lands
+// with a spring while the file dips and springs back.
+const plusVariants: Variants = {
+  normal: { rotate: 0, scale: 1 },
   animate: {
-    transform: ['translateY(0px) scaleY(1)', 'translateY(-1.8px) scaleY(1.02)', 'translateY(1px) scaleY(0.96)', 'translateY(-0.25px) scaleY(1.01)', 'translateY(0px) scaleY(1)'],
-    transition: { duration: 0.62, times: [0, 0.16, 0.5, 0.76, 1], ease: [0.23, 1, 0.32, 1] },
+    rotate: [0, -16, 102, 90],
+    scale: [1, 0.8, 0.8, 1],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], PLUS_LAND],
+    },
   },
 };
 
-const plusVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(1)' },
+const containerVariants: Variants = {
+  normal: { scaleX: 1, scaleY: 1 },
   animate: {
-    transform: ['rotate(0deg) scale(1)', 'rotate(-12deg) scale(0.5)', 'rotate(4deg) scale(1.22)', 'rotate(0deg) scale(1)'],
-    transition: { duration: 0.56, delay: 0.04, times: [0, 0.2, 0.62, 1], ease: [0.23, 1, 0.32, 1] },
+    scaleX: [1, 1, 1.03, 1],
+    scaleY: [1, 1, 0.94, 1],
+    transition: {
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], CONTAINER_LAND],
+    },
   },
 };
 
@@ -59,17 +74,20 @@ const FileAddIcon = forwardRef<FileAddIconHandle, FileAddIconProps>(
           fill="none"
           overflow="visible"
         >
-          <motion.path
-            d="M4 12.0005L4 14.5446C4 17.7896 4 19.4122 4.88607 20.5111C5.06508 20.7331 5.26731 20.9354 5.48933 21.1144C6.58831 22.0005 8.21082 22.0005 11.4558 22.0005C12.1614 22.0005 12.5141 22.0005 12.8372 21.8865C12.9044 21.8627 12.9702 21.8355 13.0345 21.8047C13.3436 21.6569 13.593 21.4075 14.0919 20.9086L18.8284 16.172C19.4065 15.594 19.6955 15.3049 19.8478 14.9374C20 14.5699 20 14.1611 20 13.3436V10.0005C20 6.22922 20 4.34361 18.8284 3.17203C17.7693 2.11287 16.1265 2.01125 13.0345 2.0015M13 21.5005V21.0005C13 18.172 13 16.7578 13.8787 15.8791C14.7574 15.0005 16.1716 15.0005 19 15.0005H19.5"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={fileVariants}
+          <motion.g
+            variants={containerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 14px' }}
-          />
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 22 / 24 }}
+          >
+            <path
+              d="M4 12.0005L4 14.5446C4 17.7896 4 19.4122 4.88607 20.5111C5.06508 20.7331 5.26731 20.9354 5.48933 21.1144C6.58831 22.0005 8.21082 22.0005 11.4558 22.0005C12.1614 22.0005 12.5141 22.0005 12.8372 21.8865C12.9044 21.8627 12.9702 21.8355 13.0345 21.8047C13.3436 21.6569 13.593 21.4075 14.0919 20.9086L18.8284 16.172C19.4065 15.594 19.6955 15.3049 19.8478 14.9374C20 14.5699 20 14.1611 20 13.3436V10.0005C20 6.22922 20 4.34361 18.8284 3.17203C17.7693 2.11287 16.1265 2.01125 13.0345 2.0015M13 21.5005V21.0005C13 18.172 13 16.7578 13.8787 15.8791C14.7574 15.0005 16.1716 15.0005 19 15.0005H19.5"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            />
+          </motion.g>
           <motion.path
             d="M12 5.99954H4M8 1.99954V9.99954"
             stroke="currentColor"
@@ -79,7 +97,7 @@ const FileAddIcon = forwardRef<FileAddIconHandle, FileAddIconProps>(
             variants={plusVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '8px 6px' }}
+            style={{ transformBox: 'view-box', originX: 8 / 24, originY: 6 / 24 }}
           />
         </svg>
       </div>

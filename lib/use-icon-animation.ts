@@ -1,12 +1,25 @@
 'use client';
 
 import type { LegacyAnimationControls } from 'motion/react';
-import { useReducedMotion } from 'motion/react';
+import { spring, useReducedMotion } from 'motion/react';
 import type {
   ForwardedRef,
   MouseEventHandler,
 } from 'react';
 import { useCallback, useImperativeHandle, useRef } from 'react';
+
+/**
+ * A damped spring as the easing of one keyframe segment: the value overshoots
+ * its target and settles on it. Use it for landings so every icon shares the
+ * same physical bounce. Higher `bounce` gives more oscillation.
+ */
+export function springEase(bounce = 0.45, visualDuration = 0.35) {
+  const generator = spring({ keyframes: [0, 1], bounce, visualDuration });
+  let settle = 0;
+  while (!generator.next(settle).done && settle < 5000) settle += 10;
+  return (progress: number) =>
+    progress >= 1 ? 1 : generator.next(progress * settle).value;
+}
 
 export interface AnimatedIconHandle {
   startAnimation: () => void;

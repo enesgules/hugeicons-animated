@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface FileUploadIconHandle {
@@ -16,20 +16,39 @@ interface FileUploadIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// the page loads the arrow like a spring and launches it cleanly upward
-const fileVariants: Variants = {
-  normal: { transform: 'translateY(0px)' },
-  animate: {
-    transform: ['translateY(0px) scaleY(1)', 'translateY(0.7px) scaleY(0.96)', 'translateY(-0.25px) scaleY(1.02)', 'translateY(0px) scaleY(1)'],
-    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.24, 0.58, 1] },
-  },
-};
+const TRANSFER_DURATION = 0.9;
+const TRANSFER_TIMES = [0, 0.16, 0.4, 1];
+const ARROW_LAND = springEase(0.5, 0.3);
+const CONTAINER_LAND = springEase(0.45, 0.35);
 
+// Transfer (upload): the page compresses and carries the arrow down with it,
+// then springs up and launches the arrow, which springs back into place.
 const arrowVariants: Variants = {
   normal: { transform: 'translateY(0px)' },
   animate: {
-    transform: ['translateY(1.5px)', 'translateY(1.5px)', 'translateY(-2.8px)', 'translateY(0px)'],
-    transition: { duration: 0.52, ease: [0.23, 1, 0.32, 1], times: [0, 0.22, 0.64, 1] },
+    transform: ['translateY(0px)', 'translateY(0.8px)', 'translateY(-2.4px)', 'translateY(0px)'],
+    transition: {
+      duration: TRANSFER_DURATION,
+      times: TRANSFER_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], ARROW_LAND],
+    },
+  },
+};
+
+const containerVariants: Variants = {
+  normal: { transform: 'translateY(0px) scale(1, 1)' },
+  animate: {
+    transform: [
+      'translateY(0px) scale(1, 1)',
+      'translateY(0.8px) scale(1.03, 0.95)',
+      'translateY(-0.3px) scale(0.99, 1.03)',
+      'translateY(0px) scale(1, 1)',
+    ],
+    transition: {
+      duration: TRANSFER_DURATION,
+      times: TRANSFER_TIMES,
+      ease: ['easeOut', [0.4, 0, 0.2, 1], CONTAINER_LAND],
+    },
   },
 };
 
@@ -65,10 +84,10 @@ const FileUploadIcon = forwardRef<FileUploadIconHandle, FileUploadIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={fileVariants}
+            variants={containerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 14px' }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 22 / 24 }}
           />
           <motion.path
             d="M10 5C9.41016 4.39316 7.84027 2 7 2C6.15973 2 4.58984 4.39316 4 5M7 3L7 10"
@@ -79,7 +98,6 @@ const FileUploadIcon = forwardRef<FileUploadIconHandle, FileUploadIconProps>(
             variants={arrowVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '7px 6px' }}
           />
         </svg>
       </div>

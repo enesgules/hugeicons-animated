@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface MailAdd01IconHandle {
@@ -16,41 +16,34 @@ interface MailAdd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The add mark winds back, spins a quarter turn, and stamps down; the envelope
-// takes the hit and settles.
+const PLUS_LAND = springEase(0.5, 0.3);
+const CONTAINER_LAND = springEase(0.45, 0.35);
+
+// Add, shared by every icon with a plus: the plus winds back, turns a quarter
+// turn into place (a plus turned 90 degrees matches its rest pose), and lands
+// with a spring while the envelope dips and springs back.
 const plusVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(1)' },
+  normal: { rotate: 0, scale: 1 },
   animate: {
-    transform: [
-      'rotate(0deg) scale(1)',
-      'rotate(-18deg) scale(0.86)',
-      'rotate(102deg) scale(1.16)',
-      'rotate(86deg) scale(0.97)',
-      'rotate(90deg) scale(1)',
-    ],
+    rotate: [0, -16, 102, 90],
+    scale: [1, 0.8, 0.8, 1],
     transition: {
-      duration: 0.66,
-      times: [0, 0.2, 0.55, 0.78, 1],
-      ease: 'easeInOut',
+      duration: 0.8,
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], PLUS_LAND],
     },
   },
 };
 
-const envelopeVariants: Variants = {
-  normal: { transform: 'translateY(0px) scaleX(1) scaleY(1)' },
+const containerVariants: Variants = {
+  normal: { scaleX: 1, scaleY: 1 },
   animate: {
-    transform: [
-      'translateY(0px) scaleX(1) scaleY(1)',
-      'translateY(0px) scaleX(1) scaleY(1)',
-      'translateY(0.5px) scaleX(1.03) scaleY(0.955)',
-      'translateY(-0.3px) scaleX(0.988) scaleY(1.02)',
-      'translateY(0.1px) scaleX(1.004) scaleY(0.995)',
-      'translateY(0px) scaleX(1) scaleY(1)',
-    ],
+    scaleX: [1, 1, 1.03, 1],
+    scaleY: [1, 1, 0.94, 1],
     transition: {
       duration: 0.8,
-      times: [0, 0.4, 0.55, 0.72, 0.86, 1],
-      ease: 'easeOut',
+      times: [0, 0.16, 0.4, 1],
+      ease: ['easeOut', [0.4, 0, 0.2, 1], CONTAINER_LAND],
     },
   },
 };
@@ -82,14 +75,15 @@ const MailAdd01Icon = forwardRef<MailAdd01IconHandle, MailAdd01IconProps>(
           overflow="visible"
         >
           <motion.g
-            variants={envelopeVariants}
+            variants={containerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 11.5 / 24 }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 20 / 24 }}
           >
             <path
               d="M2 5.5L8.91302 9.42462C11.4387 10.8585 12.5613 10.8585 15.087 9.42462L22 5.5"
               stroke="currentColor"
+              strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="1.5"
             />
