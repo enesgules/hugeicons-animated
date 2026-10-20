@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ShoppingCart01IconHandle {
@@ -16,21 +16,16 @@ interface ShoppingCart01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const CART_LAND = springEase(0.45, 0.35);
-const ITEMS_LAND = springEase(0.5, 0.3);
-
-// while you hover, the cart is mid-dash: each bump over the floor tips and
-// lifts the chassis, which lands with a spring rattle, while drawn speed lines
-// whip past behind it
+// while you hover, the cart is mid-dash — rattling over the floor while
+// drawn speed lines whip past behind it
 const svgVariants: Variants = {
-  normal: { rotate: 0, translateY: 0, transition: { duration: 0.5, ease: CART_LAND } },
+  normal: { rotate: 0, translateY: 0, transition: { duration: 0.3 } },
   animate: {
-    rotate: [0, -1.6, 0],
-    translateY: [0, -0.5, 0],
+    rotate: [0, -1.6, 1.2, -0.8, 0],
+    translateY: [0, -0.5, 0, -0.3, 0],
     transition: {
       duration: 0.55,
-      times: [0, 0.25, 1],
-      ease: ['easeOut', CART_LAND],
+      ease: 'easeInOut',
       repeat: Infinity,
       repeatDelay: 0.35,
     },
@@ -39,13 +34,12 @@ const svgVariants: Variants = {
 
 // the groceries bounce a beat behind the chassis
 const itemsVariants: Variants = {
-  normal: { translateY: 0, transition: { duration: 0.45, ease: ITEMS_LAND } },
+  normal: { translateY: 0, transition: { duration: 0.3 } },
   animate: {
     translateY: [0, -0.9, 0],
     transition: {
       duration: 0.55,
-      times: [0, 0.3, 1],
-      ease: ['easeOut', ITEMS_LAND],
+      ease: 'easeInOut',
       repeat: Infinity,
       repeatDelay: 0.35,
       delay: 0.08,
@@ -71,6 +65,7 @@ const generatedGeometryVariants: Variants = {
   normal: { visibility: 'hidden', transition: { duration: 0.08 } },
   animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
+
 
 const ShoppingCart01Icon = forwardRef<ShoppingCart01IconHandle, ShoppingCart01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {

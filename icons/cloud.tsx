@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CloudIconHandle {
@@ -16,6 +16,8 @@ interface CloudIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
+// A soft swell rolls through the cloud from left to right while its baseline
+// stays planted, so the icon feels alive without becoming weather-like.
 const CLOUD_REST =
   'M17.4776 10.0001C17.485 10 17.4925 10 17.5 10C19.9853 10 22 12.0147 22 14.5C22 16.9853 19.9853 19 17.5 19H7C4.23858 19 2 16.7614 2 14C2 11.4003 3.98398 9.26407 6.52042 9.0227M17.4776 10.0001C17.4924 9.83536 17.5 9.66856 17.5 9.5C17.5 6.46243 15.0376 4 12 4C9.12324 4 6.76233 6.20862 6.52042 9.0227M17.4776 10.0001C17.3753 11.1345 16.9286 12.1696 16.2428 13M6.52042 9.0227C6.67826 9.00768 6.83823 9 7 9C8.12582 9 9.16474 9.37209 10.0005 10';
 const CLOUD_LEFT_SWELL =
@@ -25,26 +27,20 @@ const CLOUD_CROWN_SWELL =
 const CLOUD_RIGHT_SWELL =
   'M18.1 9.15C18.14 9.13 18.18 9.12 18.23 9.12C21.15 9.12 23.05 11.55 23.05 14.5C23.05 16.9853 19.9853 19 17.5 19H7C4.35 19 2.1 16.7614 2.1 14C2.1 11.55 4 9.5 6.45 9.12M18.1 9.15C18.12 8.98 18.13 8.8 18.13 8.62C18.13 5.68 15.28 3.45 12.08 3.45C9.2 3.45 6.72 6.08 6.45 9.12M18.1 9.15C17.98 10.68 17.32 11.98 16.3 13M6.45 9.12C6.62 9.08 6.8 9.06 6.98 9.06C8.12 9.06 9.18 9.4 10.02 10';
 
-const WEATHER_DURATION = 1.1;
-const WEATHER_TIMES = [0, 0.16, 0.4, 1];
-const WEATHER_LAND = springEase(0.45, 0.35);
-
-// Weather, shared by every cloud: the cloud gathers (it sinks and swells),
-// releases with a lift, and settles on a spring. Here the release is a soft
-// swell that rolls through the outline from left to right.
 const svgVariants: Variants = {
-  normal: { transform: 'translateY(0px) scale(1)' },
+  normal: { transform: 'translate(0px, 0px)' },
   animate: {
     transform: [
-      'translateY(0px) scale(1)',
-      'translateY(0.4px) scale(1.04)',
-      'translateY(-0.9px) scale(0.98)',
-      'translateY(0px) scale(1)',
+      'translate(0px, 0px)',
+      'translate(-0.8px, -0.35px)',
+      'translate(0px, -1.1px)',
+      'translate(0.9px, -0.3px)',
+      'translate(0px, 0px)',
     ],
     transition: {
-      duration: WEATHER_DURATION,
-      times: WEATHER_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], WEATHER_LAND],
+      duration: 1.05,
+      ease: 'easeInOut',
+      times: [0, 0.2, 0.45, 0.7, 1],
     },
   },
 };
@@ -60,9 +56,9 @@ const cloudShapeVariants: Variants = {
       CLOUD_REST,
     ],
     transition: {
-      duration: WEATHER_DURATION,
-      times: [0, 0.16, 0.28, 0.4, 1],
-      ease: ['easeOut', 'easeInOut', [0.4, 0, 0.2, 1], WEATHER_LAND],
+      duration: 1.05,
+      ease: 'easeInOut',
+      times: [0, 0.2, 0.45, 0.7, 1],
     },
   },
 };
@@ -95,7 +91,6 @@ const CloudIcon = forwardRef<CloudIconHandle, CloudIconProps>(
           variants={svgVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 50%' }}
         >
           <motion.path
             d="M17.4776 10.0001C17.485 10 17.4925 10 17.5 10C19.9853 10 22 12.0147 22 14.5C22 16.9853 19.9853 19 17.5 19H7C4.23858 19 2 16.7614 2 14C2 11.4003 3.98398 9.26407 6.52042 9.0227M17.4776 10.0001C17.4924 9.83536 17.5 9.66856 17.5 9.5C17.5 6.46243 15.0376 4 12 4C9.12324 4 6.76233 6.20862 6.52042 9.0227M17.4776 10.0001C17.3753 11.1345 16.9286 12.1696 16.2428 13M6.52042 9.0227C6.67826 9.00768 6.83823 9 7 9C8.12582 9 9.16474 9.37209 10.0005 10"

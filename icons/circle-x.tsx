@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CircleXIconHandle {
@@ -16,48 +16,24 @@ interface CircleXIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const MARK_LAND = springEase(0.5, 0.3);
-const CONTAINER_LAND = springEase(0.45, 0.35);
-
-// Cancel, shared by every X mark: both strokes are erased fast, then redrawn
-// in writing order (top-right stroke first) a little large, and the X lands
-// at its size with a spring. The container dips as it lands.
-const markVariants: Variants = {
+const ringVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(1.12)', 'scale(1.12)', 'scale(1)'],
-    transition: {
-      duration: 1,
-      times: [0, 0.16, 0.56, 1],
-      ease: ['easeOut', 'linear', MARK_LAND],
-    },
+    transform: ['scale(1)', 'scale(0.96)', 'scale(1.025)', 'scale(1)'],
+    transition: { duration: 0.48, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
-// rest-parity: split-source-path
-const strokeVariants: Variants = {
-  normal: { pathLength: 1, pathOffset: 0, visibility: 'visible' },
-  animate: (i: number) => ({
-    pathLength: [1, 0, 0, 1, 1],
-    pathOffset: [0, 1, 0, 0, 0],
-    visibility: ['visible', 'hidden', 'hidden', 'visible', 'visible'],
-    transition: {
-      duration: 1,
-      times: [0, 0.12, 0.16 + i * 0.2, 0.36 + i * 0.2, 1],
-      ease: ['easeIn', 'linear', [0.4, 0, 0.2, 1], 'linear'],
-    },
-  }),
-};
-
-const containerVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+const crossVariants: Variants = {
+  normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(1)', 'scale(0.95)', 'scale(1)'],
-    transition: {
-      duration: 1,
-      times: [0, 0.56, 0.64, 1],
-      ease: ['linear', 'easeOut', CONTAINER_LAND],
-    },
+    transform: [
+      'rotate(0deg) scale(1)',
+      'rotate(-10deg) scale(0.82)',
+      'rotate(4deg) scale(1.08)',
+      'rotate(0deg) scale(1)',
+    ],
+    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -66,7 +42,6 @@ const CircleXIcon = forwardRef<CircleXIconHandle, CircleXIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
-      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -87,48 +62,20 @@ const CircleXIcon = forwardRef<CircleXIconHandle, CircleXIconProps>(
           fill="none"
           overflow="visible"
         >
-          <motion.circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={containerVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
-          />
-          <motion.g
-            variants={markVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
-          >
-            <motion.path
-              d="M15 9L9 15"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              custom={0}
-              variants={strokeVariants}
-              animate={controls}
-              initial="normal"
-            />
-            <motion.path
-              d="M9 9L15 15"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              custom={1}
-              variants={strokeVariants}
-              animate={controls}
-              initial="normal"
-            />
-          </motion.g>
+        <motion.circle
+          cx="12" cy="12" r="10" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
+          variants={ringVariants}
+          animate={controls}
+          initial="normal"
+          style={{ transformOrigin: '12px 12px' }}
+        />
+        <motion.path
+          d="M9 9L15 15M15 9L9 15" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
+          variants={crossVariants}
+          animate={controls}
+          initial="normal"
+          style={{ transformOrigin: '12px 12px' }}
+        />
         </svg>
       </div>
     );

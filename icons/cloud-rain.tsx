@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CloudRainIconHandle {
@@ -16,29 +16,16 @@ interface CloudRainIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const WEATHER_DURATION = 1.1;
-const WEATHER_TIMES = [0, 0.16, 0.4, 1];
-const WEATHER_LAND = springEase(0.45, 0.35);
-
-// Weather, shared by every cloud: the cloud gathers (it sinks and swells),
-// releases with a lift, and settles on a spring. Here it keeps raining: each
-// release lets the drops fall out of view, and they grow back from the top.
 const cloudVariants: Variants = {
   normal: {
-    transform: 'translateY(0px) scale(1)',
+    translateY: 0,
     transition: { duration: 0.24, ease: [0.23, 1, 0.32, 1] },
   },
   animate: {
-    transform: [
-      'translateY(0px) scale(1)',
-      'translateY(0.4px) scale(1.04)',
-      'translateY(-0.9px) scale(0.98)',
-      'translateY(0px) scale(1)',
-    ],
+    translateY: [0, -1, 0],
     transition: {
-      duration: WEATHER_DURATION,
-      times: WEATHER_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], WEATHER_LAND],
+      duration: 1.6,
+      ease: 'easeInOut',
       repeat: Infinity,
     },
   },
@@ -56,7 +43,7 @@ const rainVariants: Variants = {
     pathOffset: [0, 0, 0.82, 1, 0, 0, 0],
     visibility: ['visible', 'visible', 'visible', 'hidden', 'hidden', 'visible', 'visible'],
     transition: {
-      duration: WEATHER_DURATION,
+      duration: 1.2,
       delay: i * 0.18,
       ease: 'linear',
       times: [0, 0.18, 0.46, 0.58, 0.64, 0.88, 1],
@@ -100,7 +87,6 @@ const CloudRainIcon = forwardRef<CloudRainIconHandle, CloudRainIconProps>(
             variants={cloudVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 10 / 24 }}
           />
           <motion.path
             d="M16 14V19"

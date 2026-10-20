@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Clock01IconHandle {
@@ -16,29 +16,34 @@ interface Clock01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const CLOCK_DURATION = 1.1;
-const CLOCK_TIMES = [0, 0.16, 0.6, 1];
-const CLOCK_LAND = springEase(0.45, 0.35);
+// a playful fast-forward: the long hand completes two circuits while the short
+// hand completes one, both winding up and settling back into the source shape
+const CLOCK_REST = 'M12 8L12 12L14 14';
 
-// rest-parity: split-source-path
-// Clock, shared by every clock face: the hands wind back, sweep around the
-// dial (the long hand twice, the short hand once), run just past twelve
-// o'clock and spring back into place. Here time runs fast-forward.
-const handVariants: Variants = {
-  normal: { transform: 'rotate(0deg)' },
-  animate: (turns: number) => ({
-    transform: [
-      'rotate(0deg)',
-      `rotate(${turns * -10}deg)`,
-      `rotate(${turns * 372}deg)`,
-      `rotate(${turns * 360}deg)`,
+const handsVariants: Variants = {
+  normal: { d: CLOCK_REST },
+  animate: {
+    d: [
+      CLOCK_REST,
+      'M15.464 10L12 12L12.732 14.732',
+      'M15.464 14L12 12L11.268 14.732',
+      'M12 16L12 12L10 14',
+      'M8.536 14L12 12L9.268 12.732',
+      'M8.536 10L12 12L9.268 11.268',
+      'M12 8L12 12L10 10',
+      'M15.464 10L12 12L11.268 9.268',
+      'M15.464 14L12 12L12.732 9.268',
+      'M12 16L12 12L14 10',
+      'M8.536 14L12 12L14.732 11.268',
+      'M8.536 10L12 12L14.732 12.732',
+      CLOCK_REST,
     ],
     transition: {
-      duration: CLOCK_DURATION,
-      times: CLOCK_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], CLOCK_LAND],
+      duration: 1.04,
+      ease: 'linear',
+      times: [0, 0.12, 0.22, 0.3, 0.37, 0.43, 0.49, 0.55, 0.61, 0.68, 0.76, 0.86, 1],
     },
-  }),
+  },
 };
 
 const Clock01Icon = forwardRef<Clock01IconHandle, Clock01IconProps>(
@@ -75,28 +80,14 @@ const Clock01Icon = forwardRef<Clock01IconHandle, Clock01IconProps>(
             strokeWidth="1.5"
           />
           <motion.path
-            d="M12 8V12"
+            d="M12 8V12L14 14"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={handVariants}
-            custom={2}
+            variants={handsVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
-          />
-          <motion.path
-            d="M12 12L14 14"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={handVariants}
-            custom={1}
-            animate={controls}
-            initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
           />
         </svg>
       </div>

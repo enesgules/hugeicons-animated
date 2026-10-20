@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CompassIconHandle {
@@ -16,18 +16,16 @@ interface CompassIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const TURN_LAND = springEase(0.45, 0.35);
-
-// Turn, finding north: the needle winds up against the turn, whips one full
-// turn a little past north, and lands with a spring.
+// finding north: the needle whips a full turn, overshoots, and settles
+// with a navigator's confidence
 const needleVariants: Variants = {
-  normal: { transform: 'rotate(0deg)' },
+  normal: { rotate: 0, transition: { duration: 0.4 } },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(-18deg)', 'rotate(384deg)', 'rotate(360deg)'],
+    rotate: [0, 150, 340, 375, 360],
     transition: {
-      duration: 0.8,
-      times: [0, 0.15, 0.55, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], TURN_LAND],
+      duration: 1.4,
+      ease: 'easeInOut',
+      times: [0, 0.3, 0.62, 0.82, 1],
     },
   },
 };
@@ -87,7 +85,7 @@ const CompassIcon = forwardRef<CompassIconHandle, CompassIconProps>(
             variants={needleVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 13 / 24 }}
+            style={{ transformOrigin: '12px 13px' }}
           />
         </svg>
       </div>

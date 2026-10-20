@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface EyeOffIconHandle {
@@ -33,63 +33,109 @@ const EYE_LOWER_CONTINUATION =
 const EYE_PUPIL_CONTINUATION =
   'M14.1213 14.1213C14.6642 13.5784 15 12.8284 15 12C15 10.3431 13.6569 9 12 9C11.1716 9 10.4216 9.33579 9.87868 9.87868';
 
-const OFF_DURATION = 1.2;
-const SLASH_LAND = springEase(0.5, 0.3);
+const EYE_OFF_DURATION = 1.18;
+const EYE_OFF_TIMES = [
+  0, 0.05, 0.1, 0.16, 0.24, 0.34, 0.44, 0.56, 0.68, 0.76, 0.82, 0.87,
+  0.92, 0.97, 1,
+];
 
-// Slash off, shared by every icon with a slash: the slash winds back and
-// shoots off the bottom-right corner, the outline heals across its breaks,
-// then a fresh slash darts in from the top-left corner and lands with a
-// spring while the breaks reopen where it crosses.
+// A zero-length stroke with round caps draws a dot, so each continuation is
+// only visible while it has length.
+function createContinuationVariants(pathLength: number[]): Variants {
+  return {
+    normal: {
+      pathLength: 0,
+      visibility: 'hidden',
+      transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] },
+    },
+    animate: {
+      pathLength,
+      visibility: pathLength.map((value) => (value > 0 ? 'visible' : 'hidden')),
+      transition: {
+        duration: EYE_OFF_DURATION,
+        ease: 'linear',
+        times: EYE_OFF_TIMES,
+      },
+    },
+  };
+}
+
+const upperContinuationVariants = createContinuationVariants([
+  0, 0, 0, 0.12, 0.62, 1, 1, 1, 1, 1, 0.62, 0.2, 0, 0, 0,
+]);
+
+const lowerContinuationVariants = createContinuationVariants([
+  0, 0, 0, 0, 0.25, 0.7, 1, 1, 1, 1, 1, 1, 0.8, 0.3, 0,
+]);
+
+const pupilContinuationVariants = createContinuationVariants([
+  0, 0, 0, 0, 0.4, 0.82, 1, 1, 1, 1, 1, 0.75, 0.25, 0, 0,
+]);
+
+// One complete slash clears the eye toward the bottom right.
 const departingSlashVariants: Variants = {
-  normal: { transform: 'translate(0px, 0px)' },
+  normal: {
+    transform: 'translate(0px, 0px)',
+    transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] },
+  },
   animate: {
     transform: [
       'translate(0px, 0px)',
-      'translate(-0.8px, -0.8px)',
+      'translate(0.8px, 0.8px)',
+      'translate(4px, 4px)',
+      'translate(24px, 24px)',
+      'translate(24px, 24px)',
+      'translate(24px, 24px)',
+      'translate(24px, 24px)',
+      'translate(24px, 24px)',
+      'translate(24px, 24px)',
+      'translate(24px, 24px)',
+      'translate(24px, 24px)',
+      'translate(24px, 24px)',
+      'translate(24px, 24px)',
       'translate(24px, 24px)',
       'translate(24px, 24px)',
     ],
     transition: {
-      duration: OFF_DURATION,
-      times: [0, 0.12, 0.34, 1],
-      ease: ['easeOut', 'easeIn', 'linear'],
+      duration: EYE_OFF_DURATION,
+      ease: 'linear',
+      times: EYE_OFF_TIMES,
     },
   },
 };
 
+// A second complete slash returns from the top left after the visible-eye hold.
+// The continuations close in the same upper, pupil, lower order it crosses.
 const arrivingSlashVariants: Variants = {
-  normal: { transform: 'translate(-24px, -24px)' },
+  normal: {
+    transform: 'translate(-24px, -24px)',
+    transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] },
+  },
   animate: {
     transform: [
       'translate(-24px, -24px)',
       'translate(-24px, -24px)',
-      'translate(1.2px, 1.2px)',
+      'translate(-24px, -24px)',
+      'translate(-24px, -24px)',
+      'translate(-24px, -24px)',
+      'translate(-24px, -24px)',
+      'translate(-24px, -24px)',
+      'translate(-24px, -24px)',
+      'translate(-24px, -24px)',
+      'translate(-24px, -24px)',
+      'translate(-18px, -18px)',
+      'translate(-9px, -9px)',
+      'translate(-3px, -3px)',
+      'translate(-0.6px, -0.6px)',
       'translate(0px, 0px)',
     ],
     transition: {
-      duration: OFF_DURATION,
-      times: [0, 0.6, 0.8, 1],
-      ease: ['linear', [0.4, 0, 0.2, 1], SLASH_LAND],
+      duration: EYE_OFF_DURATION,
+      ease: 'linear',
+      times: EYE_OFF_TIMES,
     },
   },
 };
-
-// Each continuation draws once the departing slash has passed its break and
-// retracts just before the arriving slash reaches it. A zero-length stroke
-// with round caps draws a dot, so it is only visible while it has length.
-const continuationVariants: Variants = {
-  normal: { pathLength: 0, visibility: 'hidden' },
-  animate: ([drawn, crossed]: [number, number]) => ({
-    pathLength: [0, 0, 1, 1, 0, 0],
-    visibility: ['hidden', 'hidden', 'visible', 'visible', 'hidden', 'hidden'],
-    transition: {
-      duration: OFF_DURATION,
-      ease: 'easeOut',
-      times: [0, drawn, drawn + 0.08, crossed - 0.015, crossed + 0.015, 1],
-    },
-  }),
-};
-
 const generatedGeometryVariants: Variants = {
   normal: { visibility: 'hidden', transition: { duration: 0 } },
   animate: { visibility: 'visible', transition: { duration: 0 } },
@@ -161,8 +207,7 @@ const EyeOffIcon = forwardRef<EyeOffIconHandle, EyeOffIconProps>(
               stroke="currentColor"
               strokeLinecap="round"
               strokeWidth="1.5"
-              variants={continuationVariants}
-              custom={[0.22, 0.656]}
+              variants={upperContinuationVariants}
               animate={controls}
               initial="normal"
             />
@@ -171,8 +216,7 @@ const EyeOffIcon = forwardRef<EyeOffIconHandle, EyeOffIconProps>(
               stroke="currentColor"
               strokeLinecap="round"
               strokeWidth="1.5"
-              variants={continuationVariants}
-              custom={[0.297, 0.694]}
+              variants={lowerContinuationVariants}
               animate={controls}
               initial="normal"
             />
@@ -181,8 +225,7 @@ const EyeOffIcon = forwardRef<EyeOffIconHandle, EyeOffIconProps>(
               stroke="currentColor"
               strokeLinecap="round"
               strokeWidth="1.5"
-              variants={continuationVariants}
-              custom={[0.246, 0.665]}
+              variants={pupilContinuationVariants}
               animate={controls}
               initial="normal"
             />

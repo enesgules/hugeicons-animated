@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ListViewIconHandle {
@@ -27,23 +27,20 @@ const SHORT_ROWS = [
   'M2 19.4C2 18.2417 2.24173 18 3.4 18H13.1C14.2583 18 14.5 18.2417 14.5 19.4V20.6C14.5 21.7583 14.2583 22 13.1 22H3.4C2.24173 22 2 21.7583 2 20.6V19.4Z',
 ];
 
-const LAYOUT_DURATION = 0.7;
-const LAYOUT_TIMES = [0, 0.4, 1];
-const LAYOUT_STAGGER = 0.08;
-const LAYOUT_LAND = springEase(0.5, 0.3);
-
-// Layout, shared by list, menu, grid and dashboard: each item pulls in toward
-// its anchor in reading order and springs back to full size. The rows pull in
-// from alternating anchored edges and morph, so their rounded ends keep shape.
+// Each row pulls in from alternating anchored edges in reading order, then
+// springs back to full width. The rows morph, so their rounded ends keep shape.
 const rowVariants: Variants = {
-  normal: (i: number) => ({ d: ROWS[i] }),
+  normal: (i: number) => ({
+    d: ROWS[i],
+    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
+  }),
   animate: (i: number) => ({
     d: [ROWS[i], SHORT_ROWS[i], ROWS[i]],
     transition: {
-      duration: LAYOUT_DURATION,
-      delay: i * LAYOUT_STAGGER,
-      times: LAYOUT_TIMES,
-      ease: [[0.4, 0, 0.2, 1], LAYOUT_LAND],
+      duration: 0.46,
+      delay: i * 0.08,
+      times: [0, 0.4, 1],
+      ease: ['easeInOut', [0.34, 1.36, 0.64, 1]],
     },
   }),
 };

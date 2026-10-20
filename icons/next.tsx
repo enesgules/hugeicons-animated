@@ -1,10 +1,10 @@
 'use client';
 
-import type { Variants } from 'motion/react';
+import type { Easing, Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface NextIconHandle {
@@ -16,39 +16,24 @@ interface NextIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const MEDIA_LAND = springEase(0.5, 0.3);
-const MEDIA_DURATION = 0.8;
-const MEDIA_TIMES = [0, 0.16, 0.4, 1];
+// Skip forward: the play triangle loads back, then jumps toward the stop bar.
+// The bar takes the push a moment later and both settle back in place.
+const SKIP_TIMES = [0, 0.2, 0.5, 0.76, 1];
+const SKIP_EASE: Easing[] = ['easeOut', [0.23, 1, 0.32, 1], 'easeInOut', 'easeOut'];
 
-// Media: the triangle compresses back, releases toward the stop bar, and lands
-// with a spring; the bar takes the push a moment later.
 const triangleVariants: Variants = {
-  normal: { transform: 'translateX(0px) scaleX(1) scaleY(1)' },
+  normal: { translateX: 0 },
   animate: {
-    transform: [
-      'translateX(0px) scaleX(1) scaleY(1)',
-      'translateX(-1.4px) scaleX(0.88) scaleY(1.04)',
-      'translateX(1.8px) scaleX(1.08) scaleY(0.97)',
-      'translateX(0px) scaleX(1) scaleY(1)',
-    ],
-    transition: {
-      duration: MEDIA_DURATION,
-      times: MEDIA_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], MEDIA_LAND],
-    },
+    translateX: [0, -1.4, 3, -0.4, 0],
+    transition: { duration: 0.6, ease: SKIP_EASE, times: SKIP_TIMES },
   },
 };
 
 const barVariants: Variants = {
   normal: { translateX: 0 },
   animate: {
-    translateX: [0, 0, 1.5, 0],
-    transition: {
-      duration: MEDIA_DURATION,
-      delay: 0.04,
-      times: MEDIA_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], MEDIA_LAND],
-    },
+    translateX: [0, 0, 1.5, -0.25, 0],
+    transition: { duration: 0.6, delay: 0.04, ease: SKIP_EASE, times: SKIP_TIMES },
   },
 };
 
@@ -86,7 +71,6 @@ const NextIcon = forwardRef<NextIconHandle, NextIconProps>(
             variants={triangleVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 10 / 24, originY: 0.5 }}
           />
           <motion.path
             d="M20 5V19"

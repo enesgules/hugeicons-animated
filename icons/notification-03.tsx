@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Notification03IconHandle {
@@ -16,30 +16,27 @@ interface Notification03IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const SWING = springEase(0.8, 0.45);
-const SWING_DURATION = 1.3;
-const SWING_TIMES = [0, 0.16, 1];
-const LAG = 0.06;
-
-// Pendulum: a kick to one side, then a high-bounce spring swings the bell back
-// through rest and decays about its hanging point; the clapper lags the bell.
+// decaying pendulum ring; the clapper swings counter-phase, dragged behind
 const svgVariants: Variants = {
   normal: { rotate: 0 },
   animate: {
-    rotate: [0, -18, 0],
-    transition: { duration: SWING_DURATION, times: SWING_TIMES, ease: ['easeOut', SWING] },
+    rotate: [0, -14, 11, -8, 5, -2, 0],
+    transition: {
+      duration: 0.9,
+      ease: 'easeInOut',
+      times: [0, 0.18, 0.38, 0.56, 0.72, 0.87, 1],
+    },
   },
 };
 
 const clapperVariants: Variants = {
-  normal: { x: 0 },
+  normal: { translateX: 0 },
   animate: {
-    x: [0, -1.6, 0],
+    translateX: [0, 2.2, -1.8, 1.2, -0.7, 0.3, 0],
     transition: {
-      duration: SWING_DURATION,
-      delay: LAG,
-      times: SWING_TIMES,
-      ease: ['easeOut', SWING],
+      duration: 0.9,
+      ease: 'easeInOut',
+      times: [0, 0.24, 0.44, 0.62, 0.78, 0.9, 1],
     },
   },
 };

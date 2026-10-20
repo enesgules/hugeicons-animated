@@ -1,10 +1,10 @@
 'use client';
 
-import type { Easing, Variants } from 'motion/react';
+import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef, useId } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 /** Imperative controls for the Clipboard icon animation. */
@@ -20,22 +20,25 @@ interface ClipboardIconProps extends HTMLAttributes<HTMLDivElement> {
 const FRONT_BOARD_PATH =
   'M17.0235 3.03358L16.0689 2.77924C13.369 2.05986 12.019 1.70018 10.9555 2.31074C9.89196 2.9213 9.53023 4.26367 8.80678 6.94841L7.78366 10.7452C7.0602 13.4299 6.69848 14.7723 7.3125 15.8298C7.92652 16.8874 9.27651 17.247 11.9765 17.9664L12.9311 18.2208C15.631 18.9401 16.981 19.2998 18.0445 18.6893C19.108 18.0787 19.4698 16.7363 20.1932 14.0516L21.2163 10.2548C21.9398 7.57005 22.3015 6.22768 21.6875 5.17016C21.0735 4.11264 19.7235 3.75295 17.0235 3.03358Z';
 
-// Copy, shared by clipboards and sheets: a short wind-up, the copy moves onto
-// the original, holds there, and springs back out to its own place.
-const COPY_DURATION = 1;
-const COPY_TIMES = [0, 0.12, 0.36, 0.5, 1];
-const COPY_LAND = springEase(0.45, 0.35);
-const COPY_EASE: Easing[] = ['easeOut', [0.4, 0, 0.2, 1], 'linear', COPY_LAND];
-
-// The front clipboard turns over the rear board, pauses, then springs back.
+// The front clipboard merges over the rear board, pauses, then duplicates.
 const frontBoardVariants: Variants = {
-  normal: { x: 0, y: 0, scale: 1, rotate: 0 },
+  normal: {
+    x: 0,
+    y: 0,
+    scale: 1,
+    rotate: 0,
+    transition: { type: 'spring', duration: 0.3, bounce: 0 },
+  },
   animate: {
-    x: [0, 0.35, -5, -5, 0],
-    y: [0, -0.25, 3, 3, 0],
-    scale: [1, 1.025, 1, 1, 1],
-    rotate: [0, 1.5, -30, -30, 0],
-    transition: { duration: COPY_DURATION, times: COPY_TIMES, ease: COPY_EASE },
+    x: [0, 0.35, -5, -5, 0.45, 0],
+    y: [0, -0.25, 3, 3, -0.3, 0],
+    scale: [1, 1.025, 1, 1, 1.035, 1],
+    rotate: [0, 1.5, -30, -30, 1, 0],
+    transition: {
+      duration: 0.9,
+      ease: 'easeInOut',
+      times: [0, 0.1, 0.38, 0.52, 0.84, 1],
+    },
   },
 };
 
@@ -95,7 +98,7 @@ const ClipboardIcon = forwardRef<ClipboardIconHandle, ClipboardIconProps>(
                   variants={frontBoardVariants}
                   animate={controls}
                   initial="normal"
-                  style={{ transformBox: 'view-box', originX: 14.5 / 24, originY: 10.5 / 24 }}
+                  style={{ transformOrigin: '14.5px 10.5px' }}
                 />
               </motion.g>
             </mask>
@@ -104,7 +107,7 @@ const ClipboardIcon = forwardRef<ClipboardIconHandle, ClipboardIconProps>(
             variants={frontBoardVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 14.5 / 24, originY: 10.5 / 24 }}
+            style={{ transformOrigin: '14.5px 10.5px' }}
           >
             <path
               d={FRONT_BOARD_PATH}

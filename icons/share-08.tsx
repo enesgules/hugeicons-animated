@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Share08IconHandle {
@@ -16,36 +16,21 @@ interface Share08IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const LAUNCH_DURATION = 0.8;
-const LAUNCH_TIMES = [0, 0.16, 0.4, 1];
-const NODE_LAND = springEase(0.5, 0.3);
-
-// Launch, shared by the link and share icons, sent across a network: the
-// source node winds up while the wires erase, then it fires, the wires redraw
-// with the signal, and each node it reaches pops and lands with a spring.
+// the network lights up — the wires carry the signal, nodes pulse as it arrives
 const nodeVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+  normal: { scale: 1 },
   animate: (i: number) => ({
-    transform: ['scale(1)', 'scale(0.85)', 'scale(1.2)', 'scale(1)'],
-    transition: {
-      duration: LAUNCH_DURATION,
-      delay: i * 0.12,
-      times: LAUNCH_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], NODE_LAND],
-    },
+    scale: [1, 1.25, 1],
+    transition: { duration: 0.45, ease: 'easeInOut', delay: i * 0.12 },
   }),
 };
 
 const wireVariants: Variants = {
   normal: { pathLength: 1, visibility: 'visible' },
   animate: {
-    pathLength: [1, 0, 1, 1],
-    visibility: ['visible', 'hidden', 'visible', 'visible'],
-    transition: {
-      duration: LAUNCH_DURATION,
-      times: [0, 0.16, 0.5, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], 'linear'],
-    },
+    pathLength: [0, 1],
+    visibility: 'visible',
+    transition: { duration: 0.45, ease: 'easeOut' },
   },
 };
 

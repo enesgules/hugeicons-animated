@@ -1,10 +1,10 @@
 'use client';
 
-import type { Easing, Variants } from 'motion/react';
+import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CircleCheckIconHandle {
@@ -16,42 +16,75 @@ interface CircleCheckIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const CHECK_DURATION = 0.8;
-const CHECK_TIMES = [0, 0.12, 0.15, 0.3, 0.36, 0.52, 1];
-const CHECK_LAND = springEase(0.5, 0.3);
-const PEN_EASE: Easing[] = [[0.55, 0, 1, 0.45], 'linear', 'easeInOut', 'linear', [0.4, 0, 0.2, 1], 'linear'];
-const POP_EASE: Easing[] = ['linear', 'linear', 'linear', 'linear', [0.4, 0, 0.2, 1], CHECK_LAND];
-const FRAME_LAND = springEase(0.45, 0.35);
-const FRAME_EASE: Easing[] = ['linear', 'linear', 'linear', 'linear', [0.4, 0, 0.2, 1], FRAME_LAND];
-// Share of the check stroke before its corner, where the pen rests.
-const CORNER = 0.28;
+const PEN_LIFT_PATH = 'M15.5 9.5L15.98 9.06';
 
-// Check: the tick is erased fast from its tail, the pen writes it again (down
-// the short arm, a rest at the corner, a sweep up the long arm), and it lands
-// with a spring pop. The stroke is hidden while it has no length, so no
-// round-cap dot shows.
-const checkVariants: Variants = {
-  normal: { transform: 'scale(1)', pathLength: 1, pathOffset: 0, visibility: 'visible' },
+const penLiftVariants: Variants = {
+  normal: { pathLength: 0, opacity: 0, visibility: 'hidden' },
   animate: {
-    transform: ['scale(1)', 'scale(1)', 'scale(1)', 'scale(1)', 'scale(1)', 'scale(1.16)', 'scale(1)'],
-    pathLength: [1, 0, 0.05, CORNER, CORNER, 1, 1],
-    pathOffset: [0, 1, 0, 0, 0, 0, 0],
-    visibility: ['visible', 'hidden', 'hidden', 'visible', 'visible', 'visible', 'visible'],
+    pathLength: [0, 0, 1, 1],
+    opacity: [0, 0, 0.72, 0],
+    visibility: ['hidden', 'hidden', 'visible', 'hidden'],
     transition: {
-      duration: CHECK_DURATION,
-      times: CHECK_TIMES,
-      ease: PEN_EASE,
-      transform: { duration: CHECK_DURATION, times: CHECK_TIMES, ease: POP_EASE },
+      duration: 0.9,
+      ease: [
+        'linear',
+        [0.23, 1, 0.32, 1],
+        [0.23, 1, 0.32, 1],
+      ],
+      times: [0, 0.765, 0.89, 1],
     },
   },
 };
 
-// The ring dips as the check lands and springs back.
-const frameVariants: Variants = {
+const generatedGeometryVariants: Variants = {
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0 } },
+};
+
+const ringVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(1)', 'scale(1)', 'scale(1)', 'scale(1)', 'scale(0.94)', 'scale(1)'],
-    transition: { duration: CHECK_DURATION, times: CHECK_TIMES, ease: FRAME_EASE },
+    transform: ['scale(1)', 'scale(0.96)', 'scale(1.025)', 'scale(1)'],
+    transition: {
+      duration: 0.48,
+      delay: 0.34,
+      ease: [0.23, 1, 0.32, 1],
+    },
+  },
+};
+
+const checkVariants: Variants = {
+  normal: { pathLength: 1, pathOffset: 0, visibility: 'visible' },
+  animate: {
+    pathLength: [1, 1, 0.12, 0, 0, 0.12, 0.25, 0.25, 1, 1],
+    pathOffset: [0, 0, 0.88, 1, 0, 0, 0, 0, 0, 0],
+    visibility: [
+      'visible',
+      'visible',
+      'hidden',
+      'hidden',
+      'hidden',
+      'hidden',
+      'visible',
+      'visible',
+      'visible',
+      'visible',
+    ],
+    transition: {
+      duration: 0.82,
+      ease: [
+        'linear',
+        [0.77, 0, 0.175, 1],
+        'linear',
+        'linear',
+        'linear',
+        [0.77, 0, 0.175, 1],
+        'linear',
+        [0.77, 0, 0.175, 1],
+        'linear',
+      ],
+      times: [0, 0.06, 0.25, 0.28, 0.35, 0.39, 0.5, 0.57, 0.84, 1],
+    },
   },
 };
 
@@ -60,7 +93,6 @@ const CircleCheckIcon = forwardRef<CircleCheckIconHandle, CircleCheckIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
-      loops: false,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -81,28 +113,35 @@ const CircleCheckIcon = forwardRef<CircleCheckIconHandle, CircleCheckIconProps>(
           fill="none"
           overflow="visible"
         >
+        <motion.path
+          d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
+          variants={ringVariants}
+          animate={controls}
+          initial="normal"
+          style={{ transformOrigin: '12px 12px' }}
+        />
+        <motion.path
+          d="M8 12.5L10 14.5L15.5 9.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
+          variants={checkVariants}
+          animate={controls}
+          initial="normal"
+        />
+        <motion.g
+          variants={generatedGeometryVariants}
+          animate={controls}
+          initial="normal"
+        >
           <motion.path
-            d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+            d={PEN_LIFT_PATH}
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={frameVariants}
+            variants={penLiftVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
           />
-          <motion.path
-            d="M8 12.5L10 14.5L15.5 9.5"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={checkVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformBox: 'view-box', originX: 11.75 / 24, originY: 12 / 24 }}
-          />
+        </motion.g>
         </svg>
       </div>
     );

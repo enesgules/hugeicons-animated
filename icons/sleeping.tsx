@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface SleepingIconHandle {
@@ -20,13 +20,10 @@ const Z_PATH =
   'M17 2H19.9474C20.5675 2 20.8775 2 20.9601 2.20009C21.0427 2.40019 20.8317 2.64023 20.4098 3.1203L17.9846 5.8797C17.5627 6.35977 17.3517 6.59981 17.4343 6.79991C17.5169 7 17.8269 7 18.447 7H21';
 
 // The Z drifts toward the top-right corner while shrinking away, then a fresh
-// Z grows back in place on a spring. New z marks of three sizes rise beside it on their
+// Z grows back in place. New z marks of three sizes rise beside it on their
 // own headings and speeds. All marks share one cycle with staggered starts;
 // their paths were checked to keep at least 0.7 units between any two marks.
 const SLEEP_CYCLE = 3.2;
-// A soft spring: the regrown Z overshoots about 7%, which keeps the checked
-// clearance to the drifting marks.
-const Z_LAND = springEase(0.35, 0.3);
 
 const zVariants: Variants = {
   normal: { transform: 'translate(0px, 0px) scale(1)', transition: { duration: 0.2 } },
@@ -37,12 +34,13 @@ const zVariants: Variants = {
       'translate(2.4px, -3.8px) scale(0)',
       'translate(0px, 0px) scale(0)',
       'translate(0px, 0px) scale(0)',
+      'translate(0px, 0px) scale(1.06)',
       'translate(0px, 0px) scale(1)',
     ],
     transition: {
       duration: SLEEP_CYCLE,
-      ease: ['linear', 'linear', 'linear', 'linear', Z_LAND],
-      times: [0, 2 / SLEEP_CYCLE, 2.3 / SLEEP_CYCLE, 2.4 / SLEEP_CYCLE, 2.5 / SLEEP_CYCLE, 1],
+      ease: ['linear', 'linear', 'linear', 'linear', [0.23, 1, 0.32, 1], 'easeInOut'],
+      times: [0, 2 / SLEEP_CYCLE, 2.3 / SLEEP_CYCLE, 2.4 / SLEEP_CYCLE, 2.5 / SLEEP_CYCLE, 3 / SLEEP_CYCLE, 1],
       repeat: Infinity,
     },
   },

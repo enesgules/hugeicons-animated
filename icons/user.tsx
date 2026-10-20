@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface UserIconHandle {
@@ -16,37 +16,20 @@ interface UserIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const NOD_LAND = springEase(0.45, 0.35);
-
-// People nod, shared by every user icon: the shoulders lift for a breath and
-// then settle down on their base, the head rides on them and nods forward on
-// its neck, and both land with a spring.
+// a real nod — the head dips on its neck, the shoulders settle after
 const headVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg)' },
+  normal: { rotate: 0 },
   animate: {
-    transform: [
-      'translateY(0px) rotate(0deg)',
-      'translateY(-0.28px) rotate(-6deg)',
-      'translateY(0.7px) rotate(16deg)',
-      'translateY(0px) rotate(0deg)',
-    ],
-    transition: {
-      duration: 0.8,
-      times: [0, 0.16, 0.4, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], NOD_LAND],
-    },
+    rotate: [0, 16, -4, 0],
+    transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] },
   },
 };
 
-const shouldersVariants: Variants = {
-  normal: { transform: 'scaleY(1)' },
+const bodyVariants: Variants = {
+  normal: { translateY: 0 },
   animate: {
-    transform: ['scaleY(1)', 'scaleY(1.04)', 'scaleY(0.9)', 'scaleY(1)'],
-    transition: {
-      duration: 0.8,
-      times: [0, 0.16, 0.4, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], NOD_LAND],
-    },
+    translateY: [0, 0, 0.6, 0],
+    transition: { duration: 0.5, ease: 'easeOut', delay: 0.3 },
   },
 };
 
@@ -85,7 +68,7 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
             variants={headVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 13.5 / 24 }}
+            style={{ transformBox: 'view-box', transformOrigin: '12px 13.5px' }}
           />
           <motion.path
             d="M19 20.5C19 16.634 15.866 13.5 12 13.5C8.13401 13.5 5 16.634 5 20.5"
@@ -93,10 +76,9 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={shouldersVariants}
+            variants={bodyVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 20.5 / 24 }}
           />
         </svg>
       </div>

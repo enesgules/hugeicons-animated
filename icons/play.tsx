@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface PlayIconHandle {
@@ -16,25 +16,18 @@ interface PlayIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const MEDIA_LAND = springEase(0.5, 0.3);
-const MEDIA_DURATION = 0.8;
-const MEDIA_TIMES = [0, 0.16, 0.4, 1];
-
-// Media: the play shape compresses back, releases forward, and lands with a spring.
-const triangleVariants: Variants = {
+// the play shape compresses, releases forward, and settles without decoration
+const playVariants: Variants = {
   normal: { transform: 'translateX(0px) scaleX(1) scaleY(1)' },
   animate: {
     transform: [
       'translateX(0px) scaleX(1) scaleY(1)',
-      'translateX(-0.8px) scaleX(0.88) scaleY(1.04)',
-      'translateX(2px) scaleX(1.08) scaleY(0.97)',
+      'translateX(-0.8px) scaleX(0.9) scaleY(1.04)',
+      'translateX(2px) scaleX(1.1) scaleY(0.97)',
+      'translateX(-0.2px) scaleX(0.99) scaleY(1.005)',
       'translateX(0px) scaleX(1) scaleY(1)',
     ],
-    transition: {
-      duration: MEDIA_DURATION,
-      times: MEDIA_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], MEDIA_LAND],
-    },
+    transition: { duration: 0.52, times: [0, 0.2, 0.52, 0.78, 1], ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -69,10 +62,10 @@ const PlayIcon = forwardRef<PlayIconHandle, PlayIconProps>(
             stroke="currentColor"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={triangleVariants}
+            variants={playVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 10 / 24, originY: 0.5 }}
+            style={{ transformOrigin: '10px 12px' }}
           />
         </svg>
       </div>

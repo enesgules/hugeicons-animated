@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface DashboardSquare01IconHandle {
@@ -16,24 +16,13 @@ interface DashboardSquare01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const LAYOUT_DURATION = 0.7;
-const LAYOUT_TIMES = [0, 0.4, 1];
-const LAYOUT_STAGGER = 0.08;
-const LAYOUT_LAND = springEase(0.5, 0.3);
-
-// Layout, shared by list, menu, grid and dashboard: each item pulls in toward
-// its anchor in reading order and springs back to full size. Each tile
-// shrinks toward its own centre, so the tiles ripple diagonally.
+// dashboard tiles assemble in reading order with a crisp diagonal ripple
 const tileVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+  normal: { transform: 'scale(1)', visibility: 'visible' },
   animate: (i: number) => ({
-    transform: ['scale(1)', 'scale(0.74)', 'scale(1)'],
-    transition: {
-      duration: LAYOUT_DURATION,
-      delay: i * LAYOUT_STAGGER,
-      times: LAYOUT_TIMES,
-      ease: [[0.4, 0, 0.2, 1], LAYOUT_LAND],
-    },
+    transform: ['translateY(1.4px) scale(0.74)', 'translateY(-0.4px) scale(1.1)', 'translateY(0px) scale(1)'],
+    visibility: ['visible', 'visible', 'visible'],
+    transition: { duration: 0.48, delay: i * 0.06, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 
@@ -73,6 +62,7 @@ const DashboardSquare01Icon = forwardRef<DashboardSquare01IconHandle, DashboardS
             custom={3}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '17.25px 17.25px' }}
           />
           <motion.path
             d="M13.6903 8.95671C13.5 8.49728 13.5 7.91485 13.5 6.75C13.5 5.58515 13.5 5.00272 13.6903 4.54329C13.944 3.93072 14.4307 3.44404 15.0433 3.1903C15.5027 3 16.0851 3 17.25 3C18.4149 3 18.9973 3 19.4567 3.1903C20.0693 3.44404 20.556 3.93072 20.8097 4.54329C21 5.00272 21 5.58515 21 6.75C21 7.91485 21 8.49728 20.8097 8.95671C20.556 9.56928 20.0693 10.056 19.4567 10.3097C18.9973 10.5 18.4149 10.5 17.25 10.5C16.0851 10.5 15.5027 10.5 15.0433 10.3097C14.4307 10.056 13.944 9.56928 13.6903 8.95671Z"
@@ -84,6 +74,7 @@ const DashboardSquare01Icon = forwardRef<DashboardSquare01IconHandle, DashboardS
             custom={1}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '17.25px 6.75px' }}
           />
           <motion.path
             d="M3.1903 19.4567C3 18.9973 3 18.4149 3 17.25C3 16.0851 3 15.5027 3.1903 15.0433C3.44404 14.4307 3.93072 13.944 4.54329 13.6903C5.00272 13.5 5.58515 13.5 6.75 13.5C7.91485 13.5 8.49728 13.5 8.95671 13.6903C9.56928 13.944 10.056 14.4307 10.3097 15.0433C10.5 15.5027 10.5 16.0851 10.5 17.25C10.5 18.4149 10.5 18.9973 10.3097 19.4567C10.056 20.0693 9.56928 20.556 8.95671 20.8097C8.49728 21 7.91485 21 6.75 21C5.58515 21 5.00272 21 4.54329 20.8097C3.93072 20.556 3.44404 20.0693 3.1903 19.4567Z"
@@ -95,6 +86,7 @@ const DashboardSquare01Icon = forwardRef<DashboardSquare01IconHandle, DashboardS
             custom={2}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '6.75px 17.25px' }}
           />
           <motion.path
             d="M3.1903 8.95671C3 8.49728 3 7.91485 3 6.75C3 5.58515 3 5.00272 3.1903 4.54329C3.44404 3.93072 3.93072 3.44404 4.54329 3.1903C5.00272 3 5.58515 3 6.75 3C7.91485 3 8.49728 3 8.95671 3.1903C9.56928 3.44404 10.056 3.93072 10.3097 4.54329C10.5 5.00272 10.5 5.58515 10.5 6.75C10.5 7.91485 10.5 8.49728 10.3097 8.95671C10.056 9.56928 9.56928 10.056 8.95671 10.3097C8.49728 10.5 7.91485 10.5 6.75 10.5C5.58515 10.5 5.00272 10.5 4.54329 10.3097C3.93072 10.056 3.44404 9.56928 3.1903 8.95671Z"
@@ -106,6 +98,7 @@ const DashboardSquare01Icon = forwardRef<DashboardSquare01IconHandle, DashboardS
             custom={0}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '6.75px 6.75px' }}
           />
         </svg>
       </div>

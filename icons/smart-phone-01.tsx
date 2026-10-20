@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface SmartPhone01IconHandle {
@@ -16,23 +16,28 @@ interface SmartPhone01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const RING = springEase(0.7, 0.45);
-const RING_DURATION = 0.9;
-const RING_TIMES = [0, 0.16, 1];
-
-// Ring, shared by every phone icon: the phone kicks to one side, then a
-// high-bounce spring rattles it back through rest until it settles. It rings
-// twice with a short rest between, like a vibration alert.
+// An incoming buzz: the whole phone shakes in two quick, decaying bursts with
+// a short rest between them, like a vibration alert.
 const phoneVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(-15deg)', 'rotate(0deg)'],
+    transform: [
+      'rotate(0deg)',
+      'rotate(-8deg)',
+      'rotate(8deg)',
+      'rotate(-6deg)',
+      'rotate(4deg)',
+      'rotate(0deg)',
+      'rotate(0deg)',
+      'rotate(-6deg)',
+      'rotate(5deg)',
+      'rotate(-2deg)',
+      'rotate(0deg)',
+    ],
     transition: {
-      duration: RING_DURATION,
-      times: RING_TIMES,
-      ease: ['easeOut', RING],
-      repeat: 1,
-      repeatDelay: 0.1,
+      duration: 0.9,
+      ease: 'easeInOut',
+      times: [0, 0.06, 0.14, 0.22, 0.3, 0.37, 0.5, 0.57, 0.66, 0.76, 0.86],
     },
   },
 };

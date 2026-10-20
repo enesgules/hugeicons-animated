@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface UndoIconHandle {
@@ -16,21 +16,20 @@ interface UndoIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const TURN_LAND = springEase(0.45, 0.35);
-
-// Turn: a complete backward turn reads as undo. The arrow winds up against the
-// turn as the hook tightens, whips one turn a little past rest, and lands with
-// a spring.
+// a complete backward turn reads as undo; the wind-up makes direction immediate
 const undoVariants: Variants = {
-  normal: { transform: 'rotate(0deg)', pathLength: 1 },
+  normal: { transform: 'rotate(0deg) scale(1)', pathLength: 1 },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(18deg)', 'rotate(-384deg)', 'rotate(-360deg)'],
-    pathLength: [1, 0.82, 1, 1],
-    transition: {
-      duration: 0.8,
-      times: [0, 0.15, 0.55, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], TURN_LAND],
-    },
+    transform: [
+      'rotate(0deg) scale(1)',
+      'rotate(16deg) scale(0.97)',
+      'rotate(-360deg) scale(1)',
+      'rotate(-352deg) scale(1.01)',
+      'rotate(-360deg) scale(1)',
+    ],
+    pathLength: [1, 0.82, 1, 1, 1],
+    transition: { duration: 0.82, ease: [0.77, 0, 0.175, 1], times: [0, 0.1, 0.68, 0.84, 1] },
+    transitionEnd: { transform: 'rotate(0deg) scale(1)' },
   },
 };
 
@@ -69,7 +68,7 @@ const UndoIcon = forwardRef<UndoIconHandle, UndoIconProps>(
             variants={undoVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
+            style={{ transformOrigin: '12px 12px' }}
           />
         </svg>
       </div>

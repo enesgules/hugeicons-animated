@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ExternalLinkIconHandle {
@@ -16,40 +16,20 @@ interface ExternalLinkIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const LAUNCH_DURATION = 0.8;
-const LAUNCH_TIMES = [0, 0.16, 0.4, 1];
-const ARROW_LAND = springEase(0.5, 0.3);
-const FRAME_LAND = springEase(0.45, 0.35);
-
-// Launch, shared by the link and share icons: the arrow winds back into the
-// frame, darts out of it, and springs back; the frame dips as the arrow loads
-// and springs back as it leaves.
+// the arrow loads inside the frame, breaks free, and pulls the window after it
 const arrowVariants: Variants = {
   normal: { transform: 'translate(0px, 0px)' },
   animate: {
-    transform: [
-      'translate(0px, 0px)',
-      'translate(-0.7px, 0.7px)',
-      'translate(2.8px, -2.8px)',
-      'translate(0px, 0px)',
-    ],
-    transition: {
-      duration: LAUNCH_DURATION,
-      times: LAUNCH_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], ARROW_LAND],
-    },
+    transform: ['translate(0px, 0px)', 'translate(-0.7px, 0.7px)', 'translate(3px, -3px)', 'translate(-0.35px, 0.35px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
-const frameVariants: Variants = {
+const windowVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.95)', 'scale(1.03)', 'scale(1)'],
-    transition: {
-      duration: LAUNCH_DURATION,
-      times: LAUNCH_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], FRAME_LAND],
-    },
+    transform: ['scale(1)', 'scale(0.95)', 'scale(1.025)', 'scale(1)'],
+    transition: { duration: 0.56, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -88,13 +68,14 @@ const ExternalLinkIcon = forwardRef<ExternalLinkIconHandle, ExternalLinkIconProp
             variants={arrowVariants}
             animate={controls}
             initial="normal"
+            style={{ transformOrigin: '16px 8px' }}
           />
           <motion.path
             d="M20 13C20 16.7712 20 18.6569 18.8284 19.8284C17.6569 21 15.7712 21 12 21H11C7.22876 21 5.34315 21 4.17157 19.8284C3 18.6569 3 16.7712 3 13V12C3 8.22876 3 6.34315 4.17157 5.17157C5.34315 4 7.22876 4 11 4"
             stroke="currentColor"
             strokeLinecap="round"
             strokeWidth="1.5"
-            variants={frameVariants}
+            variants={windowVariants}
             animate={controls}
             initial="normal"
           />

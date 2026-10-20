@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface VolumeHighIconHandle {
@@ -16,22 +16,16 @@ interface VolumeHighIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const SOUND_DURATION = 0.8;
-const SOUND_TIMES = [0, 0.16, 0.4, 1];
-const SPEAKER_LAND = springEase(0.45, 0.35);
-const WAVE_LAND = springEase(0.5, 0.3);
-
-// Sound burst, shared by every speaker icon: the cone draws back and pushes,
-// the waves gather toward the cone mouth and radiate past their rest arcs,
-// the outer wave last, and everything lands with a spring.
+// One sound burst: the cone draws back, then pushes. Both waves gather toward
+// the cone mouth and radiate past their rest arcs, the outer wave last.
 const speakerVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.92)', 'scale(1.05)', 'scale(1)'],
+    transform: ['scale(1)', 'scale(0.94)', 'scale(1.04)', 'scale(1)'],
     transition: {
-      duration: SOUND_DURATION,
-      times: SOUND_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], SPEAKER_LAND],
+      duration: 0.62,
+      ease: ['easeOut', [0.23, 1, 0.32, 1], 'easeInOut'],
+      times: [0, 0.26, 0.52, 1],
     },
   },
 };
@@ -39,12 +33,12 @@ const speakerVariants: Variants = {
 const waveVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: (i: number) => ({
-    transform: ['scale(1)', 'scale(0.65)', 'scale(1.15)', 'scale(1)'],
+    transform: ['scale(1)', 'scale(0.6)', 'scale(1.18)', 'scale(1)'],
     transition: {
-      duration: SOUND_DURATION,
-      delay: i * 0.06,
-      times: SOUND_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], WAVE_LAND],
+      duration: 0.66,
+      delay: i * 0.09,
+      ease: ['easeOut', [0.23, 1, 0.32, 1], 'easeInOut'],
+      times: [0, 0.3, 0.6, 1],
     },
   }),
 };
@@ -84,7 +78,7 @@ const VolumeHighIcon = forwardRef<VolumeHighIconHandle, VolumeHighIconProps>(
             variants={speakerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 8 / 24, originY: 0.5 }}
+            style={{ transformBox: 'view-box' }}
           />
           <motion.path
             d="M17 9C17.6254 9.81968 18 10.8634 18 12C18 13.1366 17.6254 14.1803 17 15"
@@ -96,7 +90,7 @@ const VolumeHighIcon = forwardRef<VolumeHighIconHandle, VolumeHighIconProps>(
             custom={0}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 14 / 24, originY: 0.5 }}
+            style={{ transformBox: 'view-box' }}
           />
           <motion.path
             d="M20 7C21.2508 8.36613 22 10.1057 22 12C22 13.8943 21.2508 15.6339 20 17"
@@ -108,7 +102,7 @@ const VolumeHighIcon = forwardRef<VolumeHighIconHandle, VolumeHighIconProps>(
             custom={1}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 14 / 24, originY: 0.5 }}
+            style={{ transformBox: 'view-box' }}
           />
         </svg>
       </div>

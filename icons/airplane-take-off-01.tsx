@@ -1,10 +1,10 @@
 'use client';
 
-import type { Easing, Variants } from 'motion/react';
+import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface AirplaneTakeOff01IconHandle {
@@ -16,54 +16,81 @@ interface AirplaneTakeOff01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// Launch, shared by planes and rockets: the craft winds back, accelerates out
-// of the frame, and a replacement glides in along the same route, runs a
-// touch past its spot, and lands on a spring. A tree scrolls past on the
-// ground to show the speed.
-const LAUNCH_DURATION = 1.2;
-const DEPART_TIMES = [0, 0.16, 0.42, 1];
-const DEPART_EASE: Easing[] = ['easeOut', [0.5, 0, 0.9, 0.4], 'linear'];
-const ARRIVE_TIMES = [0, 0.42, 0.66, 1];
-const LAUNCH_LAND = springEase(0.45, 0.35);
-const ARRIVE_EASE: Easing[] = ['linear', [0.2, 0.6, 0.35, 1], LAUNCH_LAND];
-
+// one solid plane fully clears the frame before a second solid plane enters
+// and decelerates into the same runway slot
 const departingPlaneVariants: Variants = {
-  normal: { transform: 'translate(0px, 0px) rotate(0deg)' },
+  normal: {
+    visibility: 'visible',
+    transform: 'translate(0%, 0%) rotate(0deg)',
+    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
+  },
   animate: {
+    visibility: 'visible',
     transform: [
-      'translate(0px, 0px) rotate(0deg)',
-      'translate(-0.7px, 0.1px) rotate(1.5deg)',
-      'translate(24.5px, -8.4px) rotate(-8deg)',
-      'translate(24.5px, -8.4px) rotate(-8deg)',
+      'translate(0%, 0%) rotate(0deg)',
+      'translate(3%, -1%) rotate(-0.5deg)',
+      'translate(12%, -7%) rotate(-2deg)',
+      'translate(28%, -18%) rotate(-4deg)',
+      'translate(50%, -33%) rotate(-7deg)',
+      'translate(76%, -49%) rotate(-8deg)',
+      'translate(104%, -65%) rotate(-6deg)',
+      'translate(122%, -76%) rotate(-4deg)',
+      'translate(122%, -76%) rotate(-4deg)',
     ],
-    transition: { duration: LAUNCH_DURATION, times: DEPART_TIMES, ease: DEPART_EASE },
+    transition: {
+      duration: 1.7,
+      ease: 'linear',
+      times: [0, 0.08, 0.18, 0.28, 0.37, 0.44, 0.49, 0.52, 1],
+    },
   },
 };
 
 const arrivingPlaneVariants: Variants = {
-  normal: { transform: 'translate(-24.5px, -7.7px) rotate(7deg)' },
+  normal: {
+    visibility: 'visible',
+    transform: 'translate(-122%, -70%) rotate(7deg)',
+    transition: { duration: 0.16, ease: [0.23, 1, 0.32, 1] },
+  },
   animate: {
+    visibility: 'visible',
     transform: [
-      'translate(-24.5px, -7.7px) rotate(7deg)',
-      'translate(-24.5px, -7.7px) rotate(7deg)',
-      'translate(0.9px, 0.3px) rotate(-1deg)',
-      'translate(0px, 0px) rotate(0deg)',
+      'translate(-122%, -70%) rotate(7deg)',
+      'translate(-122%, -70%) rotate(7deg)',
+      'translate(-108%, -62%) rotate(6deg)',
+      'translate(-82%, -48%) rotate(5deg)',
+      'translate(-56%, -32%) rotate(3.5deg)',
+      'translate(-32%, -17%) rotate(2deg)',
+      'translate(-14%, -6%) rotate(0.8deg)',
+      'translate(-3%, -0.8%) rotate(0.15deg)',
+      'translate(0%, 0%) rotate(0deg)',
     ],
-    transition: { duration: LAUNCH_DURATION, times: ARRIVE_TIMES, ease: ARRIVE_EASE },
+    transition: {
+      duration: 1.7,
+      ease: 'linear',
+      times: [0, 0.49, 0.53, 0.61, 0.7, 0.79, 0.88, 0.96, 1],
+    },
   },
 };
 
 const groundTreeVariants: Variants = {
-  normal: { transform: 'translateX(15px)' },
+  normal: { visibility: 'visible', transform: 'translateX(15px)' },
   animate: {
-    transform: ['translateX(15px)', 'translateX(-22px)'],
-    transition: { duration: LAUNCH_DURATION, ease: 'linear' },
+    visibility: 'visible',
+    transform: [
+      'translateX(15px)',
+      'translateX(13px)',
+      'translateX(8px)',
+      'translateX(1px)',
+      'translateX(-7px)',
+      'translateX(-15px)',
+      'translateX(-22px)',
+    ],
+    transition: { duration: 1.7, ease: 'linear', times: [0, 0.08, 0.22, 0.4, 0.6, 0.78, 1] },
   },
 };
-
 const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0 } },
-  animate: { visibility: 'visible', transition: { duration: 0 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
 const AirplaneTakeOff01Icon = forwardRef<AirplaneTakeOff01IconHandle, AirplaneTakeOff01IconProps>(
@@ -106,7 +133,7 @@ const AirplaneTakeOff01Icon = forwardRef<AirplaneTakeOff01IconHandle, AirplaneTa
             variants={departingPlaneVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 9 / 24 }}
+            style={{ transformOrigin: '12px 9px' }}
           />
           <motion.g
             variants={generatedGeometryVariants}
@@ -130,7 +157,7 @@ const AirplaneTakeOff01Icon = forwardRef<AirplaneTakeOff01IconHandle, AirplaneTa
               variants={arrivingPlaneVariants}
               animate={controls}
               initial="normal"
-              style={{ transformBox: 'view-box', originX: 0.5, originY: 9 / 24 }}
+              style={{ transformOrigin: '12px 9px' }}
             />
           </motion.g>
         </svg>

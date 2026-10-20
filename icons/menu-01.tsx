@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Menu01IconHandle {
@@ -18,24 +18,21 @@ interface Menu01IconProps extends HTMLAttributes<HTMLDivElement> {
 
 const MENU_LINES = ['M4 5L20 5', 'M4 12L20 12', 'M4 19L20 19'];
 const MENU_SCAN_LINES = ['M4 5L17.2 5', 'M4 12L15.8 12', 'M4 19L17.2 19'];
+const MENU_OVERSHOOT_LINES = ['M4 5L20.35 5', 'M4 12L20.35 12', 'M4 19L20.35 19'];
 
-const LAYOUT_DURATION = 0.7;
-const LAYOUT_TIMES = [0, 0.4, 1];
-const LAYOUT_STAGGER = 0.08;
-const LAYOUT_LAND = springEase(0.5, 0.3);
-
-// Layout, shared by list, menu, grid and dashboard: each item pulls in toward
-// its anchor in reading order and springs back to full size. The right edge
-// scans downward while every row stays attached to the same left rail.
+// The right edge scans downward while every row stays attached to the same left rail.
 const menuLineVariants: Variants = {
-  normal: (i: number) => ({ d: MENU_LINES[i] }),
+  normal: (i: number) => ({
+    d: MENU_LINES[i],
+    transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] },
+  }),
   animate: (i: number) => ({
-    d: [MENU_LINES[i], MENU_SCAN_LINES[i], MENU_LINES[i]],
+    d: [MENU_LINES[i], MENU_SCAN_LINES[i], MENU_OVERSHOOT_LINES[i], MENU_LINES[i]],
     transition: {
-      duration: LAYOUT_DURATION,
-      delay: i * LAYOUT_STAGGER,
-      times: LAYOUT_TIMES,
-      ease: [[0.4, 0, 0.2, 1], LAYOUT_LAND],
+      duration: 0.32,
+      delay: i * 0.075,
+      times: [0, 0.42, 0.76, 1],
+      ease: [0.23, 1, 0.32, 1],
     },
   }),
 };

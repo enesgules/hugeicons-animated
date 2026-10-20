@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Bug01IconHandle {
@@ -16,16 +16,12 @@ interface Bug01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const SHELL_LAND = springEase(0.45, 0.35);
-const LEG_LAND = springEase(0.5, 0.3);
-
 // six deliberately mismatched leg cycles drift in and out of phase while the
-// shell makes a small irregular weight shift; on stop, the shell and legs
-// land back in place with a spring
+// shell makes a small irregular weight shift
 const bugVariants: Variants = {
   normal: {
     transform: 'translate(0px, 0px) rotate(0deg)',
-    transition: { duration: 0.5, ease: SHELL_LAND },
+    transition: { type: 'spring', duration: 0.32, bounce: 0 },
   },
   animate: {
     transform: [
@@ -95,7 +91,7 @@ const LEG_MOTIONS: readonly LegMotion[] = [
 ];
 
 const randomLegVariants: Variants = {
-  normal: { transform: 'rotate(0deg)', transition: { duration: 0.45, ease: LEG_LAND } },
+  normal: { transform: 'rotate(0deg)' },
   animate: (legIndex: number) => {
     const legMotion = LEG_MOTIONS[legIndex] ?? DEFAULT_LEG_MOTION;
 
