@@ -55,7 +55,7 @@ easing, and flourishes, and changes only what its geometry forces.
 
 | Family | Reference | Shared action |
 | --- | --- | --- |
-| Chevron | `chevron-*`, `arrow-*-02` | The chevron darts along its direction and narrows, recoils a little past rest, makes a softer second push, and settles. Double arrows run it on both chevrons, the front one first. |
+| Chevron | `chevron-*`, `arrow-*-02` | The chevron darts along its direction and narrows, recoils a little past rest, makes a softer second push, and settles. Double arrows run it on both chevrons, the front one first. On a loop or a curved arrow, each arrowhead darts along its heading and stretches its track. |
 | Add | `file-add`, `add-circle`, `calendar-add-01` | The container gives a short, heavy bounce (a drop, a lift, or a rattle) while the plus winds back small, stamps in past full size, and settles. |
 | Remove | `minus-sign-circle` | The minus pinches to half its width and snaps back a little past full width; the frame squeezes and rebounds. |
 | Check | `tick-02`, `circle-check` | The pen erases the tick from its tail, writes it again with a rest at the corner, and lifts off with a small flick; a frame gives as the pen touches down. |
@@ -71,7 +71,7 @@ easing, and flourishes, and changes only what its geometry forces.
 | Turn | `undo`, `redo`, `refresh`, `settings-01` | A wind-up against the turn, one turn (the gear: half a turn), a small fall-back, and a settle. |
 | Eye | `eye`, `eye-off` | The pupil darts left and right, the lids meet in a blink, and the eye reopens a little wide before it settles. |
 | Slash off | `eye-off`, `headphone-off` | The slash leaves to the bottom right, the outline heals across its breaks, and a new slash returns from the top left as the breaks reopen. |
-| Sound | `volume-high` | The cone draws back and pushes; the waves (or the mute cross) gather near the cone mouth and swell past rest before they settle. |
+| Sound | `volume-high`, `wifi-01` | While hovered, waves leave the source as a train (`waveTrain` in `lib/use-icon-animation.ts`): each wave rises at the source, moves out through the rest arcs at an even pace, and fades; the source pulses once for each wave. A mute cross gathers near the cone mouth and swells past rest before it settles. |
 | Launch | `sent`, `external-link` | The object pulls back and breaks free along its heading; a replacement follows the same route, or the object settles back while its frame dips. |
 | Glint | `magic-wand-01`, `star` | Each star shrinks as it turns to the diagonal and pops as it lands on the next quarter turn; small plus sparkles appear in empty corners. |
 | Weather | `cloud-rain` | The cloud bobs; what falls from it drains out and redraws from the cloud. Lightning redraws faster and flickers twice. |

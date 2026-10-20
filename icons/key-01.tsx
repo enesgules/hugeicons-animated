@@ -17,11 +17,8 @@ interface Key01IconProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 // Unlock with a key: the whole key draws back, slides in along its shaft and
-// knocks against the stop, then makes a quarter turn about the shaft axis:
-// seen from the front, the bow and teeth narrow to a thin edge-on sliver and
-// hold there like a key turned in a lock. It turns back and withdraws. The shaft runs from the
-// bow center at 135 degrees, so static groups rotate the turn into a
-// 45-degree frame around the bow center.
+// knocks against the stop, then turns in the lock: the bow swings about the
+// inserted tip, holds, swings back a little past rest, and withdraws.
 const KEY_DURATION = 1.3;
 const KEY_TIMES = [0, 0.1, 0.22, 0.28, 0.44, 0.6, 0.76, 1];
 const KEY_EASE: Easing[] = [
@@ -46,9 +43,9 @@ const insertVariants: Variants = {
 };
 
 const turnVariants: Variants = {
-  normal: { scaleX: 1 },
+  normal: { transform: 'rotate(0deg)' },
   animate: {
-    scaleX: [1, 1, 1, 1, 0.38, 0.38, 1, 1],
+    transform: [0, 0, 0, 0, -22, -22, 4, 0].map((angle) => `rotate(${angle}deg)`),
     transition: { duration: KEY_DURATION, ease: KEY_EASE, times: KEY_TIMES },
   },
 };
@@ -80,31 +77,27 @@ const Key01Icon = forwardRef<Key01IconHandle, Key01IconProps>(
           overflow="visible"
         >
           <motion.g variants={insertVariants} animate={controls} initial="normal">
-            <g transform="rotate(45 15.5 8.5)">
-              <motion.g
-                variants={turnVariants}
-                animate={controls}
-                initial="normal"
-                style={{ transformBox: 'view-box', originX: 15.5 / 24, originY: 8.5 / 24 }}
-              >
-                <g transform="rotate(-45 15.5 8.5)">
-                  <path
-                    d="M15.5 14.5C18.8137 14.5 21.5 11.8137 21.5 8.5C21.5 5.18629 18.8137 2.5 15.5 2.5C12.1863 2.5 9.5 5.18629 9.5 8.5C9.5 9.38041 9.68962 10.2165 10.0303 10.9697L2.5 18.5V21.5H5.5V19.5H7.5V17.5H9.5L13.0303 13.9697C13.7835 14.3104 14.6196 14.5 15.5 14.5Z"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                  />
-                  <path
-                    d="M17.5 6.5L16.5 7.5"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                  />
-                </g>
-              </motion.g>
-            </g>
+            <motion.g
+              variants={turnVariants}
+              animate={controls}
+              initial="normal"
+              style={{ transformBox: 'view-box', originX: 4 / 24, originY: 20 / 24 }}
+            >
+              <path
+                d="M15.5 14.5C18.8137 14.5 21.5 11.8137 21.5 8.5C21.5 5.18629 18.8137 2.5 15.5 2.5C12.1863 2.5 9.5 5.18629 9.5 8.5C9.5 9.38041 9.68962 10.2165 10.0303 10.9697L2.5 18.5V21.5H5.5V19.5H7.5V17.5H9.5L13.0303 13.9697C13.7835 14.3104 14.6196 14.5 15.5 14.5Z"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+              />
+              <path
+                d="M17.5 6.5L16.5 7.5"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+              />
+            </motion.g>
           </motion.g>
         </svg>
       </div>

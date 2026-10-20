@@ -45,15 +45,21 @@ const itemVariants: Variants = {
   },
 };
 
-// The arrow winds up against its direction, then pushes the order downward.
+// The arrowhead darts along its heading and stretches its stem, recoils a
+// little past rest, makes a softer second push, and settles, while the items
+// trade places.
+const r = (value: number) => Math.round(value * 10000) / 10000;
+const ARROW = (y: number) =>
+  `M15 ${r(16.3265 + y)}L16.409 ${r(17.8131 + y)}C17.159 ${r(18.6044 + y)} 17.534 ${r(19 + y)} 18 ${r(19 + y)}C18.466 ${r(19 + y)} 18.841 ${r(18.6044 + y)} 19.591 ${r(17.8131 + y)}L21 ${r(16.3265 + y)}M18 ${r(18.9128 + y)}L18 14.5377C18 12.3042 18 11.1875 17.5532 10.2028C17.1063 9.21804 16.2659 8.48266 14.585 7.01192L14 6.5`;
+
 const arrowVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { d: ARROW(0) },
   animate: {
-    translateY: [0, -0.8, 1.6, -0.3, 0],
+    d: [0, -0.6, 2.2, -0.3, 0.4, 0].map(ARROW),
     transition: {
       duration: SORT_DURATION,
-      times: [0, 0.16, 0.5, 0.78, 1],
-      ease: 'easeInOut',
+      times: [0, 0.16, 0.42, 0.62, 0.8, 1],
+      ease: [0.23, 1, 0.32, 1],
     },
   },
 };
@@ -85,7 +91,7 @@ const SortByDown01Icon = forwardRef<SortByDown01IconHandle, SortByDown01IconProp
           overflow="visible"
         >
           <motion.path
-            d="M15 16.3265L16.409 17.8131C17.159 18.6044 17.534 19 18 19C18.466 19 18.841 18.6044 19.591 17.8131L21 16.3265M18 18.9128L18 14.5377C18 12.3042 18 11.1875 17.5532 10.2028C17.1063 9.21804 16.2659 8.48266 14.585 7.01192L14 6.5"
+            d={ARROW(0)}
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"

@@ -62,6 +62,7 @@ export const DISAPPROVED_ICON_NAMES: ReadonlySet<string> = new Set([
   'user-group',
   'user-multiple-02',
   'video-01',
+  'volume-high',
   'volume-low',
   'volume-mute-01',
   'waving-hand-01',

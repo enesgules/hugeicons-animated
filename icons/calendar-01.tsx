@@ -16,44 +16,22 @@ interface Calendar01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const CALENDAR_DURATION = 0.8;
-
-// The day page folds up into its binding and the next page drops down from it;
-// the calendar dips on its rings as the new page lands.
-const dayVariants: Variants = {
-  normal: { transform: 'scaleY(1)' },
-  animate: {
-    transform: [
-      'scaleY(1)',
-      'scaleY(1.06)',
-      'scaleY(0.04)',
-      'scaleY(1.1)',
-      'scaleY(0.96)',
-      'scaleY(1)',
-    ],
-    transition: {
-      duration: CALENDAR_DURATION,
-      times: [0, 0.12, 0.38, 0.62, 0.8, 1],
-      ease: ['easeOut', [0.55, 0, 0.8, 0.4], [0.2, 0.6, 0.35, 1], 'easeInOut', 'easeInOut'],
-    },
-  },
-};
-
+// Add, as in calendar-add-01: the calendar lifts and lands with a short, heavy
+// bounce while the date winds back small, stamps in past full size, and
+// settles.
 const calendarVariants: Variants = {
   normal: { transform: 'translateY(0px) scaleY(1)' },
   animate: {
-    transform: [
-      'translateY(0px) scaleY(1)',
-      'translateY(0px) scaleY(1)',
-      'translateY(0.7px) scaleY(0.97)',
-      'translateY(-0.35px) scaleY(1.012)',
-      'translateY(0px) scaleY(1)',
-    ],
-    transition: {
-      duration: CALENDAR_DURATION,
-      times: [0, 0.5, 0.66, 0.84, 1],
-      ease: 'easeOut',
-    },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(-1.2px) scaleY(0.96)', 'translateY(0.65px) scaleY(1.03)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const dayVariants: Variants = {
+  normal: { transform: 'rotate(0deg) scale(1)' },
+  animate: {
+    transform: ['rotate(0deg) scale(1)', 'rotate(-12deg) scale(0.55)', 'rotate(5deg) scale(1.2)', 'rotate(-2deg) scale(0.98)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.62, times: [0, 0.2, 0.5, 0.75, 1], ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -119,7 +97,7 @@ const Calendar01Icon = forwardRef<Calendar01IconHandle, Calendar01IconProps>(
               variants={dayVariants}
               animate={controls}
               initial="normal"
-              style={{ transformBox: 'view-box', originX: 0.5, originY: 12.6 / 24 }}
+              style={{ transformBox: 'view-box', originX: 12.25 / 24, originY: 16 / 24 }}
             />
           </motion.g>
         </svg>

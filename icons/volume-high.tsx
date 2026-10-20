@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation, waveTrain } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface VolumeHighIconHandle {
@@ -16,31 +16,42 @@ interface VolumeHighIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// One sound burst: the cone draws back, then pushes. Both waves gather toward
-// the cone mouth and radiate past their rest arcs, the outer wave last.
+// Sound leaves the speaker as a train of waves: each wave rises at the cone
+// mouth, travels out through the rest arcs at an even pace, and fades. The
+// cone pushes once for each wave while hovered.
+const WAVE_CYCLE = 1.2;
+const WAVES = [
+  'M14 11C14 11.2732 14 11.6211 14 12C14 12.3789 14 12.7267 14 13',
+  'M17 9C17.6254 9.81968 18 10.8634 18 12C18 13.1366 17.6254 14.1803 17 15',
+  'M20 7C21.2508 8.36613 22 10.1057 22 12C22 13.8943 21.2508 15.6339 20 17',
+  'M23 5C24.8762 6.9126 26 9.348 26 12C26 14.652 24.8762 17.0875 23 19',
+];
+
 const speakerVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.94)', 'scale(1.04)', 'scale(1)'],
+    transform: ['scale(1)', 'scale(1.05)', 'scale(0.97)', 'scale(1)'],
     transition: {
-      duration: 0.62,
-      ease: ['easeOut', [0.23, 1, 0.32, 1], 'easeInOut'],
-      times: [0, 0.26, 0.52, 1],
+      duration: WAVE_CYCLE / 3,
+      ease: 'easeInOut',
+      times: [0, 0.25, 0.6, 1],
+      repeat: Infinity,
     },
   },
 };
 
 const waveVariants: Variants = {
-  normal: { transform: 'scale(1)' },
-  animate: (i: number) => ({
-    transform: ['scale(1)', 'scale(0.6)', 'scale(1.18)', 'scale(1)'],
-    transition: {
-      duration: 0.66,
-      delay: i * 0.09,
-      ease: ['easeOut', [0.23, 1, 0.32, 1], 'easeInOut'],
-      times: [0, 0.3, 0.6, 1],
-    },
+  normal: (i: number) => ({
+    d: WAVES[i],
+    opacity: 1,
+    transition: { duration: 0.25, ease: 'easeOut' },
   }),
+  animate: (i: number) => waveTrain(WAVES, i, WAVE_CYCLE),
+};
+
+const generatedGeometryVariants: Variants = {
+  normal: { visibility: 'hidden', transition: { duration: 0.25 } },
+  animate: { visibility: 'visible' },
 };
 
 const VolumeHighIcon = forwardRef<VolumeHighIconHandle, VolumeHighIconProps>(
@@ -48,7 +59,7 @@ const VolumeHighIcon = forwardRef<VolumeHighIconHandle, VolumeHighIconProps>(
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
-      loops: false,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -87,10 +98,9 @@ const VolumeHighIcon = forwardRef<VolumeHighIconHandle, VolumeHighIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
             variants={waveVariants}
-            custom={0}
+            custom={1}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box' }}
           />
           <motion.path
             d="M20 7C21.2508 8.36613 22 10.1057 22 12C22 13.8943 21.2508 15.6339 20 17"
@@ -99,11 +109,27 @@ const VolumeHighIcon = forwardRef<VolumeHighIconHandle, VolumeHighIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
             variants={waveVariants}
-            custom={1}
+            custom={2}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box' }}
           />
+          <motion.g
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+            <motion.path
+              d={WAVES[0]}
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+              variants={waveVariants}
+              custom={0}
+              animate={controls}
+              initial="normal"
+            />
+          </motion.g>
         </svg>
       </div>
     );

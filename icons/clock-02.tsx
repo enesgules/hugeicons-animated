@@ -18,7 +18,20 @@ interface Clock02IconProps extends HTMLAttributes<HTMLDivElement> {
 
 // The fast-forward of clock-01, run backwards because the arrowed rim points
 // counter-clockwise: the long hand rewinds two circuits while the short hand
-// rewinds one, speeding up and slowing down into the source shape.
+// rewinds one, speeding up and slowing down into the source shape. The rim
+// arrow leads the rewind: it winds up, runs once around the dial, overshoots a
+// little, and settles.
+const rimVariants: Variants = {
+  normal: { transform: 'rotate(0deg)' },
+  animate: {
+    transform: ['rotate(0deg)', 'rotate(10deg)', 'rotate(-366deg)', 'rotate(-360deg)'],
+    transition: {
+      duration: 1.04,
+      times: [0, 0.12, 0.86, 1],
+      ease: ['easeOut', [0.55, 0, 0.25, 1], 'easeInOut'],
+    },
+  },
+};
 const CLOCK_REST = 'M12 8L12 12L14 14';
 
 const handsVariants: Variants = {
@@ -73,7 +86,11 @@ const Clock02Icon = forwardRef<Clock02IconHandle, Clock02IconProps>(
           fill="none"
           overflow="visible"
         >
-          <path
+          <motion.path
+            variants={rimVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
             d="M5.04798 8.60657L2.53784 8.45376C4.33712 3.70477 9.503 0.999914 14.5396 2.34474C19.904 3.77711 23.0904 9.26107 21.6565 14.5935C20.2227 19.926 14.7116 23.0876 9.3472 21.6553C5.36419 20.5917 2.58192 17.2946 2 13.4844"
             stroke="currentColor"
             strokeLinecap="round"

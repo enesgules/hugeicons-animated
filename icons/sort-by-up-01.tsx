@@ -45,15 +45,21 @@ const itemVariants: Variants = {
   },
 };
 
-// The arrow winds up against its direction, then pushes the order upward.
+// The arrowhead darts along its heading and stretches its stem, recoils a
+// little past rest, makes a softer second push, and settles, while the items
+// trade places.
+const r = (value: number) => Math.round(value * 10000) / 10000;
+const ARROW = (y: number) =>
+  `M14.9998 ${r(7.67356 - y)}L16.4088 ${r(6.187 - y)}C17.1588 ${r(5.39573 - y)} 17.5338 ${r(5.00009 - y)} 17.9998 ${r(5.00009 - y)}C18.4658 ${r(5.00009 - y)} 18.8408 ${r(5.39573 - y)} 19.5908 ${r(6.18701 - y)}L20.9998 ${r(7.67356 - y)}M17.9998 ${r(5.08732 - y)}L17.9998 9.46241C17.9998 11.6959 17.9998 12.8126 17.553 13.7973C17.1061 14.7821 16.2657 15.5174 14.5849 16.9882L13.9998 17.5001`;
+
 const arrowVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: { d: ARROW(0) },
   animate: {
-    translateY: [0, 0.8, -1.6, 0.3, 0],
+    d: [0, -0.6, 2.2, -0.3, 0.4, 0].map(ARROW),
     transition: {
       duration: SORT_DURATION,
-      times: [0, 0.16, 0.5, 0.78, 1],
-      ease: 'easeInOut',
+      times: [0, 0.16, 0.42, 0.62, 0.8, 1],
+      ease: [0.23, 1, 0.32, 1],
     },
   },
 };
@@ -85,7 +91,7 @@ const SortByUp01Icon = forwardRef<SortByUp01IconHandle, SortByUp01IconProps>(
           overflow="visible"
         >
           <motion.path
-            d="M14.9998 7.67356L16.4088 6.187C17.1588 5.39573 17.5338 5.00009 17.9998 5.00009C18.4658 5.00009 18.8408 5.39573 19.5908 6.18701L20.9998 7.67356M17.9998 5.08732L17.9998 9.46241C17.9998 11.6959 17.9998 12.8126 17.553 13.7973C17.1061 14.7821 16.2657 15.5174 14.5849 16.9882L13.9998 17.5001"
+            d={ARROW(0)}
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
