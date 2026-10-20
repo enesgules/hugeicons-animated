@@ -16,29 +16,26 @@ interface BatteryCharging01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// five cells build to a shared full-charge surge, then hand the energy back to the bolt
-type ChargeCell = { start: number; done: number };
+// Four cells, placed like the battery-full cells, fill left to right from
+// their base with a springy overshoot, surge together at full charge, then
+// hand the energy back to the bolt.
+const CELLS = [6, 9, 12, 15];
 
 const chargeCellVariants: Variants = {
-  normal: { visibility: 'hidden', transform: 'scaleY(0.08)' },
-  animate: ({ start, done }: ChargeCell) => ({
-    visibility: ['hidden', 'hidden', 'visible', 'visible', 'visible', 'visible', 'hidden', 'hidden'],
-    transform: [
-      'scaleY(0.08)',
-      'scaleY(0.08)',
-      'scaleY(1)',
-      'scaleY(1)',
-      'scaleY(1.18)',
-      'scaleY(0.94)',
-      'scaleY(0.12)',
-      'scaleY(0.12)',
-    ],
-    transition: {
-      duration: 1.18,
-      ease: [0.23, 1, 0.32, 1],
-      times: [0, start, done, 0.64, 0.7, 0.76, 0.86, 1],
-    },
-  }),
+  normal: { visibility: 'hidden', scaleY: 0.1 },
+  animate: (i: number) => {
+    const start = 0.06 + i * 0.1;
+    const done = start + 0.14;
+    return {
+      visibility: ['hidden', 'hidden', 'visible', 'visible', 'visible', 'visible', 'visible', 'hidden', 'hidden'],
+      scaleY: [0.1, 0.1, 1.2, 1, 1, 1.15, 0.96, 0.1, 0.1],
+      transition: {
+        duration: 1.18,
+        ease: [0.23, 1, 0.32, 1],
+        times: [0, start, done, done + 0.08, 0.64, 0.7, 0.76, 0.86, 1],
+      },
+    };
+  },
 };
 
 const chargedBatteryVariants: Variants = {
@@ -154,63 +151,21 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             variants={generatedGeometryVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '10.4px 12px' }}
           >
-          <motion.path
-            d="M4.4 15V9"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="2.2"
-            variants={chargeCellVariants}
-            custom={{ start: 0.05, done: 0.28 }}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '4.4px 15px' }}
-          />
-          <motion.path
-            d="M7.4 15V9"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="2.2"
-            variants={chargeCellVariants}
-            custom={{ start: 0.14, done: 0.37 }}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '7.4px 15px' }}
-          />
-          <motion.path
-            d="M10.4 15V9"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="2.2"
-            variants={chargeCellVariants}
-            custom={{ start: 0.23, done: 0.46 }}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '10.4px 15px' }}
-          />
-          <motion.path
-            d="M13.4 15V9"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="2.2"
-            variants={chargeCellVariants}
-            custom={{ start: 0.32, done: 0.55 }}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '13.4px 15px' }}
-          />
-          <motion.path
-            d="M16.4 15V9"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeWidth="2.2"
-            variants={chargeCellVariants}
-            custom={{ start: 0.41, done: 0.64 }}
-            animate={controls}
-            initial="normal"
-            style={{ transformOrigin: '16.4px 15px' }}
-          />
+            {CELLS.map((x, i) => (
+              <motion.path
+                key={x}
+                d={`M${x} 10V14`}
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="1.5"
+                variants={chargeCellVariants}
+                custom={i}
+                animate={controls}
+                initial="normal"
+                style={{ transformBox: 'view-box', originX: x / 24, originY: 14 / 24 }}
+              />
+            ))}
           </motion.g>
           <path
             d="M2 12C2 9.17157 2 7.75736 2.87868 6.87868C3.75736 6 5.17157 6 8 6H13C15.8284 6 17.2426 6 18.1213 6.87868C19 7.75736 19 9.17157 19 12C19 14.8284 19 16.2426 18.1213 17.1213C17.2426 18 15.8284 18 13 18H8C5.17157 18 3.75736 18 2.87868 17.1213C2 16.2426 2 14.8284 2 12Z"
