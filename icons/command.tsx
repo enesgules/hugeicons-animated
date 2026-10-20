@@ -62,7 +62,7 @@ const CommandIcon = forwardRef<CommandIconHandle, CommandIconProps>(
           variants={commandVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 50%' }}
+          style={{ transformBox: 'fill-box' }}
         >
           <path
             d="M15 9V15H9V9H15Z"

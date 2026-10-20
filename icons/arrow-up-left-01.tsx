@@ -40,7 +40,7 @@ const ArrowUpLeft01Icon = forwardRef<ArrowUpLeft01IconHandle, ArrowUpLeft01IconP
     return (
       <div className={cn(className)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} {...props}>
         <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" overflow="visible">
-          <motion.g variants={arrowVariants} animate={controls} initial="normal" style={{ transformOrigin: '12px 12px' }}>
+          <motion.g variants={arrowVariants} animate={controls} initial="normal" style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}>
             <path d="M7.5 7.5L17.5 17.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
             <path d="M15 6.65032C15 6.65032 8.06166 6.10759 7.08461 7.08463C6.10755 8.06167 6.65037 15 6.65037 15" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
           </motion.g>

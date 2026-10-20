@@ -79,7 +79,7 @@ const PauseIcon = forwardRef<PauseIconHandle, PauseIconProps>(
             custom={0}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '7px 12px' }}
+            style={{ transformBox: 'view-box', originX: 7 / 24, originY: 12 / 24 }}
           />
           <motion.path
             d="M14 7C14 5.58579 14 4.87868 14.4393 4.43934C14.8787 4 15.5858 4 17 4C18.4142 4 19.1213 4 19.5607 4.43934C20 4.87868 20 5.58579 20 7V17C20 18.4142 20 19.1213 19.5607 19.5607C19.1213 20 18.4142 20 17 20C15.5858 20 14.8787 20 14.4393 19.5607C14 19.1213 14 18.4142 14 17V7Z"
@@ -89,7 +89,7 @@ const PauseIcon = forwardRef<PauseIconHandle, PauseIconProps>(
             custom={1}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '17px 12px' }}
+            style={{ transformBox: 'view-box', originX: 17 / 24, originY: 12 / 24 }}
           />
         </svg>
       </div>

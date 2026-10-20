@@ -72,7 +72,7 @@ const Search02Icon = forwardRef<Search02IconHandle, Search02IconProps>(
           variants={searchVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '39.5833% 39.5833%' }}
+          style={{ transformBox: 'fill-box', originX: 0.395833, originY: 0.395833 }}
         >
           <path
             d="M15 15L16.5 16.5"

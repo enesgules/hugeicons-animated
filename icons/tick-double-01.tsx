@@ -184,7 +184,7 @@ const TickDouble01Icon = forwardRef<TickDouble01IconHandle, TickDouble01IconProp
           variants={impactVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 50%' }}
+          style={{ transformBox: 'fill-box' }}
         >
           <motion.path
             d={BACK_SHORT_PATH}

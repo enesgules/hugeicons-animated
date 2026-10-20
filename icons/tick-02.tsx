@@ -126,7 +126,7 @@ const Tick02Icon = forwardRef<Tick02IconHandle, Tick02IconProps>(
           variants={impactVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 50%' }}
+          style={{ transformBox: 'fill-box' }}
         >
           <motion.path
             d={CHECK_PATH}

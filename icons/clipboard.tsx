@@ -98,7 +98,7 @@ const ClipboardIcon = forwardRef<ClipboardIconHandle, ClipboardIconProps>(
                   variants={frontBoardVariants}
                   animate={controls}
                   initial="normal"
-                  style={{ transformOrigin: '14.5px 10.5px' }}
+                  style={{ transformBox: 'view-box', originX: 14.5 / 24, originY: 10.5 / 24 }}
                 />
               </motion.g>
             </mask>
@@ -107,7 +107,7 @@ const ClipboardIcon = forwardRef<ClipboardIconHandle, ClipboardIconProps>(
             variants={frontBoardVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '14.5px 10.5px' }}
+            style={{ transformBox: 'view-box', originX: 14.5 / 24, originY: 10.5 / 24 }}
           >
             <path
               d={FRONT_BOARD_PATH}

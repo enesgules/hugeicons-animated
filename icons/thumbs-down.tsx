@@ -66,7 +66,7 @@ const ThumbsDownIcon = forwardRef<ThumbsDownIconHandle, ThumbsDownIconProps>(
           variants={handVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '18.75% 0%' }}
+          style={{ transformBox: 'fill-box', originX: 0.1875, originY: 0.0 }}
         >
           <path
             d="M2 11.5C2 12.6046 2.89543 13.5 4 13.5C5.65685 13.5 7 12.1569 7 10.5V6.5C7 4.84315 5.65685 3.5 4 3.5C2.89543 3.5 2 4.39543 2 5.5V11.5Z"

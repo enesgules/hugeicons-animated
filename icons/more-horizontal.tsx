@@ -56,14 +56,16 @@ const MoreHorizontalIcon = forwardRef<MoreHorizontalIconHandle, MoreHorizontalIc
             <motion.circle
               key={cx}
               cx={cx}
-              cy="12"
-              r="1.25"
+              cy="12.5"
+              r="1"
               fill="currentColor"
+              stroke="currentColor"
+              strokeWidth="1.5"
               variants={dotVariants}
               custom={index}
               animate={controls}
               initial="normal"
-              style={{ transformOrigin: `${cx}px 12px` }}
+              style={{ transformBox: 'view-box', originX: cx / 24, originY: 12.5 / 24 }}
             />
           ))}
         </svg>

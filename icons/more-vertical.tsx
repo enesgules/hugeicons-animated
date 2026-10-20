@@ -56,14 +56,16 @@ const MoreVerticalIcon = forwardRef<MoreVerticalIconHandle, MoreVerticalIconProp
             <motion.circle
               key={cy}
               cx="12"
-              cy={cy}
-              r="1.25"
+              cy={cy + 0.5}
+              r="1"
               fill="currentColor"
+              stroke="currentColor"
+              strokeWidth="1.5"
               variants={dotVariants}
               custom={index}
               animate={controls}
               initial="normal"
-              style={{ transformOrigin: `12px ${cy}px` }}
+              style={{ transformBox: 'view-box', originX: 12 / 24, originY: (cy + 0.5) / 24 }}
             />
           ))}
         </svg>

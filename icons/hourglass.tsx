@@ -123,7 +123,7 @@ const HourglassIcon = forwardRef<HourglassIconHandle, HourglassIconProps>(
           variants={flipVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 50%' }}
+          style={{ transformBox: 'fill-box' }}
         >
           <path
             d="M4 3H20"

@@ -67,14 +67,14 @@ const CircleXIcon = forwardRef<CircleXIconHandle, CircleXIconProps>(
           variants={ringVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '12px 12px' }}
+          style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
         />
         <motion.path
           d="M9 9L15 15M15 9L9 15" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
           variants={crossVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '12px 12px' }}
+          style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
         />
         </svg>
       </div>

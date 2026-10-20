@@ -68,7 +68,7 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
             variants={headVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', transformOrigin: '12px 13.5px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 13.5 / 24 }}
           />
           <motion.path
             d="M19 20.5C19 16.634 15.866 13.5 12 13.5C8.13401 13.5 5 16.634 5 20.5"

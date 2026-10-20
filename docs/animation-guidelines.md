@@ -26,7 +26,15 @@ should be faster than large or unusual ones.
 - Collapse an unused primitive to a point instead of mounting and unmounting it.
 - Morph path data only when every pose has the same command types and parameter
   counts. Otherwise use transforms or line drawing.
-- Set transform origins explicitly on animated SVG elements and groups.
+- Set transform origins explicitly on animated SVG elements and groups with
+  `transformBox: 'view-box'` and `originX`/`originY` (fractions of 24). Motion
+  overwrites a `transformOrigin` style on SVG children, so parts then turn or
+  scale about their own centers and joined lines come apart.
+- Keep the stroke width constant. Scale a stroked part only a little (about
+  0.9 to 1.1). To grow, shrink, or move a line along its curve, change its path
+  (`pathAt`) or draw it, so it keeps the set's 1.5 stroke.
+- Use the icon's own lines. Move, draw, or reshape existing primitives before
+  you add new marks, and end every cycle on the exact rest pose.
 - Do not crossfade whole icons. Extra rays, trails, echoes, and particles must
   clarify the action, remain subordinate, and disappear at rest.
 
@@ -71,7 +79,7 @@ easing, and flourishes, and changes only what its geometry forces.
 | Turn | `undo`, `redo`, `refresh`, `settings-01` | A wind-up against the turn, one turn (the gear: half a turn), a small fall-back, and a settle. |
 | Eye | `eye`, `eye-off` | The pupil darts left and right, the lids meet in a blink, and the eye reopens a little wide before it settles. |
 | Slash off | `eye-off`, `headphone-off` | The slash leaves to the bottom right, the outline heals across its breaks, and a new slash returns from the top left as the breaks reopen. |
-| Sound | `volume-high`, `wifi-01` | While hovered, waves leave the source as a train (`waveTrain` in `lib/use-icon-animation.ts`): each wave rises at the source, moves out through the rest arcs at an even pace, and fades; the source pulses once for each wave. A mute cross gathers near the cone mouth and swells past rest before it settles. |
+| Sound | `volume-high`, `wifi-01` | Each wave travels outward along its own curve and fades; the source (cone or dot) draws back and pushes, and the same wave rises again at the source and settles on its rest arc with a small overshoot. Waves change shape with `pathAt`, never scale. A mute cross gathers near the cone mouth and swells past rest before it settles. |
 | Launch | `sent`, `external-link` | The object pulls back and breaks free along its heading; a replacement follows the same route, or the object settles back while its frame dips. |
 | Glint | `magic-wand-01`, `star` | Each star shrinks as it turns to the diagonal and pops as it lands on the next quarter turn; small plus sparkles appear in empty corners. |
 | Weather | `cloud-rain` | The cloud bobs; what falls from it drains out and redraws from the cloud. Lightning redraws faster and flickers twice. |

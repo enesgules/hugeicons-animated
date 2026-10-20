@@ -57,7 +57,7 @@ const Tag01Icon = forwardRef<Tag01IconHandle, Tag01IconProps>(
           variants={tagVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '72.9167% 27.0833%' }}
+          style={{ transformBox: 'fill-box', originX: 0.729167, originY: 0.270833 }}
         >
           <circle
             cx="1.5"

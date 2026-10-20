@@ -65,7 +65,7 @@ const PlayIcon = forwardRef<PlayIconHandle, PlayIconProps>(
             variants={playVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '10px 12px' }}
+            style={{ transformBox: 'view-box', originX: 10 / 24, originY: 12 / 24 }}
           />
         </svg>
       </div>

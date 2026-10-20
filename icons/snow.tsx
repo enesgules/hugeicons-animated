@@ -65,7 +65,7 @@ const SnowIcon = forwardRef<SnowIconHandle, SnowIconProps>(
           variants={snowVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 50%' }}
+          style={{ transformBox: 'fill-box' }}
         >
           <path
             d="M21 14.25L20.1689 13.591C19.223 12.841 18.75 12.466 18.75 12C18.75 11.534 19.223 11.159 20.1689 10.409L21 9.75M3 9.75L3.83115 10.409C4.77705 11.159 5.25 11.534 5.25 12C5.25 12.466 4.77705 12.841 3.83115 13.591L3 14.25"

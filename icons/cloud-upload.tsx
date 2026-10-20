@@ -68,7 +68,7 @@ const CloudUploadIcon = forwardRef<CloudUploadIconHandle, CloudUploadIconProps>(
             variants={cloudVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
           />
           <motion.path
             d="M12 13L12 21M12 13C11.2998 13 9.99153 14.9943 9.5 15.5M12 13C12.7002 13 14.0085 14.9943 14.5 15.5"
@@ -79,7 +79,7 @@ const CloudUploadIcon = forwardRef<CloudUploadIconHandle, CloudUploadIconProps>(
             variants={uploadVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 17px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 17 / 24 }}
           />
         </svg>
       </div>

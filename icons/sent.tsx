@@ -190,7 +190,7 @@ const SentIcon = forwardRef<SentIconHandle, SentIconProps>(
             variants={departingPlaneVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
           >
             <PlaneGeometry />
           </motion.g>
@@ -203,7 +203,7 @@ const SentIcon = forwardRef<SentIconHandle, SentIconProps>(
               variants={arrivingPlaneVariants}
               animate={controls}
               initial="normal"
-              style={{ transformOrigin: '12px 12px' }}
+              style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
             >
               <PlaneGeometry />
             </motion.g>

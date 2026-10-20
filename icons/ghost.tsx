@@ -92,7 +92,7 @@ const GhostIcon = forwardRef<GhostIconHandle, GhostIconProps>(
           variants={svgVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 50%' }}
+          style={{ transformBox: 'fill-box' }}
         >
           <motion.path
             d={GHOST_BODY}

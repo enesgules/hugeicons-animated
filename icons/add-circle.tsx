@@ -73,7 +73,7 @@ const AddCircleIcon = forwardRef<AddCircleIconHandle, AddCircleIconProps>(
             variants={circleVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
           />
           <motion.path
             d="M12 8V16M16 12H8"
@@ -84,7 +84,7 @@ const AddCircleIcon = forwardRef<AddCircleIconHandle, AddCircleIconProps>(
             variants={plusVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
           />
         </svg>
       </div>

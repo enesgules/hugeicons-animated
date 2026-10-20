@@ -211,7 +211,7 @@ const Archive02Icon = forwardRef<Archive02IconHandle, Archive02IconProps>(
             variants={archiveDrawerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 16px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 16 / 24 }}
           />
           <path
             d="M6 7C6.00004 5.5998 6.00006 4.89969 6.27259 4.3649C6.51227 3.89457 6.89467 3.51218 7.36501 3.27252C7.89981 3 8.59991 3 10.0001 3H14C15.4001 3 16.1002 3 16.635 3.27248C17.1054 3.51217 17.4878 3.89462 17.7275 4.36502C18 4.8998 18 5.59987 18 7"
@@ -229,7 +229,7 @@ const Archive02Icon = forwardRef<Archive02IconHandle, Archive02IconProps>(
             variants={archiveDrawerVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 16px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 16 / 24 }}
           />
         </svg>
       </div>

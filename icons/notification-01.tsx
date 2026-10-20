@@ -69,7 +69,7 @@ const Notification01Icon = forwardRef<Notification01IconHandle, Notification01Ic
           variants={svgVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: 'top center' }}
+          style={{ transformBox: 'fill-box', originX: 0.5, originY: 0 }}
         >
           <motion.path
             d="M15.5 18C15.5 19.933 13.933 21.5 12 21.5C10.067 21.5 8.5 19.933 8.5 18"

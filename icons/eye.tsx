@@ -194,7 +194,7 @@ const EyeIcon = forwardRef<EyeIconHandle, EyeIconProps>(
             variants={eyeOutlineVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 14px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 14 / 24 }}
           />
           <motion.path
             d="M15 14C15 12.3431 13.6569 11 12 11C10.3431 11 9 12.3431 9 14C9 15.6569 10.3431 17 12 17C13.6569 17 15 15.6569 15 14Z"
@@ -204,13 +204,13 @@ const EyeIcon = forwardRef<EyeIconHandle, EyeIconProps>(
             animate={controls}
             initial="normal"
             clipPath={`url(#${pupilClipId})`}
-            style={{ transformOrigin: '12px 14px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 14 / 24 }}
           />
           <motion.g
             variants={generatedGeometryVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 14px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 14 / 24 }}
           >
             <motion.path
               d={TOP_EYELID_OPEN}

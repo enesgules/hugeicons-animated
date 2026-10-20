@@ -86,7 +86,7 @@ const Sun03Icon = forwardRef<Sun03IconHandle, Sun03IconProps>(
             variants={coreVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
           />
           <motion.path
             d="M12 2V3.5M12 20.5V22M19.0708 19.0713L18.0101 18.0106M5.98926 5.98926L4.9286 4.9286M22 12H20.5M3.5 12H2M19.0713 4.92871L18.0106 5.98937M5.98975 18.0107L4.92909 19.0714"
@@ -96,7 +96,7 @@ const Sun03Icon = forwardRef<Sun03IconHandle, Sun03IconProps>(
             variants={raysVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
           />
         </svg>
       </div>

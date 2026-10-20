@@ -95,7 +95,7 @@ const ShoppingCart01Icon = forwardRef<ShoppingCart01IconHandle, ShoppingCart01Ic
           variants={svgVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 75%' }}
+          style={{ transformBox: 'fill-box', originX: 0.5, originY: 0.75 }}
         >
           <path
             d="M10.5 20.25C10.5 20.6642 10.1642 21 9.75 21C9.33579 21 9 20.6642 9 20.25C9 19.8358 9.33579 19.5 9.75 19.5C10.1642 19.5 10.5 19.8358 10.5 20.25Z"

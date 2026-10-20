@@ -68,7 +68,7 @@ const UserRemove01Icon = forwardRef<UserRemove01IconHandle, UserRemove01IconProp
             variants={personVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '9.5px 8px' }}
+            style={{ transformBox: 'view-box', originX: 9.5 / 24, originY: 8 / 24 }}
           />
           <motion.path
             d="M15.5 21L18.5 18M18.5 18L21.5 15M18.5 18L15.5 15M18.5 18L21.5 21"
@@ -79,7 +79,7 @@ const UserRemove01Icon = forwardRef<UserRemove01IconHandle, UserRemove01IconProp
             variants={removeVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '18.5px 18px' }}
+            style={{ transformBox: 'view-box', originX: 18.5 / 24, originY: 18 / 24 }}
           />
           <motion.path
             d="M2.5 20C2.5 16.134 5.63401 13 9.5 13C10.775 13 11.9704 13.3409 13 13.9365"
@@ -90,7 +90,7 @@ const UserRemove01Icon = forwardRef<UserRemove01IconHandle, UserRemove01IconProp
             variants={personVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '9.5px 18px' }}
+            style={{ transformBox: 'view-box', originX: 9.5 / 24, originY: 18 / 24 }}
           />
         </svg>
       </div>

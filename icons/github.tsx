@@ -105,7 +105,7 @@ const GithubIcon = forwardRef<GithubIconHandle, GithubIconProps>(
             variants={catVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '13.5px 21px' }}
+            style={{ transformBox: 'view-box', originX: 13.5 / 24, originY: 21 / 24 }}
           >
             <motion.path
               d={tailRestPath}

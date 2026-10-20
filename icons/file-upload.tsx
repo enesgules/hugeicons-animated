@@ -68,7 +68,7 @@ const FileUploadIcon = forwardRef<FileUploadIconHandle, FileUploadIconProps>(
             variants={fileVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 14px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 14 / 24 }}
           />
           <motion.path
             d="M10 5C9.41016 4.39316 7.84027 2 7 2C6.15973 2 4.58984 4.39316 4 5M7 3L7 10"
@@ -79,7 +79,7 @@ const FileUploadIcon = forwardRef<FileUploadIconHandle, FileUploadIconProps>(
             variants={arrowVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '7px 6px' }}
+            style={{ transformBox: 'view-box', originX: 7 / 24, originY: 6 / 24 }}
           />
         </svg>
       </div>

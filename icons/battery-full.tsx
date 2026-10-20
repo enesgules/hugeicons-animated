@@ -78,7 +78,7 @@ const BatteryFullIcon = forwardRef<BatteryFullIconHandle, BatteryFullIconProps>(
           variants={batteryVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '45.8333% 50%' }}
+          style={{ transformBox: 'fill-box', originX: 0.458333, originY: 0.5 }}
         >
           <path
             d="M2 12C2 9.17157 2 7.75736 2.87868 6.87868C3.75736 6 5.17157 6 8 6H13C15.8284 6 17.2426 6 18.1213 6.87868C19 7.75736 19 9.17157 19 12C19 14.8284 19 16.2426 18.1213 17.1213C17.2426 18 15.8284 18 13 18H8C5.17157 18 3.75736 18 2.87868 17.1213C2 16.2426 2 14.8284 2 12Z"

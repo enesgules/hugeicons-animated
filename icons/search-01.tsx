@@ -100,7 +100,7 @@ const Search01Icon = forwardRef<Search01IconHandle, Search01IconProps>(
       >
         <span
           data-search-icon
-          style={{ display: 'inline-flex', transformOrigin: '11px 11px' }}
+          style={{ display: 'inline-flex', transformOrigin: '45.8333% 45.8333%' }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

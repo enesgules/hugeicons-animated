@@ -76,7 +76,7 @@ const Bookmark01Icon = forwardRef<Bookmark01IconHandle, Bookmark01IconProps>(
             variants={foldVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}
+            style={{ transformBox: 'fill-box' }}
           />
         </motion.svg>
       </div>

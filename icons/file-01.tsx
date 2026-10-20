@@ -77,7 +77,7 @@ const File01Icon = forwardRef<File01IconHandle, File01IconProps>(
             variants={fileVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
           />
           <motion.path
             d="M8 7L16 7"
@@ -88,7 +88,7 @@ const File01Icon = forwardRef<File01IconHandle, File01IconProps>(
             variants={lineVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '8px 7px' }}
+            style={{ transformBox: 'view-box', originX: 8 / 24, originY: 7 / 24 }}
           />
           <motion.path
             d="M8 11L12 11"
@@ -99,7 +99,7 @@ const File01Icon = forwardRef<File01IconHandle, File01IconProps>(
             variants={lineVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '8px 11px' }}
+            style={{ transformBox: 'view-box', originX: 8 / 24, originY: 11 / 24 }}
           />
         </svg>
       </div>

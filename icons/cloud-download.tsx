@@ -68,7 +68,7 @@ const CloudDownloadIcon = forwardRef<CloudDownloadIconHandle, CloudDownloadIconP
             variants={cloudVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
           />
           <motion.path
             d="M12 21L12 13M12 21C11.2998 21 9.99153 19.0057 9.5 18.5M12 21C12.7002 21 14.0085 19.0057 14.5 18.5"
@@ -79,7 +79,7 @@ const CloudDownloadIcon = forwardRef<CloudDownloadIconHandle, CloudDownloadIconP
             variants={downloadVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 17px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 17 / 24 }}
           />
         </svg>
       </div>

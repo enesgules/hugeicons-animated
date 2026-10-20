@@ -60,7 +60,7 @@ const Loading03Icon = forwardRef<Loading03IconHandle, Loading03IconProps>(
           variants={loaderVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 50%' }}
+          style={{ transformBox: 'fill-box' }}
         >
           <path
             d="M12 3V6"

@@ -99,7 +99,7 @@ const SmileIcon = forwardRef<SmileIconHandle, SmileIconProps>(
           variants={svgVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 50%' }}
+          style={{ transformBox: 'fill-box' }}
         >
           <circle
             cx="12"

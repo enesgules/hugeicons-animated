@@ -85,7 +85,7 @@ const ClipboardPasteIcon = forwardRef<ClipboardPasteIconHandle, ClipboardPasteIc
             variants={pasteVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '15px 13px' }}
+            style={{ transformBox: 'view-box', originX: 15 / 24, originY: 13 / 24 }}
           >
             <path
               d="M19.502 13.0005H10.502"
@@ -106,7 +106,7 @@ const ClipboardPasteIcon = forwardRef<ClipboardPasteIconHandle, ClipboardPasteIc
             variants={boardVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '11.5px 12px' }}
+            style={{ transformBox: 'view-box', originX: 11.5 / 24, originY: 12 / 24 }}
           >
             <path
               d="M13.998 2.00049H8.99805C8.16962 2.00049 7.49805 2.67206 7.49805 3.50049C7.49805 4.32892 8.16962 5.00049 8.99805 5.00049H13.998C14.8265 5.00049 15.498 4.32892 15.498 3.50049C15.498 2.67206 14.8265 2.00049 13.998 2.00049Z"

@@ -68,7 +68,7 @@ const FileAddIcon = forwardRef<FileAddIconHandle, FileAddIconProps>(
             variants={fileVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 14px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 14 / 24 }}
           />
           <motion.path
             d="M12 5.99954H4M8 1.99954V9.99954"
@@ -79,7 +79,7 @@ const FileAddIcon = forwardRef<FileAddIconHandle, FileAddIconProps>(
             variants={plusVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '8px 6px' }}
+            style={{ transformBox: 'view-box', originX: 8 / 24, originY: 6 / 24 }}
           />
         </svg>
       </div>

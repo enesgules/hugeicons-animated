@@ -145,7 +145,7 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
           variants={chargedBatteryVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '45.8333% 50%' }}
+          style={{ transformBox: 'fill-box', originX: 0.458333, originY: 0.5 }}
         >
           <motion.g
             variants={generatedGeometryVariants}
@@ -182,7 +182,7 @@ const BatteryCharging01Icon = forwardRef<BatteryCharging01IconHandle, BatteryCha
             variants={chargeBoltVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '10.2px 12px' }}
+            style={{ transformBox: 'view-box', originX: 10.2 / 24, originY: 12 / 24 }}
           />
           <path
             d="M19 9.5L20.0272 9.6712C20.7085 9.78475 21.0491 9.84152 21.3076 10.0067C21.5618 10.1691 21.7612 10.4044 21.8796 10.6819C22 10.964 22 11.3093 22 12C22 12.6907 22 13.036 21.8796 13.3181C21.7612 13.5956 21.5618 13.8309 21.3076 13.9933C21.0491 14.1585 20.7085 14.2153 20.0272 14.3288L19 14.5"

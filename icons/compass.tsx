@@ -85,7 +85,7 @@ const CompassIcon = forwardRef<CompassIconHandle, CompassIconProps>(
             variants={needleVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 13px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 13 / 24 }}
           />
         </svg>
       </div>

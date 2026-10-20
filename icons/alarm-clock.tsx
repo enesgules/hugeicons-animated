@@ -74,7 +74,7 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
           variants={svgVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 54.1667%' }}
+          style={{ transformBox: 'fill-box', originX: 0.5, originY: 0.541667 }}
         >
           <path
             d="M20.5 12.5C20.5 17.1944 16.6944 21 12 21C7.30558 21 3.5 17.1944 3.5 12.5C3.5 7.80558 7.30558 4 12 4C16.6944 4 20.5 7.80558 20.5 12.5Z"
@@ -107,7 +107,7 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
             custom={1}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}
+            style={{ transformBox: 'fill-box' }}
           />
           <motion.path
             d="M22 6L19 3"
@@ -119,7 +119,7 @@ const AlarmClockIcon = forwardRef<AlarmClockIconHandle, AlarmClockIconProps>(
             custom={-1}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'fill-box', transformOrigin: '50% 50%' }}
+            style={{ transformBox: 'fill-box' }}
           />
           <path
             d="M12 8V12.5L14 14.5"

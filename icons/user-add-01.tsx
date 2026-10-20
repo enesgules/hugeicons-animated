@@ -68,7 +68,7 @@ const UserAdd01Icon = forwardRef<UserAdd01IconHandle, UserAdd01IconProps>(
             variants={personVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '10px 10px' }}
+            style={{ transformBox: 'view-box', originX: 10 / 24, originY: 10 / 24 }}
           />
           <motion.path
             d="M17.5 21L17.5 14M14 17.5H21"
@@ -79,7 +79,7 @@ const UserAdd01Icon = forwardRef<UserAdd01IconHandle, UserAdd01IconProps>(
             variants={plusVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '17.5px 17.5px' }}
+            style={{ transformBox: 'view-box', originX: 17.5 / 24, originY: 17.5 / 24 }}
           />
           <motion.path
             d="M3 20C3 16.134 6.13401 13 10 13C11.4872 13 12.8662 13.4638 14 14.2547"
@@ -90,7 +90,7 @@ const UserAdd01Icon = forwardRef<UserAdd01IconHandle, UserAdd01IconProps>(
             variants={personVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '10px 18px' }}
+            style={{ transformBox: 'view-box', originX: 10 / 24, originY: 18 / 24 }}
           />
         </svg>
       </div>

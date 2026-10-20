@@ -64,9 +64,9 @@ const InformationCircleIcon = forwardRef<InformationCircleIconHandle, Informatio
   return (
     <div className={cn(className)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} {...props}>
       <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" overflow="visible">
-        <motion.circle cx="12" cy="12" r="10" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={circleVariants} style={{ transformOrigin: '12px 12px' }} animate={controls} initial="normal" />
-        <motion.path d="M12 12V16" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={stemVariants} style={{ transformOrigin: '12px 16px' }} animate={controls} initial="normal" />
-        <motion.path d="M12.125 8.25H12M12.25 8.25C12.25 8.11193 12.1381 8 12 8C11.8619 8 11.75 8.11193 11.75 8.25C11.75 8.38807 11.8619 8.5 12 8.5C12.1381 8.5 12.25 8.38807 12.25 8.25Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={dotVariants} style={{ transformOrigin: '12px 8.25px' }} animate={controls} initial="normal" />
+        <motion.circle cx="12" cy="12" r="10" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={circleVariants} style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }} animate={controls} initial="normal" />
+        <motion.path d="M12 12V16" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={stemVariants} style={{ transformBox: 'view-box', originX: 12 / 24, originY: 16 / 24 }} animate={controls} initial="normal" />
+        <motion.path d="M12.125 8.25H12M12.25 8.25C12.25 8.11193 12.1381 8 12 8C11.8619 8 11.75 8.11193 11.75 8.25C11.75 8.38807 11.8619 8.5 12 8.5C12.1381 8.5 12.25 8.38807 12.25 8.25Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={dotVariants} style={{ transformBox: 'view-box', originX: 12 / 24, originY: 8.25 / 24 }} animate={controls} initial="normal" />
       </svg>
     </div>
   );

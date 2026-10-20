@@ -76,7 +76,7 @@ const DocumentAttachmentIcon = forwardRef<DocumentAttachmentIconHandle, Document
             variants={documentVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 12px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }}
           />
           <motion.path
             d="M7.5 7H16.5"
@@ -87,7 +87,7 @@ const DocumentAttachmentIcon = forwardRef<DocumentAttachmentIconHandle, Document
             variants={lineVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '7.5px 7px' }}
+            style={{ transformBox: 'view-box', originX: 7.5 / 24, originY: 7 / 24 }}
           />
           <motion.path
             d="M7.5 12H13.5"
@@ -98,7 +98,7 @@ const DocumentAttachmentIcon = forwardRef<DocumentAttachmentIconHandle, Document
             variants={lineVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '7.5px 12px' }}
+            style={{ transformBox: 'view-box', originX: 7.5 / 24, originY: 12 / 24 }}
           />
           <motion.path
             d="M20.5 20L20.5 17C20.5 15.5706 19.1569 14 17.5 14C15.8431 14 14.5 15.5706 14.5 17L14.5 20.5C14.5 21.3284 15.1716 22 16 22C16.8284 22 17.5 21.3284 17.5 20.5V17"
@@ -109,7 +109,7 @@ const DocumentAttachmentIcon = forwardRef<DocumentAttachmentIconHandle, Document
             variants={clipVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '17.5px 18px' }}
+            style={{ transformBox: 'view-box', originX: 17.5 / 24, originY: 18 / 24 }}
           />
         </svg>
       </div>

@@ -21,32 +21,22 @@ export function springEase(bounce = 0.45, visualDuration = 0.35) {
     progress >= 1 ? 1 : generator.next(progress * settle).value;
 }
 
+const NUMBER = /-?\d*\.?\d+/g;
+
 /**
- * One wave of a looping wave train, like sound leaving a speaker. The wave
- * fades in at the first pose, moves through each pose at an even pace, fades
- * out at the last, and returns hidden to the first. Give each wave the pose it
- * rests on; waves on neighbouring poses then move as one train. All poses must
- * share the same path commands.
+ * The path at position `t` along a row of poses that share the same path
+ * commands: `t = 1` is the second pose, `t = 1.5` is halfway to the third.
+ * Waves use it to move along their own curvature instead of scaling, so the
+ * stroke keeps its width.
  */
-export function waveTrain(poses: string[], rest: number, duration: number) {
-  const last = poses.length - 1;
-  const steps = [];
-  for (let pose = rest; pose <= last; pose++) steps.push(pose);
-  for (let pose = 0; rest > 0 && pose <= rest; pose++) steps.push(pose);
-  return {
-    d: steps.map((pose) => poses[pose]),
-    opacity: steps.map((pose) => (pose === 0 || pose === last ? 0 : 1)),
-    transition: {
-      duration,
-      ease: 'linear' as const,
-      // The return from the last pose to the first is a hidden jump.
-      times: steps.map((_, k) => {
-        if (k <= last - rest) return k / last;
-        return (k - 1) / last + (k === last - rest + 1 ? 0.001 : 0);
-      }),
-      repeat: Infinity,
-    },
-  };
+export function pathAt(poses: string[], t: number) {
+  const i = Math.min(Math.max(Math.floor(t), 0), poses.length - 2);
+  const to = poses[i + 1].match(NUMBER) ?? [];
+  let k = 0;
+  return poses[i].replace(NUMBER, (from) => {
+    const value = Number(from) + (Number(to[k++]) - Number(from)) * (t - i);
+    return String(Math.round(value * 10000) / 10000);
+  });
 }
 
 export interface AnimatedIconHandle {

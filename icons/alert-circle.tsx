@@ -64,9 +64,9 @@ const AlertCircleIcon = forwardRef<AlertCircleIconHandle, AlertCircleIconProps>(
   return (
     <div className={cn(className)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} {...props}>
       <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" overflow="visible">
-        <motion.circle cx="12" cy="12" r="10" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={circleVariants} style={{ transformOrigin: '12px 12px' }} animate={controls} initial="normal" />
-        <motion.path d="M12 8V12" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={stemVariants} style={{ transformOrigin: '12px 12px' }} animate={controls} initial="normal" />
-        <motion.path d="M12.125 15.75H12M12.25 15.75C12.25 15.8881 12.1381 16 12 16C11.8619 16 11.75 15.8881 11.75 15.75C11.75 15.6119 11.8619 15.5 12 15.5C12.1381 15.5 12.25 15.6119 12.25 15.75Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={dotVariants} style={{ transformOrigin: '12px 15.75px' }} animate={controls} initial="normal" />
+        <motion.circle cx="12" cy="12" r="10" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={circleVariants} style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }} animate={controls} initial="normal" />
+        <motion.path d="M12 8V12" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={stemVariants} style={{ transformBox: 'view-box', originX: 12 / 24, originY: 12 / 24 }} animate={controls} initial="normal" />
+        <motion.path d="M12.125 15.75H12M12.25 15.75C12.25 15.8881 12.1381 16 12 16C11.8619 16 11.75 15.8881 11.75 15.75C11.75 15.6119 11.8619 15.5 12 15.5C12.1381 15.5 12.25 15.6119 12.25 15.75Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" variants={dotVariants} style={{ transformBox: 'view-box', originX: 12 / 24, originY: 15.75 / 24 }} animate={controls} initial="normal" />
       </svg>
     </div>
   );

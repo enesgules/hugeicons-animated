@@ -164,7 +164,7 @@ const MailOpenIcon = forwardRef<MailOpenIconHandle, MailOpenIconProps>(
             variants={bodyVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 15px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 15 / 24 }}
           />
           <motion.g
             clipPath={`url(#${letterWindowId})`}
@@ -241,7 +241,7 @@ const MailOpenIcon = forwardRef<MailOpenIconHandle, MailOpenIconProps>(
             variants={bodyVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 15px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 15 / 24 }}
           />
         </svg>
       </div>

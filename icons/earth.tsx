@@ -1,9 +1,9 @@
 'use client';
 
-import type { Easing, Variants } from 'motion/react';
+import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
-import { forwardRef, useId } from 'react';
+import { forwardRef } from 'react';
 import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
@@ -23,50 +23,24 @@ const EARTH_RIM =
 const EARTH_LAND =
   'M12 22C11.037 21.2864 11.1907 20.4555 11.6738 19.6247C12.4166 18.3474 12.4166 18.3474 12.4166 16.6444C12.4166 14.9414 13.4286 14.1429 17 14.8571C18.6047 15.1781 19.7741 12.9609 21.8573 13.693M13.8766 2.17579C14.3872 3.11599 14.1816 4.23551 13.1027 4.66298C11.3429 5.3603 12.6029 6.64343 11.1035 7.4356C10.1038 7.96372 8.6044 7.83152 7.10496 6.24716C6.31517 5.41264 5.83966 4.95765 4.99037 4.86802';
 
-const SPIN_DURATION = 1.3;
-const SPIN_TIMES = [0, 0.16, 0.78, 0.9, 1];
-const SPIN_EASE: Easing[] = ['easeInOut', [0.45, 0, 0.25, 1], 'easeInOut', 'easeOut'];
-
-// The globe turns once on its axis: the coastlines ease back, then slide
-// east behind the rim while an identical copy of the same land rotates in
-// from the west and lands exactly on the rest drawing.
+// Turn, as in refresh: the land winds back, makes one turn about the globe
+// center, falls back a little past rest, and settles. Every coastline ends on
+// the rim, and a turn about the center keeps those ends on the rim.
 const landVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+  normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: [
-      'translateX(0px)',
-      'translateX(-1.2px)',
-      'translateX(20.8px)',
-      'translateX(19.8px)',
-      'translateX(20px)',
-    ],
-    transition: { duration: SPIN_DURATION, ease: SPIN_EASE, times: SPIN_TIMES },
-  },
-};
-
-const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0 } },
-  animate: { visibility: 'visible', transition: { duration: 0 } },
-};
-
-const landCopyVariants: Variants = {
-  normal: { transform: 'translateX(-20px)' },
-  animate: {
-    transform: [
-      'translateX(-20px)',
-      'translateX(-21.2px)',
-      'translateX(0.8px)',
-      'translateX(-0.2px)',
-      'translateX(0px)',
-    ],
-    transition: { duration: SPIN_DURATION, ease: SPIN_EASE, times: SPIN_TIMES },
+    transform: ['rotate(0deg)', 'rotate(-24deg)', 'rotate(368deg)', 'rotate(360deg)'],
+    transition: {
+      duration: 1.1,
+      times: [0, 0.18, 0.82, 1],
+      ease: ['easeOut', [0.65, 0, 0.35, 1], 'easeInOut'],
+    },
   },
 };
 
 const EarthIcon = forwardRef<EarthIconHandle, EarthIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
-    const clipId = useId();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
       loops: false,
@@ -90,37 +64,16 @@ const EarthIcon = forwardRef<EarthIconHandle, EarthIconProps>(
           fill="none"
           overflow="visible"
         >
-          <defs>
-            <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
-              <circle cx="12" cy="12" r="10" />
-            </clipPath>
-          </defs>
-          <g clipPath={`url(#${clipId})`}>
-            <motion.g
-              variants={generatedGeometryVariants}
-              animate={controls}
-              initial="normal"
-            >
-              <motion.path
-                d={EARTH_LAND}
-                stroke="currentColor"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-                variants={landCopyVariants}
-                animate={controls}
-                initial="normal"
-              />
-            </motion.g>
-            <motion.path
-              d={EARTH_LAND}
-              stroke="currentColor"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              variants={landVariants}
-              animate={controls}
-              initial="normal"
-            />
-          </g>
+          <motion.path
+            d={EARTH_LAND}
+            stroke="currentColor"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            variants={landVariants}
+            animate={controls}
+            initial="normal"
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
+          />
           <path
             d={EARTH_RIM}
             stroke="currentColor"

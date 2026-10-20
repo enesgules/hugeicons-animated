@@ -133,7 +133,7 @@ const AirplaneTakeOff01Icon = forwardRef<AirplaneTakeOff01IconHandle, AirplaneTa
             variants={departingPlaneVariants}
             animate={controls}
             initial="normal"
-            style={{ transformOrigin: '12px 9px' }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 9 / 24 }}
           />
           <motion.g
             variants={generatedGeometryVariants}
@@ -157,7 +157,7 @@ const AirplaneTakeOff01Icon = forwardRef<AirplaneTakeOff01IconHandle, AirplaneTa
               variants={arrivingPlaneVariants}
               animate={controls}
               initial="normal"
-              style={{ transformOrigin: '12px 9px' }}
+              style={{ transformBox: 'view-box', originX: 12 / 24, originY: 9 / 24 }}
             />
           </motion.g>
         </svg>

@@ -16,25 +16,33 @@ interface WavingHand01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// A friendly wave from the wrist: a big swing away from the motion mark, two
-// swings back that lose energy, then rest. Each time the fingers swing toward
-// the mark it is pushed outward, so the two never meet.
-const WAVE_TIMES = [0, 0.2, 0.42, 0.62, 0.82, 1];
+// A friendly wave from the wrist: the hand rocks back and forth three times
+// with an even rhythm, each swing a little smaller, then settles. The motion
+// mark is pushed outward each time the fingers swing toward it, so the two
+// never meet.
+const WAVE_TIMES = [0, 0.14, 0.3, 0.46, 0.62, 0.8, 1];
 
 const handVariants: Variants = {
-  normal: { rotate: 0 },
+  normal: { transform: 'rotate(0deg)' },
   animate: {
-    rotate: [0, -15, 5, -12, 3, 0],
-    transition: { duration: 1.1, ease: 'easeInOut', times: WAVE_TIMES },
+    transform: [0, -16, 10, -13, 8, -5, 0].map((angle) => `rotate(${angle}deg)`),
+    transition: { duration: 1.2, ease: 'easeInOut', times: WAVE_TIMES },
   },
 };
 
 const markVariants: Variants = {
-  normal: { translateX: 0, translateY: 0 },
+  normal: { transform: 'translate(0px, 0px)' },
   animate: {
-    translateX: [0, -0.3, 1.1, -0.2, 0.7, 0],
-    translateY: [0, 0.2, -0.3, 0.1, -0.2, 0],
-    transition: { duration: 1.1, delay: 0.03, ease: 'easeInOut', times: WAVE_TIMES },
+    transform: [
+      [0, 0],
+      [-0.3, 0.2],
+      [1.6, -0.4],
+      [-0.2, 0.1],
+      [1.2, -0.3],
+      [-0.1, 0],
+      [0, 0],
+    ].map(([x, y]) => `translate(${x}px, ${y}px)`),
+    transition: { duration: 1.2, delay: 0.03, ease: 'easeInOut', times: WAVE_TIMES },
   },
 };
 
