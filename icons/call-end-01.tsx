@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CallEnd01IconHandle {
@@ -16,38 +16,24 @@ interface CallEnd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const RING = springEase(0.7, 0.45);
-const RING_DURATION = 0.9;
-const RING_TIMES = [0, 0.16, 1];
-const MARK_LAND = springEase(0.5, 0.3);
+const RING_DURATION = 0.7;
+const RING_TIMES = [0, 0.15, 0.3, 0.5, 0.7, 0.85, 1];
 
-// Ring, shared by every phone icon: the handset kicks to one side, then a
-// high-bounce spring rattles it back through rest until it settles.
+// the call is cut: the handset rattles once and settles, while the end mark
+// twists a quarter turn (90 degrees looks like rest) and rattles into place
 const handsetVariants: Variants = {
   normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(-15deg)', 'rotate(0deg)'],
-    transition: { duration: RING_DURATION, times: RING_TIMES, ease: ['easeOut', RING] },
+    transform: ['rotate(0deg)', 'rotate(-12deg)', 'rotate(10deg)', 'rotate(-8deg)', 'rotate(6deg)', 'rotate(-3deg)', 'rotate(0deg)'],
+    transition: { duration: RING_DURATION, ease: 'easeInOut', times: RING_TIMES },
   },
 };
 
-// Cancel, for a single X: the end mark winds back, twists past a quarter
-// turn, and springs back onto it as the call is cut.
 const endMarkVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(1)' },
+  normal: { transform: 'rotate(0deg)' },
   animate: {
-    transform: [
-      'rotate(0deg) scale(1)',
-      'rotate(-16deg) scale(0.92)',
-      'rotate(108deg) scale(1.04)',
-      'rotate(90deg) scale(1)',
-    ],
-    transition: {
-      duration: 0.8,
-      delay: 0.1,
-      times: [0, 0.16, 0.4, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], MARK_LAND],
-    },
+    transform: ['rotate(0deg)', 'rotate(-12deg)', 'rotate(100deg)', 'rotate(84deg)', 'rotate(94deg)', 'rotate(88deg)', 'rotate(90deg)'],
+    transition: { duration: RING_DURATION, ease: 'easeInOut', times: RING_TIMES },
   },
 };
 

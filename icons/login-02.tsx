@@ -1,10 +1,10 @@
 'use client';
 
-import type { Variants } from 'motion/react';
+import type { Easing, Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Login02IconHandle {
@@ -16,39 +16,23 @@ interface Login02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const DOOR_DURATION = 0.9;
-const DOOR_TIMES = [0, 0.16, 0.4, 1];
-const ARROW_LAND = springEase(0.5, 0.3);
-const DOOR_LAND = springEase(0.45, 0.35);
+const EASE: Easing = [0.23, 1, 0.32, 1];
 
-// Door (login): the arrow winds back, pushes in through the doorway, and
-// springs back; the door frame takes the hit and springs back.
+// Door (login): the arrow pulls back, slides in through the doorway past its
+// spot, and settles; the door takes the push, squeezes, and settles.
 const arrowVariants: Variants = {
   normal: { transform: 'translateX(0px)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(-0.8px)', 'translateX(1.4px)', 'translateX(0px)'],
-    transition: {
-      duration: DOOR_DURATION,
-      times: DOOR_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], ARROW_LAND],
-    },
+    transform: ['translateX(0px)', 'translateX(-3px)', 'translateX(1px)', 'translateX(-0.3px)', 'translateX(0px)'],
+    transition: { duration: 0.64, times: [0, 0.125, 0.417, 0.708, 1], ease: ['easeInOut', EASE, EASE, EASE] },
   },
 };
 
 const doorVariants: Variants = {
   normal: { transform: 'translateX(0px) scaleX(1)' },
   animate: {
-    transform: [
-      'translateX(0px) scaleX(1)',
-      'translateX(0px) scaleX(1)',
-      'translateX(1px) scaleX(0.92)',
-      'translateX(0px) scaleX(1)',
-    ],
-    transition: {
-      duration: DOOR_DURATION,
-      times: DOOR_TIMES,
-      ease: ['linear', 'easeIn', DOOR_LAND],
-    },
+    transform: ['translateX(0px) scaleX(1)', 'translateX(0.7px) scaleX(0.96)', 'translateX(-0.2px) scaleX(1.01)', 'translateX(0px) scaleX(1)'],
+    transition: { duration: 0.56, delay: 0.08, ease: EASE },
   },
 };
 
@@ -82,7 +66,7 @@ const Login02Icon = forwardRef<Login02IconHandle, Login02IconProps>(
             variants={doorVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 21 / 24, originY: 0.5 }}
+            style={{ transformBox: 'view-box', originX: 14.5 / 24, originY: 0.5 }}
           >
             <path
               d="M20.6073 4.00087C21 4.61597 21 5.41166 21 7.00304V16.997C21 18.5883 21 19.384 20.6073 19.9991C20.5372 20.109 20.4586 20.2132 20.3722 20.3108C19.8886 20.8572 19.1233 21.0758 17.5929 21.513C16.0586 21.9513 15.2914 22.1704 14.736 21.8417C14.6396 21.7847 14.55 21.7171 14.4687 21.6402C14 21.1965 14 20.3988 14 18.8034V5.19662C14 3.60122 14 2.80351 14.4687 2.35982C14.55 2.28288 14.6396 2.21527 14.736 2.15827C15.2914 1.82956 16.0586 2.0487 17.5929 2.48699C19.1233 2.92418 19.8886 3.14278 20.3722 3.68925C20.4586 3.78684 20.5372 3.89103 20.6073 4.00087Z"

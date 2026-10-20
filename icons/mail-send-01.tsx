@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef, useId } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface MailSend01IconHandle {
@@ -19,65 +19,112 @@ interface MailSend01IconProps extends HTMLAttributes<HTMLDivElement> {
 const SEND_ARROW =
   'M22 17.5L14 17.5M22 17.5C22 16.7998 20.0057 15.4915 19.5 15M22 17.5C22 18.2002 20.0057 19.5085 19.5 20';
 
-// Slot, shared by envelopes, the printer and the archive: the content moves
-// out (or opens), holds a beat, and lands back in place on a spring; the
-// container squashes when it lands and springs back.
-const SLOT_DURATION = 1;
-const SLOT_TIMES = [0, 0.28, 0.36, 1];
-const SLOT_LAND = springEase(0.45, 0.35);
+const SEND_DURATION = 0.92;
+const SEND_TIMES = [
+  0, 0.07, 0.14, 0.22, 0.32, 0.43, 0.5, 0.54, 0.62, 0.71, 0.8, 0.88,
+  0.95, 1,
+];
+const BODY_TIMES = [0, 0.08, 0.16, 0.26, 0.38, 0.5, 0.62, 0.72, 0.82, 0.9, 0.96, 1];
 
-const containerVariants: Variants = {
+// The envelope recoils as the arrow launches and settles.
+const bodyVariants: Variants = {
   normal: { transform: 'translateY(0px) scaleX(1) scaleY(1)' },
   animate: {
     transform: [
       'translateY(0px) scaleX(1) scaleY(1)',
       'translateY(0px) scaleX(1) scaleY(1)',
-      'translateY(0.45px) scaleX(1.035) scaleY(0.958)',
+      'translateY(0.12px) scaleX(1.006) scaleY(0.994)',
+      'translateY(0.28px) scaleX(1.018) scaleY(0.982)',
+      'translateY(0.5px) scaleX(1.035) scaleY(0.958)',
+      'translateY(0.2px) scaleX(1.014) scaleY(0.986)',
+      'translateY(-0.36px) scaleX(0.985) scaleY(1.022)',
+      'translateY(0.14px) scaleX(1.008) scaleY(0.994)',
+      'translateY(0px) scaleX(1) scaleY(1)',
+      'translateY(0px) scaleX(1) scaleY(1)',
+      'translateY(0px) scaleX(1) scaleY(1)',
       'translateY(0px) scaleX(1) scaleY(1)',
     ],
-    transition: {
-      duration: SLOT_DURATION,
-      times: [0, 0.48, 0.56, 1],
-      ease: ['linear', 'easeOut', SLOT_LAND],
-    },
+    transition: { duration: SEND_DURATION, ease: 'linear', times: BODY_TIMES },
   },
 };
 
-// The arrow draws back and shoots out past the right edge; a fresh arrow
-// slides out of the envelope's open side and lands on a spring.
+// The arrow pulls back, tips, and accelerates beyond the right edge. A second
+// full arrow follows the same route out of the envelope's open side.
 const departingArrowVariants: Variants = {
-  normal: { transform: 'translateX(0px)' },
+  normal: { transform: 'translateX(0px) rotate(0deg)' },
   animate: {
-    transform: ['translateX(0px)', 'translateX(-0.9px)', 'translateX(12px)', 'translateX(12px)'],
-    transition: {
-      duration: SLOT_DURATION,
-      times: SLOT_TIMES,
-      ease: ['easeOut', [0.5, 0, 0.9, 0.4], 'linear'],
-    },
+    transform: [
+      'translateX(0px) rotate(0deg)',
+      'translateX(-0.6px) rotate(2.2deg)',
+      'translateX(-0.2px) rotate(1.2deg)',
+      'translateX(1.4px) rotate(-1deg)',
+      'translateX(4.3px) rotate(-3.2deg)',
+      'translateX(9.4px) rotate(-5.5deg)',
+      'translateX(16px) rotate(-5deg)',
+      'translateX(23px) rotate(-3.5deg)',
+      'translateX(28px) rotate(-2deg)',
+      'translateX(28px) rotate(-2deg)',
+      'translateX(28px) rotate(-2deg)',
+      'translateX(28px) rotate(-2deg)',
+      'translateX(28px) rotate(-2deg)',
+      'translateX(28px) rotate(-2deg)',
+    ],
+    transition: { duration: SEND_DURATION, ease: 'linear', times: SEND_TIMES },
   },
 };
 
 const arrivingArrowVariants: Variants = {
-  normal: { transform: 'translateX(-11px)' },
+  normal: { transform: 'translateX(-28px) rotate(-6deg)' },
   animate: {
-    transform: ['translateX(-11px)', 'translateX(-11px)', 'translateX(-11px)', 'translateX(0px)'],
-    transition: {
-      duration: SLOT_DURATION,
-      times: SLOT_TIMES,
-      ease: ['linear', 'linear', SLOT_LAND],
-    },
+    transform: [
+      'translateX(-28px) rotate(-6deg)',
+      'translateX(-28px) rotate(-6deg)',
+      'translateX(-28px) rotate(-6deg)',
+      'translateX(-28px) rotate(-6deg)',
+      'translateX(-28px) rotate(-6deg)',
+      'translateX(-28px) rotate(-6deg)',
+      'translateX(-28px) rotate(-6deg)',
+      'translateX(-23px) rotate(-6deg)',
+      'translateX(-16px) rotate(-5deg)',
+      'translateX(-9.8px) rotate(-4deg)',
+      'translateX(-4.7px) rotate(-2.5deg)',
+      'translateX(-1.4px) rotate(-0.8deg)',
+      'translateX(-0.2px) rotate(0.8deg)',
+      'translateX(0px) rotate(0deg)',
+    ],
+    transition: { duration: SEND_DURATION, ease: 'linear', times: SEND_TIMES },
   },
 };
 
 const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden' },
+  normal: { visibility: 'hidden', transition: { duration: 0 } },
   animate: { visibility: 'visible', transition: { duration: 0 } },
+};
+
+// Temporary launch trails grow behind the arrow, move back to the left, and
+// clear before the replacement arrives.
+const trailVariants: Variants = {
+  normal: { pathLength: 0, pathOffset: 0, visibility: 'hidden' },
+  animate: (i: number) => ({
+    pathLength: [0, 0.25, 1, 0.34, 0, 0],
+    pathOffset: [0, 0, 0, 0.66, 1, 1],
+    visibility: ['hidden', 'visible', 'visible', 'hidden'],
+    transition: {
+      duration: 0.38,
+      delay: 0.06 + i * 0.028,
+      ease: 'linear',
+      times: [0, 0.14, 0.34, 0.58, 0.8, 1],
+      // Hide the trail before it shrinks to a round-cap dot.
+      visibility: { duration: 0.38, delay: 0.06 + i * 0.028, ease: 'linear', times: [0, 0.14, 0.69, 0.7] },
+    },
+  }),
 };
 
 const MailSend01Icon = forwardRef<MailSend01IconHandle, MailSend01IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
     const arrowWindowId = useId();
+    const arrivalWindowId = useId();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
       loops: false,
@@ -105,26 +152,48 @@ const MailSend01Icon = forwardRef<MailSend01IconHandle, MailSend01IconProps>(
             <clipPath id={arrowWindowId} clipPathUnits="userSpaceOnUse">
               <rect x="12.3" y="13" width="12" height="9" />
             </clipPath>
+            <clipPath id={arrivalWindowId} clipPathUnits="userSpaceOnUse">
+              <rect x="13" y="13" width="12" height="9" />
+            </clipPath>
           </defs>
           <motion.g
-            clipPath={`url(#${arrowWindowId})`}
             variants={generatedGeometryVariants}
             animate={controls}
             initial="normal"
           >
             <motion.path
-              d={SEND_ARROW}
+              d="M11.2 17.5H6.2"
               stroke="currentColor"
               strokeLinecap="round"
-              strokeLinejoin="round"
               strokeWidth="1.5"
-              variants={arrivingArrowVariants}
+              variants={trailVariants}
+              custom={0}
+              animate={controls}
+              initial="normal"
+            />
+            <motion.path
+              d="M10.8 15.2H7.4"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth="1.5"
+              variants={trailVariants}
+              custom={1}
+              animate={controls}
+              initial="normal"
+            />
+            <motion.path
+              d="M10.6 13.3H8.4"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth="1.5"
+              variants={trailVariants}
+              custom={2}
               animate={controls}
               initial="normal"
             />
           </motion.g>
           <motion.g
-            variants={containerVariants}
+            variants={bodyVariants}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
@@ -153,8 +222,27 @@ const MailSend01Icon = forwardRef<MailSend01IconHandle, MailSend01IconProps>(
               variants={departingArrowVariants}
               animate={controls}
               initial="normal"
+              style={{ transformBox: 'view-box', originX: 18 / 24, originY: 17.5 / 24 }}
             />
           </g>
+          <motion.g
+            clipPath={`url(#${arrivalWindowId})`}
+            variants={generatedGeometryVariants}
+            animate={controls}
+            initial="normal"
+          >
+            <motion.path
+              d={SEND_ARROW}
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+              variants={arrivingArrowVariants}
+              animate={controls}
+              initial="normal"
+              style={{ transformBox: 'view-box', originX: 18 / 24, originY: 17.5 / 24 }}
+            />
+          </motion.g>
         </svg>
       </div>
     );

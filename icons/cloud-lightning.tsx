@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface CloudLightningIconHandle {
@@ -16,43 +16,39 @@ interface CloudLightningIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const WEATHER_DURATION = 1.1;
-const WEATHER_TIMES = [0, 0.16, 0.4, 1];
-const WEATHER_LAND = springEase(0.45, 0.35);
-const BOLT_LAND = springEase(0.5, 0.3);
+const BOLT_DURATION = 1.2;
+const BOLT_TIMES = [0, 0.18, 0.46, 0.58, 0.64, 0.72, 1];
 
-// Weather, shared by every cloud: the cloud gathers (it sinks and swells),
-// releases with a lift, and settles on a spring. Here the bolt pulls up into
-// the gathering cloud, strikes down in one fast stroke as the cloud lifts,
-// flickers twice like real lightning, and springs back into place.
+// The weather of cloud-rain: the cloud bobs while the bolt falls out of it
+// like a raindrop. Then lightning strikes, so the bolt redraws from the cloud
+// faster than a drop and flickers twice before the next one.
 const cloudVariants: Variants = {
-  normal: { transform: 'translateY(0px) scale(1)' },
+  normal: {
+    translateY: 0,
+    transition: { duration: 0.24, ease: [0.23, 1, 0.32, 1] },
+  },
   animate: {
-    transform: [
-      'translateY(0px) scale(1)',
-      'translateY(0.4px) scale(1.04)',
-      'translateY(-0.9px) scale(0.98)',
-      'translateY(0px) scale(1)',
-    ],
+    translateY: [0, -1, 0],
     transition: {
-      duration: WEATHER_DURATION,
-      times: WEATHER_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], WEATHER_LAND],
+      duration: 1.6,
+      ease: 'easeInOut',
+      repeat: Infinity,
     },
   },
 };
 
 const boltVariants: Variants = {
-  normal: { transform: 'translateY(0px)', pathLength: 1, visibility: 'visible' },
+  normal: {
+    pathLength: 1,
+    pathOffset: 0,
+    visibility: 'visible',
+    transition: { duration: 0.2, ease: [0.23, 1, 0.32, 1] },
+  },
   animate: {
-    transform: ['translateY(0px)', 'translateY(0px)', 'translateY(1.2px)', 'translateY(0px)'],
-    pathLength: [1, 0, 0, 1, 1],
-    // Hidden while retracted, then two short flickers after the strike.
+    pathLength: [1, 1, 0.18, 0, 0, 1, 1],
+    pathOffset: [0, 0, 0.82, 1, 0, 0, 0],
     visibility: [
       'visible',
-      'hidden',
-      'hidden',
-      'visible',
       'visible',
       'hidden',
       'hidden',
@@ -60,23 +56,25 @@ const boltVariants: Variants = {
       'visible',
       'hidden',
       'hidden',
+      'visible',
+      'visible',
+      'hidden',
+      'hidden',
+      'visible',
       'visible',
     ],
     transition: {
-      transform: {
-        duration: WEATHER_DURATION,
-        times: [0, 0.3, 0.4, 1],
-        ease: ['linear', 'easeIn', BOLT_LAND],
-      },
-      pathLength: {
-        duration: WEATHER_DURATION,
-        times: [0, 0.16, 0.3, 0.4, 1],
-        ease: ['easeIn', 'linear', 'easeIn', 'linear'],
+      default: {
+        duration: BOLT_DURATION,
+        ease: 'linear',
+        times: BOLT_TIMES,
+        repeat: Infinity,
       },
       visibility: {
-        duration: WEATHER_DURATION,
-        times: [0, 0.16, 0.3, 0.31, 0.46, 0.47, 0.5, 0.51, 0.55, 0.56, 0.59, 1],
+        duration: BOLT_DURATION,
         ease: 'linear',
+        times: [0, 0.46, 0.58, 0.64, 0.72, 0.76, 0.77, 0.8, 0.81, 0.84, 0.85, 0.87, 0.88, 1],
+        repeat: Infinity,
       },
     },
   },
@@ -87,7 +85,7 @@ const CloudLightningIcon = forwardRef<CloudLightningIconHandle, CloudLightningIc
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
-      loops: false,
+      loops: true,
       onMouseEnter,
       onMouseLeave,
       ref,
@@ -117,7 +115,6 @@ const CloudLightningIcon = forwardRef<CloudLightningIconHandle, CloudLightningIc
             variants={cloudVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 10.5 / 24 }}
           />
           <motion.path
             d="M12.9994 13L11.1994 15.4C10.6758 16.0981 10.414 16.4472 10.5522 16.7236C10.6904 17 11.1267 17 11.9994 17C12.8721 17 13.3084 17 13.4466 17.2764C13.5848 17.5528 13.323 17.9019 12.7994 18.6L10.9994 21"

@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ShoppingCartAdd01IconHandle {
@@ -16,35 +16,22 @@ interface ShoppingCartAdd01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const PLUS_LAND = springEase(0.5, 0.3);
-const CONTAINER_LAND = springEase(0.45, 0.35);
-
-// Add, shared by every icon with a plus: the plus winds back, turns a quarter
-// turn into place (a plus turned 90 degrees matches its rest pose), and lands
-// with a spring while the basket dips and springs back.
-const plusVariants: Variants = {
-  normal: { rotate: 0, scale: 1 },
+// the add mark stamps the corner and the cart rattles as the item lands
+const cartVariants: Variants = {
+  normal: { rotate: 0, y: 0 },
   animate: {
-    rotate: [0, -16, 102, 90],
-    scale: [1, 0.8, 0.8, 1],
-    transition: {
-      duration: 0.8,
-      times: [0, 0.16, 0.4, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], PLUS_LAND],
-    },
+    rotate: [0, -1.6, 1.2, -0.8, 0],
+    y: [0, -0.5, 0, -0.3, 0],
+    transition: { duration: 0.55, delay: 0.15, ease: 'easeInOut' },
   },
 };
 
-const containerVariants: Variants = {
-  normal: { scaleX: 1, scaleY: 1 },
+const plusVariants: Variants = {
+  normal: { rotate: 0, scale: 1 },
   animate: {
-    scaleX: [1, 1, 1.03, 1],
-    scaleY: [1, 1, 0.94, 1],
-    transition: {
-      duration: 0.8,
-      times: [0, 0.16, 0.4, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], CONTAINER_LAND],
-    },
+    rotate: [0, -12, 4, 0],
+    scale: [1, 0.5, 1.22, 1],
+    transition: { duration: 0.56, delay: 0.04, times: [0, 0.2, 0.62, 1], ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -74,26 +61,26 @@ const ShoppingCartAdd01Icon = forwardRef<ShoppingCartAdd01IconHandle, ShoppingCa
           fill="none"
           overflow="visible"
         >
-          <path
-            d="M10.5 20.25C10.5 20.6642 10.1642 21 9.75 21C9.33579 21 9 20.6642 9 20.25C9 19.8358 9.33579 19.5 9.75 19.5C10.1642 19.5 10.5 19.8358 10.5 20.25Z"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-          />
-          <path
-            d="M19 20.25C19 20.6642 18.6642 21 18.25 21C17.8358 21 17.5 20.6642 17.5 20.25C17.5 19.8358 17.8358 19.5 18.25 19.5C18.6642 19.5 19 19.8358 19 20.25Z"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-          />
           <motion.g
-            variants={containerVariants}
+            variants={cartVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 17 / 24 }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 18 / 24 }}
           >
+            <path
+              d="M10.5 20.25C10.5 20.6642 10.1642 21 9.75 21C9.33579 21 9 20.6642 9 20.25C9 19.8358 9.33579 19.5 9.75 19.5C10.1642 19.5 10.5 19.8358 10.5 20.25Z"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M19 20.25C19 20.6642 18.6642 21 18.25 21C17.8358 21 17.5 20.6642 17.5 20.25C17.5 19.8358 17.8358 19.5 18.25 19.5C18.6642 19.5 19 19.8358 19 20.25Z"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            />
             <path
               d="M2 3H2.20664C3.53124 3 4.19354 3 4.6255 3.40221C5.05746 3.80441 5.10464 4.46503 5.19902 5.78626L5.45035 9.30496C5.5924 11.2936 5.66342 12.2879 5.96476 13.0961C6.62531 14.8677 8.08229 16.2244 9.89648 16.757C10.7241 17 11.7267 17 13.7317 17C15.8373 17 16.89 17 17.7417 16.7416C19.6593 16.1599 21.1599 14.6593 21.7416 12.7417C21.9426 12.0793 21.9872 11.299 21.9972 10M12.5 6H5.5"
               stroke="currentColor"

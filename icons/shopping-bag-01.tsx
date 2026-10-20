@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ShoppingBag01IconHandle {
@@ -16,30 +16,28 @@ interface ShoppingBag01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const SWING = springEase(0.8, 0.45);
-const SWING_DURATION = 1.3;
-const SWING_TIMES = [0, 0.16, 1];
-const LAG = 0.06;
-
-// Pendulum: the carried bag is kicked to one side from its top, then a
-// high-bounce spring swings it back through rest; the handle lags the bag.
-const bagVariants: Variants = {
+// the carried bag swings like a decaying pendulum from the hand above it;
+// the handle swings counter-phase, dragged behind
+const svgVariants: Variants = {
   normal: { rotate: 0 },
   animate: {
-    rotate: [0, -12, 0],
-    transition: { duration: SWING_DURATION, times: SWING_TIMES, ease: ['easeOut', SWING] },
+    rotate: [0, -14, 11, -8, 5, -2, 0],
+    transition: {
+      duration: 0.9,
+      ease: 'easeInOut',
+      times: [0, 0.18, 0.38, 0.56, 0.72, 0.87, 1],
+    },
   },
 };
 
 const handleVariants: Variants = {
-  normal: { x: 0 },
+  normal: { translateX: 0 },
   animate: {
-    x: [0, -0.9, 0],
+    translateX: [0, 2.2, -1.8, 1.2, -0.7, 0.3, 0],
     transition: {
-      duration: SWING_DURATION,
-      delay: LAG,
-      times: SWING_TIMES,
-      ease: ['easeOut', SWING],
+      duration: 0.9,
+      ease: 'easeInOut',
+      times: [0, 0.24, 0.44, 0.62, 0.78, 0.9, 1],
     },
   },
 };
@@ -69,10 +67,10 @@ const ShoppingBag01Icon = forwardRef<ShoppingBag01IconHandle, ShoppingBag01IconP
           viewBox="0 0 24 24"
           fill="none"
           overflow="visible"
-          variants={bagVariants}
+          variants={svgVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 12.5%' }}
+          style={{ transformOrigin: 'top center' }}
         >
           <path
             d="M3.32352 13.0113C3.6739 10.009 4.18586 7.75784 4.66063 6.15851C5.04994 4.84711 5.24459 4.19141 6.04283 3.5957C6.84107 3 7.65697 3 9.28876 3H14.7113C16.3431 3 17.159 3 17.9572 3.5957C18.7554 4.19141 18.9501 4.84711 19.3394 6.15851C19.8142 7.75784 20.3261 10.009 20.6765 13.0113C21.0895 16.5497 21.2959 18.3189 20.1027 19.6594C18.9095 21 16.9758 21 13.1084 21H10.8916C7.02422 21 5.09052 21 3.89731 19.6594C2.70411 18.3189 2.91058 16.5497 3.32352 13.0113Z"

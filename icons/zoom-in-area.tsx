@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ZoomInAreaIconHandle {
@@ -16,39 +16,14 @@ interface ZoomInAreaIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// rest-parity: split-source-path
-const FRAME_DURATION = 0.8;
-const FRAME_TIMES = [0, 0.16, 0.4, 1];
-const MARK_LAND = springEase(0.5, 0.3);
-const OBJECT_LAND = springEase(0.45, 0.35);
-
-// Frame (zoom in): the lens and the area corners contract for leverage, then
-// burst outward as the lens magnifies, and spring back.
-const lensVariants: Variants = {
+// all four area corners and the lens contract for leverage, burst outward as
+// the lens magnifies, and settle together
+const frameVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.94)', 'scale(1.16)', 'scale(1)'],
-    transition: {
-      duration: FRAME_DURATION,
-      times: FRAME_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], OBJECT_LAND],
-    },
+    transform: ['scale(1)', 'scale(0.86)', 'scale(1.18)', 'scale(0.98)', 'scale(1)'],
+    transition: { duration: 0.58, ease: [0.77, 0, 0.175, 1], times: [0, 0.18, 0.5, 0.78, 1] },
   },
-};
-
-// Each corner piece travels along its own direction (x, y): a short wind-up,
-// the burst, and a spring landing.
-const CORNER_TRAVEL = [0, -0.5, 1.4, 0];
-const cornerVariants: Variants = {
-  normal: { transform: 'translate(0px, 0px)' },
-  animate: ([dx, dy]: [number, number]) => ({
-    transform: CORNER_TRAVEL.map((v) => `translate(${v * dx}px, ${v * dy}px)`),
-    transition: {
-      duration: FRAME_DURATION,
-      times: FRAME_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], MARK_LAND],
-    },
-  }),
 };
 
 const ZoomInAreaIcon = forwardRef<ZoomInAreaIconHandle, ZoomInAreaIconProps>(
@@ -77,7 +52,7 @@ const ZoomInAreaIcon = forwardRef<ZoomInAreaIconHandle, ZoomInAreaIconProps>(
           overflow="visible"
         >
           <motion.g
-            variants={lensVariants}
+            variants={frameVariants}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 14.5 / 24, originY: 15.1217 / 24 }}
@@ -98,59 +73,15 @@ const ZoomInAreaIcon = forwardRef<ZoomInAreaIconHandle, ZoomInAreaIconProps>(
             />
           </motion.g>
           <motion.path
-            d="M10 3.62173H14"
+            d="M10 3.62173H14M3 10.6217V14.6217M6.5 21.6217C4.567 21.6217 3 20.0547 3 18.1217M17.5 3.62173C19.433 3.62173 21 5.18873 21 7.12173M3 7.12173C3 5.18873 4.567 3.62173 6.5 3.62173"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={cornerVariants}
-            custom={[0, -1]}
+            variants={frameVariants}
             animate={controls}
             initial="normal"
-          />
-          <motion.path
-            d="M3 10.6217V14.6217"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={cornerVariants}
-            custom={[-1, 0]}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M6.5 21.6217C4.567 21.6217 3 20.0547 3 18.1217"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={cornerVariants}
-            custom={[-1, 1]}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M17.5 3.62173C19.433 3.62173 21 5.18873 21 7.12173"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={cornerVariants}
-            custom={[1, -1]}
-            animate={controls}
-            initial="normal"
-          />
-          <motion.path
-            d="M3 7.12173C3 5.18873 4.567 3.62173 6.5 3.62173"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            variants={cornerVariants}
-            custom={[-1, -1]}
-            animate={controls}
-            initial="normal"
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 12.6217 / 24 }}
           />
         </svg>
       </div>

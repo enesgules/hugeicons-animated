@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Share01IconHandle {
@@ -16,40 +16,29 @@ interface Share01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const LAUNCH_DURATION = 0.8;
-const LAUNCH_TIMES = [0, 0.16, 0.4, 1];
-const ARROW_LAND = springEase(0.5, 0.3);
-const FRAME_LAND = springEase(0.45, 0.35);
-
-// Launch, shared by the link and share icons: the arrow winds back into the
-// box, flings up and out from its tail, and springs back; the box dips as the
-// arrow loads and springs back as it leaves.
+// Launch, as in external-link and link-square-02: the arrow loads back into
+// the box, breaks free along its heading, and pulls the box after it; the box
+// opening widens while the arrow loads.
 const arrowVariants: Variants = {
-  normal: { transform: 'translate(0px, 0px) rotate(0deg)' },
+  normal: { transform: 'translate(0px, 0px)' },
   animate: {
     transform: [
-      'translate(0px, 0px) rotate(0deg)',
-      'translate(-0.9px, 0.5px) rotate(4deg)',
-      'translate(2.6px, -1.2px) rotate(-7deg)',
-      'translate(0px, 0px) rotate(0deg)',
+      'translate(0px, 0px)',
+      'translate(-0.9px, 0.35px)',
+      'translate(3.8px, -1.45px)',
+      'translate(-0.45px, 0.17px)',
+      'translate(0px, 0px)',
     ],
-    transition: {
-      duration: LAUNCH_DURATION,
-      times: LAUNCH_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], ARROW_LAND],
-    },
+    transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const boxVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+  normal: { transform: 'scale(1)', pathLength: 1 },
   animate: {
-    transform: ['scale(1)', 'scale(0.95)', 'scale(1.03)', 'scale(1)'],
-    transition: {
-      duration: LAUNCH_DURATION,
-      times: LAUNCH_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], FRAME_LAND],
-    },
+    transform: ['scale(1)', 'scale(0.95)', 'scale(1.025)', 'scale(1)'],
+    pathLength: [1, 0.86, 1, 1],
+    transition: { duration: 0.56, delay: 0.08, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -98,7 +87,6 @@ const Share01Icon = forwardRef<Share01IconHandle, Share01IconProps>(
             variants={arrowVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 7.3125 / 24, originY: 14.5 / 24 }}
           />
         </svg>
       </div>

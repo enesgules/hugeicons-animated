@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Cancel02IconHandle {
@@ -16,25 +16,18 @@ interface Cancel02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const MARK_LAND = springEase(0.5, 0.3);
-
-// Cancel, for a single outlined X: the cross winds back, twists past a
-// quarter turn, and springs back onto it. A quarter turn lands on the same
-// shape as the rest pose.
+// Cancel, as the cross in Circle X: the X winds back small, swings past its
+// rest angle a little large, and settles.
 const crossVariants: Variants = {
   normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
     transform: [
       'rotate(0deg) scale(1)',
-      'rotate(-16deg) scale(0.92)',
-      'rotate(108deg) scale(1.04)',
-      'rotate(90deg) scale(1)',
+      'rotate(-10deg) scale(0.82)',
+      'rotate(4deg) scale(1.08)',
+      'rotate(0deg) scale(1)',
     ],
-    transition: {
-      duration: 0.8,
-      times: [0, 0.16, 0.4, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], MARK_LAND],
-    },
+    transition: { duration: 0.42, ease: [0.23, 1, 0.32, 1] },
   },
 };
 

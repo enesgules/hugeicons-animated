@@ -41,43 +41,43 @@ rule is persistent, compatible geometry rather than a universal node count.
 - Use ease-in-out for movement or morphing that stays on screen.
 - Use linear easing only for constant-rate motion such as a progress rotation.
 - Reserve ease-in for an object that physically accelerates out of view.
-- Land with a real spring, not a hand-made overshoot. `springEase(bounce,
-  visualDuration)` from `lib/use-icon-animation.ts` turns a Motion spring into
-  the easing of one keyframe segment. Use `springEase(0.5, 0.3)` for small
-  marks and `springEase(0.45, 0.35)` for whole objects.
-- The standard gesture has three segments: a wind-up to `times` 0.16
-  (`easeOut`), the action to 0.4 (`[0.4, 0, 0.2, 1]`), and a spring landing
-  to 1. Use 0.8 s for single glyphs and up to 1.2 s for multi-part scenes.
+- Approved icons use hand-tuned keyframes with an anticipation, an overshoot,
+  and a settle, usually with the ease-out `[0.23, 1, 0.32, 1]` over 0.4 to 1 s.
+  That character is the house style; keep it when you add a family member.
+  `springEase(bounce, visualDuration)` in `lib/use-icon-animation.ts` is
+  available for scenes such as `party`, but it is not the default.
 
 ## Motion families
 
-Similar icons share one action, so the set reads as one system. A new icon
-uses the action of its family; only geometry-driven values change.
+Similar icons share one action, so the set reads as one system. Each family's
+approved icons are the reference: a new member copies their keyframes, timing,
+easing, and flourishes, and changes only what its geometry forces.
 
-| Family | Icons | Shared action |
+| Family | Reference | Shared action |
 | --- | --- | --- |
-| Nudge | arrows, chevrons | Wind-up against the direction, dart 2.6 along it, spring back (reference: `arrow-down-02`). Double arrows offset the second chevron by 0.06 s. |
-| Add | every icon with a plus mark | The plus winds back -16°, turns a quarter turn into place (90° looks like rest), and lands with a spring; the container dips and springs back. |
-| Remove | every icon with a minus mark | The minus pinches to scaleX 0.45 and springs back; the container dips. |
-| Check | ticks and check marks | The check erases fast, redraws with the pen, and lands with a spring pop; the container dips on landing. |
-| Cancel | X marks | The strokes redraw in writing order and land with a spring; a single outlined X twists a quarter turn instead. |
-| Info | info, alert, help | The stem crouches, the dot hops, and both land with a spring. |
-| Pendulum | bells, hanging tags, bags, clips | A kick to one side, then `springEase(0.8, 0.45)` swings back and decays to rest (1.3 s); clappers and handles lag 0.06 s. |
-| Ring | phones, alarm clock | A kick to -15°, then `springEase(0.7, 0.45)` rattles back (0.9 s); looping rings repeat it with a rest. |
-| Eye | eye, view, view-off | The pupil glances, the lids blink by morphing the outline, and the eye reopens a little wide on a spring. |
-| Slash off | eye-off, headphone-off, notification-off, volume-off | The slash winds up and leaves; the broken outline heals; a new slash darts in past its place and lands on a spring. |
-| Sound | volume icons | The cone draws back and pushes; the waves gather toward the cone mouth and radiate past rest, the outer wave last. |
-| Launch | sent, airplane take-off, rocket, external link, share | The object winds back and accelerates out (or darts along its diagonal); a replacement or the object lands on a spring. |
-| Glint | star, sparkles, diamond, magic wand | A counter-turn with a squeeze, a turn with a pop past rest, and a spring landing; twinkles share one variant. |
-| Weather | cloud icons, sun | The cloud body sinks and swells, lifts, and springs back; rain, lightning, and rays ride on it. |
-| Layout | list, menu, grid, dashboard | Each item pulls in toward its anchor in reading order and springs back to full size. |
-| Page | file, document, delete, bookmark, copy, clipboard, mail, printer | The sheet, lid, flap, or ribbon moves and lands on a spring while its container squashes and springs back. |
-| Transfer | download, upload | Download: the arrow drops into the container, which squashes and springs back. Upload: the container compresses and launches the arrow, which springs back into place. |
-| Turn | refresh, undo, redo, repeat, settings, history, compass | Wind-up against the turn, one turn (or a symmetric fraction), spring landing. |
-| People | user icons | The head nods on the neck and the shoulders settle with a spring; extra marks follow their own family. |
-| Media | play, pause, next, previous | The control compresses, releases forward, and lands with a spring. |
-| Door | login, logout | The arrow pushes through and the door frame takes the hit with a spring. |
-| Frame | full screen, minimize, maximize, zoom area | The corners contract for leverage, burst outward (or inward), and spring back. |
+| Chevron | `chevron-*`, `arrow-*-02` | The chevron darts along its direction and narrows, recoils a little past rest, makes a softer second push, and settles. Double arrows run it on both chevrons, the front one first. |
+| Add | `file-add`, `add-circle`, `calendar-add-01` | The container gives a short, heavy bounce (a drop, a lift, or a rattle) while the plus winds back small, stamps in past full size, and settles. |
+| Remove | `minus-sign-circle` | The minus pinches to half its width and snaps back a little past full width; the frame squeezes and rebounds. |
+| Check | `tick-02`, `circle-check` | The pen erases the tick from its tail, writes it again with a rest at the corner, and lifts off with a small flick; a frame gives as the pen touches down. |
+| Cancel | `cancel-01`, `circle-x` | The pen erases both strikes and writes them again in order with a flick off each end; a ring gives as the pen touches down. A solid X winds back small, swings past its rest angle, and settles. |
+| Info | `alert-circle`, `information-circle` | One quick beat: the frame breathes, the stem or hook stretches and settles, and the dot dips then pops with a small overshoot. |
+| People | `user` | Each head nods forward on its neck and rocks back; the shoulders settle. In groups each person nods a beat after the one in front. |
+| Pendulum | `notification-03`, `tag-01` | The object hangs from one point and swings in a decaying pendulum; a loose inner part (clapper, handle) drags behind out of phase. |
+| Phone | `call-02` | The handset rattles side to side with a decay and keeps ringing while hovered; an arrow or end mark moves with each ring. |
+| Media | `play`, `pause`, `next` | The control compresses back, releases forward with a stretch, and settles; pause bars squeeze together then apart. Rings stay still. |
+| Transfer | `file-download`, `file-upload` | The arrow moves decisively in the transfer direction (falls into the container, or is loaded like a spring and launched); the container squashes a little. |
+| Door | `login-01`, `logout-01` | The arrow pulls back, slides through the doorway past its spot, and settles while the door takes the push. |
+| Frame | `full-screen`, `minimize-screen` | The window or area pulls in for leverage, bursts toward its target size, and clicks into place; arrows dart along their direction. |
+| Turn | `undo`, `redo`, `refresh`, `settings-01` | A wind-up against the turn, one turn (the gear: half a turn), a small fall-back, and a settle. |
+| Eye | `eye`, `eye-off` | The pupil darts left and right, the lids meet in a blink, and the eye reopens a little wide before it settles. |
+| Slash off | `eye-off`, `headphone-off` | The slash leaves to the bottom right, the outline heals across its breaks, and a new slash returns from the top left as the breaks reopen. |
+| Sound | `volume-high` | The cone draws back and pushes; the waves (or the mute cross) gather near the cone mouth and swell past rest before they settle. |
+| Launch | `sent`, `external-link` | The object pulls back and breaks free along its heading; a replacement follows the same route, or the object settles back while its frame dips. |
+| Glint | `magic-wand-01`, `star` | Each star shrinks as it turns to the diagonal and pops as it lands on the next quarter turn; small plus sparkles appear in empty corners. |
+| Weather | `cloud-rain` | The cloud bobs; what falls from it drains out and redraws from the cloud. Lightning redraws faster and flickers twice. |
+| Clock | `clock-01` | The hands race around the dial (long hand twice, short hand once) in the direction of the dial's arrow and ease back to rest. |
+| Layout | `dashboard-square-01`, `list-view` | Items move in reading order: tiles dip small and pop past full size; rows pull in from alternating edges and spring back. |
+| Page | `file-01`, `document-attachment`, `delete-02`, `bookmark-01`, `copy-01`, `mail-01` | The sheet lifts and settles or drops into the stack; its mark swings or stamps into place. Lids, flaps, and ribbons open or catch with an overshoot while the container squashes. |
 
 ## Playback and accessibility
 

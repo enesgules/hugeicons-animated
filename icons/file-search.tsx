@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface FileSearchIconHandle {
@@ -16,50 +16,20 @@ interface FileSearchIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const PAGE_DURATION = 1;
-const PAGE_TIMES = [0, 0.16, 0.4, 1];
-const PAGE_LAND = springEase(0.45, 0.35);
-
-// Page, shared by every file and document: the sheet lifts and tips back,
-// presses down, and lands on a spring.
+// the sheet drops into the stack while the magnifier stamps in to zoom
 const pageVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg)' },
+  normal: { transform: 'translateY(0px) scaleY(1)' },
   animate: {
-    transform: [
-      'translateY(0px) rotate(0deg)',
-      'translateY(-0.8px) rotate(-1deg)',
-      'translateY(0.5px) rotate(0.6deg)',
-      'translateY(0px) rotate(0deg)',
-    ],
-    transition: {
-      duration: PAGE_DURATION,
-      times: PAGE_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], PAGE_LAND],
-    },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(-1.8px) scaleY(1.02)', 'translateY(1px) scaleY(0.96)', 'translateY(-0.25px) scaleY(1.01)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.62, times: [0, 0.16, 0.5, 0.76, 1], ease: [0.23, 1, 0.32, 1] },
   },
 };
 
-const LENS_LAND = springEase(0.5, 0.3);
-
-// The magnifier sweeps around the page looking for a match, comes back to its
-// spot, zooms in once when it finds it, and springs back to size.
 const lensVariants: Variants = {
-  normal: { transform: 'translate(0px, 0px) scale(1)' },
+  normal: { transform: 'rotate(0deg) scale(1)' },
   animate: {
-    transform: [
-      'translate(0px, 0px) scale(1)',
-      'translate(-2.2px, 0.2px) scale(1)',
-      'translate(-0.6px, -2.2px) scale(1)',
-      'translate(1.8px, -1.4px) scale(1)',
-      'translate(0px, 0px) scale(1)',
-      'translate(0px, 0px) scale(1.18)',
-      'translate(0px, 0px) scale(1)',
-    ],
-    transition: {
-      duration: PAGE_DURATION,
-      times: [0, 0.12, 0.24, 0.36, 0.48, 0.6, 1],
-      ease: ['easeInOut', 'easeInOut', 'easeInOut', 'easeInOut', [0.4, 0, 0.2, 1], LENS_LAND],
-    },
+    transform: ['rotate(0deg) scale(1)', 'rotate(-12deg) scale(0.5)', 'rotate(4deg) scale(1.22)', 'rotate(0deg) scale(1)'],
+    transition: { duration: 0.56, delay: 0.04, times: [0, 0.2, 0.62, 1], ease: [0.23, 1, 0.32, 1] },
   },
 };
 

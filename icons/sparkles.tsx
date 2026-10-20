@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface SparklesIconHandle {
@@ -16,60 +16,36 @@ interface SparklesIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const GLINT_DURATION = 0.9;
-const GLINT_TIMES = [0, 0.18, 0.5, 1];
-const GLINT_LAND = springEase(0.45, 0.35);
-const TWINKLES = [
-  { x: 5, y: 4.5, start: 0.5 },
-  { x: 19.5, y: 18.5, start: 0.62 },
+const GLINTS = [
+  { x: 5, y: 5, delay: 0.2 },
+  { x: 19.5, y: 19, delay: 0.35 },
 ] as const;
 
-// Glint, shared by stars, sparkles and gems: a counter-turn with a squeeze,
-// one turn by the shape's symmetry with a pop that runs just past the pose,
-// and a spring landing. Four-point stars turn a quarter turn; the small one
-// answers in the opposite direction a beat later, so their arms are never
-// diagonal at the same time. The two stars sit close, so their overshoot and
-// pop are smaller than a lone star's to keep a clear gap between them. Two tiny twinkles spin open in
-// the free corners as the stars land.
+// The twinkle of the stars on magic-wand-01, played once: each star squeezes
+// small as it turns to the diagonal, pops large as it lands on the next
+// quarter turn and settles, the small one a beat later. Mini-sparkles pop in
+// the free corners, as around the wand. The two stars sit close, so the small
+// star pops less to keep a clear gap to the big one.
 const starVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(1)' },
-  animate: (direction: number) => ({
-    transform: [
-      'rotate(0deg) scale(1)',
-      `rotate(${direction * -14}deg) scale(0.88)`,
-      `rotate(${direction * 96}deg) scale(1.08)`,
-      `rotate(${direction * 90}deg) scale(1)`,
-    ],
-    transition: {
-      duration: GLINT_DURATION,
-      delay: direction < 0 ? 0.12 : 0,
-      times: GLINT_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], GLINT_LAND],
-    },
+  normal: { scale: 1, rotate: 0 },
+  animate: ({ delay, pop }: { delay: number; pop: number }) => ({
+    scale: [1, 0.3, pop, 1],
+    rotate: [0, 45, 90, 90],
+    transition: { duration: 1.1, ease: 'easeInOut', delay },
   }),
 };
 
 const generatedGeometryVariants: Variants = {
-  normal: { visibility: 'hidden', transition: { duration: 0 } },
-  animate: { visibility: 'visible', transition: { duration: 0 } },
+  normal: { visibility: 'hidden', transition: { duration: 0.08 } },
+  animate: { visibility: 'visible', transition: { duration: 0.08 } },
 };
 
-const twinkleVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(0)', visibility: 'hidden' },
-  animate: (start: number) => ({
-    transform: [
-      'rotate(0deg) scale(0)',
-      'rotate(0deg) scale(0)',
-      'rotate(90deg) scale(1)',
-      'rotate(180deg) scale(0)',
-      'rotate(180deg) scale(0)',
-    ],
-    visibility: ['hidden', 'hidden', 'visible', 'hidden', 'hidden'],
-    transition: {
-      duration: GLINT_DURATION,
-      ease: ['linear', [0.23, 1, 0.32, 1], 'easeIn', 'linear'],
-      times: [0, start, start + 0.12, start + 0.3, 1],
-    },
+const glintVariants: Variants = {
+  normal: { visibility: 'hidden', scale: 0.4 },
+  animate: (delay: number) => ({
+    visibility: ['hidden', 'visible', 'hidden'],
+    scale: [0.4, 1, 0.6],
+    transition: { duration: 1.1, ease: 'easeOut', delay },
   }),
 };
 
@@ -105,7 +81,7 @@ const SparklesIcon = forwardRef<SparklesIconHandle, SparklesIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
             variants={starVariants}
-            custom={1}
+            custom={{ delay: 0, pop: 1.3 }}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 15 / 24, originY: 9 / 24 }}
@@ -116,7 +92,7 @@ const SparklesIcon = forwardRef<SparklesIconHandle, SparklesIconProps>(
             strokeLinejoin="round"
             strokeWidth="1.5"
             variants={starVariants}
-            custom={-1}
+            custom={{ delay: 0.3, pop: 1.2 }}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 7 / 24, originY: 17 / 24 }}
@@ -126,15 +102,15 @@ const SparklesIcon = forwardRef<SparklesIconHandle, SparklesIconProps>(
             animate={controls}
             initial="normal"
           >
-            {TWINKLES.map(({ x, y, start }) => (
+            {GLINTS.map(({ x, y, delay }) => (
               <motion.path
                 key={`${x}-${y}`}
                 d={`M${x} ${y - 1}V${y + 1}M${x - 1} ${y}H${x + 1}`}
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeWidth="1.5"
-                variants={twinkleVariants}
-                custom={start}
+                variants={glintVariants}
+                custom={delay}
                 animate={controls}
                 initial="normal"
                 style={{ transformBox: 'view-box', originX: x / 24, originY: y / 24 }}

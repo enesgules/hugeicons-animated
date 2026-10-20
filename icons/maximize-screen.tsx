@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface MaximizeScreenIconHandle {
@@ -16,37 +16,23 @@ interface MaximizeScreenIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const FRAME_DURATION = 0.8;
-const FRAME_TIMES = [0, 0.16, 0.4, 1];
-const MARK_LAND = springEase(0.5, 0.3);
-const OBJECT_LAND = springEase(0.45, 0.35);
-
-// Frame (maximize): the window contracts for leverage, then bursts outward
-// toward the full frame, and springs back.
+// the window gathers toward its corner, then bursts outward toward the full
+// frame, and clicks into place
 const windowVariants: Variants = {
   normal: { transform: 'scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.94)', 'scale(1.16)', 'scale(1)'],
-    transition: {
-      duration: FRAME_DURATION,
-      times: FRAME_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], OBJECT_LAND],
-    },
+    transform: ['scale(1)', 'scale(0.94)', 'scale(1.16)', 'scale(0.98)', 'scale(1)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
-// The arrow rides the window corner through the wind-up (the corner moves
-// 9 * 0.06 = 0.54 along each axis), darts along its direction, and springs back.
-const ARROW_TRAVEL = [0, -0.54, 2.2, 0];
+// The arrow tail rides the window corner while it gathers and settles, so the
+// two never overlap more than at rest.
 const arrowVariants: Variants = {
   normal: { transform: 'translate(0px, 0px)' },
   animate: {
-    transform: ARROW_TRAVEL.map((v) => `translate(${v}px, ${-v}px)`),
-    transition: {
-      duration: FRAME_DURATION,
-      times: FRAME_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], MARK_LAND],
-    },
+    transform: ['translate(0px, 0px)', 'translate(-0.27px, 0.27px)', 'translate(2.2px, -2.2px)', 'translate(-0.09px, 0.09px)', 'translate(0px, 0px)'],
+    transition: { duration: 0.56, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -95,7 +81,7 @@ const MaximizeScreenIcon = forwardRef<MaximizeScreenIconHandle, MaximizeScreenIc
             variants={windowVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 2 / 24, originY: 22 / 24 }}
+            style={{ transformBox: 'view-box', originX: 6.5 / 24, originY: 17.5 / 24 }}
           />
           <path
             d="M2 8.5V10.5M14 2H10M22 14V10M13.5 22H15.5M2.05986 5.5C2.21387 4.43442 2.51347 3.67903 3.09625 3.09625C3.67903 2.51347 4.43442 2.21387 5.5 2.05986M18.5 2.05986C19.5656 2.21387 20.321 2.51347 20.9037 3.09625C21.4865 3.67903 21.7861 4.43442 21.9401 5.5M21.9401 18.5C21.7861 19.5656 21.4865 20.321 20.9037 20.9037C20.321 21.4865 19.5656 21.7861 18.5 21.9401"

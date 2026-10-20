@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface UserCircleIconHandle {
@@ -16,37 +16,23 @@ interface UserCircleIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const NOD_LAND = springEase(0.45, 0.35);
-
-// People nod, shared by every user icon: the shoulders lift for a breath and
-// then settle down on their base, the head rides on them and nods forward on
-// its neck, and both land with a spring.
+// A real nod, as in user: the head dips forward on its neck and rocks back,
+// and the shoulders settle after it.
 const headVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg)' },
+  normal: { rotate: 0 },
   animate: {
-    transform: [
-      'translateY(0px) rotate(0deg)',
-      'translateY(-0.24px) rotate(-6deg)',
-      'translateY(0.6px) rotate(16deg)',
-      'translateY(0px) rotate(0deg)',
-    ],
-    transition: {
-      duration: 0.8,
-      times: [0, 0.16, 0.4, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], NOD_LAND],
-    },
+    rotate: [0, 16, -4, 0],
+    transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] },
   },
 };
 
+// The shoulder ends sit on the ring, so the shoulders settle by squashing
+// 0.6 down onto their base instead of sliding through the ring.
 const shouldersVariants: Variants = {
-  normal: { transform: 'scaleY(1)' },
+  normal: { scaleY: 1 },
   animate: {
-    transform: ['scaleY(1)', 'scaleY(1.04)', 'scaleY(0.9)', 'scaleY(1)'],
-    transition: {
-      duration: 0.8,
-      times: [0, 0.16, 0.4, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], NOD_LAND],
-    },
+    scaleY: [1, 1, 0.9, 1],
+    transition: { duration: 0.5, ease: 'easeOut', delay: 0.3 },
   },
 };
 
@@ -85,7 +71,7 @@ const UserCircleIcon = forwardRef<UserCircleIconHandle, UserCircleIconProps>(
             variants={headVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 14 / 24 }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 13 / 24 }}
           />
           <path
             d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z"

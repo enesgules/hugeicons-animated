@@ -3,8 +3,8 @@
 import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
-import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { forwardRef, useId } from 'react';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Mail02IconHandle {
@@ -18,48 +18,75 @@ interface Mail02IconProps extends HTMLAttributes<HTMLDivElement> {
 
 const FLAP_CLOSED =
   'M7 8.5L9.94202 10.2394C11.6572 11.2535 12.3428 11.2535 14.058 10.2394L17 8.5';
+const FLAP_EDGE_ON =
+  'M7 8.5L9.94202 8.74C11.6572 8.91 12.3428 8.91 14.058 8.74L17 8.5';
 const FLAP_OPEN =
-  'M7 8.5L9.94202 6.9C11.6572 6 12.3428 6 14.058 6.9L17 8.5';
+  'M7 8.5L9.94202 6.6C11.6572 5.5 12.3428 5.5 14.058 6.6L17 8.5';
+const FLAP_OPEN_OVERSHOOT =
+  'M7 8.5L9.94202 6.45C11.6572 5.3 12.3428 5.3 14.058 6.45L17 8.5';
+const FLAP_CLOSED_OVERSHOOT =
+  'M7 8.5L9.94202 10.34C11.6572 11.4 12.3428 11.4 14.058 10.34L17 8.5';
+const FLAP_ENTRY_LINE = 'M9.3 9.3C10.9 10 13.1 10 14.7 9.3';
 
-// Slot, shared by envelopes, the printer and the archive: the content moves
-// out (or opens), holds a beat, and lands back in place on a spring; the
-// container squashes when it lands and springs back.
-const SLOT_DURATION = 1;
-const SLOT_TIMES = [0, 0.28, 0.36, 1];
-const SLOT_LAND = springEase(0.45, 0.35);
+// The flap turns edge-on, opens fully, then softly overshoots the closed position.
+const flapVariants: Variants = {
+  normal: { d: FLAP_CLOSED },
+  animate: {
+    d: [
+      FLAP_CLOSED,
+      FLAP_EDGE_ON,
+      FLAP_OPEN,
+      FLAP_OPEN_OVERSHOOT,
+      FLAP_OPEN,
+      FLAP_OPEN,
+      FLAP_EDGE_ON,
+      FLAP_CLOSED_OVERSHOOT,
+      FLAP_CLOSED,
+    ],
+    transition: {
+      duration: 0.94,
+      ease: [0.77, 0, 0.175, 1],
+      times: [0, 0.13, 0.28, 0.38, 0.5, 0.62, 0.76, 0.9, 1],
+    },
+  },
+};
 
-const containerVariants: Variants = {
+const bodyVariants: Variants = {
   normal: { transform: 'translateY(0px) scaleX(1) scaleY(1)' },
   animate: {
     transform: [
       'translateY(0px) scaleX(1) scaleY(1)',
       'translateY(0px) scaleX(1) scaleY(1)',
+      'translateY(0.12px) scaleX(1.008) scaleY(0.992)',
       'translateY(0.45px) scaleX(1.035) scaleY(0.958)',
+      'translateY(-0.32px) scaleX(0.985) scaleY(1.022)',
+      'translateY(0.12px) scaleX(1.008) scaleY(0.994)',
       'translateY(0px) scaleX(1) scaleY(1)',
     ],
     transition: {
-      duration: SLOT_DURATION,
-      times: [0, 0.48, 0.56, 1],
-      ease: ['linear', 'easeOut', SLOT_LAND],
+      duration: 0.94,
+      ease: [0.23, 1, 0.32, 1],
+      times: [0, 0.28, 0.38, 0.5, 0.68, 0.84, 1],
     },
   },
 };
 
-// The inner flap swings open, holds, and slams shut on a spring.
-const flapVariants: Variants = {
-  normal: { d: FLAP_CLOSED },
+// The pocket line under the flap shows only while the flap is open.
+const generatedGeometryVariants: Variants = {
+  normal: { visibility: 'hidden' },
   animate: {
-    d: [FLAP_CLOSED, FLAP_OPEN, FLAP_OPEN, FLAP_CLOSED],
+    visibility: ['hidden', 'hidden', 'visible', 'visible', 'hidden', 'hidden'],
     transition: {
-      duration: SLOT_DURATION,
-      times: SLOT_TIMES,
-      ease: [[0.4, 0, 0.2, 1], 'linear', SLOT_LAND],
+      duration: 0.94,
+      ease: 'linear',
+      times: [0, 0.26, 0.27, 0.66, 0.67, 1],
     },
   },
 };
 
 const Mail02Icon = forwardRef<Mail02IconHandle, Mail02IconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
+    const flapMaskId = `mail-flap-${useId().replaceAll(':', '')}`;
     const controls = useAnimation();
     const { handleMouseEnter, handleMouseLeave } = useIconAnimation({
       controls,
@@ -84,12 +111,45 @@ const Mail02Icon = forwardRef<Mail02IconHandle, Mail02IconProps>(
           fill="none"
           overflow="visible"
         >
+          <defs>
+            <mask
+              id={flapMaskId}
+              x="0"
+              y="0"
+              width="24"
+              height="24"
+              maskUnits="userSpaceOnUse"
+            >
+              <rect width="24" height="24" fill="white" />
+              <motion.path
+                d={FLAP_CLOSED}
+                fill="black"
+                variants={flapVariants}
+                animate={controls}
+                initial="normal"
+              />
+            </mask>
+          </defs>
           <motion.g
-            variants={containerVariants}
+            variants={bodyVariants}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
           >
+            <motion.g
+              variants={generatedGeometryVariants}
+              animate={controls}
+              initial="normal"
+            >
+              <path
+                d={FLAP_ENTRY_LINE}
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                mask={`url(#${flapMaskId})`}
+              />
+            </motion.g>
             <motion.path
               d={FLAP_CLOSED}
               stroke="currentColor"

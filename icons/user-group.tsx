@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef, useId } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface UserGroupIconHandle {
@@ -16,41 +16,29 @@ interface UserGroupIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const NOD_LAND = springEase(0.45, 0.35);
 // The person in front nods first, then the left and the right person.
-const NOD_STAGGER = 0.1;
+const NOD_STAGGER = 0.08;
 
-// People nod, shared by every user icon: the shoulders lift for a breath and
-// then settle down on their base, the head rides on them and nods forward on
-// its neck, and both land with a spring. Each person nods in turn.
+// A real nod, as in user: each head dips forward on its neck and rocks back,
+// and the shoulders settle after it. Each person nods in turn.
 const headVariants: Variants = {
-  normal: { transform: 'translateY(0px) rotate(0deg)' },
+  normal: { rotate: 0 },
   animate: (order: number) => ({
-    transform: [
-      'translateY(0px) rotate(0deg)',
-      'translateY(-0.2px) rotate(-6deg)',
-      'translateY(0.5px) rotate(16deg)',
-      'translateY(0px) rotate(0deg)',
-    ],
+    rotate: [0, 16, -4, 0],
     transition: {
-      duration: 0.8,
+      duration: 0.6,
+      ease: 'easeInOut',
+      times: [0, 0.4, 0.7, 1],
       delay: order * NOD_STAGGER,
-      times: [0, 0.16, 0.4, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], NOD_LAND],
     },
   }),
 };
 
 const shouldersVariants: Variants = {
-  normal: { transform: 'scaleY(1)' },
+  normal: { translateY: 0 },
   animate: (order: number) => ({
-    transform: ['scaleY(1)', 'scaleY(1.04)', 'scaleY(0.9)', 'scaleY(1)'],
-    transition: {
-      duration: 0.8,
-      delay: order * NOD_STAGGER,
-      times: [0, 0.16, 0.4, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], NOD_LAND],
-    },
+    translateY: [0, 0, 0.6, 0],
+    transition: { duration: 0.5, ease: 'easeOut', delay: 0.3 + order * NOD_STAGGER },
   }),
 };
 
@@ -60,7 +48,7 @@ const generatedGeometryVariants: Variants = {
   normal: { visibility: 'hidden' },
   animate: {
     visibility: ['visible', 'hidden'],
-    transition: { duration: 0.8 + 2 * NOD_STAGGER, times: [0, 1] },
+    transition: { duration: 0.6 + 2 * NOD_STAGGER, times: [0, 1] },
   },
 };
 
@@ -103,7 +91,7 @@ const UserGroupIcon = forwardRef<UserGroupIconHandle, UserGroupIconProps>(
                 custom={0}
                 animate={controls}
                 initial="normal"
-                style={{ transformBox: 'view-box', originX: 12 / 24, originY: 14.5 / 24 }}
+                style={{ transformBox: 'view-box', originX: 12 / 24, originY: 13.45 / 24 }}
               />
             </mask>
           </defs>
@@ -117,7 +105,7 @@ const UserGroupIcon = forwardRef<UserGroupIconHandle, UserGroupIconProps>(
             custom={0}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 14.5 / 24 }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 13.45 / 24 }}
           />
           <g mask={`url(#${maskId})`}>
             <motion.g
@@ -125,7 +113,7 @@ const UserGroupIcon = forwardRef<UserGroupIconHandle, UserGroupIconProps>(
               custom={2}
               animate={controls}
               initial="normal"
-              style={{ transformBox: 'view-box', originX: 16.5 / 24, originY: 11.5 / 24 }}
+              style={{ transformBox: 'view-box', originX: 16.5 / 24, originY: 10.45 / 24 }}
             >
               <path
                 d="M15.4827 11.3499C15.8047 11.4475 16.1462 11.5 16.5 11.5C18.433 11.5 20 9.933 20 8C20 6.067 18.433 4.5 16.5 4.5C14.6851 4.5 13.1928 5.8814 13.0173 7.65013"
@@ -149,7 +137,7 @@ const UserGroupIcon = forwardRef<UserGroupIconHandle, UserGroupIconProps>(
               custom={1}
               animate={controls}
               initial="normal"
-              style={{ transformBox: 'view-box', originX: 7.5 / 24, originY: 11.5 / 24 }}
+              style={{ transformBox: 'view-box', originX: 7.5 / 24, originY: 10.45 / 24 }}
             >
               <path
                 d="M10.9827 7.65013C10.8072 5.8814 9.31492 4.5 7.5 4.5C5.567 4.5 4 6.067 4 8C4 9.933 5.567 11.5 7.5 11.5C7.85381 11.5 8.19535 11.4475 8.51727 11.3499"
@@ -179,7 +167,6 @@ const UserGroupIcon = forwardRef<UserGroupIconHandle, UserGroupIconProps>(
             custom={2}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 16.5 / 24, originY: 16.5 / 24 }}
           />
           <motion.path
             d="M17.5 19.5C17.5 16.7386 15.0376 14.5 12 14.5C8.96243 14.5 6.5 16.7386 6.5 19.5"
@@ -191,7 +178,6 @@ const UserGroupIcon = forwardRef<UserGroupIconHandle, UserGroupIconProps>(
             custom={0}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 19.5 / 24 }}
           />
           <motion.path
             d="M7.5 11.5C4.46243 11.5 2 13.7386 2 16.5"
@@ -203,7 +189,6 @@ const UserGroupIcon = forwardRef<UserGroupIconHandle, UserGroupIconProps>(
             custom={1}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 7.5 / 24, originY: 16.5 / 24 }}
           />
         </svg>
       </div>

@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface PauseCircleIconHandle {
@@ -16,38 +16,14 @@ interface PauseCircleIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const MEDIA_LAND = springEase(0.5, 0.3);
-const MEDIA_DURATION = 0.8;
-const MEDIA_TIMES = [0, 0.16, 0.4, 1];
-
-// Media: the bars compress toward each other, release outward, and land with
-// a spring; the ring dips with the press and springs back.
-const ringVariants: Variants = {
-  normal: { transform: 'scale(1)' },
-  animate: {
-    transform: ['scale(1)', 'scale(0.92)', 'scale(0.95)', 'scale(1)'],
-    transition: {
-      duration: MEDIA_DURATION,
-      times: MEDIA_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], MEDIA_LAND],
-    },
-  },
-};
-
-const barVariants: Variants = {
-  normal: { transform: 'translateX(0px) scaleY(1)' },
+// The pair compresses toward the center, releases outward, and settles as one control.
+const pauseBarVariants: Variants = {
+  normal: { x: 0, y: 0, scaleY: 1, transition: { duration: 0.18, ease: [0.23, 1, 0.32, 1] } },
   animate: (direction: number) => ({
-    transform: [
-      'translateX(0px) scaleY(1)',
-      `translateX(${direction * 1.1}px) scaleY(0.88)`,
-      `translateX(${direction * -0.66}px) scaleY(1.08)`,
-      'translateX(0px) scaleY(1)',
-    ],
-    transition: {
-      duration: MEDIA_DURATION,
-      times: MEDIA_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], MEDIA_LAND],
-    },
+    x: [0, direction * 0.8, direction * -0.55, direction * 0.14, 0],
+    y: [0, 0.65, -0.35, 0, 0],
+    scaleY: [1, 0.91, 1.045, 0.99, 1],
+    transition: { duration: 0.52, times: [0, 0.22, 0.5, 0.76, 1], ease: [0.77, 0, 0.175, 1] },
   }),
 };
 
@@ -77,16 +53,12 @@ const PauseCircleIcon = forwardRef<PauseCircleIconHandle, PauseCircleIconProps>(
           fill="none"
           overflow="visible"
         >
-          <motion.circle
+          <circle
             cx="12"
             cy="12"
             r="10"
             stroke="currentColor"
             strokeWidth="1.5"
-            variants={ringVariants}
-            animate={controls}
-            initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
           />
           {/* rest-parity: split-source-path */}
           <motion.path
@@ -95,7 +67,7 @@ const PauseCircleIcon = forwardRef<PauseCircleIconHandle, PauseCircleIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={barVariants}
+            variants={pauseBarVariants}
             custom={1}
             animate={controls}
             initial="normal"
@@ -107,7 +79,7 @@ const PauseCircleIcon = forwardRef<PauseCircleIconHandle, PauseCircleIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={barVariants}
+            variants={pauseBarVariants}
             custom={-1}
             animate={controls}
             initial="normal"

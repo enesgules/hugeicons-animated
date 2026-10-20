@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface RepeatIconHandle {
@@ -16,19 +16,13 @@ interface RepeatIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const TURN_LAND = springEase(0.45, 0.35);
-
-// Turn, as in refresh: the repeat loop winds up against the turn, whips one
-// full clockwise turn a little past rest, and lands with a spring.
+// Turn, as in refresh: the repeat loop rewinds slightly, then whips a full
+// revolution; 360 ≡ 0, so the end pose is the rest pose.
 const svgVariants: Variants = {
-  normal: { transform: 'rotate(0deg)' },
+  normal: { rotate: 0 },
   animate: {
-    transform: ['rotate(0deg)', 'rotate(-18deg)', 'rotate(384deg)', 'rotate(360deg)'],
-    transition: {
-      duration: 0.8,
-      times: [0, 0.15, 0.55, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], TURN_LAND],
-    },
+    rotate: [0, -25, 360],
+    transition: { duration: 0.9, times: [0, 0.2, 1], ease: ['easeIn', 'easeOut'] },
   },
 };
 
@@ -60,7 +54,6 @@ const RepeatIcon = forwardRef<RepeatIconHandle, RepeatIconProps>(
           variants={svgVariants}
           animate={controls}
           initial="normal"
-          style={{ transformOrigin: '50% 50%' }}
         >
           <path
             d="M16.3884 3L17.3913 3.97574C17.8393 4.41165 18.0633 4.62961 17.9844 4.81481C17.9056 5 17.5888 5 16.9552 5H9.19422C5.22096 5 2 8.13401 2 12C2 13.4872 2.47668 14.8662 3.2895 16"

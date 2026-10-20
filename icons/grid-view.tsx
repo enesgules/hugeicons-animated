@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface GridViewIconHandle {
@@ -16,23 +16,23 @@ interface GridViewIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const LAYOUT_DURATION = 0.7;
-const LAYOUT_TIMES = [0, 0.4, 1];
-const LAYOUT_STAGGER = 0.08;
-const LAYOUT_LAND = springEase(0.5, 0.3);
-
-// Layout, shared by list, menu, grid and dashboard: each item pulls in toward
-// its anchor in reading order and springs back to full size. Each tile
-// shrinks toward its own centre, so the tiles ripple diagonally.
+// The tiles assemble in reading order with a crisp diagonal ripple, as in
+// dashboard-square-01: each tile ducks small and low around its own centre,
+// pops up past full size and settles.
 const tileVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+  normal: { transform: 'translateY(0px) scale(1)' },
   animate: (i: number) => ({
-    transform: ['scale(1)', 'scale(0.74)', 'scale(1)'],
+    transform: [
+      'translateY(0px) scale(1)',
+      'translateY(1.4px) scale(0.74)',
+      'translateY(-0.4px) scale(1.1)',
+      'translateY(0px) scale(1)',
+    ],
     transition: {
-      duration: LAYOUT_DURATION,
-      delay: i * LAYOUT_STAGGER,
-      times: LAYOUT_TIMES,
-      ease: [[0.4, 0, 0.2, 1], LAYOUT_LAND],
+      duration: 0.6,
+      delay: i * 0.06,
+      times: [0, 0.2, 0.6, 1],
+      ease: ['easeIn', [0.23, 1, 0.32, 1], [0.23, 1, 0.32, 1]],
     },
   }),
 };

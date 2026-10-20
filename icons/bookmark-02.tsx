@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface Bookmark02IconHandle {
@@ -16,26 +16,12 @@ interface Bookmark02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const BOOKMARK_DURATION = 0.8;
-const BOOKMARK_TIMES = [0, 0.16, 0.4, 1];
-const BOOKMARK_LAND = springEase(0.45, 0.35);
-
-// Bookmark, shared by every ribbon: it lifts out of the page, drops into the
-// binding with a squash, and springs to its saved length.
+// the ribbon catches at the binding and lands with a squash
 const ribbonVariants: Variants = {
   normal: { transform: 'translateY(0px) scaleY(1)' },
   animate: {
-    transform: [
-      'translateY(0px) scaleY(1)',
-      'translateY(-1.4px) scaleY(1.04)',
-      'translateY(2.4px) scaleY(0.88)',
-      'translateY(0px) scaleY(1)',
-    ],
-    transition: {
-      duration: BOOKMARK_DURATION,
-      times: BOOKMARK_TIMES,
-      ease: ['easeOut', [0.4, 0, 0.2, 1], BOOKMARK_LAND],
-    },
+    transform: ['translateY(0px) scaleY(1)', 'translateY(2.05px) scaleY(0.9)', 'translateY(-0.7px) scaleY(1.05)', 'translateY(0px) scaleY(1)'],
+    transition: { duration: 0.58, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
@@ -74,7 +60,7 @@ const Bookmark02Icon = forwardRef<Bookmark02IconHandle, Bookmark02IconProps>(
             variants={ribbonVariants}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 0.5, originY: 22 / 24 }}
+            style={{ transformBox: 'view-box', originX: 0.5, originY: 0.5 }}
           />
         </svg>
       </div>

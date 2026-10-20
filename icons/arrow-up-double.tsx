@@ -4,7 +4,7 @@ import type { Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { springEase, useIconAnimation } from '@/lib/use-icon-animation';
+import { useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface ArrowUpDoubleIconHandle {
@@ -16,26 +16,21 @@ interface ArrowUpDoubleIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const NUDGE_LAND = springEase(0.5, 0.3);
-
-// Nudge, shared by every arrow and chevron: a short wind-up against the
-// direction, a dart along it, and a spring landing back in place.
-// The two chevrons run it one after the other.
+// Nudge, as in the chevrons: a quick dart along the arrow, a small recoil
+// past rest, and a softer second push before it settles. The front chevron
+// leads and the back one follows a beat later, so the gap between them
+// breathes but never closes.
 const chevronVariants: Variants = {
   normal: { transform: 'translateY(0px) scaleX(1)' },
   animate: (i: number) => ({
     transform: [
       'translateY(0px) scaleX(1)',
-      'translateY(0.7px) scaleX(1.03)',
-      'translateY(-2.6px) scaleX(0.9)',
+      'translateY(-2.4px) scaleX(0.9)',
+      'translateY(0.45px) scaleX(1.04)',
+      'translateY(-0.8px) scaleX(0.97)',
       'translateY(0px) scaleX(1)',
     ],
-    transition: {
-      duration: 0.8,
-      delay: i * 0.06,
-      times: [0, 0.16, 0.4, 1],
-      ease: ['easeOut', [0.4, 0, 0.2, 1], NUDGE_LAND],
-    },
+    transition: { duration: 0.56, delay: i * 0.06, ease: [0.23, 1, 0.32, 1] },
   }),
 };
 
@@ -72,7 +67,7 @@ const ArrowUpDoubleIcon = forwardRef<ArrowUpDoubleIconHandle, ArrowUpDoubleIconP
             strokeLinejoin="round"
             strokeWidth="1.5"
             variants={chevronVariants}
-            custom={1}
+            custom={0}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 0.5, originY: 8.5 / 24 }}
@@ -84,7 +79,7 @@ const ArrowUpDoubleIcon = forwardRef<ArrowUpDoubleIconHandle, ArrowUpDoubleIconP
             strokeLinejoin="round"
             strokeWidth="1.5"
             variants={chevronVariants}
-            custom={0}
+            custom={1}
             animate={controls}
             initial="normal"
             style={{ transformBox: 'view-box', originX: 0.5, originY: 15.5 / 24 }}
