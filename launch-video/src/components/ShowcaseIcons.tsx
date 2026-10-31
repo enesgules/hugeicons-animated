@@ -11,8 +11,10 @@ export type ShowcaseIconKind =
   | "arrow-up-right"
   | "cloud-rain"
   | "diamond"
+  | "favourite"
   | "gift"
   | "github"
+  | "lock"
   | "magic-wand"
   | "notification"
   | "play"
@@ -478,14 +480,63 @@ export const GithubShowcaseIcon: React.FC<ShowcaseIconProps> = ({delay = 0, size
   );
 };
 
+// Ported from icons/favourite.tsx: a lub-dub beat. The site also morphs the outline; the scale carries the beat here.
+export const FavouriteShowcaseIcon: React.FC<ShowcaseIconProps> = ({delay = 0, size = 560}) => {
+  const frame = useCurrentFrame() - delay;
+
+  return (
+    <svg fill="none" height={size} overflow="visible" viewBox="0 0 24 24" width={size}>
+      <path
+        d="M10.4107 19.9677C7.58942 17.858 2 13.0348 2 8.69444C2 5.82563 4.10526 3.5 7 3.5C8.5 3.5 10 4 12 6C14 4 15.5 3.5 17 3.5C19.8947 3.5 22 5.82563 22 8.69444C22 13.0348 16.4106 17.858 13.5893 19.9677C12.6399 20.6776 11.3601 20.6776 10.4107 19.9677Z"
+        {...stroke}
+        style={{
+          scale: interpolate(frame, frames(8, 21.6, [0, 0.12, 0.32, 0.48, 0.68, 1]), [1, 0.96, 1.16, 0.98, 1.09, 1], {
+            ...clamp,
+            easing: Easing.bezier(0.22, 1, 0.36, 1),
+          }),
+          transformBox: "view-box",
+          transformOrigin: "12px 12px",
+        }}
+      />
+    </svg>
+  );
+};
+
+// Ported from icons/lock.tsx: a key turns the keyhole a quarter turn, holds, and turns back.
+export const LockShowcaseIcon: React.FC<ShowcaseIconProps> = ({delay = 0, size = 560}) => {
+  const frame = useCurrentFrame() - delay;
+
+  return (
+    <svg fill="none" height={size} overflow="visible" viewBox="0 0 24 24" width={size}>
+      <path d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" {...stroke} />
+      <path
+        d="M12 13C13.1046 13 14 12.1046 14 11C14 9.89543 13.1046 9 12 9C10.8954 9 10 9.89543 10 11C10 12.1046 10.8954 13 12 13ZM12 13L12 16"
+        {...stroke}
+        style={{
+          rotate: interpolate(
+            frame,
+            frames(7, 39, [0, 0.1, 0.36, 0.44, 0.58, 0.9, 1]),
+            ["0deg", "8deg", "-97deg", "-90deg", "-90deg", "3deg", "0deg"],
+            {...clamp, easing: Easing.inOut(Easing.ease)},
+          ),
+          transformBox: "view-box",
+          transformOrigin: "12px 11px",
+        }}
+      />
+    </svg>
+  );
+};
+
 const ICONS: Record<ShowcaseIconKind, React.FC<ShowcaseIconProps>> = {
   airplane: AirplaneShowcaseIcon,
   alarm: AlarmShowcaseIcon,
   "arrow-up-right": ArrowUpRightShowcaseIcon,
   "cloud-rain": CloudRainShowcaseIcon,
   diamond: DiamondShowcaseIcon,
+  favourite: FavouriteShowcaseIcon,
   gift: GiftShowcaseIcon,
   github: GithubShowcaseIcon,
+  lock: LockShowcaseIcon,
   "magic-wand": MagicWandShowcaseIcon,
   notification: NotificationShowcaseIcon,
   play: PlayShowcaseIcon,

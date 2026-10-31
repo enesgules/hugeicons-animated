@@ -3,6 +3,8 @@ import { Geist_Mono, Quicksand } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import {
   GITHUB_URL,
+  OG_IMAGE,
+  OG_VIDEO,
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_TITLE,
@@ -48,11 +50,14 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     locale: "en_US",
+    images: OG_IMAGE,
+    videos: OG_VIDEO,
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
+    images: OG_IMAGE,
   },
 };
 

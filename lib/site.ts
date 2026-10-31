@@ -8,3 +8,17 @@ export const GITHUB_URL = `https://github.com/${GITHUB_REPO}`;
 
 export const installCommand = (name: string) =>
   `npx shadcn add @hugeicons-animated/${name}`;
+
+// Rendered by the OgCard composition in launch-video; the image is the video's first frame.
+export const OG_IMAGE = {
+  url: '/og-image.png',
+  width: 1200,
+  height: 630,
+  alt: 'Hugeicons Animated — beautiful React icons, now they move',
+};
+export const OG_VIDEO = {
+  url: '/og-video.mp4',
+  type: 'video/mp4',
+  width: 1200,
+  height: 630,
+};

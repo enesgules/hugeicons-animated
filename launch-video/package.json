@@ -29,6 +29,7 @@
     "render": "remotion render HugeiconsAnimatedLaunch out/hugeicons-animated-launch.mp4 --codec=h264 --crf=18",
     "render:bands": "remotion render HugeiconsAnimatedBands out/hugeicons-animated-bands.mp4 --codec=h264 --crf=18",
     "render:spotlight": "remotion render HugeiconsAnimatedSpotlight out/hugeicons-animated-spotlight.mp4 --codec=h264 --crf=18",
+    "render:og": "remotion still OgCard ../public/og-image.png --frame=0 && remotion render OgCard ../public/og-video.mp4 --codec=h264 --crf=20 --muted",
     "render:all": "npm run render && npm run render:bands && npm run render:spotlight",
     "upgrade": "remotion upgrade"
   },

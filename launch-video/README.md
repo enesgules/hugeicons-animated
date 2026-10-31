@@ -30,3 +30,13 @@ npm run render:spotlight
 ```
 
 Run `npm run render:all` to render all three MP4 files.
+
+## Link preview
+
+`OgCard` is the 1200×630 link preview. Its first frame is the og:image.
+
+```sh
+npm run render:og
+```
+
+This writes `public/og-image.png` and `public/og-video.mp4` in the site.

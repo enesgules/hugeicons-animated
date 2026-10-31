@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { SiteHeader } from '@/app/_components/site-header';
 import { CopyCommand } from '@/app/icons/[name]/copy-command';
 import { PUBLIC_ICONS } from '@/lib/icon-approval';
-import { installCommand, SITE_NAME } from '@/lib/site';
+import { installCommand, OG_IMAGE, OG_VIDEO, SITE_NAME } from '@/lib/site';
 
 type Props = { params: Promise<{ name: string }> };
 
@@ -33,14 +33,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `/icons/${name}`,
       title,
       description,
-      // a page-level openGraph replaces the root opengraph-image, so name it again
-      images: '/opengraph-image',
+      // a page-level openGraph replaces the root one, so name the media again
+      images: OG_IMAGE,
+      videos: OG_VIDEO,
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: '/opengraph-image',
+      images: OG_IMAGE,
     },
   };
 }

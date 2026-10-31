@@ -1,6 +1,7 @@
 import {Composition, Folder} from "remotion";
 import {BandsLaunchVideo} from "./BandsLaunchVideo";
 import {LaunchVideo} from "./LaunchVideo";
+import {OgCard} from "./OgCard";
 import {SpotlightLaunchVideo} from "./SpotlightLaunchVideo";
 import {EndScene} from "./scenes/EndScene";
 import {IconWallScene} from "./scenes/IconWallScene";
@@ -40,6 +41,7 @@ export const MyComposition: React.FC = () => {
         width={1920}
         height={1080}
       />
+      <Composition id="OgCard" component={OgCard} durationInFrames={180} fps={30} width={1200} height={630} />
     </>
   );
 };
