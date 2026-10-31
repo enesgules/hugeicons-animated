@@ -16,8 +16,9 @@ export const OG_IMAGE = {
   height: 630,
   alt: 'Hugeicons Animated — beautiful React icons, now they move',
 };
+// Next.js resolves og:image against metadataBase but not og:video, so this URL is absolute.
 export const OG_VIDEO = {
-  url: '/og-video.mp4',
+  url: `${SITE_URL}/og-video.mp4`,
   type: 'video/mp4',
   width: 1200,
   height: 630,
