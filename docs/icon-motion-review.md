@@ -1,6 +1,6 @@
 # Icon motion approval queue
 
-The visual review currently marks 86 icons as disapproved in
+The visual review currently marks 40 icons as disapproved in
 `lib/icon-approval.ts`. Detailed animation notes stay here until each issue is
 approved.
 
@@ -58,7 +58,6 @@ These icons return to rest at the end, but the first explicit keyframe differs f
 - [ ] `lock`: the keyhole starts at `translateY(-0.6px) scaleY(0.92)` instead of its identity transform.
 - [ ] `message-01`: the bubble starts at `scale: 0.85` and its text starts at `pathLength: 0`, rather than the complete rest icon.
 - [ ] `message-add-01`: the plus starts at `rotate(-14deg) scale(0.48)` instead of `scale(1)` with no rotation.
-- [ ] `party`: the source confetti starts translated `-7px, 7px` and scaled to `0.2` instead of matching the rest artwork.
 - [ ] `save`: both disk slots start at `pathLength: 0.25` and `scaleX(0.82)` instead of fully drawn at `scaleX(1)`.
 - [ ] `share-08`: the connector starts at `pathLength: 0` instead of the fully drawn rest connector.
 - [ ] `shopping-cart-add-01`: the plus starts at `scale(0.5)` instead of `scale(1)`.
@@ -67,7 +66,6 @@ These icons return to rest at the end, but the first explicit keyframe differs f
 - [ ] `tick-02`: the check starts at `pathLength: 0` instead of the fully drawn rest check.
 - [ ] `user-add-01`: the plus starts at `rotate(-16deg) scale(0.5)` instead of `rotate(0deg) scale(1)`.
 - [ ] `user-check-01`: the check starts at `scale(0.72)` and `pathLength: 0` instead of fully drawn at `scale(1)`.
-- [ ] `user-multiple-02`: the primary profile starts shifted `0.7px` left and the secondary profile starts shifted `0.7px` right instead of both starting at `translateX(0px)`.
 - [ ] `user-remove-01`: the minus starts at `rotate(-10deg) scale(0.58)` instead of `rotate(0deg) scale(1)`.
 
 ## Direction and interaction
@@ -88,7 +86,6 @@ These icons return to rest at the end, but the first explicit keyframe differs f
 - [ ] `lock` — slow and soften the shackle close.
 - [ ] `save` — keep the disk geometry continuous and remove clipping.
 - [ ] `shield-02` — remove the decorative circle and use a shield-native response.
-- [ ] `target-01` — make the impact ring become part of the target instead of floating above it.
 
 ## Objects and transfers
 
@@ -114,7 +111,6 @@ These icons return to rest at the end, but the first explicit keyframe differs f
 - [ ] `sleeping` — move the Z marks farther from the head.
 - [ ] `snow` — keep every arm connected and return the flake cleanly to rest.
 - [ ] `umbrella` — add small contact splashes where rain hits the canopy.
-- [ ] `video-01` — keep the lens from crossing the camera body.
 
 ## Brand
 

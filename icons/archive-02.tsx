@@ -16,19 +16,16 @@ interface Archive02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// A document with text slides up through the bottom drawer's top seam, clear
-// of the archive, and drops back in. It hides the back trays it passes in
-// front of, so it reads as one solid sheet at small sizes. Its bottom stays
-// inside the drawer.
+// The drawer drops open and a document is tossed up out of it. The sheet
+// slows to a stop above the archive, falls back in under gravity, and its
+// landing knocks the drawer down before the drawer springs shut. The sheet
+// hides the back trays it passes in front of, so it reads as one solid sheet
+// at small sizes. Its bottom stays inside the drawer.
 const ARCHIVE_DOCUMENT =
   'M6.9 17V4.5C6.9 3.9 7.4 3.4 8 3.4H16C16.6 3.4 17.1 3.9 17.1 4.5V17';
 
-const ARCHIVE_DURATION = 0.94;
-
-const ARCHIVE_TIMES = [
-  0, 0.05, 0.1, 0.16, 0.23, 0.31, 0.4, 0.5, 0.58, 0.65, 0.71,
-  0.76, 0.8, 0.84, 0.88, 0.93, 0.97, 1,
-];
+const ARCHIVE_DURATION = 1;
+const LAND = 0.74;
 
 const archiveDrawerVariants: Variants = {
   normal: {
@@ -38,32 +35,21 @@ const archiveDrawerVariants: Variants = {
   animate: {
     transform: [
       'translateY(0px)',
-      'translateY(0.25px)',
-      'translateY(0.9px)',
-      'translateY(1.85px)',
-      'translateY(2.65px)',
-      'translateY(2.38px)',
       'translateY(2.5px)',
       'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(2.5px)',
-      'translateY(1.55px)',
-      'translateY(0.45px)',
+      'translateY(3.2px)',
+      'translateY(-0.35px)',
       'translateY(0px)',
     ],
     transition: {
       duration: ARCHIVE_DURATION,
-      ease: [0.77, 0, 0.175, 1],
-      times: ARCHIVE_TIMES,
+      times: [0, 0.16, LAND, LAND + 0.06, LAND + 0.18, 1],
+      ease: [[0.23, 1, 0.32, 1], 'linear', 'easeOut', 'easeInOut', 'easeOut'],
     },
   },
 };
 
+// Tossed up and falling back, as a parabola: ease-out up, ease-in down.
 const archiveDocumentVariants: Variants = {
   normal: {
     transform: 'translateY(11.3px)',
@@ -73,27 +59,19 @@ const archiveDocumentVariants: Variants = {
     transform: [
       'translateY(11.3px)',
       'translateY(11.3px)',
-      'translateY(11.3px)',
-      'translateY(10.4px)',
-      'translateY(8px)',
-      'translateY(4.4px)',
-      'translateY(0.6px)',
-      'translateY(-1.1px)',
       'translateY(-1.4px)',
-      'translateY(-1.2px)',
-      'translateY(-0.4px)',
-      'translateY(1.6px)',
-      'translateY(5px)',
-      'translateY(8.8px)',
-      'translateY(11.3px)',
-      'translateY(11.3px)',
       'translateY(11.3px)',
       'translateY(11.3px)',
     ],
     transition: {
       duration: ARCHIVE_DURATION,
-      ease: [0.77, 0, 0.175, 1],
-      times: ARCHIVE_TIMES,
+      times: [0, 0.1, 0.42, LAND, 1],
+      ease: [
+        'linear',
+        [0.25, 0.46, 0.45, 0.94],
+        [0.55, 0.085, 0.68, 0.53],
+        'linear',
+      ],
     },
   },
 };

@@ -35,43 +35,18 @@ body {
 }
 
 .hero-random-field {
+  /* The text column of the page, inside this full-width field. */
+  --column-left: max(2rem, 50% - 34rem);
+  --column-right: min(100% - 2rem, 50% + 34rem);
   position: absolute;
   z-index: 0;
-  top: -4rem;
-  bottom: -16rem;
+  inset-block: 0;
   left: 50%;
   width: 100vw;
-  overflow: clip;
+  overflow-x: clip;
   pointer-events: none;
   transform: translateX(-50%);
   user-select: none;
-  background:
-    radial-gradient(circle at 8% 72%, rgb(175 230 127 / 5%), transparent 25%),
-    radial-gradient(circle at 91% 24%, rgb(175 230 127 / 5%), transparent 28%);
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    black 8%,
-    black 72%,
-    rgb(0 0 0 / 72%) 85%,
-    rgb(0 0 0 / 34%) 94%,
-    transparent 100%
-  );
-}
-
-.hero-specimen::before {
-  position: absolute;
-  z-index: -1;
-  top: 50%;
-  left: 50%;
-  width: 26.25rem;
-  height: 26.25rem;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgb(175 230 127 / 26%), transparent 74%);
-  content: "";
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
 }
 
 .hero-specimen {
@@ -101,6 +76,7 @@ body {
 
 .hero-specimen:hover,
 .hero-specimen:focus-visible {
+  z-index: 1;
   border-color: rgb(121 189 62 / 32%);
   background: rgb(237 248 223 / 88%);
   color: #2c4a0f;
@@ -108,11 +84,6 @@ body {
   box-shadow:
     0 0 0 1px rgb(255 255 255 / 70%) inset,
     0 10px 30px rgb(44 74 15 / 11%);
-}
-
-.hero-specimen:hover::before,
-.hero-specimen:focus-visible::before {
-  opacity: 1;
 }
 
 .hero-specimen:focus-visible {
@@ -130,8 +101,8 @@ body {
     rotate(var(--specimen-move-rotate)) scale(1.04);
 }
 
-@media (max-width: 1100px) {
-  .hero-random-field .hero-specimen-medium-hidden {
+@media (max-width: 1279px) {
+  .hero-random-field .hero-specimen-gutter {
     display: none;
   }
 }

@@ -16,13 +16,13 @@ interface PartyIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// A party pop: the popper winds back from its base while the confetti is
-// pulled into the cone mouth, then the popper kicks and the confetti bursts
-// out past its places with a spin and springs back to rest.
-const POP_DURATION = 1.1;
-const POP_TIMES = [0, 0.16, 0.32, 1];
-const POPPER_LAND = springEase(0.5, 0.3);
-const CONFETTI_LAND = springEase(0.45, 0.35);
+// A party pop: the old confetti drifts down and fades while the popper winds
+// back. Then the popper recoils down-left as new confetti shoots out of the
+// cone mouth, slows against the air past its place, and flutters down into it.
+const POP_DURATION = 1.4;
+const WIND = 0.2;
+const LAUNCH = 0.24;
+const FLUTTER = 0.8;
 const MOUTH = [12.6, 11.4];
 // Confetti piece centres, in source order.
 const PIECES = [
@@ -34,20 +34,23 @@ const PIECES = [
   [13.6, 4],
   [20, 10.4],
 ];
+const FARTHEST = Math.max(
+  ...PIECES.map(([x, y]) => Math.hypot(x - MOUTH[0], y - MOUTH[1]))
+);
 
 const popperVariants: Variants = {
-  normal: { transform: 'rotate(0deg) scale(1)' },
+  normal: { transform: 'translate(0px, 0px) rotate(0deg) scale(1)' },
   animate: {
     transform: [
-      'rotate(0deg) scale(1)',
-      'rotate(-9deg) scale(0.9)',
-      'rotate(7deg) scale(1.06)',
-      'rotate(0deg) scale(1)',
+      'translate(0px, 0px) rotate(0deg) scale(1)',
+      'translate(0px, 0px) rotate(-6deg) scale(0.94)',
+      'translate(-0.6px, 0.6px) rotate(5deg) scale(1.07)',
+      'translate(0px, 0px) rotate(0deg) scale(1)',
     ],
     transition: {
       duration: POP_DURATION,
-      times: POP_TIMES,
-      ease: ['easeIn', [0.23, 1, 0.32, 1], POPPER_LAND],
+      times: [0, WIND, WIND + 0.07, 1],
+      ease: ['easeInOut', [0.23, 1, 0.32, 1], springEase(0.5, 0.3)],
     },
   },
 };
@@ -58,19 +61,30 @@ const confettiVariants: Variants = {
     const [x, y] = PIECES[i];
     const inX = MOUTH[0] - x;
     const inY = MOUTH[1] - y;
-    const spin = (i % 2 === 0 ? 1 : -1) * (30 + i * 6);
+    const side = i % 2 === 0 ? 1 : -1;
+    const spin = side * (40 + i * 8);
+    // Farther pieces take longer to slow down.
+    const apex = 0.44 + 0.08 * (Math.hypot(inX, inY) / FARTHEST);
     return {
       transform: [
         'translate(0px, 0px) rotate(0deg) scale(1)',
-        `translate(${inX}px, ${inY}px) rotate(0deg) scale(0.3)`,
-        `translate(${-inX * 0.35}px, ${-inY * 0.35}px) rotate(${spin}deg) scale(1.15)`,
+        `translate(0px, 1.8px) rotate(${side * 25}deg) scale(0)`,
+        `translate(${inX}px, ${inY}px) rotate(0deg) scale(0)`,
+        `translate(${-inX * 0.18}px, ${-inY * 0.18 - 0.8}px) rotate(${spin}deg) scale(1.1)`,
+        `translate(${-inX * 0.06 + side * 0.4}px, ${-inY * 0.06 - 0.25}px) rotate(${-spin * 0.3}deg) scale(1)`,
         'translate(0px, 0px) rotate(0deg) scale(1)',
       ],
       transition: {
         duration: POP_DURATION,
-        delay: i * 0.02,
-        times: POP_TIMES,
-        ease: ['easeIn', [0.23, 1, 0.32, 1], CONFETTI_LAND],
+        delay: (i % 3) * 0.02,
+        times: [0, WIND, LAUNCH, apex, FLUTTER, 1],
+        ease: [
+          [0.55, 0, 1, 0.45],
+          'linear',
+          [0.12, 0.9, 0.3, 1],
+          [0.37, 0, 0.63, 1],
+          [0.37, 0, 0.63, 1],
+        ],
       },
     };
   },

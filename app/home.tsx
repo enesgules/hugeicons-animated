@@ -24,7 +24,7 @@ import { Tick02Icon } from '@/icons/tick-02';
 
 // hugeicons.com palette — white ground, ink, one green
 const GREEN = { bg: '#AFE67F', border: '#79BD3E', deep: '#1D3208' };
-const COPIED_TINT = { bg: '#EDF8DF', border: '#AFE67F', ink: '#2C4A0F' };
+const COPIED_INK = '#2C4A0F';
 
 const ICONS = PUBLIC_ICONS.map((icon, i) => ({
   ...icon,
@@ -46,36 +46,46 @@ const MOVE_STAGGER_DELAY = 45;
 
 type HeroSpecimenPlacement = {
   iconName: string;
-  top: string;
+  top: number;
   left: string;
   size: number;
   rotate: number;
   moveX: number;
   moveY: number;
   moveRotate: number;
-  mediumHidden?: boolean;
+  gutter?: boolean;
   mobile?: {
     bottom: string;
     left: string;
   };
 };
 
+// Positions are in rem from the hero top and from the edges of the text
+// column, so browser zoom moves the icons with the text and never puts them
+// behind it. The heading is 42rem wide and the install box ends 28rem down.
+// Gutter icons sit outside the column and show only on wide windows.
+const fromLeft = (rem: number) => `calc(var(--column-left) + ${rem}rem)`;
+const fromRight = (rem: number) => `calc(var(--column-right) + ${rem}rem)`;
+const leftGutter = (share: number) => `calc(var(--column-left) * ${share})`;
+const rightGutter = (share: number) =>
+  `calc(var(--column-right) + (100% - var(--column-right)) * ${share})`;
+
 const HERO_SPECIMEN_PLACEMENTS: HeroSpecimenPlacement[] = [
-  { iconName: 'alert-circle', top: '24%', left: '9%', size: 22, rotate: -10, moveX: -7, moveY: 6, moveRotate: -15, mobile: { bottom: '16rem', left: '18%' } },
-  { iconName: 'arrow-right-02', top: '11%', left: '38%', size: 28, rotate: 7, moveX: 8, moveY: -7, moveRotate: 13 },
-  { iconName: 'bookmark-01', top: '9%', left: '69%', size: 25, rotate: -5, moveX: -10, moveY: -3, moveRotate: -10 },
-  { iconName: 'chevron-right', top: '15%', left: '91%', size: 23, rotate: 11, moveX: 8, moveY: 8, moveRotate: 17 },
-  { iconName: 'cloud-rain', top: '28%', left: '55%', size: 30, rotate: 6, moveX: -6, moveY: -9, moveRotate: 11, mediumHidden: true },
-  { iconName: 'cursor-pointer-01', top: '32%', left: '82%', size: 25, rotate: -11, moveX: 11, moveY: 4, moveRotate: -17 },
-  { iconName: 'eye-off', top: '40%', left: '97%', size: 23, rotate: 9, moveX: -9, moveY: 8, moveRotate: 15 },
-  { iconName: 'full-screen', top: '47%', left: '3%', size: 24, rotate: -7, moveX: 7, moveY: -7, moveRotate: -12, mediumHidden: true },
-  { iconName: 'location-add-01', top: '56%', left: '13%', size: 27, rotate: 13, moveX: -7, moveY: 7, moveRotate: 19 },
-  { iconName: 'mail-open', top: '57%', left: '91%', size: 29, rotate: -4, moveX: 9, moveY: 8, moveRotate: -9 },
-  { iconName: 'notification-03', top: '76%', left: '24%', size: 23, rotate: 8, moveX: 6, moveY: -8, moveRotate: 14, mobile: { bottom: '15.75rem', left: '50%' } },
-  { iconName: 'printer', top: '70%', left: '54%', size: 26, rotate: -9, moveX: -8, moveY: 5, moveRotate: -15, mediumHidden: true },
-  { iconName: 'settings-01', top: '72%', left: '80%', size: 22, rotate: 5, moveX: 7, moveY: -6, moveRotate: 10, mobile: { bottom: '16.125rem', left: '82%' } },
-  { iconName: 'coffee-02', top: '86%', left: '8%', size: 25, rotate: -8, moveX: 8, moveY: -6, moveRotate: -13 },
-  { iconName: 'diamond-02', top: '89%', left: '93%', size: 24, rotate: 9, moveX: -7, moveY: 7, moveRotate: 15 },
+  { iconName: 'alert-circle', top: 8, left: leftGutter(0.5), size: 22, rotate: -10, moveX: -7, moveY: 6, moveRotate: -15, gutter: true, mobile: { bottom: '0rem', left: '18%' } },
+  { iconName: 'arrow-right-02', top: 2.2, left: fromLeft(24), size: 28, rotate: 7, moveX: 8, moveY: -7, moveRotate: 13 },
+  { iconName: 'bookmark-01', top: 1.8, left: fromRight(-20), size: 25, rotate: -5, moveX: -10, moveY: -3, moveRotate: -10 },
+  { iconName: 'chevron-right', top: 3.6, left: fromRight(-2), size: 23, rotate: 11, moveX: 8, moveY: 8, moveRotate: 17 },
+  { iconName: 'cloud-rain', top: 9, left: fromRight(-13), size: 30, rotate: 6, moveX: -6, moveY: -9, moveRotate: 11 },
+  { iconName: 'cursor-pointer-01', top: 13.5, left: fromRight(-5), size: 25, rotate: -11, moveX: 11, moveY: 4, moveRotate: -17 },
+  { iconName: 'eye-off', top: 18.5, left: fromRight(-11), size: 23, rotate: 9, moveX: -9, moveY: 8, moveRotate: 15 },
+  { iconName: 'full-screen', top: 17, left: leftGutter(0.45), size: 24, rotate: -7, moveX: 7, moveY: -7, moveRotate: -12, gutter: true },
+  { iconName: 'location-add-01', top: 24, left: leftGutter(0.55), size: 27, rotate: 13, moveX: -7, moveY: 7, moveRotate: 19, gutter: true },
+  { iconName: 'mail-open', top: 23.5, left: fromRight(-3), size: 29, rotate: -4, moveX: 9, moveY: 8, moveRotate: -9 },
+  { iconName: 'notification-03', top: 29, left: fromRight(-22), size: 23, rotate: 8, moveX: 6, moveY: -8, moveRotate: 14, mobile: { bottom: '-0.25rem', left: '50%' } },
+  { iconName: 'printer', top: 26, left: fromLeft(39), size: 26, rotate: -9, moveX: -8, moveY: 5, moveRotate: -15 },
+  { iconName: 'settings-01', top: 28, left: fromRight(-8), size: 22, rotate: 5, moveX: 7, moveY: -6, moveRotate: 10, mobile: { bottom: '0.125rem', left: '82%' } },
+  { iconName: 'coffee-02', top: 28.5, left: leftGutter(0.4), size: 25, rotate: -8, moveX: 8, moveY: -6, moveRotate: -13, gutter: true },
+  { iconName: 'diamond-02', top: 26, left: rightGutter(0.45), size: 24, rotate: 9, moveX: -7, moveY: 7, moveRotate: 15, gutter: true },
 ];
 
 const HERO_SPECIMENS = HERO_SPECIMEN_PLACEMENTS.flatMap((specimen) => {
@@ -112,7 +122,7 @@ function RollingIconName({
             key={name}
             initial={
               reduced
-                ? { opacity: 0, color: COPIED_TINT.ink }
+                ? { opacity: 0, color: COPIED_INK }
                 : {
                     opacity: 0,
                     color: GREEN.border,
@@ -122,7 +132,7 @@ function RollingIconName({
             }
             animate={{
               opacity: 1,
-              color: COPIED_TINT.ink,
+              color: COPIED_INK,
               filter: 'blur(0px)',
               transform: 'translateY(0%)',
             }}
@@ -438,13 +448,13 @@ function HomeContent({ query, onQueryChange, stars }: HomeContentProps) {
                     moveX,
                     moveY,
                     moveRotate,
-                    mediumHidden,
+                    gutter,
                     mobile,
                   },
                   specimenIndex
                 ) => {
                   const specimenStyle: SpecimenStyle = {
-                    '--specimen-top': top,
+                    '--specimen-top': `${top}rem`,
                     '--specimen-left': left,
                     '--specimen-mobile-bottom': mobile?.bottom ?? 'auto',
                     '--specimen-mobile-left': mobile?.left ?? 'auto',
@@ -458,7 +468,7 @@ function HomeContent({ query, onQueryChange, stars }: HomeContentProps) {
                       type="button"
                       aria-label={`Use ${name} in the install command`}
                       className={`hero-specimen${
-                        mediumHidden ? ' hero-specimen-medium-hidden' : ''
+                        gutter ? ' hero-specimen-gutter' : ''
                       }${mobile ? ' hero-specimen-mobile' : ''}`}
                       style={specimenStyle}
                       key={name}
@@ -724,13 +734,12 @@ function HomeContent({ query, onQueryChange, stars }: HomeContentProps) {
                         onClick={() => copy(name, name)}
                         onFocus={() => refs.current[idx]?.startAnimation()}
                         onBlur={() => refs.current[idx]?.stopAnimation()}
-                        className="tile-enter relative flex w-full aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border transition-[background-color,border-color,box-shadow] duration-200 [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] hover:shadow-[0_8px_24px_rgba(20,24,18,0.08)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22]"
+                        className={`tile-enter relative flex w-full aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border transition-[background-color,border-color,box-shadow,scale] duration-200 [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4C7A22] ${
+                          isCopied
+                            ? 'border-[#AFE67F] bg-[#EDF8DF] text-[#2C4A0F]'
+                            : 'border-transparent bg-[#F5F5F4] text-[#141812] hover:border-[#E5E5E3] hover:bg-white hover:shadow-[0_8px_24px_rgba(20,24,18,0.08)] focus-visible:bg-white'
+                        }`}
                         style={{
-                          backgroundColor: isCopied ? COPIED_TINT.bg : '#F5F5F4',
-                          borderColor: isCopied
-                            ? COPIED_TINT.border
-                            : 'transparent',
-                          color: isCopied ? COPIED_TINT.ink : '#141812',
                           // cap the cascade so late rows don't feel laggy
                           ['--tile-delay' as string]: `${Math.min(pos * 22, 360)}ms`,
                         }}
