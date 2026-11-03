@@ -16,9 +16,12 @@ interface Archive02IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// A document with text slides through the bottom drawer's top seam.
+// A document with text slides up through the bottom drawer's top seam, clear
+// of the archive, and drops back in. It hides the back trays it passes in
+// front of, so it reads as one solid sheet at small sizes. Its bottom stays
+// inside the drawer.
 const ARCHIVE_DOCUMENT =
-  'M6.9 11V4.5C6.9 3.9 7.4 3.4 8 3.4H16C16.6 3.4 17.1 3.9 17.1 4.5V11Z';
+  'M6.9 17V4.5C6.9 3.9 7.4 3.4 8 3.4H16C16.6 3.4 17.1 3.9 17.1 4.5V17';
 
 const ARCHIVE_DURATION = 0.94;
 
@@ -71,17 +74,17 @@ const archiveDocumentVariants: Variants = {
       'translateY(11.3px)',
       'translateY(11.3px)',
       'translateY(11.3px)',
-      'translateY(10.6px)',
-      'translateY(8.9px)',
-      'translateY(6.2px)',
-      'translateY(3.2px)',
-      'translateY(1.45px)',
-      'translateY(1.15px)',
-      'translateY(1.28px)',
-      'translateY(1.9px)',
-      'translateY(3.4px)',
-      'translateY(6.2px)',
-      'translateY(9.4px)',
+      'translateY(10.4px)',
+      'translateY(8px)',
+      'translateY(4.4px)',
+      'translateY(0.6px)',
+      'translateY(-1.1px)',
+      'translateY(-1.4px)',
+      'translateY(-1.2px)',
+      'translateY(-0.4px)',
+      'translateY(1.6px)',
+      'translateY(5px)',
+      'translateY(8.8px)',
       'translateY(11.3px)',
       'translateY(11.3px)',
       'translateY(11.3px)',
@@ -147,7 +150,7 @@ const Archive02Icon = forwardRef<Archive02IconHandle, Archive02IconProps>(
                   x="6.1"
                   y="2.7"
                   width="11.8"
-                  height="11.4"
+                  height="15"
                   rx="0.6"
                   fill="black"
                   variants={archiveDocumentVariants}
@@ -194,10 +197,10 @@ const Archive02Icon = forwardRef<Archive02IconHandle, Archive02IconProps>(
                   strokeWidth="1.5"
                 />
                 <path
-                  d="M8.8 5.6H15.2M8.8 7.7H14.5M8.8 9.8H13.6"
+                  d="M9.6 6.6H14.4M9.6 9.3H12.8"
                   stroke="currentColor"
                   strokeLinecap="round"
-                  strokeWidth="0.9"
+                  strokeWidth="1.5"
                 />
               </motion.g>
             </motion.g>
@@ -219,6 +222,7 @@ const Archive02Icon = forwardRef<Archive02IconHandle, Archive02IconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
+            mask="url(#archive-back-mask)"
           />
           <motion.path
             d="M16 15L15.7 15.4C15.1111 16.1851 14.8167 16.5777 14.3944 16.7889C13.9721 17 13.4814 17 12.5 17H11.5C10.5186 17 10.0279 17 9.60557 16.7889C9.18328 16.5777 8.88885 16.1851 8.3 15.4L8 15"

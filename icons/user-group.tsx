@@ -1,10 +1,10 @@
 'use client';
 
-import type { Variants } from 'motion/react';
+import type { Transition, Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef, useId } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { pathAt, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface UserGroupIconHandle {
@@ -16,39 +16,60 @@ interface UserGroupIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// The person in front nods first, then the left and the right person.
-const NOD_STAGGER = 0.08;
+// Each person hops, as in user: a small crouch, the head lifts off the
+// shoulders, lands with a squash, and settles, while the shoulders stretch
+// and squash on their fixed ends. The person in front hops first, then the
+// left and the right person.
+const HOP_STAGGER = 0.1;
 
-// A real nod, as in user: each head dips forward on its neck and rocks back,
-// and the shoulders settle after it. Each person nods in turn.
+const SHOULDERS = [
+  [
+    'M17.5 19.5C17.5 16.7386 15.0376 14.5 12 14.5C8.96243 14.5 6.5 16.7386 6.5 19.5',
+    'M17.5 19.5C17.5 16.1863 15.0376 13.5 12 13.5C8.96243 13.5 6.5 16.1863 6.5 19.5',
+  ],
+  ['M7.5 11.5C4.46243 11.5 2 13.7386 2 16.5', 'M7.5 10.5C4.46243 10.5 2 13.1863 2 16.5'],
+  ['M22 16.5C22 13.7386 19.5376 11.5 16.5 11.5', 'M22 16.5C22 13.1863 19.5376 10.5 16.5 10.5'],
+];
+
+// Height of the hop at each beat: up is positive.
+const HOP = [0, -0.4, 0.9, -0.45, 0.06, 0];
+const HOP_DURATION = 0.8;
+const HOP_TRANSITION: Transition = {
+  duration: HOP_DURATION,
+  times: [0, 0.14, 0.4, 0.64, 0.82, 1],
+  ease: [
+    'easeOut',
+    [0.23, 1, 0.32, 1],
+    [0.55, 0, 1, 0.45],
+    [0.23, 1, 0.32, 1],
+    'easeInOut',
+  ],
+};
+
 const headVariants: Variants = {
-  normal: { rotate: 0 },
+  normal: { translateY: 0, scaleY: 1 },
   animate: (order: number) => ({
-    rotate: [0, 16, -4, 0],
-    transition: {
-      duration: 0.6,
-      ease: 'easeInOut',
-      times: [0, 0.4, 0.7, 1],
-      delay: order * NOD_STAGGER,
-    },
+    translateY: [0, 0.4, -1.9, 0.45, -0.1, 0],
+    scaleY: [1, 0.95, 1.03, 0.93, 1, 1],
+    transition: { ...HOP_TRANSITION, delay: order * HOP_STAGGER },
   }),
 };
 
 const shouldersVariants: Variants = {
-  normal: { translateY: 0 },
+  normal: (order: number) => ({ d: SHOULDERS[order][0] }),
   animate: (order: number) => ({
-    translateY: [0, 0, 0.6, 0],
-    transition: { duration: 0.5, ease: 'easeOut', delay: 0.3 + order * NOD_STAGGER },
+    d: HOP.map((t) => pathAt(SHOULDERS[order], t)),
+    transition: { ...HOP_TRANSITION, delay: order * HOP_STAGGER },
   }),
 };
 
 // The back heads are drawn as full circles while they move, and the front
-// head's disc masks them, so they stay tucked behind it at every tilt.
+// head's disc masks them, so they stay tucked behind it at every height.
 const generatedGeometryVariants: Variants = {
   normal: { visibility: 'hidden' },
   animate: {
     visibility: ['visible', 'hidden'],
-    transition: { duration: 0.6 + 2 * NOD_STAGGER, times: [0, 1] },
+    transition: { duration: HOP_DURATION + 2 * HOP_STAGGER, times: [0, 1] },
   },
 };
 
@@ -91,7 +112,7 @@ const UserGroupIcon = forwardRef<UserGroupIconHandle, UserGroupIconProps>(
                 custom={0}
                 animate={controls}
                 initial="normal"
-                style={{ transformBox: 'view-box', originX: 12 / 24, originY: 13.45 / 24 }}
+                style={{ transformBox: 'view-box', originX: 12 / 24, originY: 14.5 / 24 }}
               />
             </mask>
           </defs>
@@ -105,7 +126,7 @@ const UserGroupIcon = forwardRef<UserGroupIconHandle, UserGroupIconProps>(
             custom={0}
             animate={controls}
             initial="normal"
-            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 13.45 / 24 }}
+            style={{ transformBox: 'view-box', originX: 12 / 24, originY: 14.5 / 24 }}
           />
           <g mask={`url(#${maskId})`}>
             <motion.g
@@ -113,7 +134,7 @@ const UserGroupIcon = forwardRef<UserGroupIconHandle, UserGroupIconProps>(
               custom={2}
               animate={controls}
               initial="normal"
-              style={{ transformBox: 'view-box', originX: 16.5 / 24, originY: 10.45 / 24 }}
+              style={{ transformBox: 'view-box', originX: 16.5 / 24, originY: 11.5 / 24 }}
             >
               <path
                 d="M15.4827 11.3499C15.8047 11.4475 16.1462 11.5 16.5 11.5C18.433 11.5 20 9.933 20 8C20 6.067 18.433 4.5 16.5 4.5C14.6851 4.5 13.1928 5.8814 13.0173 7.65013"
@@ -137,7 +158,7 @@ const UserGroupIcon = forwardRef<UserGroupIconHandle, UserGroupIconProps>(
               custom={1}
               animate={controls}
               initial="normal"
-              style={{ transformBox: 'view-box', originX: 7.5 / 24, originY: 10.45 / 24 }}
+              style={{ transformBox: 'view-box', originX: 7.5 / 24, originY: 11.5 / 24 }}
             >
               <path
                 d="M10.9827 7.65013C10.8072 5.8814 9.31492 4.5 7.5 4.5C5.567 4.5 4 6.067 4 8C4 9.933 5.567 11.5 7.5 11.5C7.85381 11.5 8.19535 11.4475 8.51727 11.3499"

@@ -16,29 +16,46 @@ interface VolumeMute01IconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// One sound burst, as in volume-high: the cone draws back, then pushes. No
-// wave comes out: a mute cross radiates past its size where the wave would
-// be, settles, holds, and shrinks away to the silent speaker.
+// The cone draws back and pushes as in volume-high, but no wave comes out: a
+// mute cross stamps in at the cone mouth with a quarter turn, the speaker
+// shakes its head, and the cross shrinks away to the silent speaker.
+const MUTE_DURATION = 1.2;
+
 const speakerVariants: Variants = {
-  normal: { transform: 'scale(1)' },
+  normal: { transform: 'translateX(0px) scale(1)' },
   animate: {
-    transform: ['scale(1)', 'scale(0.94)', 'scale(1.04)', 'scale(1)'],
+    transform: [
+      'translateX(0px) scale(1)',
+      'translateX(0px) scale(0.94)',
+      'translateX(0px) scale(1.04)',
+      'translateX(-0.8px) scale(1)',
+      'translateX(0.7px) scale(1)',
+      'translateX(-0.4px) scale(1)',
+      'translateX(0px) scale(1)',
+    ],
     transition: {
-      duration: 0.62,
-      ease: ['easeOut', [0.23, 1, 0.32, 1], 'easeInOut'],
-      times: [0, 0.26, 0.52, 1],
+      duration: MUTE_DURATION,
+      times: [0, 0.14, 0.3, 0.44, 0.54, 0.63, 0.72],
+      ease: ['easeOut', [0.23, 1, 0.32, 1], 'easeInOut', 'easeInOut', 'easeInOut', 'easeInOut'],
     },
   },
 };
 
 const muteCrossVariants: Variants = {
-  normal: { transform: 'scale(0)', visibility: 'hidden' },
+  normal: { transform: 'rotate(-90deg) scale(0)', visibility: 'hidden' },
   animate: {
-    transform: ['scale(0)', 'scale(0)', 'scale(1.18)', 'scale(1)', 'scale(1)', 'scale(0)'],
-    visibility: ['hidden', 'hidden', 'visible', 'visible', 'visible', 'hidden'],
+    transform: [
+      'rotate(-90deg) scale(0)',
+      'rotate(-90deg) scale(0)',
+      'rotate(10deg) scale(1.2)',
+      'rotate(0deg) scale(1)',
+      'rotate(0deg) scale(1)',
+      'rotate(45deg) scale(0)',
+    ],
+    visibility: ['hidden', 'visible', 'visible', 'visible', 'visible', 'hidden'],
     transition: {
-      duration: 1.1,
-      times: [0, 0.18, 0.36, 0.55, 0.82, 1],
+      duration: MUTE_DURATION,
+      times: [0, 0.2, 0.36, 0.48, 0.84, 1],
       ease: ['linear', [0.23, 1, 0.32, 1], 'easeInOut', 'linear', 'easeIn'],
     },
   },
@@ -92,7 +109,7 @@ const VolumeMute01Icon = forwardRef<VolumeMute01IconHandle, VolumeMute01IconProp
             initial="normal"
           >
             <motion.path
-              d="M20.25 10.75L22.75 13.25M22.75 10.75L20.25 13.25"
+              d="M19.75 10.25L23.25 13.75M23.25 10.25L19.75 13.75"
               stroke="currentColor"
               strokeLinecap="round"
               strokeWidth="1.5"

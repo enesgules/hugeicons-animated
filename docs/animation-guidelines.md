@@ -69,7 +69,7 @@ easing, and flourishes, and changes only what its geometry forces.
 | Check | `tick-02`, `circle-check` | The pen erases the tick from its tail, writes it again with a rest at the corner, and lifts off with a small flick; a frame gives as the pen touches down. |
 | Cancel | `cancel-01`, `circle-x` | The pen erases both strikes and writes them again in order with a flick off each end; a ring gives as the pen touches down. A solid X winds back small, swings past its rest angle, and settles. |
 | Info | `alert-circle`, `information-circle` | One quick beat: the frame breathes, the stem or hook stretches and settles, and the dot dips then pops with a small overshoot. |
-| People | `user` | Each head nods forward on its neck and rocks back; the shoulders settle. In groups each person nods a beat after the one in front. |
+| People | `user`, `user-add-01` | The person hops: a small crouch, the head lifts off the shoulders, lands with a squash, and settles. The shoulders stretch and squash on their fixed ends with `pathAt`. In groups each person hops a beat after the one in front. |
 | Pendulum | `notification-03`, `tag-01` | The object hangs from one point and swings in a decaying pendulum; a loose inner part (clapper, handle) drags behind out of phase. |
 | Phone | `call-02` | The handset rattles side to side with a decay and keeps ringing while hovered; an arrow or end mark moves with each ring. |
 | Media | `play`, `pause`, `next` | The control compresses back, releases forward with a stretch, and settles; pause bars squeeze together then apart. Rings stay still. |
@@ -79,7 +79,7 @@ easing, and flourishes, and changes only what its geometry forces.
 | Turn | `undo`, `redo`, `refresh`, `settings-01` | A wind-up against the turn, one turn (the gear: half a turn), a small fall-back, and a settle. |
 | Eye | `eye`, `eye-off` | The pupil darts left and right, the lids meet in a blink, and the eye reopens a little wide before it settles. |
 | Slash off | `eye-off`, `headphone-off` | The slash leaves to the bottom right, the outline heals across its breaks, and a new slash returns from the top left as the breaks reopen. |
-| Sound | `volume-high`, `wifi-01` | Each wave travels outward along its own curve and fades; the source (cone or dot) draws back and pushes, and the same wave rises again at the source and settles on its rest arc with a small overshoot. Waves change shape with `pathAt`, never scale. A mute cross gathers near the cone mouth and swells past rest before it settles. |
+| Sound | `volume-high`, `wifi-01` | Each wave travels outward along its own curve and fades; the source (cone or dot) draws back and pushes, and the same wave rises again at the source and settles on its rest arc with a small overshoot. Waves change shape with `pathAt`, never scale. A mute cross stamps in at the cone mouth with a quarter turn, the speaker shakes its head, and the cross shrinks away. |
 | Launch | `sent`, `external-link` | The object pulls back and breaks free along its heading; a replacement follows the same route, or the object settles back while its frame dips. |
 | Glint | `magic-wand-01`, `star` | Each star shrinks as it turns to the diagonal and pops as it lands on the next quarter turn; small plus sparkles appear in empty corners. |
 | Weather | `cloud-rain` | The cloud bobs; what falls from it drains out and redraws from the cloud. Lightning redraws faster and flickers twice. |

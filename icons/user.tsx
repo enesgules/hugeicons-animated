@@ -1,10 +1,10 @@
 'use client';
 
-import type { Variants } from 'motion/react';
+import type { Transition, Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
 import type { HTMLAttributes } from 'react';
 import { forwardRef } from 'react';
-import { useIconAnimation } from '@/lib/use-icon-animation';
+import { pathAt, useIconAnimation } from '@/lib/use-icon-animation';
 import { cn } from '@/lib/utils';
 
 export interface UserIconHandle {
@@ -16,20 +16,43 @@ interface UserIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-// a real nod — the head dips on its neck, the shoulders settle after
+// The person hops, as in user-add-01: a small crouch, the head lifts off the
+// shoulders, lands with a squash, and settles. The shoulders stretch up and
+// squash with it on their fixed base, so the stroke keeps its width.
+const SHOULDERS = [
+  'M19 20.5C19 16.634 15.866 13.5 12 13.5C8.13401 13.5 5 16.634 5 20.5',
+  'M19 20.5C19 16.0817 15.866 12.5 12 12.5C8.13401 12.5 5 16.0817 5 20.5',
+];
+
+// Height of the hop at each beat: up is positive.
+const HOP = [0, -0.4, 0.9, -0.45, 0.06, 0];
+const HOP_DURATION = 0.8;
+const HOP_TRANSITION: Transition = {
+  duration: HOP_DURATION,
+  times: [0, 0.14, 0.4, 0.64, 0.82, 1],
+  ease: [
+    'easeOut',
+    [0.23, 1, 0.32, 1],
+    [0.55, 0, 1, 0.45],
+    [0.23, 1, 0.32, 1],
+    'easeInOut',
+  ],
+};
+
 const headVariants: Variants = {
-  normal: { rotate: 0 },
+  normal: { translateY: 0, scaleY: 1 },
   animate: {
-    rotate: [0, 16, -4, 0],
-    transition: { duration: 0.6, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] },
+    translateY: [0, 0.4, -1.9, 0.45, -0.1, 0],
+    scaleY: [1, 0.95, 1.03, 0.93, 1, 1],
+    transition: HOP_TRANSITION,
   },
 };
 
-const bodyVariants: Variants = {
-  normal: { translateY: 0 },
+const shouldersVariants: Variants = {
+  normal: { d: SHOULDERS[0] },
   animate: {
-    translateY: [0, 0, 0.6, 0],
-    transition: { duration: 0.5, ease: 'easeOut', delay: 0.3 },
+    d: HOP.map((t) => pathAt(SHOULDERS, t)),
+    transition: HOP_TRANSITION,
   },
 };
 
@@ -76,7 +99,7 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="1.5"
-            variants={bodyVariants}
+            variants={shouldersVariants}
             animate={controls}
             initial="normal"
           />
